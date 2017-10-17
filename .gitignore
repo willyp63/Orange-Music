@@ -1,3 +1,4 @@
 node_modules
 client/secrets
 server/secrets
+.DS_Store
