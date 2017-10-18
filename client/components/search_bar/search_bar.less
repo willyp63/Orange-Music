@@ -4,12 +4,12 @@
 .search-bar {
   display: flex;
   align-items: flex-end;
-  width: @mat-grid * 80;
+  width: @grid * 80;
 
   .orange-image {
-    width: @mat-grid * 15;
-    height: @mat-grid * 15;
-    margin-right: @mat-grid;
+    width: @grid * 15;
+    height: @grid * 15;
+    margin-right: @grid;
   }
 
   .search-form {
@@ -21,30 +21,43 @@
 
   .orange-music-label {
     font-size: 28px;
-    color: @mat-orange;
-    margin-bottom: @mat-grid / 2;
+    color: @orange-darken-1;
+    margin-bottom: @grid / 2;
   }
 
   .query-input {
     display: flex;
-    font-size: @mat-grid * 4;
+    font-size: @grid * 4;
     position: relative;
 
     input {
-      border-top-left-radius: @mat-grid / 2;
-      border-bottom-left-radius: @mat-grid / 2;
-      padding-left: @mat-grid;
+      border-radius: @grid;
+      padding-left: @grid;
       flex-grow: 1;
-      height: @mat-grid * 6;
+      height: @grid * 6;
+      border: 1px solid #aaa;
+    }
+
+    input:focus {
+      border: 1px solid @blue-darken-2;
     }
 
     button {
-      border-top-right-radius: @mat-grid / 2;
-      border-bottom-right-radius: @mat-grid / 2;
+      width: @grid * 6;
+      color: @white;
+      font-size: @grid * 3;
+      background-color: @blue-darken-2;
+      border-top-right-radius: @grid;
+      border-bottom-right-radius: @grid;
       position: absolute;
       top: 0;
       right: 0;
-      height: @mat-grid * 6;
+      height: @grid * 6;
+    }
+
+    button:hover {
+      background-color: @blue-darken-3;
+      color: @grey-lighten-5;
     }
   }
 }
