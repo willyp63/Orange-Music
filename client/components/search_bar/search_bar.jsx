@@ -50,16 +50,21 @@ class SearchBarComponent extends React.Component {
   render() {
     return (
       <div className="search-bar">
-        <img src={EMPTY_IMG_SRC}
+        <img src="/static/images/logo.png"
              className="orange-image" />
            <form className="search-form"
               onSubmit={(e) => this.onQuery.bind(this, e)()}>
           <div className="orange-music-label">Orange Music</div>
-          <input type="text"
-                 className="query-input"
-                 autoComplete="off"
-                 value={this.state.query}
-                 onChange={(e) => this.onQueryChange.bind(this, e.target.value)()} />
+          <div className="query-input">
+            <input type="text"
+                   autoComplete="off"
+                   value={this.state.query}
+                   onChange={(e) => this.onQueryChange.bind(this, e.target.value)()}>
+            </input>
+            <button type="submit">
+              <span className="glyphicon glyphicon-search"></span>
+            </button>
+          </div>
         </form>
       </div>
     );
