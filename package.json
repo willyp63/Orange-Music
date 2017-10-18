@@ -15,6 +15,8 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
+    "react-ripple-effect": "^1.0.4",
+    "react-ripples": "^0.4.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "redux": "^3.7.2",

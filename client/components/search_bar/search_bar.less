@@ -1,5 +1,7 @@
 @import '../shared/grid.less';
 @import '../shared/color.less';
+@import '../shared/button.less';
+@import '../shared/shadow.less';
 
 .search-bar {
   display: flex;
@@ -20,44 +22,44 @@
   }
 
   .orange-music-label {
-    font-size: 28px;
+    font-size: @grid * 3;
     color: @orange-darken-1;
     margin-bottom: @grid / 2;
   }
 
   .query-input {
     display: flex;
-    font-size: @grid * 4;
-    position: relative;
 
     input {
-      border-radius: @grid;
-      padding-left: @grid;
       flex-grow: 1;
-      height: @grid * 6;
+      height: (@grid * 6) - 2 /* account for extra height from border */;
+      padding-left: @grid;
+      font-size: @grid * 3.5;
       border: 1px solid @grey-lighten-1;
-    }
+      border-top-left-radius: @grid;
+      border-bottom-left-radius: @grid;
 
-    input:focus {
-      border: 1px solid @blue-darken-2;
+      .shadow-1();
+
+      &:focus {
+        border: 1px solid @blue-darken-2;
+      }
     }
 
     button {
       width: @grid * 6;
-      color: @white;
+      height: @grid * 6;
       font-size: @grid * 3;
-      background-color: @blue-darken-2;
+
+      .btn(@bg-color: @blue-darken-1,
+           @bg-color-hover: @blue,
+           @color: @white,
+           @color-hover: @white);
+
+      // Override default button border radius.
+      border-radius: 0;
       border-top-right-radius: @grid;
       border-bottom-right-radius: @grid;
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: @grid * 6;
-    }
-
-    button:hover {
-      background-color: @blue-darken-3;
-      color: @grey-lighten-5;
     }
   }
 }

@@ -1,0 +1,18 @@
+@import './grid.less';
+@import './shadow.less';
+@import './transition.less';
+
+.btn(@bg-color, @bg-color-hover, @color, @color-hover) {
+  background-color: @bg-color;
+  border-radius: @grid / 2;
+  color: @color;
+  cursor: pointer;
+  transition: background-color @time;
+
+  .shadow-1-hover();
+
+  &:hover {
+    background-color: @bg-color-hover;
+    color: @color-hover;
+  }
+}

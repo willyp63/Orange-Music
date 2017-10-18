@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Ripple from '../shared/ripple';
+
 import { isNotEmpty } from '../../util/empty';
 import { playTrack } from '../../actions/player_actions';
 
@@ -25,11 +27,15 @@ const ImageCellComponent = (images) => (
 );
 
 const PlayButtomCellComponent = (_, {playTrack}) => (
-  <button type="button"
-          className="table-cell-play-button"
-          onClick={playTrack}>
-    <span className="glyphicon glyphicon-play"></span>
-  </button>
+  <div className="play-button-container">
+    <Ripple>
+      <button type="button"
+              className="table-cell-play-button"
+              onClick={playTrack}>
+        <i className="fa fa-play"></i>
+      </button>
+    </Ripple>
+  </div>
 );
 
 const SCHEMA = {

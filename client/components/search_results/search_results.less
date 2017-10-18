@@ -1,5 +1,6 @@
 @import '../shared/grid.less';
 @import '../shared/color.less';
+@import '../shared/button.less';
 
 .search-results {
   flex-grow: 1;
@@ -33,20 +34,22 @@
 }
 
 .table-cell-image {
-  width: @grid * 4;
-  height: @grid * 4;
+  width: @grid * 5;
+  height: @grid * 5;
+}
+
+.play-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .table-cell-play-button {
-  width: @grid * 4;
-  height: @grid * 4;
-  border-radius: @grid;
-  background: @blue-darken-2;
-  color: @white;
-  float: right;
-}
+  width: @grid * 5;
+  height: @grid * 5;
 
-.table-cell-play-button:hover {
-  background: @blue-darken-3;
-  color: @grey-lighten-1;
+  .btn(@bg-color: @blue-darken-1,
+       @bg-color-hover: @blue,
+       @color: @white,
+       @color-hover: @white);
 }

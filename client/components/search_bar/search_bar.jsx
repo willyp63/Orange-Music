@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import Ripple from '../shared/ripple';
+
 import lastFmApi from '../../api/last_fm/last_fm_api';
 
 import { searchTracks } from '../../actions/search_actions';
@@ -58,9 +60,11 @@ class SearchBarComponent extends React.Component {
                    placeholder="Search for tracks ..."
                    onChange={(e) => this.onQueryChange.bind(this, e.target.value)()}>
             </input>
-            <button type="submit">
-              <span className="glyphicon glyphicon-search"></span>
-            </button>
+            <Ripple>
+              <button>
+                <i className="fa fa-search"></i>
+              </button>
+            </Ripple>
           </div>
         </form>
       </div>
