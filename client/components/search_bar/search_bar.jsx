@@ -60,11 +60,13 @@ class SearchBarComponent extends React.Component {
                    placeholder="Search for tracks ..."
                    onChange={(e) => this.onQueryChange.bind(this, e.target.value)()}>
             </input>
-            <Ripple>
-              <button>
-                <i className="fa fa-search"></i>
-              </button>
-            </Ripple>
+            <div className="search-button-container">
+              <Ripple>
+                <button>
+                  <i className="fa fa-search"></i>
+                </button>
+              </Ripple>
+            </div>
           </div>
         </form>
       </div>

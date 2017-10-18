@@ -7,7 +7,7 @@
   border-radius: @grid / 2;
   color: @color;
   cursor: pointer;
-  transition: background-color @time;
+  transition: background-color @time, box-shadow @time;
 
   .shadow-1-hover();
 
@@ -15,4 +15,9 @@
     background-color: @bg-color-hover;
     color: @color-hover;
   }
+}
+
+.circle-btn(@bg-color, @bg-color-hover, @color, @color-hover) {
+  .btn(@bg-color, @bg-color-hover, @color, @color-hover);
+  border-radius: 50%;
 }

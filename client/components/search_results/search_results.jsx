@@ -1,42 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Ripple from '../shared/ripple';
+import TextCellComponent from './cells/text_cell';
+import ImageCellComponent from './cells/image_cell';
+import ActionsCellComponent from './cells/actions_cell';
 
 import { isNotEmpty } from '../../util/empty';
 import { playTrack } from '../../actions/player_actions';
-
-/// An empty, black square used as a backup image source.
-const EMPTY_IMG_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICA'
-    + 'MAAACahl6sAAAABlBMVEX///8AAABVwtN+AAAA5ElEQVR4nO3PAQ0AMBADoZ9/07NBmsMB90'
-    + 'bcuwlFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE'
-    + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE'
-    + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE'
-    + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0S5ERH83EAx0VzRQTAAAAAE'
-    + 'lFTkSuQmCC';
-
-const TextCellComponent = (text) => (
-  <div className="table-cell-text">
-    {isNotEmpty(text) ? text.toString() : ''}
-  </div>
-);
-
-const ImageCellComponent = (images) => (
-  <img className="table-cell-image"
-       src={isNotEmpty(images) ? images[0]['#text'] : EMPTY_IMG_SRC} />
-);
-
-const PlayButtomCellComponent = (_, {playTrack}) => (
-  <div className="play-button-container">
-    <Ripple>
-      <button type="button"
-              className="table-cell-play-button"
-              onClick={playTrack}>
-        <i className="fa fa-play"></i>
-      </button>
-    </Ripple>
-  </div>
-);
 
 const SCHEMA = {
   image: {
@@ -57,12 +27,11 @@ const SCHEMA = {
     width: 42,
     component: TextCellComponent
   },
-  '@play_button': {
+  '@actions': {
     order: 3,
     label: null,
     width: 8,
-    path: 'image',
-    component: PlayButtomCellComponent
+    component: ActionsCellComponent
   }
 };
 
