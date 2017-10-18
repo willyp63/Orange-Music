@@ -17,18 +17,22 @@ class SearchBarComponent extends React.Component {
       page: props.page,
       pageSize: props.pageSize
     };
+    this.makeQuery.bind(this)();
   }
   onQuery(e) {
     e.preventDefault();
+    this.makeQuery.bind(this)();
+    this.updateUrl.bind(this)();
+  }
+  onQueryChange(newQuery) {
+    this.setState((oldState) => Object.assign(oldState, {query: newQuery}));
+  }
+  makeQuery() {
     this.props.makeQuery({
       query: this.state.query,
       page: this.state.page,
       pageSize: this.state.pageSize
     });
-    this.updateUrl.bind(this)();
-  }
-  onQueryChange(newQuery) {
-    this.setState((oldState) => Object.assign(oldState, {query: newQuery}));
   }
   updateUrl() {
     const currentUrl = this.props.location.pathname + this.props.location.search;
@@ -51,6 +55,7 @@ class SearchBarComponent extends React.Component {
             <input type="text"
                    autoComplete="off"
                    value={this.state.query}
+                   placeholder="Search for tracks ..."
                    onChange={(e) => this.onQueryChange.bind(this, e.target.value)()}>
             </input>
             <button type="submit">

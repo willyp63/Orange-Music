@@ -31,9 +31,14 @@ class PlayerBarComponent extends React.Component {
       },
     });
   }
+  componentWillReceiveProps(newProps) {
+    if (this.props.track !== newProps.track) {
+      this.audioPlayer.load();
+    }
+  }
   render() {
     const trackInfo = isNotEmpty(this.props.track)
-      ? this.props.track.name + ' @ ' + this.props.track.name
+      ? this.props.track.name + ' @ ' + this.props.track.artist
       : 'No song playing';
     const audioSource = isNotEmpty(this.props.track)
         ? (<source src={getUrlWithUpdatedParams(STREAM_BASE_URL, {
@@ -42,8 +47,8 @@ class PlayerBarComponent extends React.Component {
           })}/>)
         : '';
     return (
-      <div>
-        <div>{trackInfo}</div>
+      <div className="player-bar">
+        <div className="track-info">{trackInfo}</div>
         <audio controls id={AUDIO_PLAYER_ID} autoPlay={AUTO_PLAY}>{audioSource}</audio>
       </div>
     )

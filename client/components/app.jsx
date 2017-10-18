@@ -9,8 +9,9 @@ const AppComponent = () => (
     <div className="search-bar-container">
       <SearchBarComponent />
     </div>
-    <SearchResultsComponent />
-    <br />
+    <div className="search-results-container">
+      <SearchResultsComponent />
+    </div>
     <PlayerBarComponent />
   </div>
 );

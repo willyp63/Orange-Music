@@ -3,7 +3,7 @@ import { getUrlWithUpdatedParams } from '../../util/url';
 import { makeFakeId } from '../../util/id';
 import { LAST_FM_API_KEY } from '../../secrets/api_keys';
 
-module.exports.DEFAULT_PAGE_SIZE = 20;
+module.exports.DEFAULT_PAGE_SIZE = 10;
 
 /// Base url and url params for making all requests.
 const BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
