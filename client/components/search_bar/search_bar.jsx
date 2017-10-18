@@ -9,6 +9,14 @@ import { searchTracks } from '../../actions/search_actions';
 import { getUrlWithUpdatedParams, getUrlParams } from '../../util/url';
 import { isNotEmpty } from '../../util/empty';
 
+const EMPTY_IMG_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICA'
+    + 'MAAACahl6sAAAABlBMVEX///8AAABVwtN+AAAA5ElEQVR4nO3PAQ0AMBADoZ9/07NBmsMB90'
+    + 'bcuwlFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE'
+    + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE'
+    + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE'
+    + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0S5ERH83EAx0VzRQTAAAAAE'
+    + 'lFTkSuQmCC';
+
 class SearchBarComponent extends React.Component {
   constructor(props) {
     super(props)
@@ -41,12 +49,19 @@ class SearchBarComponent extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={(e) => this.onQuery.bind(this, e)()}>
-        <input type="text"
-               autoComplete="off"
-               value={this.state.query}
-               onChange={(e) => this.onQueryChange.bind(this, e.target.value)()} />
-      </form>
+      <div className="search-bar">
+        <img src={EMPTY_IMG_SRC}
+             className="orange-image" />
+           <form className="search-form"
+              onSubmit={(e) => this.onQuery.bind(this, e)()}>
+          <div className="orange-music-label">Orange Music</div>
+          <input type="text"
+                 className="query-input"
+                 autoComplete="off"
+                 value={this.state.query}
+                 onChange={(e) => this.onQueryChange.bind(this, e.target.value)()} />
+        </form>
+      </div>
     );
   }
 }

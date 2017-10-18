@@ -6,9 +6,9 @@ import PlayerBarComponent from './player_bar/player_bar';
 
 const AppComponent = () => (
   <div>
-    <div>Orange Music</div>
-    <SearchBarComponent />
-    <br />
+    <div className="search-bar-container">
+      <SearchBarComponent />
+    </div>
     <SearchResultsComponent />
     <br />
     <PlayerBarComponent />

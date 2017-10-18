@@ -1,3 +1,38 @@
-.some-class {
-  font-size: 80px;
+@import '../shared/grid.less';
+
+.search-bar {
+  display: flex;
+  align-items: flex-end;
+  width: @mat-grid * 80;
+
+  .orange-image {
+    width: @mat-grid * 15;
+    height: @mat-grid * 15;
+    margin-right: @mat-grid;
+  }
+
+  .search-form {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .orange-music-label {
+    font-size: 28px;
+    color: orange;
+    margin-bottom: @mat-grid;
+  }
+
+  .query-input {
+    font-size: @mat-grid * 4;
+  }
+
+  @media (max-width: @mat-grid * 100) {
+    width: @mat-grid * 40;
+
+    .query-input {
+      width: @mat-grid * (40 - 16);
+    }
+  }
 }
