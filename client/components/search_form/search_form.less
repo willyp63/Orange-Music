@@ -1,6 +1,5 @@
 @import '../shared/grid.less';
 @import '../shared/color.less';
-@import '../shared/button.less';
 @import '../shared/shadow.less';
 
 .search-form {
@@ -46,15 +45,10 @@
       }
     }
 
-    button {
+    .search-btn {
       width: @grid * 6;
       height: @grid * 6;
       font-size: @grid * 3;
-
-      .btn(@bg-color: @blue-darken-1,
-           @bg-color-hover: @blue,
-           @color: @white,
-           @color-hover: @white);
 
       // Override default button border radius.
       border-radius: 0;

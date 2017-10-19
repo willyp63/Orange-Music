@@ -3,19 +3,17 @@ import { connect } from 'react-redux';
 
 import { isNotEmpty, isEmpty } from '../../util/empty';
 import { formatTimeMinutesSeconds } from '../../util/time';
-import { EMPTY_IMG_SRC } from '../../util/image';
 
 import { getImageUrl } from '../../api/last_fm/last_fm_api';
 
-import Ripple from '../shared/ripple';
-import ReactTooltip from 'simple-react-tooltip';
 import SliderComponent from '../shared/slider';
+import MatButton from '../shared/button';
+import { white, grey_lighten_4 } from '../shared/color';
 
 import MyAudioPlayer from './my_audio_player';
 
-const AUTO_PLAY = 'false';
+const AUTO_PLAY = true;
 const IMAGE_IDX = 2;
-const DEFAULT_TEXT = '--';
 
 const PROGRESS_BAR_CLASS_NAME = 'progress-bar';
 const PROGRESS_BAR_HANDLE_SIZE = 8 * 2;
@@ -74,49 +72,67 @@ class PlayerBarComponent extends React.Component {
     const { playing, currentTime, duration, audioSrc, imageSrc,
               artistName, trackName, volume } = this.state;
 
-    const playPauseButtonTooltip = playing ? 'Pause' : 'Play';
-    const playPauseButtonIconClassName =
-        'fa ' + (playing ? 'fa-pause' : 'fa-play');
-
     const currentTimeLabel = formatTimeMinutesSeconds(currentTime);
     const durationLabel = formatTimeMinutesSeconds(duration);
+
+    const trackInfo = isNotEmpty(audioSrc)
+      ? (
+        <div className="track-info">
+          <img src={imageSrc} />
+          <div className="info-text">
+            <div className="track-name">{trackName}</div>
+            <div className="artist-name">{artistName}</div>
+          </div>
+        </div>
+      ) : (
+        <div className="track-info">
+          <div className="placeholder-img"></div>
+        </div>
+      );
+
+    const prevButtonClassName = isNotEmpty(audioSrc)
+      ? 'button-control prev-button'
+      : 'button-control prev-button disabled';
+    const playPauseButtonClassName = isNotEmpty(audioSrc)
+      ? 'button-control play-pause-button'
+      : 'button-control play-pause-button disabled';
+    const nextButtonClassName = isNotEmpty(audioSrc)
+      ? 'button-control next-button'
+      : 'button-control next-button disabled';
+    const playPauseButtonIcon = playing ? 'pause' : 'play';
 
     return (
       <div className="player-bar">
         <div className="top-bar">
-          <div className="track-info">
-            <img src={imageSrc} />
-            <div className="info-text">
-              <div className="track-name">{trackName}</div>
-              <div className="artist-name">{artistName}</div>
-            </div>
-          </div>
+          {trackInfo}
           <div className="track-controls">
-            <div className="button-control prev-button">
-              <Ripple isCircle={true}>
-                <button data-tip="Previous Track">
-                  <i className="fa fa-step-backward"></i>
-                </button>
-                <ReactTooltip effect={'solid'} />
-              </Ripple>
-            </div>
-            <div className="button-control play-pause-button">
-              <Ripple isCircle={true}>
-                <button data-tip={playPauseButtonTooltip}
-                        onClick={this.onPlayPauseButtonClick.bind(this)}>
-                  <i className={playPauseButtonIconClassName}></i>
-                </button>
-                <ReactTooltip effect={'solid'} />
-              </Ripple>
-            </div>
-            <div className="button-control next-button">
-              <Ripple isCircle={true}>
-                <button data-tip="Next Track">
-                  <i className="fa fa-step-forward"></i>
-                </button>
-                <ReactTooltip effect={'solid'} />
-              </Ripple>
-            </div>
+            <MatButton buttonClassName={prevButtonClassName}
+                       iconName={'step-backward'}
+                       isCircle={true}
+                       isText={true}
+                       isDisabled={isEmpty(audioSrc)}
+                       color={grey_lighten_4}
+                       colorHover={white}
+                       onClick={() => console.log('You clicked Prev!')}>
+            </MatButton>
+            <MatButton buttonClassName={playPauseButtonClassName}
+                       iconName={playPauseButtonIcon}
+                       isCircle={true}
+                       isText={true}
+                       isDisabled={isEmpty(audioSrc)}
+                       color={grey_lighten_4}
+                       colorHover={white}
+                       onClick={this.onPlayPauseButtonClick.bind(this)}>
+            </MatButton>
+            <MatButton buttonClassName={nextButtonClassName}
+                       iconName={'step-forward'}
+                       isCircle={true}
+                       isText={true}
+                       isDisabled={isEmpty(audioSrc)}
+                       color={grey_lighten_4}
+                       colorHover={white}
+                       onClick={() => console.log('You clicked Next!')}>
+            </MatButton>
           </div>
           <div className="volume-controls">
             <i className="fa fa-volume-up"></i>
@@ -151,9 +167,9 @@ const getTrackState = (props) => {
   const hasTrack = isNotEmpty(props.track);
   const hasVideo = isNotEmpty(props.video);
   return {
-    trackName: hasTrack ? props.track.name : DEFAULT_TEXT,
-    artistName: hasTrack ? props.track.artist : DEFAULT_TEXT,
-    imageSrc: hasTrack ? getImageUrl(props.track.image, IMAGE_IDX) : EMPTY_IMG_SRC,
+    trackName: hasTrack ? props.track.name : '',
+    artistName: hasTrack ? props.track.artist : '',
+    imageSrc: hasTrack ? getImageUrl(props.track.image, IMAGE_IDX) : '',
     audioSrc: hasVideo ? props.video.stream.url : null,
     duration: hasVideo ? props.video.contentDetails.duration : 0,
     playing: false,

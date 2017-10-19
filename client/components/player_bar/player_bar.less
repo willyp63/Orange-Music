@@ -1,7 +1,6 @@
 @import '../shared/grid.less';
 @import '../shared/color.less';
 @import '../shared/shadow.less';
-@import '../shared/button.less';
 
 // Used for flex sizing the top-bar.
 @player-bar-width: @grid * 90;
@@ -39,7 +38,7 @@
       display: flex;
       flex: 0 0 @top-bar-side-containers-width;
 
-      img {
+      img, .placeholder-img {
         border-radius: @grid;
         height: @image-width;
         margin-right: @grid;
@@ -74,12 +73,10 @@
         margin-left: 0;
       }
 
-      .button-control button {
+      .button-control {
         font-size: @grid * 4;
         height: @control-button-size;
         width: @control-button-size;
-
-        .btn-txt(@color: @white, @color-hover: @white);
       }
     }
 

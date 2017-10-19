@@ -6,30 +6,13 @@
   justify-content: flex-end;
 
   .action-button {
+    width: @grid * 6;
+    height: @grid * 6;
+    font-size: @grid * 2;
     margin-left: @grid;
   }
 
   .action-button:first-of-type {
     margin-left: 0;
-  }
-
-  .action-button button {
-    width: @grid * 6;
-    height: @grid * 6;
-    font-size: @grid * 2;
-  }
-
-  .play-button button {
-    .btn-circle(@bg-color: @blue-darken-1,
-         @bg-color-hover: @blue,
-         @color: @white,
-         @color-hover: @white);
-  }
-
-  .add-button button {
-    .btn-circle(@bg-color: @green-darken-1,
-         @bg-color-hover: @green,
-         @color: @white,
-         @color-hover: @white);
   }
 }

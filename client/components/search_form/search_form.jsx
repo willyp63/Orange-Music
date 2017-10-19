@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import Ripple from '../shared/ripple';
+import MatButton from '../shared/button';
+import { blue_darken_1, blue } from '../shared/color';
 
 import lastFmApi from '../../api/last_fm/last_fm_api';
 
@@ -59,13 +60,12 @@ class SearchFormComponent extends React.Component {
                    placeholder="Search for tracks ..."
                    onChange={(e) => this.onQueryChange.bind(this, e.target.value)()}>
             </input>
-            <div className="search-button-container">
-              <Ripple>
-                <button>
-                  <i className="fa fa-search"></i>
-                </button>
-              </Ripple>
-            </div>
+            <MatButton buttonClassName={'search-btn'}
+                       iconName={'search'}
+                       bgColor={blue_darken_1}
+                       bgColorHover={blue}
+                       isSubmit={true}>
+            </MatButton>
           </div>
         </form>
       </div>

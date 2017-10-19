@@ -2,34 +2,35 @@
 @import './shadow.less';
 @import './transition.less';
 
-.btn(@bg-color, @bg-color-hover, @color, @color-hover) {
-  background-color: @bg-color;
+.mat-btn {
   border-radius: @grid / 2;
-  color: @color;
-  cursor: pointer;
   transition: background-color @time, color @time, box-shadow @time;
+  font-size: @grid * 2;
 
-  .shadow-btn();
+  .shadow-1();
 
-  &:hover {
-    background-color: @bg-color-hover;
-    color: @color-hover;
+  &.txt-btn {
+    transition: color @time, text-shadow @time;
+    box-shadow: none;
+
+    .shadow-txt-1();
   }
-}
 
-.btn-circle(@bg-color, @bg-color-hover, @color, @color-hover) {
-  .btn(@bg-color, @bg-color-hover, @color, @color-hover);
-  border-radius: 50%;
-}
+  &.circle-btn {
+    border-radius: 50%;
+  }
 
-.btn-txt(@color, @color-hover) {
-  color: @color;
-  cursor: pointer;
-  transition: color @time, text-shadow @time;
+  &:not(.disabled) {
+    cursor: pointer;
 
-  .shadow-btn-txt();
+    &:hover {
+      .shadow-btn-hover();
 
-  &:hover {
-    color: @color-hover;
+      &.txt-btn {
+        box-shadow: none;
+
+        .shadow-btn-txt-hover();
+      }
+    }
   }
 }
