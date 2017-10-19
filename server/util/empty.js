@@ -5,7 +5,7 @@
 /// aren't sure what the possible empty values are for a field.
 ///
 /// Take a look at implementation for details.
-module.exports.isEmpty = (val) => {
+const isEmpty = (val) => {
   if (val === undefined || val === null) return true
   if (val instanceof Array) {
     return val.length === 0
@@ -18,6 +18,8 @@ module.exports.isEmpty = (val) => {
     return false
   }
 }
+
+module.exports.isEmpty = isEmpty;
 
 /// Self explanatory.
 module.exports.isNotEmpty = (val) => !isEmpty(val)

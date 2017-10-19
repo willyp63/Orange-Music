@@ -1,7 +1,7 @@
 const service = require('googleapis').youtube('v3');
 const ytStream = require('youtube-audio-stream');
 const API_KEY = require('../../secrets/api_keys').YOUTUBE_API_KEY;
-const isEmpty = require('../../util/empty').isEmpty;
+const {isEmpty, isNotEmpty}  = require('../../util/empty');
 
 const DEFAULT_MAX_RESULTS = 20;
 
@@ -48,8 +48,14 @@ module.exports.stream = (videoId) => {
 };
 
 const formatTimeSeconds = (time) => {
-  const match = time.match(/PT(\d+)M(\d+)S/);
-  return parseInt(match[1]) * 60 + parseInt(match[2]);
+  const ptMatch = time.match(/PT(.+)/);
+  if (isEmpty(ptMatch)) { return 0; }
+  const sMatch = ptMatch[1].match(/(\d+)S/);
+  const mMatch = ptMatch[1].match(/(\d+)M/);
+  time = 0;
+  if (isNotEmpty(sMatch)) { time += parseInt(sMatch[1]); }
+  if (isNotEmpty(mMatch)) { time += parseInt(mMatch[1]) * 60; }
+  return time;
 }
 
 /// Returns the Url for a Youtube video given the videoId.

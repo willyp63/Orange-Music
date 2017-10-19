@@ -3,57 +3,68 @@
 @import '../shared/shadow.less';
 @import '../shared/button.less';
 
-@controls-width: @grid * (3 * 7 + 2);
-@player-bar-width: @grid * 100;
+// Used for flex sizing the top-bar.
+@player-bar-width: @grid * 90;
+@player-bar-padding: @grid * 2;
+@top-bar-width: @player-bar-width - @player-bar-padding * 2;
+@control-button-size: @grid * 7;
+@num-control-buttons: 3;
+@controls-width: @control-button-size * @num-control-buttons + @grid * (@num-control-buttons - 1);
+@top-bar-side-containers-width: (@top-bar-width - @controls-width) / 2;
+
+// Used for giving track-info text a fixed width, so text can be cut off.
+@image-width: @grid * 10;
 
 .player-bar {
-  border-top-left-radius: @grid;
-  position: fixed;
-  bottom: 0;
-  right: 0;
   background-color: @orange-darken-1;
-  z-index: 999;
-  width: @player-bar-width;
-  padding: @grid (@grid * 2);
-
-  // box-shadow-3() with inset box-shadow.
+  border-top-left-radius: @grid;
+  bottom: 0;
+  // box-shadow-3() with inset box-shadow (highlights top of player-bar).
   box-shadow: 0 10px 20px rgba(0,0,0,0.19),
               0 6px 6px rgba(0,0,0,0.23),
               inset 1px 2px 6px rgba(255,255,255,0.7);
+  padding: @player-bar-padding;
+  position: fixed;
+  right: 0;
+  width: @player-bar-width;
+  z-index: 999;
 
   .top-bar {
+    align-items: flex-end;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-top: @grid;
 
     .track-info {
-      flex: 0 0 ((@player-bar-width - @controls-width) / 2);
-
-      display: flex;
       align-items: flex-end;
-      font-size: @grid * 2;
+      display: flex;
+      flex: 0 0 @top-bar-side-containers-width;
 
       img {
-        width: @grid * 10;
-        height: @grid * 10;
-        margin-right: @grid;
         border-radius: @grid;
+        height: @image-width;
+        margin-right: @grid;
+        width: @image-width;
+      }
+
+      .track-name, .artist-name {
+        font-size: @grid * 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: @top-bar-side-containers-width - @image-width - @grid;
+        white-space: nowrap;
       }
 
       .track-name {
         font-weight: bold;
-        font-size: @grid * 2.5;
         margin-bottom: @grid;
       }
     }
 
     .track-controls {
-      flex: 0 0 (@grid * (3 * 7 + 2));
-
-      display: flex;
-      justify-content: space-between;
       align-items: center;
+      display: flex;
+      flex: 0 0 @controls-width;
+      justify-content: space-between;
 
       .button-control {
         margin-left: @grid;
@@ -64,44 +75,43 @@
       }
 
       .button-control button {
-        width: @grid * 7;
-        height: @grid * 7;
         font-size: @grid * 4;
+        height: @control-button-size;
+        width: @control-button-size;
 
         .btn-txt(@color: @white, @color-hover: @white);
       }
     }
 
     .volume-controls {
-      flex: 0 0 ((@player-bar-width - @controls-width) / 2);
-
-      display: flex;
-      justify-content: flex-end;
       align-items: center;
+      display: flex;
+      flex: 0 0 @top-bar-side-containers-width;
+      justify-content: flex-end;
       margin-bottom: @grid;
 
       .volume-bar {
-        position: relative;
-        background-color: white;
-        width: @grid * 15;
+        background-color: @white;
+        border-radius: @grid / 2;
         height: @grid;
         margin: 0 (@grid * 2);
-        border-radius: @grid / 2;
+        position: relative;
+        width: @grid * 15;
 
-        .shadow-1();
+        .shadow-inset-1();
 
         .slider-handle {
+          background-color: @blue;
+          border-radius: 50%;
+          height: @grid * 2;
           position: absolute;
           top: -@grid / 2;
           width: @grid * 2;
-          height: @grid * 2;
-          border-radius: 50%;
-          background-color: @blue;
 
-          .shadow-2();
+          .shadow-1();
 
           &:hover {
-            .shadow-3();
+            .shadow-2();
           }
         }
       }
@@ -109,38 +119,33 @@
   }
 
   .bottom-bar {
+    align-items: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: @grid;
     margin-top: @grid * 2;
 
-    .time-label {
-
-    }
-
     .progress-bar {
-      position: relative;
-      background-color: white;
-      width: @grid * 96;
+      background-color: @white;
+      border-radius: @grid / 2;
+      flex-grow: 1;
       height: @grid;
       margin: 0 @grid * 2;
-      border-radius: @grid / 2;
+      position: relative;
 
-      .shadow-1();
+      .shadow-inset-1();
 
       .slider-handle {
+        background-color: @blue;
+        border-radius: 50%;
+        height: @grid * 2;
         position: absolute;
         top: -@grid / 2;
         width: @grid * 2;
-        height: @grid * 2;
-        border-radius: 50%;
-        background-color: @blue;
 
-        .shadow-2();
+        .shadow-1();
 
         &:hover {
-          .shadow-3();
+          .shadow-2();
         }
       }
     }
