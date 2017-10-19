@@ -40,15 +40,11 @@ class Ripple extends PureComponent {
     if (e.stopPropagation) { e.stopPropagation(); }
 
     const { onClick, color, duration } = this.props;
-    const {
-      pageX, pageY, currentTarget: {
-        offsetLeft, offsetTop,
-        offsetWidth, offsetHeight
-      }
-    } = e;
+    const { pageX, pageY, currentTarget } = e;
+    const targetClientRect = currentTarget.getBoundingClientRect();
 
-    const left = pageX - offsetLeft;
-    const top = pageY - offsetTop;
+    const left = pageX - targetClientRect.left;
+    const top = pageY - targetClientRect.top - $(window).scrollTop();
 
     this.setState({
       rippleStyle: {
@@ -59,7 +55,7 @@ class Ripple extends PureComponent {
     });
 
     setTimeout(() => {
-      const size = Math.max(offsetWidth, offsetHeight);
+      const size = Math.max(targetClientRect.width, targetClientRect.height);
 
       this.setState({
         rippleStyle: {
@@ -76,7 +72,8 @@ class Ripple extends PureComponent {
   }
 
   render() {
-    const wrapStyle = Object.assign({}, this.props.style, WRAP_STYLE);
+    const wrapStyle = Object.assign({}, this.props.style, WRAP_STYLE,
+      this.props.isCircle ? {borderRadius: '50%'} : {});
     const rippleStyle = Object.assign({}, RIPPLE_STYLE, this.state.rippleStyle);
     return (
       <div style={CONTAINER_STYLE}

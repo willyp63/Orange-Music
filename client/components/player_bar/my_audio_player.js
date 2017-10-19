@@ -1,11 +1,12 @@
 import { isEmpty, isNotEmpty } from '../../util/empty';
 
 export default class MyAudioPlayer {
-  constructor(eleId, {onPlay, onPause, onTimeUpdate}) {
+  constructor(eleId, {onPlay, onPause, onTimeUpdate, onEnded}) {
     this.eleId = eleId;
     this.onPlay = onPlay;
     this.onPause = onPause;
     this.onTimeUpdate = onTimeUpdate;
+    this.onEnded = onEnded;
   }
   load() {
     const player = this._audioPlayer()
@@ -14,6 +15,7 @@ export default class MyAudioPlayer {
     player.load();
     player.addEventListener('play', this.onPlay);
     player.addEventListener('pause', this.onPause);
+    player.addEventListener('ended', this.onEnded);
     player.addEventListener('timeupdate', () => {
       this.onTimeUpdate(this.currentTime());
     });

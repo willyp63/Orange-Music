@@ -5,11 +5,18 @@
   align-items: center;
   justify-content: flex-end;
 
-  .action-button button {
-    width: @grid * 5;
-    height: @grid * 5;
-    font-size: @grid * 2;
+  .action-button {
     margin-left: @grid;
+  }
+
+  .action-button:first-of-type {
+    margin-left: 0;
+  }
+
+  .action-button button {
+    width: @grid * 6;
+    height: @grid * 6;
+    font-size: @grid * 2;
   }
 
   .play-button button {

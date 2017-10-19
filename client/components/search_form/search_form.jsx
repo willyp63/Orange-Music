@@ -11,7 +11,7 @@ import { searchTracks } from '../../actions/search_actions';
 import { getUrlWithUpdatedParams, getUrlParams } from '../../util/url';
 import { isNotEmpty } from '../../util/empty';
 
-class SearchBarComponent extends React.Component {
+class SearchFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -47,11 +47,10 @@ class SearchBarComponent extends React.Component {
   }
   render() {
     return (
-      <div className="search-bar">
+      <div className="search-form">
         <img src="/static/images/logo.png"
              className="orange-image" />
-           <form className="search-form"
-              onSubmit={(e) => this.onQuery.bind(this, e)()}>
+        <form onSubmit={(e) => this.onQuery.bind(this, e)()}>
           <div className="orange-music-label">Orange Music</div>
           <div className="query-input">
             <input type="text"
@@ -99,4 +98,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SearchBarComponent));
+)(SearchFormComponent));

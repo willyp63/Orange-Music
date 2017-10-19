@@ -1,79 +1,44 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import TextCellComponent from './cells/text_cell';
-import ImageCellComponent from './cells/image_cell';
-import ActionsCellComponent from './cells/actions_cell';
+import TABLE_SCHEMA from './search_results_schema';
 
 import { isNotEmpty } from '../../util/empty';
 import { playTrack } from '../../actions/player_actions';
 
-const SCHEMA = {
-  image: {
-    order: 0,
-    label: null,
-    width: 8,
-    component: ImageCellComponent
-  },
-  name: {
-    order: 1,
-    label: 'Track',
-    width: 42,
-    component: TextCellComponent
-  },
-  artist: {
-    order: 2,
-    label: 'Artist',
-    width: 42,
-    component: TextCellComponent
-  },
-  '@actions': {
-    order: 3,
-    label: null,
-    width: 8,
-    component: ActionsCellComponent
-  }
-};
-
-class SearchResultsComponent extends React.Component {
-  render() {
-    const columnHeaders = Object.keys(SCHEMA).map((field) => (
-      <div className="table-column-header"
-           style={{flex: `0 0 ${SCHEMA[field].width}%`}}
-           key={field}>
-        {SCHEMA[field].label}
-      </div>
-    ));
-
-    const rows = isNotEmpty(this.props.tracks)
-      ? this.props.tracks.map((track) => {
-        const columns = Object.keys(SCHEMA).map((field) => (
-          <div className="table-cell"
-               style={{flex: `0 0 ${SCHEMA[field].width}%`}}
-               key={field}>
-            {SCHEMA[field].component(track[field], {
-              playTrack: () => this.props.playTrack(track)
-            })}
-          </div>
-        ));
-        return (
-          <div className="table-row"
-               key={track.mbid}>
-            {columns}
-          </div>
-        );
-      })
+const SearchResultsComponent = ({tracks, playTrack}) => {
+  const rows = isNotEmpty(tracks)
+    ? getRows(tracks, {playTrack})
     : 'No results ...';
+  return (
+    <div className="search-results">
+      {rows}
+    </div>
+  );
+}
 
+const getRows = (tracks, {playTrack}) => {
+  return tracks.map((track) => (
+    <div className="row" key={track.mbid}>
+      {getColumns(track, {playTrack})}
+    </div>
+  ));
+}
+
+const getColumns = (track, {playTrack}) => {
+  return Object.keys(TABLE_SCHEMA).map((field) => {
+    const columnStyle = {
+      flex: `0 1 ${TABLE_SCHEMA[field].width}%`
+    };
+    const renderedComponent = TABLE_SCHEMA[field].component(track[field], {
+      playTrack: () => playTrack(track)
+    });
     return (
-      <div className="search-results">
-        <div className="table-header">
-          {columnHeaders}
-        </div>
-        {rows}
+      <div style={columnStyle} key={field}>
+        {renderedComponent}
       </div>
-    );
-  }
+    )
+  });
 }
 
 const mapStateToProps = (state, ownProps) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Ripple from '../../shared/ripple';
-import ReactTooltip from 'simple-react-tooltip'
+import ReactTooltip from 'simple-react-tooltip';
 
 const ActionsCellComponent = (_, {playTrack}) => (
   <div className="actions-cell">

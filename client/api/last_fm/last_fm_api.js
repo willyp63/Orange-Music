@@ -2,6 +2,7 @@ import { isEmpty, isNotEmpty } from '../../util/empty';
 import { getUrlWithUpdatedParams } from '../../util/url';
 import { makeFakeId } from '../../util/id';
 import { LAST_FM_API_KEY } from '../../secrets/api_keys';
+import { EMPTY_IMG_SRC } from '../../util/image';
 
 module.exports.DEFAULT_PAGE_SIZE = 10;
 
@@ -42,6 +43,19 @@ module.exports.getInfo = ({mbid, trackName, artistName}) => {
     query: trackName,
     artistName: artistName
   });
+}
+
+module.exports.getImageUrl = (image, preferredIdx) => {
+  if (preferredIdx >= image.length) {
+    preferredIdx = image.length - 1;
+  }
+  for (let i = preferredIdx; i >= 0; i--) {
+    const url = image[i]['#text'];
+    if (isNotEmpty(url)) {
+      return url;
+    }
+  }
+  return
 }
 
 /// Preforms a Last FM query with the given params.

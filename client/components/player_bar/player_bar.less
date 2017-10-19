@@ -1,5 +1,7 @@
 @import '../shared/grid.less';
 @import '../shared/color.less';
+@import '../shared/shadow.less';
+@import '../shared/button.less';
 
 .player-bar {
   border-top-left-radius: @grid;
@@ -7,9 +9,76 @@
   bottom: 0;
   right: 0;
   background-color: @orange;
-  padding: @grid;
+  z-index: 999;
 
-  .track-info {
-    padding-bottom: @grid;
+  .shadow-3();
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: @grid;
+    padding-bottom: 0;
+    margin-bottom: @grid;
+
+    .track-info {
+      display: flex;
+      align-items: flex-end;
+
+      img {
+        width: @grid * 10;
+        height: @grid * 10;
+        margin-right: @grid;
+      }
+    }
+
+    .track-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .button-control {
+        margin-left: @grid;
+      }
+
+      .button-control:first-of-type {
+        margin-left: 0;
+      }
+
+      .button-control button {
+        width: @grid * 6;
+        height: @grid * 6;
+        font-size: @grid * 2;
+
+        .circle-btn(@bg-color: @blue-darken-1,
+             @bg-color-hover: @blue,
+             @color: @white,
+             @color-hover: @white);
+      }
+    }
+
+    .volume-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .volume-bar {
+        background-color: white;
+        width: @grid * 15;
+        height: @grid;
+        margin-left: @grid;
+      }
+    }
+  }
+
+  .bottom-bar {
+    padding: @grid;
+    padding-top: 0;
+
+    .progress-bar {
+      background-color: white;
+      width: @grid * 100;
+      height: @grid;
+    }
   }
 }
