@@ -25,9 +25,32 @@ module.exports.search = ({name, artistName, duration, maxResults}) => {
   });
 };
 
+module.exports.getInfo = (ytid) => {
+  return new Promise((resolve, reject) => {
+    if (isEmpty(ytid)) { reject('Must provide ytid.'); }
+
+    service.videos.list({
+      auth: API_KEY,
+      part: 'id,contentDetails',
+      id: ytid
+    }, (err, response) => {
+      if (err) {
+        return reject(`Error while trying to fetch YT video info: ${err}`);
+      }
+      response.items[0].contentDetails.duration = formatTimeSeconds(response.items[0].contentDetails.duration);
+      return resolve(response.items[0]);
+    });
+  });
+};
+
 module.exports.stream = (videoId) => {
   return ytStream(getYoutubeUrl(videoId));
 };
+
+const formatTimeSeconds = (time) => {
+  const match = time.match(/PT(\d+)M(\d+)S/);
+  return parseInt(match[1]) * 60 + parseInt(match[2]);
+}
 
 /// Returns the Url for a Youtube video given the videoId.
 const getYoutubeUrl = (videoId) => `http://youtube.com/watch?v=${videoId}`;

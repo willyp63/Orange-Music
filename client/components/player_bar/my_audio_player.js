@@ -29,6 +29,9 @@ export default class MyAudioPlayer {
   setCurrentTime(newCurrentTime) {
     this._audioPlayer().currentTime = newCurrentTime;
   }
+  setVolume(newVolume) {
+    this._audioPlayer().volume = newVolume;
+  }
   currentTime() {
     return this._audioPlayer().currentTime;
   }

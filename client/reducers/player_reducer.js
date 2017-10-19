@@ -1,14 +1,16 @@
-import { PLAY_TRACK } from '../actions/player_actions';
+import { RECEIVE_TRACK_TO_PLAY } from '../actions/player_actions';
 
 const DEFAULT_STATE = Object.freeze({
-  track: null
+  track: null,
+  video: null
 });
 
 const playerReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case PLAY_TRACK:
+    case RECEIVE_TRACK_TO_PLAY:
       return {
-        track: action.track
+        track: action.track,
+        video: action.video
       };
     default:
       return state
