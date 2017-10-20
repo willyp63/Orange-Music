@@ -1,0 +1,38 @@
+@import '../../shared/grid/grid.less';
+@import '../../shared/mat_color/mat_color.less';
+@import '../../shared/mat_shadow/mat_shadow.less';
+
+.search-form {
+  display: flex;
+  justify-content: space-around;
+  width: @grid * 80;
+
+  input {
+    flex-grow: 1;
+    height: (@grid * 6) - 2 /* account for extra height from border */;
+    padding-left: @grid;
+    font-size: @grid * 3;
+    border: 1px solid @grey-lighten-2;
+    border-right: 0;
+    border-top-left-radius: @grid;
+    border-bottom-left-radius: @grid;
+
+    .shadow-1();
+
+    &:focus {
+      border: 1px solid @blue;
+      border-right: 0;
+    }
+  }
+
+  .search-btn {
+    width: @grid * 6;
+    height: @grid * 6;
+    font-size: @grid * 3;
+
+    // Override default button border radius.
+    border-radius: 0;
+    border-top-right-radius: @grid;
+    border-bottom-right-radius: @grid;
+  }
+}

@@ -1,0 +1,17 @@
+@import '../../shared/grid/grid.less';
+@import '../player_bar.less';
+
+.track-controls {
+  align-items: center;
+  display: flex;
+  flex: 0 0 @controls-width;
+  justify-content: space-between;
+
+  .control-btn-wrap {
+    margin-left: @grid;
+  }
+
+  .control-btn-wrap:first-of-type {
+    margin-left: 0;
+  }
+}

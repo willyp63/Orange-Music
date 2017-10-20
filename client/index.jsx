@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { createHashHistory } from 'history';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import AppComponent from './components/app.jsx';
+import AppComponent from './components/app';
 
 import searchReducer from './reducers/search_reducer';
 import playerReducer from './reducers/player_reducer';
@@ -25,9 +24,11 @@ const appStore = createStore(
 document.addEventListener('DOMContentLoaded', (_) => {
   ReactDOM.render(
     <Provider store={appStore}>
-      <BrowserRouter>
-        <AppComponent />
-      </BrowserRouter>
+      <HashRouter>
+        <Switch>
+          <Route path="/" component={AppComponent} />
+        </Switch>
+      </HashRouter>
     </Provider>,
     document.getElementById('root'));
 });

@@ -1,0 +1,20 @@
+@import '../../shared/grid/grid';
+
+.progress-bar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  
+  .mat-slider {
+    border-radius: @grid * 0.75;
+    flex-grow: 1;
+    height: @grid * 1.5;
+    margin: 0 @grid * 2;
+
+    .handle {
+      height: @grid * 3;
+      top: -@grid * 0.75;
+      width: @grid * 2;
+    }
+  }
+}

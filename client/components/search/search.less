@@ -1,0 +1,23 @@
+@import '../shared/mat_color/mat_color.less';
+@import '../shared/grid/grid.less';
+@import '../shared/mat_shadow/mat_shadow.less';
+
+.search {
+  .nav-bar {
+    background-color: @white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .search-form-container {
+      display: flex;
+      justify-content: space-around;
+      padding: @grid * 2;
+      padding-top: @grid * 4;
+    }
+  }
+
+  .search-results-header-container, .search-results-container {
+    padding: @grid (@grid * 8);
+  }
+}

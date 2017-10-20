@@ -1,14 +1,22 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
-import NavBar from './nav_bar/nav_bar';
-import SearchResultsComponent from './search_results/search_results';
+// Static components
+import NavPanelComponent from './nav_panel/nav_panel';
 import PlayerBarComponent from './player_bar/player_bar';
 
-const AppComponent = () => (
-  <div>
-    <NavBar />
-    <div className="search-results-container">
-      <SearchResultsComponent />
+// Route components
+import SearchComponent from './search/search';
+import HomeComponent from './home/home';
+
+const AppComponent = ({children}) => (
+  <div className="app">
+    <div className="nav-panel-container">
+      <NavPanelComponent />
+    </div>
+    <div className="content-container">
+      <Route exact path="/" component={HomeComponent} />
+      <Route path="/search" component={SearchComponent} />
     </div>
     <PlayerBarComponent />
   </div>

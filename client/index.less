@@ -1,20 +1,33 @@
 @import "./components/app.less";
-@import "./components/nav_bar/nav_bar.less";
-@import "./components/search_form/search_form.less";
-@import "./components/search_results/search_results_header.less";
-@import "./components/search_results/search_results.less";
-@import "./components/search_results/cells/text_cell.less";
-@import "./components/search_results/cells/image_cell.less";
-@import "./components/search_results/cells/actions_cell.less";
-@import "./components/player_bar/player_bar.less";
-@import "./components/shared/button.less";
 
-html, body, input, div, button, form, span, audio {
+@import "./components/nav_panel/nav_panel.less";
+@import "./components/nav_panel/nav_button/nav_button.less";
+
+@import "./components/player_bar/player_bar.less";
+@import "./components/player_bar/track_info/track_info.less";
+@import "./components/player_bar/track_controls/track_controls.less";
+@import "./components/player_bar/track_controls/control_button/control_button.less";
+@import "./components/player_bar/volume_controls/volume_controls.less";
+@import "./components/player_bar/progress_bar/progress_bar.less";
+
+@import "./components/search/search.less";
+@import "./components/search/search_form/search_form.less";
+@import "./components/search/search_results/search_results_header.less";
+@import "./components/search/search_results/search_results.less";
+@import "./components/search/search_results/cells/image_cell.less";
+@import "./components/search/search_results/cells/actions_cell.less";
+
+@import "./components/shared/mat_button/mat_button.less";
+@import "./components/shared/mat_slider/mat_slider.less";
+@import "./components/shared/mat_spinner/mat_spinner.less";
+@import "./components/shared/flex_table/flex_table.less";
+@import "./components/shared/flex_table/table_header/table_header.less";
+
+html, body, input, div, button, form, span, audio, circle, svg, i {
   font-family: Arial;
   padding: 0;
   margin: 0;
   border: 0;
   outline: 0;
   background-color: rgba(0, 0, 0, 0);
-  color: inherit;
 }

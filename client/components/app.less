@@ -1,8 +1,15 @@
-@import './shared/grid.less';
-@import './shared/color.less';
+@import './shared/grid/grid.less';
 
-.search-results-container {
+@nav-panel-width: @grid * 26;
+
+.app {
   display: flex;
-  justify-content: space-around;
-  padding: @grid 10vw;
+
+  .nav-panel-container {
+    flex: 0 0 @nav-panel-width;
+  }
+
+  .content-container {
+    flex: 1 0 0;
+  }
 }

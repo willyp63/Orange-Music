@@ -4,7 +4,7 @@ import { makeFakeId } from '../../util/id';
 import { LAST_FM_API_KEY } from '../../secrets/api_keys';
 import { EMPTY_IMG_SRC } from '../../util/image';
 
-module.exports.DEFAULT_PAGE_SIZE = 10;
+module.exports.DEFAULT_PAGE_SIZE = 20;
 
 /// Base url and url params for making all requests.
 const BASE_URL = 'https://ws.audioscrobbler.com/2.0/';

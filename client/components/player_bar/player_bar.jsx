@@ -2,24 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { isNotEmpty, isEmpty } from '../../util/empty';
-import { formatTimeMinutesSeconds } from '../../util/time';
 
 import { getImageUrl } from '../../api/last_fm/last_fm_api';
 
-import SliderComponent from '../shared/slider';
-import MatButton from '../shared/button';
-import { white, grey_lighten_4 } from '../shared/color';
+import TrackInfoComponent from './track_info/track_info';
+import TrackControlsComponent from './track_controls/track_controls';
+import VolumeControlsComponent from './volume_controls/volume_controls';
+import ProgressBarComponent from './progress_bar/progress_bar';
 
-import MyAudioPlayer from './my_audio_player';
+import AudioApi from './audio_api/audio_api';
 
 const AUTO_PLAY = true;
 const IMAGE_IDX = 2;
-
-const PROGRESS_BAR_CLASS_NAME = 'progress-bar';
-const PROGRESS_BAR_HANDLE_SIZE = 8 * 2;
-
-const VOLUME_BAR_CLASS_NAME = 'volume-bar';
-const VOLUME_BAR_HANDLE_SIZE = 8 * 2;
 
 class PlayerBarComponent extends React.Component {
   constructor(props) {
@@ -27,12 +21,12 @@ class PlayerBarComponent extends React.Component {
     this.state = Object.assign(getTrackState(props), {
       volume: MAX_VOLUME
     });
-    this.audioPlayer = new MyAudioPlayer(AUDIO_PLAYER_ID, {
+    this.audioApi = new AudioApi(AUDIO_PLAYER_ID, {
       onPlay: () => {
-        this.setState({playing: true});
+        this.setState({isPlaying: true});
       },
       onPause: () => {
-        this.setState({playing: false});
+        this.setState({isPlaying: false});
       },
       onTimeUpdate: (currentTime) => {
         this.setState({currentTime});
@@ -49,111 +43,63 @@ class PlayerBarComponent extends React.Component {
     }
   }
   onPlayPauseButtonClick() {
-    this.state.playing
-      ? this.audioPlayer.pause()
-      : this.audioPlayer.play();
+    this.state.isPlaying
+      ? this.audioApi.pause()
+      : this.audioApi.play();
   }
   onCurrentTimeChange(currentTime) {
     this.setState({currentTime}, () => {
-      this.audioPlayer.setCurrentTime(currentTime);
+      this.audioApi.setCurrentTime(currentTime);
     });
   }
-  onVolumeChange(volume) {
+  onVolumeButtonClick() {
+    this.state.volume === 0
+      ? this.setVolume.bind(this, MAX_VOLUME)()
+      : this.setVolume.bind(this, 0)();
+  }
+  setVolume(volume) {
     this.setState({volume}, () => {
-      this.audioPlayer.setVolume(volume);
+      this.audioApi.setVolume(volume);
     });
   }
   loadNewTrack(props) {
     this.setState(getTrackState(props || this.props), () => {
-      this.audioPlayer.load();
+      this.audioApi.load();
     });
   }
   render() {
-    const { playing, currentTime, duration, audioSrc, imageSrc,
+    const { isPlaying, currentTime, duration, audioSrc, imageSrc,
               artistName, trackName, volume } = this.state;
-
-    const currentTimeLabel = formatTimeMinutesSeconds(currentTime);
-    const durationLabel = formatTimeMinutesSeconds(duration);
-
-    const trackInfo = isNotEmpty(audioSrc)
-      ? (
-        <div className="track-info">
-          <img src={imageSrc} />
-          <div className="info-text">
-            <div className="track-name">{trackName}</div>
-            <div className="artist-name">{artistName}</div>
-          </div>
-        </div>
-      ) : (
-        <div className="track-info">
-          <div className="placeholder-img"></div>
-        </div>
-      );
-
-    const prevButtonClassName = isNotEmpty(audioSrc)
-      ? 'button-control prev-button'
-      : 'button-control prev-button disabled';
-    const playPauseButtonClassName = isNotEmpty(audioSrc)
-      ? 'button-control play-pause-button'
-      : 'button-control play-pause-button disabled';
-    const nextButtonClassName = isNotEmpty(audioSrc)
-      ? 'button-control next-button'
-      : 'button-control next-button disabled';
-    const playPauseButtonIcon = playing ? 'pause' : 'play';
 
     return (
       <div className="player-bar">
         <div className="top-bar">
-          {trackInfo}
-          <div className="track-controls">
-            <MatButton buttonClassName={prevButtonClassName}
-                       iconName={'step-backward'}
-                       isCircle={true}
-                       isText={true}
-                       isDisabled={isEmpty(audioSrc)}
-                       color={grey_lighten_4}
-                       colorHover={white}
-                       onClick={() => console.log('You clicked Prev!')}>
-            </MatButton>
-            <MatButton buttonClassName={playPauseButtonClassName}
-                       iconName={playPauseButtonIcon}
-                       isCircle={true}
-                       isText={true}
-                       isDisabled={isEmpty(audioSrc)}
-                       color={grey_lighten_4}
-                       colorHover={white}
-                       onClick={this.onPlayPauseButtonClick.bind(this)}>
-            </MatButton>
-            <MatButton buttonClassName={nextButtonClassName}
-                       iconName={'step-forward'}
-                       isCircle={true}
-                       isText={true}
-                       isDisabled={isEmpty(audioSrc)}
-                       color={grey_lighten_4}
-                       colorHover={white}
-                       onClick={() => console.log('You clicked Next!')}>
-            </MatButton>
-          </div>
-          <div className="volume-controls">
-            <i className="fa fa-volume-up"></i>
-            <SliderComponent value={volume}
-                             maxValue={MAX_VOLUME}
-                             barClassName={VOLUME_BAR_CLASS_NAME}
-                             handleSize={VOLUME_BAR_HANDLE_SIZE}
-                             onValueChange={this.onVolumeChange.bind(this)}>
-            </SliderComponent>
-          </div>
+          <TrackInfoComponent trackName={trackName}
+                              artistName={artistName}
+                              imageSrc={imageSrc}>
+          </TrackInfoComponent>
+          <TrackControlsComponent isPlaying={isPlaying}
+                                  isDisabled={isEmpty(audioSrc)}
+                                  onPrev={() => {
+                                    console.log('Prev');
+                                  }}
+                                  onPlayPause={this.onPlayPauseButtonClick.bind(this)}
+                                  onNext={() => {
+                                    console.log('Next');
+                                  }}>
+          </TrackControlsComponent>
+          <VolumeControlsComponent volume={volume}
+                                   maxVolume={MAX_VOLUME}
+                                   onVolumeChange={this.setVolume.bind(this)}
+                                   onVolumeButtonClick={this.onVolumeButtonClick.bind(this)}>
+          </VolumeControlsComponent>
         </div>
         <div className="bottom-bar">
-          <div className="time-label">{currentTimeLabel}</div>
-          <SliderComponent value={currentTime}
-                           maxValue={duration}
-                           barClassName={PROGRESS_BAR_CLASS_NAME}
-                           disabled={isEmpty(audioSrc)}
-                           handleSize={PROGRESS_BAR_HANDLE_SIZE}
-                           onValueChange={this.onCurrentTimeChange.bind(this)}>
-          </SliderComponent>
-          <div className="time-label">{durationLabel}</div>
+          <ProgressBarComponent currentTime={currentTime}
+                                duration={duration}
+                                isDisabled={isEmpty(audioSrc)}
+                                onCurrentTimeChange={this.onCurrentTimeChange.bind(this)}>
+          </ProgressBarComponent>
         </div>
         <audio id={AUDIO_PLAYER_ID} autoPlay={AUTO_PLAY}>
           <source src={audioSrc}/>
@@ -172,7 +118,7 @@ const getTrackState = (props) => {
     imageSrc: hasTrack ? getImageUrl(props.track.image, IMAGE_IDX) : '',
     audioSrc: hasVideo ? props.video.stream.url : null,
     duration: hasVideo ? props.video.contentDetails.duration : 0,
-    playing: false,
+    isPlaying: false,
     currentTime: 0,
   };
 }

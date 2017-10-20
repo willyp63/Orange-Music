@@ -1,0 +1,20 @@
+@import '../../../shared/grid/grid.less';
+
+.actions-cell {
+  display: flex;
+  align-items: center;
+
+  .action-btn-wrap {
+    margin-left: @grid;
+  }
+
+  .action-btn-wrap:first-of-type {
+    margin-left: 0;
+  }
+
+  .action-btn {
+    width: @grid * 6;
+    height: @grid * 6;
+    font-size: @grid * 2;
+  }
+}

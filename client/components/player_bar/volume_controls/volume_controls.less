@@ -1,0 +1,40 @@
+@import '../../shared/grid/grid.less';
+@import '../player_bar.less';
+
+.volume-controls {
+  align-items: center;
+  display: flex;
+  flex: 0 0 @top-bar-side-containers-width;
+  margin-bottom: @grid;
+
+  .volume-btn-wrap {
+    margin-left: @grid * 4;
+  }
+
+  .volume-btn {
+    font-size: @grid * 3;
+    height: @grid * 5;
+    width: @grid * 5;
+
+    // Float icon left and manually center.
+    //
+    // This is to avoid movement when the icon changes from volume-up to volume-off.
+    justify-content: flex-start !important;
+    i {
+      margin-left: @grid * 1.25 !important;
+    }
+  }
+
+  .mat-slider {
+    border-radius: @grid * 0.75;
+    flex-grow: 1;
+    height: @grid * 1.5;
+    margin: 0 (@grid * 2);
+
+    .handle {
+      height: @grid * 3;
+      top: -@grid * 0.75;
+      width: @grid * 2;
+    }
+  }
+}

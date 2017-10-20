@@ -1,0 +1,16 @@
+@import '../../shared/grid/grid.less';
+@import '../../shared/mat_color/mat_color.less';
+
+.flex-table {
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: (@grid / 2) @grid;
+    border-bottom: 1px solid @grey-lighten-2;
+  }
+
+  .row:last-of-type {
+    border-bottom: 0;
+  }
+}

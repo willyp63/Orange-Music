@@ -1,21 +1,20 @@
-@import '../shared/grid.less';
-@import '../shared/color.less';
-@import '../shared/shadow.less';
+@import '../shared/grid/grid.less';
+@import '../shared/mat_color/mat_color.less';
 
 // Used for flex sizing the top-bar.
 @player-bar-width: @grid * 90;
 @player-bar-padding: @grid * 2;
 @top-bar-width: @player-bar-width - @player-bar-padding * 2;
-@control-button-size: @grid * 7;
+@control-button-size: @grid * 8;
 @num-control-buttons: 3;
 @controls-width: @control-button-size * @num-control-buttons + @grid * (@num-control-buttons - 1);
 @top-bar-side-containers-width: (@top-bar-width - @controls-width) / 2;
 
 // Used for giving track-info text a fixed width, so text can be cut off.
-@image-width: @grid * 10;
+@image-size: @grid * 8;
 
 .player-bar {
-  background-color: @orange-darken-1;
+  background-color: @orange-lighten-1;
   border-top-left-radius: @grid;
   bottom: 0;
   // box-shadow-3() with inset box-shadow (highlights top of player-bar).
@@ -26,125 +25,15 @@
   position: fixed;
   right: 0;
   width: @player-bar-width;
-  z-index: 999;
+  z-index: 300;
 
   .top-bar {
     align-items: flex-end;
     display: flex;
     justify-content: space-between;
-
-    .track-info {
-      align-items: flex-end;
-      display: flex;
-      flex: 0 0 @top-bar-side-containers-width;
-
-      img, .placeholder-img {
-        border-radius: @grid;
-        height: @image-width;
-        margin-right: @grid;
-        width: @image-width;
-      }
-
-      .track-name, .artist-name {
-        font-size: @grid * 2;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: @top-bar-side-containers-width - @image-width - @grid;
-        white-space: nowrap;
-      }
-
-      .track-name {
-        font-weight: bold;
-        margin-bottom: @grid;
-      }
-    }
-
-    .track-controls {
-      align-items: center;
-      display: flex;
-      flex: 0 0 @controls-width;
-      justify-content: space-between;
-
-      .button-control {
-        margin-left: @grid;
-      }
-
-      .button-control:first-of-type {
-        margin-left: 0;
-      }
-
-      .button-control {
-        font-size: @grid * 4;
-        height: @control-button-size;
-        width: @control-button-size;
-      }
-    }
-
-    .volume-controls {
-      align-items: center;
-      display: flex;
-      flex: 0 0 @top-bar-side-containers-width;
-      justify-content: flex-end;
-      margin-bottom: @grid;
-
-      .volume-bar {
-        background-color: @white;
-        border-radius: @grid / 2;
-        height: @grid;
-        margin: 0 (@grid * 2);
-        position: relative;
-        width: @grid * 15;
-
-        .shadow-inset-1();
-
-        .slider-handle {
-          background-color: @blue;
-          border-radius: 50%;
-          height: @grid * 2;
-          position: absolute;
-          top: -@grid / 2;
-          width: @grid * 2;
-
-          .shadow-1();
-
-          &:hover {
-            .shadow-2();
-          }
-        }
-      }
-    }
   }
 
   .bottom-bar {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
     margin-top: @grid * 2;
-
-    .progress-bar {
-      background-color: @white;
-      border-radius: @grid / 2;
-      flex-grow: 1;
-      height: @grid;
-      margin: 0 @grid * 2;
-      position: relative;
-
-      .shadow-inset-1();
-
-      .slider-handle {
-        background-color: @blue;
-        border-radius: 50%;
-        height: @grid * 2;
-        position: absolute;
-        top: -@grid / 2;
-        width: @grid * 2;
-
-        .shadow-1();
-
-        &:hover {
-          .shadow-2();
-        }
-      }
-    }
   }
 }

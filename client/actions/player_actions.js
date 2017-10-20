@@ -2,7 +2,7 @@ import orangeMusicApi from '../api/orange_music/orange_music_api';
 
 export const playTrack = (track) => {
   return (dispatch) => {
-    dispatch(clearPlayingTrack());
+    dispatch(prepareToPlayTrack(track));
 
     const query = {
       query: track.name,
@@ -17,10 +17,13 @@ export const playTrack = (track) => {
   }
 }
 
-const clearPlayingTrack = () => {
-  return {type: CLEAR_PLAYING_TRACK};
+const prepareToPlayTrack = (track) => {
+  return {
+    type: PREPARE_TO_PLAY_TRACK,
+    track
+  };
 }
-export const CLEAR_PLAYING_TRACK = 'CLEAR_PLAYING_TRACK'
+export const PREPARE_TO_PLAY_TRACK = 'PREPARE_TO_PLAY_TRACK'
 
 const receiveTrackToPlay = ({track, video}) => {
   return {

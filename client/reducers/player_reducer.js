@@ -1,4 +1,4 @@
-import { RECEIVE_TRACK_TO_PLAY, CLEAR_PLAYING_TRACK } from '../actions/player_actions';
+import { RECEIVE_TRACK_TO_PLAY, PREPARE_TO_PLAY_TRACK } from '../actions/player_actions';
 
 const DEFAULT_STATE = Object.freeze({
   track: null,
@@ -8,12 +8,15 @@ const DEFAULT_STATE = Object.freeze({
 const playerReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case RECEIVE_TRACK_TO_PLAY:
-      return {
+      return Object.assign({}, state, {
         track: action.track,
         video: action.video
-      };
-    case CLEAR_PLAYING_TRACK:
-      return DEFAULT_STATE
+      });
+    case PREPARE_TO_PLAY_TRACK:
+      return Object.assign({}, state, {
+        track: action.track,
+        video: null
+      });
     default:
       return state
   }

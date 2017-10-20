@@ -2,6 +2,7 @@ import lastFmApi from '../api/last_fm/last_fm_api';
 
 export const searchTracks = ({query, page, pageSize}) => {
   return (dispatch) => {
+    dispatch(beginFetchingTracks());
     return lastFmApi.search({query, page, pageSize}).then((results) => {
       dispatch(receiveTrackResults(results));
     }, (err) => {
@@ -10,6 +11,13 @@ export const searchTracks = ({query, page, pageSize}) => {
   }
 }
 
+const beginFetchingTracks = () => {
+  return {
+    type: BEGIN_FETCHING_TRACKS
+  };
+};
+export const BEGIN_FETCHING_TRACKS = 'BEGIN_FETCHING_TRACKS';
+
 const receiveTrackResults = ({tracks, page, total}) => {
   return {
     type: RECEIVE_TRACK_RESULTS,
@@ -17,5 +25,5 @@ const receiveTrackResults = ({tracks, page, total}) => {
     page,
     total
   };
-}
-export const RECEIVE_TRACK_RESULTS = 'RECEIVE_TRACK_RESULTS'
+};
+export const RECEIVE_TRACK_RESULTS = 'RECEIVE_TRACK_RESULTS';
