@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { isNotEmpty } from '../../../../util/empty';
+import { isNotEmpty } from '../../../util/empty';
 
-import FlexTableComponent from '../flex_table';
+import FlexTableComponent from './flex_table';
 
 const FlexTableHeaderComponent = ({headerClassName, schema}) => {
   headerClassName = isNotEmpty(headerClassName) ? headerClassName : '';

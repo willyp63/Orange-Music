@@ -1,7 +1,7 @@
 import React from 'react';
 
 import MatButtonComponent from '../../../shared/mat_button/mat_button';
-import { blue, blue_darken_1, green, green_darken_1, orange, orange_darken_1 } from '../../../shared/mat_color/mat_color';
+import { blue, blue_darken_1, green, green_darken_1 } from '../../../shared/mat_color/mat_color';
 
 const ActionsCellComponent = (_, actions, track) => {
   return (
@@ -13,7 +13,7 @@ const ActionsCellComponent = (_, actions, track) => {
                  isCircle={true}
                  bgColor={blue_darken_1}
                  bgColorHover={blue}
-                 onClick={actions.playTrack.bind(track)}>
+                 onClick={() => actions.playTrack(track)}>
       </MatButtonComponent>
       <MatButtonComponent buttonClassName={'action-btn add-btn'}
                  wrapClassName={'action-btn-wrap'}
@@ -22,20 +22,7 @@ const ActionsCellComponent = (_, actions, track) => {
                  isCircle={true}
                  bgColor={green_darken_1}
                  bgColorHover={green}
-                 onClick={() => {
-                   console.log('You added a song');
-                 }}>
-      </MatButtonComponent>
-      <MatButtonComponent buttonClassName={'action-btn add-btn'}
-                 wrapClassName={'action-btn-wrap'}
-                 icon={'plus'}
-                 tooltip={'Add to Playlist'}
-                 isCircle={true}
-                 bgColor={orange_darken_1}
-                 bgColorHover={orange}
-                 onClick={() => {
-                   console.log('You added a song');
-                 }}>
+                 onClick={() => actions.addTrackToQueue(track)}>
       </MatButtonComponent>
     </div>
   );

@@ -7,10 +7,10 @@ import FlexTableComponent from '../../shared/flex_table/flex_table';
 import MatSpinnerComponent from '../../shared/mat_spinner/mat_spinner';
 
 import { isNotEmpty } from '../../../util/empty';
-import { playTrack } from '../../../actions/player_actions';
+import { addTrackToQueue, playTrack } from '../../../actions/queue_actions';
 
-const SearchResultsComponent = ({tracks, playTrack, isFetching}) => {
-  const tableActions = {playTrack};
+const SearchResultsComponent = ({tracks, playTrack, addTrackToQueue, isFetching}) => {
+  const tableActions = {playTrack, addTrackToQueue};
 
   const $emptyState = isFetching
     ? (
@@ -42,6 +42,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     playTrack: (track) => {
       dispatch(playTrack(track));
+    },
+    addTrackToQueue: (track) => {
+      dispatch(addTrackToQueue(track));
     }
   };
 }

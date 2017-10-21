@@ -3,7 +3,7 @@ import React from 'react';
 import ControlButtonComponent from './control_button/control_button';
 
 const TrackControlsComponent = ({isPlaying, isDisabled, onPrev, onPlayPause, onNext}) => {
-  const playPauseButtonIcon = isPlaying ? 'pause-circle-o' : 'play-circle-o';
+  const playPauseButtonIcon = isPlaying ? 'pause-circle' : 'play-circle';
   return (
     <div className="track-controls">
       <ControlButtonComponent buttonClassName={'prev-btn'}

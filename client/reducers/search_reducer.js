@@ -7,24 +7,24 @@ const DEFAULT_STATE = Object.freeze({
   isFetching: false
 })
 
-const searchReducer = (state = DEFAULT_STATE, action) => {
+const searchReducer = (prevState = DEFAULT_STATE, action) => {
   switch (action.type) {
     case RECEIVE_TRACK_RESULTS:
-      return Object.assign({}, state, {
+      return Object.assign({}, prevState, {
         tracks: action.tracks,
         page: action.page,
         total: action.total,
         isFetching: false
       });
     case BEGIN_FETCHING_TRACKS:
-      return Object.assign({}, state, {
+      return Object.assign({}, prevState, {
         tracks: [],
         page: 1,
         total: 0,
         isFetching: true
       });
     default:
-      return state
+      return prevState
   }
 }
 

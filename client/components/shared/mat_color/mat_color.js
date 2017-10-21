@@ -30,6 +30,22 @@ export const blue_accent_2 = '#448aff';
 export const blue_accent_3 = '#2979ff';
 export const blue_accent_4 = '#2962ff';
 
+// Red
+export const red_lighten_5 = '#ffebee';
+export const red_lighten_4 = '#ffcdd2';
+export const red_lighten_3 = '#ef9a9a';
+export const red_lighten_2 = '#e57373';
+export const red_lighten_1 = '#ef5350';
+export const red = '#f44336';
+export const red_darken_1 = '#e53935';
+export const red_darken_2 = '#d32f2f';
+export const red_darken_3 = '#c62828';
+export const red_darken_4 = '#b71c1c';
+export const red_accent_1 = '#ff8a80';
+export const red_accent_2 = '#ff5252';
+export const red_accent_3 = '#ff1744';
+export const red_accent_4 = '#d50000';
+
 // Green
 export const green_lighten_5 = '#e8f5e9';
 export const green_lighten_4 = '#c8e6c9';

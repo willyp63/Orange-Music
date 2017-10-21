@@ -1,0 +1,37 @@
+@import '../shared/grid/grid';
+@import '../shared/mat_color/mat_color';
+
+.queue {
+  .nav-bar {
+    background-color: @white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .now-playing-table-container, .queue-table-header-container {
+      padding: @grid (@grid * 8);
+    }
+
+    .now-playing-table-container {
+      margin-bottom: @grid * 2;
+    }
+
+    .now-playing-label, .queue-label {
+      font-size: @grid * 3;
+      font-weight: bold;
+      padding: @grid (@grid * 4);
+    }
+
+    .now-playing-label {
+      padding-top: @grid * 3;
+    }
+  }
+
+  .queue-table-container {
+    padding: @grid (@grid * 8);
+
+    .empty-state {
+      padding: @grid * 2;
+    }
+  }
+}

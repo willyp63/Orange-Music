@@ -6,8 +6,9 @@ import NavPanelComponent from './nav_panel/nav_panel';
 import PlayerBarComponent from './player_bar/player_bar';
 
 // Route components
-import SearchComponent from './search/search';
 import HomeComponent from './home/home';
+import SearchComponent from './search/search';
+import QueueComponent from './queue/queue';
 
 const AppComponent = ({children}) => (
   <div className="app">
@@ -15,8 +16,13 @@ const AppComponent = ({children}) => (
       <NavPanelComponent />
     </div>
     <div className="content-container">
-      <Route exact path="/" component={HomeComponent} />
-      <Route path="/search" component={SearchComponent} />
+      <div className="route-container">
+        <Route exact path="/" component={HomeComponent} />
+        <Route path="/search" component={SearchComponent} />
+        <Route path="/queue" component={QueueComponent} />
+      </div>
+      <div className="footer-container">
+      </div>
     </div>
     <PlayerBarComponent />
   </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SearchFormComponent from './search_form/search_form';
-import SearchResultsComponent from './search_results/search_results';
-import SearchResultsHeaderComponent from './search_results/search_results_header';
+import NowPlayingTableComponent from './now_playing_table/now_playing_table';
+import QueueTableHeaderComponent from './queue_table/queue_table_header';
+import QueueTableComponent from './queue_table/queue_table';
 
 const BOX_SHADOW_STYLE = Object.freeze({
   'border-bottom': '1px solid rgba(0, 0, 0, 0)',
@@ -15,7 +15,7 @@ const BORDER_STYLE = Object.freeze({
   'box-shadow': 'none'
 });
 
-class SearchComponent extends React.Component {
+class QueueComponent extends React.Component {
   componentDidMount() {
     this.scrollHandler = this.updateNavBarStyle.bind(this);
     $(document).scroll(this.scrollHandler);
@@ -34,21 +34,33 @@ class SearchComponent extends React.Component {
   }
   render() {
     return (
-      <div className="search">
+      <div className="queue">
         <div className="nav-bar">
-          <div className="search-form-container">
-            <SearchFormComponent />
+          <div className="now-playing-label">
+            Now playing:
           </div>
-          <div className="search-results-header-container">
-            <SearchResultsHeaderComponent />
+          <div className="now-playing-table-container">
+            <NowPlayingTableComponent />
+          </div>
+          <div className="queue-label">
+            Next up:
+          </div>
+          <div className="queue-table-header-container">
+            <QueueTableHeaderComponent />
           </div>
         </div>
-        <div className="search-results-container">
-          <SearchResultsComponent />
+        <div className="queue-table-container">
+          <QueueTableComponent />
         </div>
       </div>
     );
   }
 }
 
-export default SearchComponent;
+const updateNavBarStyle = (_) => {
+  $('.nav-bar').css($(window).scrollTop() !== 0
+      ? BOX_SHADOW_STYLE
+      : BORDER_STYLE);
+};
+
+export default QueueComponent;

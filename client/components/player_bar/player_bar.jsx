@@ -127,10 +127,9 @@ const AUDIO_PLAYER_ID = 'audio-player';
 const MAX_VOLUME = 1;
 
 const mapStateToProps = (state) => {
-  return {
-    track: state.player.track,
-    video: state.player.video
-  };
+  const track = state.queue.tracks[0];
+  const video = isNotEmpty(track) ? track.video : null;
+  return {track, video};
 }
 
 const mapDispatchToProps = (dispatch) => {

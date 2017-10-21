@@ -10,12 +10,12 @@ import logger from 'redux-logger';
 import AppComponent from './components/app';
 
 import searchReducer from './reducers/search_reducer';
-import playerReducer from './reducers/player_reducer';
+import queueReducer from './reducers/queue_reducer';
 
 const appStore = createStore(
   combineReducers({
     search: searchReducer,
-    player: playerReducer
+    queue: queueReducer
   }),
   {},
   applyMiddleware(thunk, logger)
