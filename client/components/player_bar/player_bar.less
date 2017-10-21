@@ -1,36 +1,43 @@
 @import '../shared/grid/grid.less';
 @import '../shared/mat_color/mat_color.less';
 
-// Used for flex sizing the top-bar.
 @player-bar-width: @grid * 90;
+@player-bar-height: @grid * 12;
 @player-bar-padding: @grid * 2;
-@top-bar-width: @player-bar-width - @player-bar-padding * 2;
-@control-button-size: @grid * 8;
-@num-control-buttons: 3;
-@controls-width: @control-button-size * @num-control-buttons + @grid * (@num-control-buttons - 1);
-@top-bar-side-containers-width: (@top-bar-width - @controls-width) / 2;
+@player-bar-margin: @grid * 3;
 
-// Used for giving track-info text a fixed width, so text can be cut off.
-@image-size: @grid * 8;
+@top-bottom-bar-width: @player-bar-width - @player-bar-padding * 2;
+
+@control-button-size: @grid * 7;
+@control-button-padding: @grid;
+@num-control-buttons: 3; // Play/pause, prev, & next
+
+@controls-width: @control-button-size * @num-control-buttons +
+  @control-button-padding * (@num-control-buttons - 1);
+@top-bar-side-containers-width: (@top-bottom-bar-width - @controls-width) / 2;
+
+@image-size: @grid * 7;
 
 .player-bar {
   background-color: @orange-lighten-1;
-  border-top-left-radius: @grid;
-  bottom: 0;
-  // box-shadow-3() with inset box-shadow (highlights top of player-bar).
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19),
-              0 6px 6px rgba(0,0,0,0.23),
-              inset 1px 2px 6px rgba(255,255,255,0.7);
+  border-radius: @grid;
+  bottom: @player-bar-margin;
+  display: flex;
+  flex-direction: column;
+  height: @player-bar-height;
+  justify-content: flex-end;
   padding: @player-bar-padding;
   position: fixed;
-  right: 0;
   width: @player-bar-width;
   z-index: 300;
 
+  // box-shadow-3() with inset box-shadow (highlights top of player-bar).
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16),
+              0 3px 6px rgba(0,0,0,0.23),
+              inset 0 3px 6px rgba(255,255,255,0.6);
+
   .top-bar {
-    align-items: flex-end;
     display: flex;
-    justify-content: space-between;
   }
 
   .bottom-bar {
