@@ -7,7 +7,8 @@ import { GRID } from '../../shared/grid/grid';
 
 const VOLUME_BAR_HANDLE_WIDTH = GRID * 2;
 
-const VolumeControlsComponent = ({volume, maxVolume, onVolumeButtonClick, onVolumeChange}) => {
+const VolumeControlsComponent = ({volume, maxVolume, onVolumeButtonClick,
+    onVolumeChange, isDisabled}) => {
   const volumeButtonIcon = volume === 0 ? 'volume-off' : 'volume-up';
   return (
     <div className="volume-controls">
@@ -16,12 +17,14 @@ const VolumeControlsComponent = ({volume, maxVolume, onVolumeButtonClick, onVolu
                           icon={volumeButtonIcon}
                           isCircle={true}
                           isText={true}
+                          isDisabled={isDisabled}
                           color={grey_lighten_4}
                           colorHover={white}
                           onClick={onVolumeButtonClick}>
       </MatButtonComponent>
       <MatSliderComponent value={volume}
                           maxValue={maxVolume}
+                          isDisabled={isDisabled}
                           handleWidth={VOLUME_BAR_HANDLE_WIDTH}
                           onValueChange={onVolumeChange}>
       </MatSliderComponent>

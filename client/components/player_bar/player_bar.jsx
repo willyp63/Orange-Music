@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { isNotEmpty, isEmpty } from '../../util/empty';
-
+import { EMPTY_IMG_SRC } from '../../util/image';
 import { getImageUrl } from '../../api/last_fm/last_fm_api';
+import { fetchVideoForTrack, removeTrackFromQueue } from '../../actions/queue_actions';
 
 import TrackInfoComponent from './track_info/track_info';
 import TrackControlsComponent from './track_controls/track_controls';
@@ -18,36 +19,77 @@ const IMAGE_IDX = 2;
 class PlayerBarComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign(getTrackState(props), {
+
+    this.state = {
+      isPlaying: false,
+      isLoading: false,
+      currentTime: 0,
       volume: MAX_VOLUME
-    });
+    };
+
     this.audioApi = new AudioApi(AUDIO_PLAYER_ID, {
-      onPlay: () => {
-        this.setState({isPlaying: true});
-      },
-      onPause: () => {
-        this.setState({isPlaying: false});
-      },
-      onTimeUpdate: (currentTime) => {
-        this.setState({currentTime});
-      },
-      onEnded: (e) => {
-        this.loadNewTrack.bind(this)();
-      }
+      onPlay: () => { this.setState({isPlaying: true}); },
+      onPause: () => { this.setState({isPlaying: false}); },
+      onTimeUpdate: (currentTime) => { this.setState({currentTime}); },
+      onCanPlay: () => { this.setState({isLoading: false}); },
+      onEnded: () => { this.playNextTrack.bind(this)(); }
     });
   }
   componentWillReceiveProps(newProps) {
-    if (this.props.track !== newProps.track ||
-        this.props.video !== newProps.video) {
-      this.loadNewTrack.bind(this, newProps)();
+    if (isEmpty(newProps.track)) {
+      this.killTrack.bind(this)();
+    } else {
+      if (isEmpty(newProps.video)) {
+        // If we have a track but no video, then fetch the video.
+        this.killTrack.bind(this, () => {
+          this.setState({isLoading: true}, () => {
+            newProps.fetchVideoForTrack(newProps.track);
+          });
+        })();
+      } else {
+        this.loadTrack.bind(this)();
+      }
     }
+  }
+  componentWillUnmount() {
+    this.audioApi.dispose();
+  }
+  loadTrack() {
+    this.setState({
+      isPlaying: false,
+      isLoading: true,
+      currentTime: 0
+    }, () => {
+      this.audioApi.load();
+    });
+  }
+  killTrack(onStateSet) {
+    this.setState({
+      isPlaying: false,
+      isLoading: false,
+      currentTime: 0
+    }, () => {
+      this.audioApi.pause();
+      if (typeof onStateSet === 'function') { onStateSet(); }
+    });
+  }
+  playNextTrack() {
+    this.killTrack.bind(this, () => {
+      this.props.removeTrackFromQueue(this.props.track);
+    })();
   }
   onPlayPauseButtonClick() {
     this.state.isPlaying
       ? this.audioApi.pause()
       : this.audioApi.play();
   }
-  onCurrentTimeChange(currentTime) {
+  onPrevButtonClick() {
+    this.setCurrentTime.bind(this, 0)();
+  }
+  onNextButtonClick() {
+    this.playNextTrack.bind(this)();
+  }
+  setCurrentTime(currentTime) {
     this.setState({currentTime}, () => {
       this.audioApi.setCurrentTime(currentTime);
     });
@@ -62,14 +104,12 @@ class PlayerBarComponent extends React.Component {
       this.audioApi.setVolume(volume);
     });
   }
-  loadNewTrack(props) {
-    this.setState(getTrackState(props || this.props), () => {
-      this.audioApi.load();
-    });
-  }
   render() {
-    const { isPlaying, currentTime, duration, audioSrc, imageSrc,
-              artistName, trackName, volume } = this.state;
+    const {  duration, audioSrc, imageSrc, artistName, trackName, track } =
+      this.props;
+    const { isPlaying, currentTime, volume, isLoading } = this.state;
+
+    const isDisabled = isEmpty(track) || isLoading;
 
     return (
       <div className="player-bar">
@@ -79,14 +119,10 @@ class PlayerBarComponent extends React.Component {
                               imageSrc={imageSrc}>
           </TrackInfoComponent>
           <TrackControlsComponent isPlaying={isPlaying}
-                                  isDisabled={isEmpty(audioSrc)}
-                                  onPrev={() => {
-                                    console.log('Prev');
-                                  }}
+                                  isDisabled={isDisabled}
+                                  onPrev={this.onPrevButtonClick.bind(this)}
                                   onPlayPause={this.onPlayPauseButtonClick.bind(this)}
-                                  onNext={() => {
-                                    console.log('Next');
-                                  }}>
+                                  onNext={this.onNextButtonClick.bind(this)}>
           </TrackControlsComponent>
           <VolumeControlsComponent volume={volume}
                                    maxVolume={MAX_VOLUME}
@@ -97,8 +133,8 @@ class PlayerBarComponent extends React.Component {
         <div className="bottom-bar">
           <ProgressBarComponent currentTime={currentTime}
                                 duration={duration}
-                                isDisabled={isEmpty(audioSrc)}
-                                onCurrentTimeChange={this.onCurrentTimeChange.bind(this)}>
+                                isDisabled={isDisabled}
+                                onCurrentTimeChange={this.setCurrentTime.bind(this)}>
           </ProgressBarComponent>
         </div>
         <audio id={AUDIO_PLAYER_ID} autoPlay={AUTO_PLAY}>
@@ -109,32 +145,36 @@ class PlayerBarComponent extends React.Component {
   }
 }
 
-const getTrackState = (props) => {
-  const hasTrack = isNotEmpty(props.track);
-  const hasVideo = isNotEmpty(props.video);
-  return {
-    trackName: hasTrack ? props.track.name : '',
-    artistName: hasTrack ? props.track.artist : '',
-    imageSrc: hasTrack ? getImageUrl(props.track.image, IMAGE_IDX) : '',
-    audioSrc: hasVideo ? props.video.stream.url : null,
-    duration: hasVideo ? props.video.contentDetails.duration : 0,
-    isPlaying: false,
-    currentTime: 0,
-  };
-}
-
 const AUDIO_PLAYER_ID = 'audio-player';
 const MAX_VOLUME = 1;
 
 const mapStateToProps = (state) => {
   const track = state.queue.tracks[0];
   const video = isNotEmpty(track) ? track.video : null;
-  return {track, video};
-}
+
+  const hasTrack = isNotEmpty(track);
+  const hasVideo = isNotEmpty(video);
+  return {
+    trackName: hasTrack ? track.name : '',
+    artistName: hasTrack ? track.artist : '',
+    imageSrc: hasTrack ? getImageUrl(track.image, IMAGE_IDX) : EMPTY_IMG_SRC,
+    audioSrc: hasVideo ? video.stream.url : null,
+    duration: hasVideo ? video.contentDetails.duration : 0,
+    track,
+    video
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
-}
+  return {
+    fetchVideoForTrack: (track) => {
+      dispatch(fetchVideoForTrack(track));
+    },
+    removeTrackFromQueue: (track) => {
+      dispatch(removeTrackFromQueue(track));
+    }
+  };
+};
 
 export default connect(
   mapStateToProps,

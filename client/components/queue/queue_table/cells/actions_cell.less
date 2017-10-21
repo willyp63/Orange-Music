@@ -1,20 +1,29 @@
 @import '../../../shared/grid/grid.less';
 
-.actions-cell {
-  display: flex;
-  align-items: center;
+@action-btn-size: @grid * 6;
+@action-btn-margin: @grid;
+@num-action-btns: 1;
 
-  .action-btn-wrap {
-    margin-left: @grid;
+.queue {
+  .actions-cell {
+    display: flex;
+
+    .action-btn-wrap {
+      margin-left: @action-btn-margin;
+    }
+
+    .action-btn-wrap:first-of-type {
+      margin-left: 0;
+    }
+
+    .action-btn {
+      width: @action-btn-size;
+      height: @action-btn-size;
+      font-size: @grid * 2;
+    }
   }
 
-  .action-btn-wrap:first-of-type {
-    margin-left: 0;
-  }
-
-  .action-btn {
-    width: @grid * 6;
-    height: @grid * 6;
-    font-size: @grid * 2;
+  .mock-actions-cell {
+    width: @action-btn-size * @num-action-btns + @action-btn-margin * (@num-action-btns - 1);
   }
 }

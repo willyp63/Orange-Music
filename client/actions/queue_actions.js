@@ -47,19 +47,22 @@ export const playTrack = (track) => {
   return (dispatch) => {
     dispatch(clearQueueMsg());
     dispatch(addTrackToQueueMsg(track));
+  }
+}
 
-    // Get video for track.
-    const query = {
+/// Fetch video for track
+export const fetchVideoForTrack = (track) => {
+  return (dispatch) => {
+    return orangeMusicApi.getVideo({
       query: track.name,
       artistQuery: track.artist
-    };
-    return orangeMusicApi.getVideo(query).then((video) => {
+    }).then((video) => {
       dispatch(receiveVideoForTrackMsg({track, video}));
     }, (err) => {
       console.log(`Error searching tracks: ${err}`);
     });
-  }
-}
+  };
+};
 
 const receiveVideoForTrackMsg = ({track, video}) => {
   return {

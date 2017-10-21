@@ -1,14 +1,21 @@
 @import '../../../shared/grid/grid.less';
 
+@imgae-size: @grid * 6;
+@margin-right: @grid;
+
 .image-cell {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-right: @grid;
+  margin-right: @margin-right;
 
   img {
-    width: @grid * 6;
-    height: @grid * 6;
+    width: @imgae-size;
+    height: @imgae-size;
     border-radius: @grid / 2;
   }
+}
+
+.mock-image-cell {
+  width: @imgae-size + @margin-right;
 }

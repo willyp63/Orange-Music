@@ -3,26 +3,19 @@ import React from 'react';
 import { isNotEmpty } from '../../../util/empty';
 
 const TrackInfoComponent = ({trackName, artistName, imageSrc}) => {
-  return isNotEmpty(trackName) &&
-         isNotEmpty(artistName) &&
-         isNotEmpty(imageSrc)
-    ? (
-      <div className="track-info">
-        <img src={imageSrc} />
-        <div className="info-text">
-          <div className="track-name">
-            {trackName}
-          </div>
-          <div className="artist-name">
-            {artistName}
-          </div>
+  return (
+    <div className="track-info">
+      {isNotEmpty(imageSrc) ? (<img src={imageSrc} />) : ''}
+      <div className="info-text">
+        <div className="track-name">
+          {isNotEmpty(trackName) ? trackName : '--'}
+        </div>
+        <div className="artist-name">
+          {isNotEmpty(artistName) ? artistName : '--'}
         </div>
       </div>
-    ) : (
-      <div className="track-info">
-        <div className="place-holder-img"></div>
-      </div>
-    );
-}
+    </div>
+  );
+};
 
 export default TrackInfoComponent;

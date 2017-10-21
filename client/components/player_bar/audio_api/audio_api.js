@@ -1,12 +1,13 @@
 import { isEmpty, isNotEmpty } from '../../../util/empty';
 
 export default class AudioApi {
-  constructor(eleId, {onPlay, onPause, onTimeUpdate, onEnded}) {
+  constructor(eleId, {onPlay, onPause, onTimeUpdate, onEnded, onCanPlay}) {
     this.eleId = eleId;
     this.onPlay = onPlay;
     this.onPause = onPause;
     this.onTimeUpdate = onTimeUpdate;
     this.onEnded = onEnded;
+    this.onCanPlay = onCanPlay;
   }
   load() {
     const player = this._audioPlayer()
@@ -16,6 +17,7 @@ export default class AudioApi {
     player.addEventListener('play', this.onPlay);
     player.addEventListener('pause', this.onPause);
     player.addEventListener('ended', this.onEnded);
+    player.addEventListener('canplay', this.onCanPlay);
     player.addEventListener('timeupdate', () => {
       this.onTimeUpdate(this.currentTime());
     });
@@ -39,6 +41,8 @@ export default class AudioApi {
     player.removeEventListener('play', this.onPlay)
     player.removeEventListener('pause', this.onPause)
     player.removeEventListener('timeupdate', this.onTimeUpdate)
+    player.removeEventListener('ended', this.onEnded);
+    player.removeEventListener('canplay', this.onCanPlay);
   }
   _audioPlayer() {
     return $('#' + this.eleId)[0]

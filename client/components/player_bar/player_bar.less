@@ -9,7 +9,7 @@
 @top-bottom-bar-width: @player-bar-width - @player-bar-padding * 2;
 
 @control-button-size: @grid * 7;
-@control-button-padding: @grid;
+@control-button-padding: 0;
 @num-control-buttons: 3; // Play/pause, prev, & next
 
 @controls-width: @control-button-size * @num-control-buttons +
@@ -34,7 +34,7 @@
   // box-shadow-3() with inset box-shadow (highlights top of player-bar).
   box-shadow: 0 3px 6px rgba(0,0,0,0.16),
               0 3px 6px rgba(0,0,0,0.23),
-              inset 0 3px 6px rgba(255,255,255,0.6);
+              inset 0 2px 4px rgba(255,255,255,0.5);
 
   .top-bar {
     display: flex;
