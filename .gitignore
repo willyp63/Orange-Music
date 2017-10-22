@@ -1,6 +1,3 @@
 node_modules
-client/secrets
-server/secrets
 .DS_Store
 package-lock.json
-client/static/bundle.*
