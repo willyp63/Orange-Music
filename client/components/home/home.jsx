@@ -42,7 +42,7 @@ class HomeComponent extends React.Component {
           <div className="title-container">
             <div className="title">
               <img src='/static/images/logo.png' />
-              <span>Orange Musicz</span>
+              <span>Orange Music</span>
             </div>
           </div>
           <div className="top-tracks-label">
