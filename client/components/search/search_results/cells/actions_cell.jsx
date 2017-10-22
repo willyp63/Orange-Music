@@ -9,7 +9,6 @@ const ActionsCellComponent = (_, actions, track) => {
       <MatButtonComponent buttonClassName={'action-btn play-btn'}
                  wrapClassName={'action-btn-wrap'}
                  icon={'play'}
-                 tooltip={'Play'}
                  isCircle={true}
                  bgColor={blue_darken_1}
                  bgColorHover={blue}
@@ -18,7 +17,7 @@ const ActionsCellComponent = (_, actions, track) => {
       <MatButtonComponent buttonClassName={'action-btn add-btn'}
                  wrapClassName={'action-btn-wrap'}
                  icon={'plus'}
-                 tooltip={'Add to Queue'}
+                 tooltip={'add to queue'}
                  isCircle={true}
                  bgColor={green_darken_1}
                  bgColorHover={green}

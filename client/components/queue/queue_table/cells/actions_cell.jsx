@@ -9,7 +9,7 @@ const ActionsCellComponent = (_, actions, track) => {
       <MatButtonComponent buttonClassName={'action-btn remove-btn'}
                           wrapClassName={'action-btn-wrap'}
                           icon={'minus'}
-                          tooltip={'Remove'}
+                          tooltip={'remove from queue'}
                           isCircle={true}
                           bgColor={red_darken_1}
                           bgColorHover={red}

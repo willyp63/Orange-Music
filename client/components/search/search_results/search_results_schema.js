@@ -11,7 +11,7 @@ const SCHEMA = Object.freeze({
     component: ImageCellComponent
   },
   name: {
-    label: 'Track',
+    label: 'Title',
     width: 50,
     component: TextCellComponent
   },

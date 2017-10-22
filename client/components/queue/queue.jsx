@@ -37,13 +37,13 @@ class QueueComponent extends React.Component {
       <div className="queue">
         <div className="nav-bar">
           <div className="now-playing-label">
-            Now playing:
+            Now Playing
           </div>
           <div className="now-playing-table-container">
             <NowPlayingTableComponent />
           </div>
           <div className="queue-label">
-            Next up:
+            Up Next
           </div>
           <div className="queue-table-header-container">
             <QueueTableHeaderComponent />

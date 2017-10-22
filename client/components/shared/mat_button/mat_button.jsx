@@ -59,11 +59,11 @@ const MatButtonComponent = ({icon, isCircle, isText, isDisabled, onClick,
       <button className={buttonClassName}
               data-tip={tooltip}
               onClick={onClick}
+              type={isSubmit ? 'submit' : 'button'}
               style={{
                 'color': color,
                 'backgroundColor': bgColor
               }}
-              type={isSubmit ? 'submit' : 'button'}
               onMouseEnter={(e) => {
                 if (isDisabled) { return; }
                 e.target.style.color = colorHover;

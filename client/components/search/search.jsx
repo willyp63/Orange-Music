@@ -20,6 +20,9 @@ class SearchComponent extends React.Component {
     this.scrollHandler = this.updateNavBarStyle.bind(this);
     $(document).scroll(this.scrollHandler);
     this.scrollHandler();
+
+    // Focus input when you first visit route.
+    $('.search .search-form-container input').focus();
   }
   componentWillUnmount() {
     $(document).off('scroll', this.scrollHandler);
