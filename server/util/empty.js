@@ -22,4 +22,18 @@ const isEmpty = (val) => {
 module.exports.isEmpty = isEmpty;
 
 /// Self explanatory.
-module.exports.isNotEmpty = (val) => !isEmpty(val)
+const isNotEmpty = (val) => !isEmpty(val);
+
+module.exports.isNotEmpty = isNotEmpty;
+
+///
+const coalesce = (...values) => {
+  for (let i = 0; i < values.length; i++) {
+    if (isNotEmpty(values[i])) {
+      return values[i];
+    }
+  }
+  return null;
+};
+
+module.exports.coalesce = coalesce;

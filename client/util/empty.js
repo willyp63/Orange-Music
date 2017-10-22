@@ -5,7 +5,7 @@
 /// aren't sure what the possible empty values are for a field.
 ///
 /// Take a look at implementation for details.
-export const isEmpty = (val) => {
+const isEmpty = (val) => {
   if (val === undefined || val === null) return true
   if (val instanceof Array) {
     return val.length === 0
@@ -19,5 +19,21 @@ export const isEmpty = (val) => {
   }
 }
 
+module.exports.isEmpty = isEmpty;
+
 /// Self explanatory.
-export const isNotEmpty = (val) => !isEmpty(val)
+const isNotEmpty = (val) => !isEmpty(val);
+
+module.exports.isNotEmpty = isNotEmpty;
+
+///
+const coalesce = (...values) => {
+  for (let i = 0; i < values.length; i++) {
+    if (isNotEmpty(values[i])) {
+      return values[i];
+    }
+  }
+  return null;
+};
+
+module.exports.coalesce = coalesce;

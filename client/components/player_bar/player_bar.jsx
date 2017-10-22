@@ -156,7 +156,7 @@ const mapStateToProps = (state) => {
   const hasVideo = isNotEmpty(video);
   return {
     trackName: hasTrack ? track.name : '',
-    artistName: hasTrack ? track.artist : '',
+    artistName: hasTrack ? track.artist.name : '',
     imageSrc: hasTrack ? getImageUrl(track.image, IMAGE_IDX) : EMPTY_IMG_SRC,
     audioSrc: hasVideo ? video.stream.url : null,
     duration: hasVideo ? video.contentDetails.duration : 0,

@@ -37,6 +37,9 @@ module.exports.getInfo = (ytid) => {
       if (err) {
         return reject(`Error while trying to fetch YT video info: ${err}`);
       }
+      if (isEmpty(response.items)) {
+        return reject(`Could not find any videos for your query`);
+      }
       response.items[0].contentDetails.duration = formatTimeSeconds(response.items[0].contentDetails.duration);
       return resolve(response.items[0]);
     });

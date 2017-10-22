@@ -4,7 +4,7 @@ import { makeFakeId } from '../../util/id';
 import { LAST_FM_API_KEY } from '../../secrets/api_keys';
 import { EMPTY_IMG_SRC } from '../../util/image';
 
-const DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_PAGE_SIZE = 50;
 module.exports.DEFAULT_PAGE_SIZE = DEFAULT_PAGE_SIZE;
 
 /// Base url and url params for making all requests.
@@ -92,7 +92,7 @@ const getQueryParams = ({queryType, query, artistName, mbid, page, pageSize}) =>
         queryParams.method = 'track.search';
         queryParams.page = isNotEmpty(page)
           ? page
-          : null;
+          : 1;
         queryParams.limit = isNotEmpty(pageSize)
           ? pageSize
           : DEFAULT_PAGE_SIZE;
@@ -116,7 +116,7 @@ const getQueryParams = ({queryType, query, artistName, mbid, page, pageSize}) =>
         queryParams.method = 'chart.gettoptracks';
         queryParams.page = isNotEmpty(page)
           ? page
-          : null;
+          : 1;
         queryParams.limit = isNotEmpty(pageSize)
           ? pageSize
           : DEFAULT_PAGE_SIZE;
