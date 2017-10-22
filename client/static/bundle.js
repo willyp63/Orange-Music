@@ -3676,7 +3676,7 @@ var fetchVideoForTrack = exports.fetchVideoForTrack = function fetchVideoForTrac
   return function (dispatch) {
     return _orange_music_api2.default.getVideo({
       query: track.name,
-      artistQuery: track.artist
+      artistQuery: track.artist.name
     }).then(function (video) {
       dispatch(receiveVideoForTrackMsg({ track: track, video: video }));
     }, function (err) {

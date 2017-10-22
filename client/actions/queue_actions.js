@@ -55,7 +55,7 @@ export const fetchVideoForTrack = (track) => {
   return (dispatch) => {
     return orangeMusicApi.getVideo({
       query: track.name,
-      artistQuery: track.artist
+      artistQuery: track.artist.name
     }).then((video) => {
       dispatch(receiveVideoForTrackMsg({track, video}));
     }, (err) => {
