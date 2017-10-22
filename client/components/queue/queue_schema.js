@@ -15,7 +15,7 @@ const SCHEMA = Object.freeze({
     width: 50,
     component: TextCellComponent
   },
-  artist: {
+  'artist.name': {
     label: 'Artist',
     width: 50,
     component: TextCellComponent

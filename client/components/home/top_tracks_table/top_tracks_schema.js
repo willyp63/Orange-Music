@@ -1,8 +1,6 @@
 import TextCellComponent from '../../shared/flex_table/cells/text_cell';
 import ImageCellComponent from '../../shared/flex_table/cells/image_cell';
 import MockImageCellComponent from '../../shared/flex_table/cells/mock_image_cell';
-import ActionsCellComponent from './cells/actions_cell';
-import MockActionsCellComponent from './cells/mock_actions_cell';
 
 const SCHEMA = Object.freeze({
   image: {
@@ -19,11 +17,6 @@ const SCHEMA = Object.freeze({
     label: 'Artist',
     width: 50,
     component: TextCellComponent
-  },
-  '@actions': {
-    label: MockActionsCellComponent,
-    width: 0,
-    component: ActionsCellComponent
   }
 });
 

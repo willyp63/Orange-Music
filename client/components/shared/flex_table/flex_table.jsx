@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { isNotEmpty } from '../../../util/empty';
+import { getNestedFieldValue } from '../../../util/nested_field';
 
 const FlexTableComponent = ({tableClassName, rowObjs, keyPath, schema, actions,
     componentPath}) => {
@@ -30,7 +31,7 @@ const getColumns = ({rowObj, schema, actions, componentPath}) => {
     componentPath = isNotEmpty(componentPath) ? componentPath : 'component';
     const component = schema[field][componentPath];
     const $renderedComponent = typeof component === 'function'
-      ? component(rowObj[field], actions, rowObj)
+      ? component(getNestedFieldValue(rowObj, field), actions, rowObj)
       : component;
     return getColumn({
       $content: $renderedComponent,

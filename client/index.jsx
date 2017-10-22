@@ -9,11 +9,13 @@ import logger from 'redux-logger';
 
 import AppComponent from './components/app';
 
+import homeReducer from './reducers/home_reducer';
 import searchReducer from './reducers/search_reducer';
 import queueReducer from './reducers/queue_reducer';
 
 const appStore = createStore(
   combineReducers({
+    home: homeReducer,
     search: searchReducer,
     queue: queueReducer
   }),

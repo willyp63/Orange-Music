@@ -4,7 +4,8 @@ import { makeFakeId } from '../../util/id';
 import { LAST_FM_API_KEY } from '../../secrets/api_keys';
 import { EMPTY_IMG_SRC } from '../../util/image';
 
-module.exports.DEFAULT_PAGE_SIZE = 20;
+const DEFAULT_PAGE_SIZE = 20;
+module.exports.DEFAULT_PAGE_SIZE = DEFAULT_PAGE_SIZE;
 
 /// Base url and url params for making all requests.
 const BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
@@ -18,7 +19,8 @@ const BASE_URL_PARAMS = {
 /// See (http://www.last.fm/api).
 const QUERY_TYPE = Object.freeze({
   SEARCH: 0,
-  GET_INFO: 1
+  GET_INFO: 1,
+  TOP_TRACKS: 2
 });
 
 /// Preforms a search query.
@@ -28,6 +30,15 @@ module.exports.search = ({query, page, pageSize}) => {
   return genericQuery({
     queryType: QUERY_TYPE.SEARCH,
     query: query,
+    page: page,
+    pageSize: pageSize
+  });
+}
+
+/// Fetches top tracks from last fm.
+module.exports.topTracks = ({page, pageSize}) => {
+  return genericQuery({
+    queryType: QUERY_TYPE.TOP_TRACKS,
     page: page,
     pageSize: pageSize
   });
@@ -101,6 +112,15 @@ const getQueryParams = ({queryType, query, artistName, mbid, page, pageSize}) =>
         }
         queryParams.method = 'track.getInfo';
         break;
+      case QUERY_TYPE.TOP_TRACKS:
+        queryParams.method = 'chart.gettoptracks';
+        queryParams.page = isNotEmpty(page)
+          ? page
+          : null;
+        queryParams.limit = isNotEmpty(pageSize)
+          ? pageSize
+          : DEFAULT_PAGE_SIZE;
+        break;
     }
     resolve(queryParams);
   });
@@ -112,13 +132,19 @@ const makeQuery = (queryType, queryParams) => {
       switch (queryType) {
         case QUERY_TYPE.SEARCH:
           return resolve({
-            tracks: formatSearchResults(response.results.trackmatches.track),
+            tracks: formatTracksFromApi(response.results.trackmatches.track),
             total: parseInt(response.results['opensearch:totalResults']),
             page: response.results['opensearch:startIndex'] /
                 response.results['opensearch:itemsPerPage']
           });
         case QUERY_TYPE.GET_INFO:
           return resolve(response.track);
+        case QUERY_TYPE.TOP_TRACKS:
+          return resolve({
+            tracks: formatTracksFromApi(response.tracks.track),
+            total: parseInt(response.tracks['@attr'].total),
+            page: parseInt(response.tracks['@attr'].page)
+          });
       }
     }).fail((err) => {
       reject(`Error making last fm api request: ${err}`);
@@ -126,14 +152,21 @@ const makeQuery = (queryType, queryParams) => {
   });
 }
 
-const formatSearchResults = (results) => {
+const formatTracksFromApi = (tracks) => {
   const takenIds = {};
-  const mappedResults = [];
-  results.forEach((result) => {
-    result.mbid = result.mbid || makeFakeId();
-    if (takenIds[result.mbid]) { return; }
-    takenIds[result.mbid] = true;
-    mappedResults.push(result);
+  const formattedTracks = [];
+  tracks.forEach((track) => {
+    // format id
+    track.mbid = track.mbid || makeFakeId();
+    if (takenIds[track.mbid]) { return; }
+    takenIds[track.mbid] = true;
+
+    // format artist
+    if (typeof track.artist === 'string') {
+      track.artist = {name: track.artist};
+    }
+
+    formattedTracks.push(track);
   });
-  return mappedResults;
+  return formattedTracks;
 }

@@ -1,0 +1,31 @@
+.home {
+  .title-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: @grid * 6;
+    margin-bottom: @grid * 2;
+
+    .title {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: @grid * 10;
+        height: @grid * 10;
+        margin-right: @grid * 2;
+      }
+
+      span {
+        font-size: @grid * 6;
+        font-weight: bold;
+        color: @orange;
+      }
+    }
+  }
+
+  .top-tracks-label {
+    font-size: @grid * 3;
+    padding: (@grid * 2) (@grid * 8);
+    border-bottom: 1px solid @grey-lighten-2;
+  }
+}
