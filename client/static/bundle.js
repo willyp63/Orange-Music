@@ -32632,7 +32632,7 @@ var HomeComponent = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 null,
-                'Orange Music'
+                'Orange Musicz'
               )
             )
           ),
