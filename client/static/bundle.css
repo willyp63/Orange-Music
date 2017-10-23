@@ -15,13 +15,13 @@
   justify-content: space-around;
 }
 .om-nav-panel {
-  display: flex;
-  flex-direction: column;
-  background-color: #E0E0E0;
   position: sticky;
   top: 0;
   z-index: 200;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #E0E0E0;
 }
 .om-nav-panel .nav-btns {
   padding: 32px 16px;
@@ -31,20 +31,6 @@
 }
 .om-nav-panel .nav-btns .mat-btn-wrap:last-of-type {
   margin-bottom: 0;
-}
-.om-nav-panel .nav-btns .divider {
-  height: 1px;
-  width: 100%;
-  background-color: #616161;
-  margin-bottom: 8px;
-}
-.om-nav-panel .mat-btn {
-  padding: 8px;
-  font-size: 24px;
-  font-weight: bold;
-}
-.om-nav-panel .mat-btn i {
-  font-size: 20px;
 }
 .player-bar {
   background-color: #FF9800;

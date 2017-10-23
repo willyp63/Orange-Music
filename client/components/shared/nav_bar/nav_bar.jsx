@@ -2,6 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class NavBarComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isScrolled: false,
+    };
+  }
   componentDidMount() {
     this.onScroll = () => {
       this.setState({isScrolled: isWindowScrolled()});

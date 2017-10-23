@@ -28,7 +28,7 @@ class TableLayoutComponent extends React.Component {
 
     const selectedTable = tables[selectedTableType];
 
-    const $table = selectedDisplayType === DISPLAY_TYPES.GALLERY
+    const $table = selectedDisplayType === TABLE_DISPLAY_TYPES.GALLERY
       ? (
         <GalleryComponent entities={selectedTable.entities}
                           component={selectedTable.galleryComponent} />
@@ -37,7 +37,7 @@ class TableLayoutComponent extends React.Component {
                        schema={selectedTable.listSchema} />
       );
 
-    let $listHeader = selectedDisplayType === DISPLAY_TYPES.LIST
+    let $listHeader = selectedDisplayType === TABLE_DISPLAY_TYPES.LIST
       ? (<ListHeaderComponent schema={selectedTable.listSchema} />)
       : '';
 
@@ -56,10 +56,10 @@ class TableLayoutComponent extends React.Component {
                            onTabSelect={(tableType) => {
                              this.setState({selectedTableType: tableType});
                            }} />
-            <TableTypePickerComponent selectedDisplayType={selectedDisplayType}
-                                      onDisplayTypeSelect={(displayType) => {
-                                        this.setState({selectedDisplayType: displayType});
-                                      }} />
+            <DisplayTypePickerComponent selectedDisplayType={selectedDisplayType}
+                                        onDisplayTypeSelect={(displayType) => {
+                                          this.setState({selectedDisplayType: displayType});
+                                        }} />
           </div>
           <div className="list-header-container">
             {$listHeader}

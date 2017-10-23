@@ -1449,6 +1449,7 @@ module.exports = invariant;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(297);
 
@@ -1476,14 +1477,12 @@ var _mat_tabs2 = _interopRequireDefault(_mat_tabs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
-  MatButton: _mat_button2.default,
-  MatChip: _mat_chip2.default,
-  MatRipple: _mat_ripple2.default,
-  MatSlider: _mat_slider2.default,
-  MatSpinner: _mat_spinner2.default,
-  MatTabs: _mat_tabs2.default
-};
+var MatButton = exports.MatButton = _mat_button2.default;
+var MatChip = exports.MatChip = _mat_chip2.default;
+var MatRipple = exports.MatRipple = _mat_ripple2.default;
+var MatSlider = exports.MatSlider = _mat_slider2.default;
+var MatSpinner = exports.MatSpinner = _mat_spinner2.default;
+var MatTabs = exports.MatTabs = _mat_tabs2.default;
 
 /***/ }),
 /* 16 */
@@ -8377,11 +8376,11 @@ var TableLayoutComponent = function (_React$Component) {
 
       var selectedTable = tables[selectedTableType];
 
-      var $table = selectedDisplayType === DISPLAY_TYPES.GALLERY ? _react2.default.createElement(_gallery2.default, { entities: selectedTable.entities,
+      var $table = selectedDisplayType === _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY ? _react2.default.createElement(_gallery2.default, { entities: selectedTable.entities,
         component: selectedTable.galleryComponent }) : _react2.default.createElement(_list2.default, { entities: selectedTable.entities,
         schema: selectedTable.listSchema });
 
-      var $listHeader = selectedDisplayType === DISPLAY_TYPES.LIST ? _react2.default.createElement(_list_header2.default, { schema: selectedTable.listSchema }) : '';
+      var $listHeader = selectedDisplayType === _display_type_picker.TABLE_DISPLAY_TYPES.LIST ? _react2.default.createElement(_list_header2.default, { schema: selectedTable.listSchema }) : '';
 
       var tableControlsContainerClassName = 'table-controls-container';
       if ((0, _empty.isNotEmpty)($listHeader)) {
@@ -8403,7 +8402,7 @@ var TableLayoutComponent = function (_React$Component) {
               onTabSelect: function onTabSelect(tableType) {
                 _this2.setState({ selectedTableType: tableType });
               } }),
-            _react2.default.createElement(TableTypePickerComponent, { selectedDisplayType: selectedDisplayType,
+            _react2.default.createElement(_display_type_picker2.default, { selectedDisplayType: selectedDisplayType,
               onDisplayTypeSelect: function onDisplayTypeSelect(displayType) {
                 _this2.setState({ selectedDisplayType: displayType });
               } })
@@ -30370,53 +30369,6 @@ exports.default = AppComponent;
 
 
 Object.defineProperty(exports, "__esModule", {
-                    value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _nav_button = __webpack_require__(296);
-
-var _nav_button2 = _interopRequireDefault(_nav_button);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NavPanelComponent = function NavPanelComponent(_ref) {
-                    var history = _ref.history;
-
-                    return _react2.default.createElement(
-                                        'div',
-                                        { className: 'om-nav-panel' },
-                                        _react2.default.createElement(
-                                                            'div',
-                                                            { className: 'nav-btns' },
-                                                            _react2.default.createElement(_nav_button2.default, { text: 'Home',
-                                                                                route: '/' }),
-                                                            _react2.default.createElement('div', { className: 'divider' }),
-                                                            _react2.default.createElement(_nav_button2.default, { text: 'Search',
-                                                                                icon: 'search',
-                                                                                route: '/search' }),
-                                                            _react2.default.createElement('div', { className: 'divider' }),
-                                                            _react2.default.createElement(_nav_button2.default, { text: 'Queue',
-                                                                                route: '/queue' }),
-                                                            _react2.default.createElement(_nav_button2.default, { text: 'Playlists',
-                                                                                route: '/playlists' })
-                                        )
-                    );
-};
-
-exports.default = NavPanelComponent;
-
-/***/ }),
-/* 296 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
@@ -30426,29 +30378,40 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(135);
 
-var _empty = __webpack_require__(7);
-
 var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NavButtonComponent = function NavButtonComponent(_ref) {
-  var text = _ref.text,
-      icon = _ref.icon,
-      route = _ref.route,
-      history = _ref.history;
+var NavPanelComponent = function NavPanelComponent(_ref) {
+  var history = _ref.history;
 
-  route = (0, _empty.isNotEmpty)(route) ? route : '/';
-  return _react2.default.createElement(_index.MatButton, { text: text,
-    icon: icon,
-    onClick: function onClick() {
-      history.push(route);
-    } });
+  return _react2.default.createElement(
+    'div',
+    { className: 'om-nav-panel' },
+    _react2.default.createElement(
+      'div',
+      { className: 'nav-btns' },
+      _react2.default.createElement(_index.MatButton, { text: 'HOME',
+        onClick: function onClick() {
+          history.push('/');
+        } }),
+      _react2.default.createElement(_index.MatButton, { text: 'SEARCH',
+        icon: 'search',
+        onClick: function onClick() {
+          history.push('/search');
+        } }),
+      _react2.default.createElement(_index.MatButton, { text: 'QUEUE',
+        onClick: function onClick() {
+          history.push('/queue');
+        } })
+    )
+  );
 };
 
-exports.default = (0, _reactRouter.withRouter)(NavButtonComponent);
+exports.default = (0, _reactRouter.withRouter)(NavPanelComponent);
 
 /***/ }),
+/* 296 */,
 /* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30485,9 +30448,6 @@ var MatButton = function MatButton(_ref) {
   buttonClassName = buttonClassName + ' mat-btn';
   if (isDisabled) {
     buttonClassName += ' disabled';
-  }
-  if (isText) {
-    buttonClassName += ' txt';
   }
   if (isCircle) {
     buttonClassName += ' cir';
@@ -31377,6 +31337,11 @@ var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// <MatSliderComponent value={volume}
+//                     maxValue={maxVolume}
+//                     isDisabled={isDisabled}
+//                     onValueChange={onVolumeChange} />
+
 var VolumeControlsComponent = function VolumeControlsComponent(_ref) {
   var volume = _ref.volume,
       maxVolume = _ref.maxVolume,
@@ -31391,10 +31356,7 @@ var VolumeControlsComponent = function VolumeControlsComponent(_ref) {
     _react2.default.createElement(_index.MatButton, { icon: volumeButtonIcon,
       isDisabled: isDisabled,
       onClick: onVolumeButtonClick }),
-    _react2.default.createElement(MatSliderComponent, { value: volume,
-      maxValue: maxVolume,
-      isDisabled: isDisabled,
-      onValueChange: onVolumeChange })
+    _react2.default.createElement('div', { className: 'SLIDER GOES HERE' })
   );
 };
 
@@ -31417,9 +31379,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _time = __webpack_require__(310);
 
-var _index = __webpack_require__(15);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// <MatSlider value={currentTime}
+//            maxValue={duration}
+//            isDisabled={isDisabled}
+//            onValueChange={onCurrentTimeChange} />
 
 var ProgressBarComponent = function ProgressBarComponent(_ref) {
   var currentTime = _ref.currentTime,
@@ -31436,10 +31401,7 @@ var ProgressBarComponent = function ProgressBarComponent(_ref) {
       { className: 'time-label' },
       (0, _time.formatTimeMinutesSeconds)(currentTime)
     ),
-    _react2.default.createElement(_index.MatSlider, { value: currentTime,
-      maxValue: duration,
-      isDisabled: isDisabled,
-      onValueChange: onCurrentTimeChange }),
+    _react2.default.createElement('div', { className: 'SLIDER GOES HERE' }),
     _react2.default.createElement(
       'div',
       { className: 'time-label' },
@@ -31874,10 +31836,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var NavBarComponent = function (_React$Component) {
   _inherits(NavBarComponent, _React$Component);
 
-  function NavBarComponent() {
+  function NavBarComponent(props) {
     _classCallCheck(this, NavBarComponent);
 
-    return _possibleConstructorReturn(this, (NavBarComponent.__proto__ || Object.getPrototypeOf(NavBarComponent)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (NavBarComponent.__proto__ || Object.getPrototypeOf(NavBarComponent)).call(this, props));
+
+    _this.state = {
+      isScrolled: false
+    };
+    return _this;
   }
 
   _createClass(NavBarComponent, [{
@@ -31936,6 +31903,8 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _empty = __webpack_require__(7);
+
 var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31949,7 +31918,7 @@ var DisplayTypePickerComponent = function DisplayTypePickerComponent(_ref) {
   var selectedDisplayType = _ref.selectedDisplayType,
       onDisplayTypeSelect = _ref.onDisplayTypeSelect;
 
-  if (isEmpty(selectedDisplayType) || typeof onDisplayTypeSelect !== 'function') {
+  if ((0, _empty.isEmpty)(selectedDisplayType) || typeof onDisplayTypeSelect !== 'function') {
     throw 'DisplayTypePickerComponent: all properties are required!';
   }
 

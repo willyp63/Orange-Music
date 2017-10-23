@@ -7,7 +7,6 @@ const MatButton = ({text, icon, isCircle, isRaised, isSubmit,
   // Format button class name.
   buttonClassName = buttonClassName + ' mat-btn';
   if (isDisabled) { buttonClassName += ' disabled'; }
-  if (isText) { buttonClassName += ' txt'; }
   if (isCircle) { buttonClassName += ' cir'; }
   if (isRaised) { buttonClassName += ' raised'; }
   buttonClassName = buttonClassName.trim();
