@@ -1,7 +1,3 @@
-@import '../../material/grid/grid.less';
-@import '../../material/mat_color/mat_color.less';
-@import '../../material/mat_shadow/mat_shadow.less';
-
 @search-bar-height: @grid * 6;
 
 .search-form {
@@ -14,12 +10,10 @@
     height: @search-bar-height - 2 /* account for extra height from border */;
     padding-left: @grid;
     font-size: @grid * 3;
-    border: 1px solid @grey-lighten-2;
+    border: 1px solid @grey-300;
     border-right: 0;
     border-top-left-radius: @grid;
     border-bottom-left-radius: @grid;
-
-    .shadow-1();
 
     &:focus {
       border: 1px solid @blue;
@@ -27,11 +21,11 @@
     }
   }
 
-  .search-btn {
+  .mat-btn {
     width: @search-bar-height;
     height: @search-bar-height;
     font-size: @grid * 3;
-    background-color: @blue-darken-1;
+    background-color: @blue;
     color: @white;
 
     // Override default button border radius.

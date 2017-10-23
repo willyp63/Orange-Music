@@ -4,7 +4,7 @@ import NavButtonComponent from './nav_button/nav_button';
 
 const NavPanelComponent = ({history}) => {
   return (
-    <div className="nav-panel">
+    <div className="om-nav-panel">
       <div className="nav-btns">
         <NavButtonComponent text={'Home'}
                             route={'/'}>

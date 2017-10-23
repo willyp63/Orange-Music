@@ -1,0 +1,38 @@
+.mat-btn-wrap {
+  display: inline-block;
+  border-radius: @grid / 4; // To contain ripple.
+
+  .mat-btn {
+    transition: color @time @timing-fcn, @z-depth-transition;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 (@grid * 2);
+
+    &.raised {
+      transition: background-color @time @timing-fcn, @z-depth-transition;
+
+      &.cir {
+        border-radius: 50%;
+      }
+    }
+
+    &:not(.disabled) {
+      cursor: pointer;
+
+      &:hover {
+        .z-txt-depth(2);
+
+        &.raised {
+          text-shadow: none;
+
+          .z-depth(2);
+        }
+      }
+    }
+
+    i {
+      margin-left: @grid; // space between text and icon
+    }
+  }
+}

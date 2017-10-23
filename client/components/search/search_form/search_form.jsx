@@ -5,8 +5,7 @@ import { isNotEmpty, isEmpty } from '../../../util/empty';
 import { getUrlWithUpdatedParams, getUrlParams } from '../../../util/url';
 import lastFmApi from '../../../api/last_fm/last_fm_api';
 import { searchTracks } from '../../../actions/search_actions';
-import MatButtonComponent from '../../material/mat_button/mat_button';
-import { blue_darken_1, blue } from '../../material/mat_color/mat_color';
+import { MatButton } from '../../material/index';
 
 class SearchFormComponent extends React.Component {
   constructor(props) {
@@ -50,10 +49,9 @@ class SearchFormComponent extends React.Component {
                  this.onQueryChange.bind(this, e.target.value)();
                }}>
         </input>
-        <MatButtonComponent buttonClassName={'search-btn'}
-                            icon={'search'}
-                            isSubmit={true}>
-        </MatButtonComponent>
+        <MatButton icon={'search'}
+                   isRaised={true}
+                   isSubmit={true} />
       </form>
     );
   }

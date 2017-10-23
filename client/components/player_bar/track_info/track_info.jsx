@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { isNotEmpty } from '../../../util/empty';
 
 const TrackInfoComponent = ({trackName, artistName, imageSrc}) => {

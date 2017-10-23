@@ -1,12 +1,13 @@
 import React from 'react';
 
-import MatTabsComponent from '../../material/mat_tabs/mat_tabs';
+import { MatTabs } from '../../material/index';
 
-const TabsComponent = ({tabs, onTabChange}) => {
+const TabsComponent = ({tabs, selectedTab, onTabSelect}) => {
   return (
-    <MatTabsComponent tabsClassName='om-tabs'
-                      tabs={tabs}
-                      onTabChange={onTabChange} />
+    <MatTabs className='om-tabs'
+             tabs={tabs}
+             selectedTab={selectedTab}
+             onTabSelect={onTabSelect} />
   );
 }
 

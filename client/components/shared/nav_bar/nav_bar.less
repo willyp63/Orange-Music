@@ -1,0 +1,18 @@
+@om-nav-bar-z-idx: 100;
+
+.om-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: @om-nav-bar-z-idx;
+  background-color: @white;
+  border-bottom: 1px solid @grey-300;
+
+  .z-depth(0);
+  .z-depth-transition();
+
+  &.scrolled {
+    border-bottom: 0;
+
+    .z-depth(2);
+  }
+}

@@ -1,16 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { isNotEmpty, isEmpty } from '../../util/empty';
 import { EMPTY_IMG_SRC } from '../../util/image';
 import { getImageUrl } from '../../api/last_fm/last_fm_api';
 import { fetchVideoForTrack, removeTrackFromQueue } from '../../actions/queue_actions';
-
 import TrackInfoComponent from './track_info/track_info';
 import TrackControlsComponent from './track_controls/track_controls';
 import VolumeControlsComponent from './volume_controls/volume_controls';
 import ProgressBarComponent from './progress_bar/progress_bar';
-
 import AudioApi from './audio_api/audio_api';
 
 const AUTO_PLAY = true;

@@ -1,6 +1,3 @@
-@import '../material/grid/grid.less';
-@import '../material/mat_color/mat_color.less';
-
 @player-bar-width: @grid * 90;
 @player-bar-height: 90px; // MEASURED
 @player-bar-padding: @grid * 2;
@@ -19,7 +16,7 @@
 @image-size: @grid * 7;
 
 .player-bar {
-  background-color: @orange-lighten-1;
+  background-color: @orange;
   border-radius: @grid;
   bottom: @player-bar-margin;
   display: flex;
@@ -30,11 +27,6 @@
   position: fixed;
   width: @player-bar-width;
   z-index: 300;
-
-  .shadow-2();
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16),
-              0 3px 6px rgba(0,0,0,0.23),
-              inset 0 2px 4px rgba(255,255,255,0.30);
 
   .top-bar {
     display: flex;

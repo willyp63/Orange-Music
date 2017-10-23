@@ -1,0 +1,23 @@
+.mat-tabs {
+  .labels-container {
+    display: flex;
+    align-items: center;
+
+    .label {
+      padding: 0 (@grid * 2);
+      cursor: pointer;
+    }
+  }
+
+  .underline-container {
+    position: relative;
+    height: @grid / 4;
+
+    .underline {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      transition: left @time @timing-fcn, width @time @timing-fcn;
+    }
+  }
+}

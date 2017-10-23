@@ -1,14 +1,14 @@
 import React from 'react';
-import MatButtonComponent from '../../../material/mat_button/mat_button';
+import { MatButton } from '../../../material/index';
 
 const TrackActionsCellComponent = (_, track, actions) => {
   return (
     <div className="queue-track-actions-cell">
-      <MatButtonComponent buttonClassName={'action-btn remove-from-queue-btn'}
-                          wrapClassName={'action-btn-wrap'}
-                          icon={'minus'}
-                          isCircle={true}
-                          onClick={() => actions.removeTrackFromQueue(track)} />
+      <MatButton buttonClassName={'remove-from-queue-btn'}
+                 icon={'minus'}
+                 isRaised={true}
+                 isCircle={true}
+                 onClick={() => actions.removeTrackFromQueue(track)} />
     </div>
   );
 };

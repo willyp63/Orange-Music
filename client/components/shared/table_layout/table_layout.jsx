@@ -1,8 +1,8 @@
 import React from 'react';
 import { isNotEmpty } from '../../../util/empty';
 import TabsComponent from '../tabs/tabs';
-import MatNavBarComponent from '../../material/mat_nav_bar/mat_nav_bar';
-import TableTypePickerComponent, { DISPLAY_TYPES } from '../table_type_picker/table_type_picker';
+import NavBarComponent from '../nav_bar/nav_bar';
+import DisplayTypePickerComponent, { TABLE_DISPLAY_TYPES } from './display_type_picker/display_type_picker';
 import ListComponent from '../list/list';
 import ListHeaderComponent from '../list/list_header';
 import GalleryComponent from '../gallery/gallery';
@@ -12,16 +12,8 @@ class TableLayoutComponent extends React.Component {
     super(props);
     this.state = {
       selectedTableType: Object.keys(this.props.tables)[0],
-      selectedDisplayType: DISPLAY_TYPES.LIST,
+      selectedDisplayType: TABLE_DISPLAY_TYPES.LIST,
     };
-  }
-  onTableTypeChange(selectedTableType) {
-    if (this.state.selectedTableType === selectedTableType) { return; }
-    this.setState({selectedTableType});
-  }
-  onDisplayTypeChange(selectedDisplayType) {
-    if (this.state.selectedDisplayType === selectedDisplayType) { return; }
-    this.setState({selectedDisplayType});
   }
   render() {
     const { tables, children } = this.props;
@@ -49,23 +41,30 @@ class TableLayoutComponent extends React.Component {
       ? (<ListHeaderComponent schema={selectedTable.listSchema} />)
       : '';
 
+    let tableControlsContainerClassName = 'table-controls-container';
+    if (isNotEmpty($listHeader)) {
+      tableControlsContainerClassName += ' bordered';
+    }
+
     return (
-      <div className="table-layout">
-        <MatNavBarComponent>
+      <div className="om-table-layout">
+        <NavBarComponent>
           {children}
-          <div className="table-options-bar"
-               style={isNotEmpty($listHeader)
-                        ? {borderBottom: '1px solid #e0e0e0'}
-                        : {}}>
+          <div className={tableControlsContainerClassName}>
             <TabsComponent tabs={tabs}
-                           onTabChange={this.onTableTypeChange.bind(this)} />
-            <TableTypePickerComponent initialDisplayType={selectedDisplayType}
-                                      onDisplayTypeChange={this.onDisplayTypeChange.bind(this)}/>
+                           selectedTab={selectedTableType}
+                           onTabSelect={(tableType) => {
+                             this.setState({selectedTableType: tableType});
+                           }} />
+            <TableTypePickerComponent selectedDisplayType={selectedDisplayType}
+                                      onDisplayTypeSelect={(displayType) => {
+                                        this.setState({selectedDisplayType: displayType});
+                                      }} />
           </div>
           <div className="list-header-container">
             {$listHeader}
           </div>
-        </MatNavBarComponent>
+        </NavBarComponent>
         <div className="table-container">
           {$table}
         </div>

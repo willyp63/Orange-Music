@@ -1,11 +1,6 @@
 import React from 'react';
-
 import { formatTimeMinutesSeconds } from '../../../util/time';
-
-import MatSliderComponent from '../../material/mat_slider/mat_slider';
-import { GRID } from '../../material/grid/grid';
-
-const PROGRESS_BAR_HANDLE_SIZE = GRID * 2;
+import { MatSlider } from '../../material/index';
 
 const ProgressBarComponent = ({currentTime, duration, onCurrentTimeChange,
     isDisabled}) => {
@@ -15,12 +10,10 @@ const ProgressBarComponent = ({currentTime, duration, onCurrentTimeChange,
       <div className="time-label">
         {formatTimeMinutesSeconds(currentTime)}
       </div>
-      <MatSliderComponent value={currentTime}
-                          maxValue={duration}
-                          isDisabled={isDisabled}
-                          handleWidth={PROGRESS_BAR_HANDLE_SIZE}
-                          onValueChange={onCurrentTimeChange}>
-      </MatSliderComponent>
+      <MatSlider value={currentTime}
+                 maxValue={duration}
+                 isDisabled={isDisabled}
+                 onValueChange={onCurrentTimeChange} />
       <div className="time-label">
         {formatTimeMinutesSeconds(duration)}
       </div>

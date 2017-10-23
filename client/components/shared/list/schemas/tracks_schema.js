@@ -1,4 +1,4 @@
-import TextCellComponent from '../../../material/flex_table/cells/text_cell';
+import TextCellComponent from '../../flex_table/cells/text_cell';
 import ImageCellComponent from '../cells/image_cell';
 import MockImageCellComponent from '../cells/mock_image_cell';
 import TrackActionsCellComponent from '../cells/track_actions_cell';
