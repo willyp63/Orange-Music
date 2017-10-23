@@ -3,7 +3,6 @@ import React from 'react';
 import { isNotEmpty } from '../../../../util/empty';
 
 import MatButtonComponent from '../../../material/mat_button/mat_button';
-import { white, grey_lighten_4 } from '../../../material/mat_color/mat_color';
 
 const ControlButtonComponent = ({icon, onClick, isDisabled, buttonClassName}) => {
   buttonClassName = isNotEmpty(buttonClassName) ? buttonClassName : '';
@@ -17,8 +16,6 @@ const ControlButtonComponent = ({icon, onClick, isDisabled, buttonClassName}) =>
                         isCircle={true}
                         isText={true}
                         isDisabled={isDisabled}
-                        color={grey_lighten_4}
-                        colorHover={white}
                         onClick={onClick}>
     </MatButtonComponent>
   );

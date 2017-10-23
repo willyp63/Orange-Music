@@ -1,0 +1,44 @@
+@import '../../../material/grid/grid.less';
+
+.om-list {
+  .queue-track-actions-cell{
+    @action-btn-size: @grid * 6;
+    @action-btn-margin: @grid;
+    @num-action-btns: 1;
+
+    display: flex;
+
+    .action-btn-wrap {
+      margin-left: @action-btn-margin;
+    }
+
+    .action-btn-wrap:first-of-type {
+      margin-left: 0;
+    }
+
+    .action-btn {
+      width: @action-btn-size;
+      height: @action-btn-size;
+      font-size: @grid * 2;
+      color: @white;
+    }
+
+    .remove-from-queue-btn {
+      background-color: @red-darken-1;
+
+      &:hover {
+        background-color: @red;
+      }
+    }
+  }
+}
+
+.om-list-header {
+  .mock-queue-track-actions-cell {
+    @action-btn-size: @grid * 6;
+    @action-btn-margin: @grid;
+    @num-action-btns: 1;
+
+    width: @action-btn-size * @num-action-btns + @action-btn-margin * (@num-action-btns - 1);
+  }
+}

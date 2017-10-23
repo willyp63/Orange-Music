@@ -1,6 +1,8 @@
 import TextCellComponent from '../../../material/flex_table/cells/text_cell';
 import ImageCellComponent from '../cells/image_cell';
 import MockImageCellComponent from '../cells/mock_image_cell';
+import TrackActionsCellComponent from '../cells/track_actions_cell';
+import MockTrackActionsCellComponent from '../cells/mock_track_actions_cell';
 
 const TRACKS_LIST_SCHEMA = Object.freeze({
   image: {
@@ -17,6 +19,11 @@ const TRACKS_LIST_SCHEMA = Object.freeze({
     label: 'Artist',
     width: 50,
     component: TextCellComponent
+  },
+  '@actions': {
+    label: MockTrackActionsCellComponent,
+    width: 0,
+    component: TrackActionsCellComponent
   },
 });
 

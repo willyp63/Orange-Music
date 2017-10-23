@@ -1,10 +1,10 @@
 @import '../../../material/grid/grid.less';
 
-@imgae-size: @grid * 6;
-@margin-right: @grid * 2;
-
 .om-list {
   .image-cell {
+    @imgae-size: @grid * 6;
+    @margin-right: @grid * 2;
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -20,6 +20,9 @@
 
 .om-list-header {
   .mock-image-cell {
+    @imgae-size: @grid * 6;
+    @margin-right: @grid * 2;
+
     width: @imgae-size + @margin-right;
   }
 }

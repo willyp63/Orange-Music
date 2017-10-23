@@ -1,0 +1,52 @@
+@import '../../../material/grid/grid.less';
+
+.om-list {
+  .track-actions-cell{
+    @action-btn-size: @grid * 6;
+    @action-btn-margin: @grid;
+    @num-action-btns: 2;
+
+    display: flex;
+
+    .action-btn-wrap {
+      margin-left: @action-btn-margin;
+    }
+
+    .action-btn-wrap:first-of-type {
+      margin-left: 0;
+    }
+
+    .action-btn {
+      width: @action-btn-size;
+      height: @action-btn-size;
+      font-size: @grid * 2;
+      color: @white;
+    }
+
+    .play-btn {
+      background-color: @blue-darken-1;
+
+      &:hover {
+        background-color: @blue;
+      }
+    }
+
+    .add-to-queue-btn {
+      background-color: @green-darken-1;
+
+      &:hover {
+        background-color: @green;
+      }
+    }
+  }
+}
+
+.om-list-header {
+  .mock-track-actions-cell {
+    @action-btn-size: @grid * 6;
+    @action-btn-margin: @grid;
+    @num-action-btns: 2;
+
+    width: @action-btn-size * @num-action-btns + @action-btn-margin * (@num-action-btns - 1);
+  }
+}

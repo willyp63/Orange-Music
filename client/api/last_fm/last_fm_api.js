@@ -4,6 +4,12 @@ import { makeFakeId } from '../../util/id';
 import { LAST_FM_API_KEY } from '../../secrets/api_keys';
 import { EMPTY_IMG_SRC } from '../../util/image';
 
+const ENTITY_TYPES = Object.freeze({
+  TRACK: 0,
+  ARTIST: 1,
+});
+module.exports.ENTITY_TYPES = ENTITY_TYPES;
+
 const DEFAULT_PAGE_SIZE = 50;
 module.exports.DEFAULT_PAGE_SIZE = DEFAULT_PAGE_SIZE;
 

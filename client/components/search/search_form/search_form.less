@@ -2,6 +2,8 @@
 @import '../../material/mat_color/mat_color.less';
 @import '../../material/mat_shadow/mat_shadow.less';
 
+@search-bar-height: @grid * 6;
+
 .search-form {
   display: flex;
   justify-content: space-around;
@@ -9,7 +11,7 @@
 
   input {
     flex-grow: 1;
-    height: (@grid * 6) - 2 /* account for extra height from border */;
+    height: @search-bar-height - 2 /* account for extra height from border */;
     padding-left: @grid;
     font-size: @grid * 3;
     border: 1px solid @grey-lighten-2;
@@ -26,13 +28,19 @@
   }
 
   .search-btn {
-    width: @grid * 6;
-    height: @grid * 6;
+    width: @search-bar-height;
+    height: @search-bar-height;
     font-size: @grid * 3;
+    background-color: @blue-darken-1;
+    color: @white;
 
     // Override default button border radius.
     border-radius: 0;
     border-top-right-radius: @grid;
     border-bottom-right-radius: @grid;
+
+    &:hover {
+      background-color: @blue;
+    }
   }
 }

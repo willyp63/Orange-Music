@@ -1,9 +1,9 @@
 import lastFmApi from '../api/last_fm/last_fm_api';
 
-export const searchTracks = ({query, page, pageSize}) => {
+export const searchTracks = (query) => {
   return (dispatch) => {
     dispatch(beginFetchingTracks());
-    return lastFmApi.search({query, page, pageSize}).then((results) => {
+    return lastFmApi.search({query}).then((results) => {
       dispatch(receiveTrackResults(results));
     }, (err) => {
       console.log(`Error searching tracks: ${err}`);

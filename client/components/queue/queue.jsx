@@ -1,66 +1,57 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import NowPlayingComponent from './now_playing/now_playing';
+import QUEUE_TRACKS_LIST_SCHEMA from './list/tracks_schema';
+import TrackGalleryComponent from '../shared/gallery/components/track_component';
+import TableLayoutComponent from '../shared/table_layout/table_layout';
 
-import NowPlayingTableComponent from './now_playing_table/now_playing_table';
-import QueueTableHeaderComponent from './queue_table/queue_table_header';
-import QueueTableComponent from './queue_table/queue_table';
-
-const BOX_SHADOW_STYLE = Object.freeze({
-  'border-bottom': '1px solid rgba(0, 0, 0, 0)',
-  'box-shadow': '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
+const TABLE_TYPES = Object.freeze({
+  QUEUE: 0,
+  HISTORY: 1,
 });
 
-const BORDER_STYLE = Object.freeze({
-  'border-bottom': '1px solid #e0e0e0',
-  'box-shadow': 'none'
-});
+let TABLES1 = {};
+TABLES1[TABLE_TYPES.QUEUE] = {
+  label: 'Queue',
+  listSchema: QUEUE_TRACKS_LIST_SCHEMA,
+  galleryComponent: TrackGalleryComponent,
+};
+TABLES1[TABLE_TYPES.HISTORY] = {
+  label: 'History',
+  listSchema: QUEUE_TRACKS_LIST_SCHEMA,
+  galleryComponent: TrackGalleryComponent,
+};
+const TABLES = Object.freeze(TABLES1);
 
 class QueueComponent extends React.Component {
-  componentDidMount() {
-    this.scrollHandler = this.updateNavBarStyle.bind(this);
-    $(document).scroll(this.scrollHandler);
-    this.scrollHandler();
-  }
-  componentWillUnmount() {
-    $(document).off('scroll', this.scrollHandler);
-  }
-  updateNavBarStyle() {
-    const style = $(window).scrollTop() !== 0
-      ? BOX_SHADOW_STYLE
-      : BORDER_STYLE;
-    $(ReactDOM.findDOMNode(this))
-      .find('.nav-bar')
-      .css(style);
-  }
   render() {
+    const tables = Object.assign({}, TABLES);
+    tables[TABLE_TYPES.QUEUE].entities = this.props.tracks.slice(1);
+    tables[TABLE_TYPES.HISTORY].entities = []; // TODO
+
     return (
       <div className="queue">
-        <div className="nav-bar">
-          <div className="now-playing-label">
-            Now Playing
+        <TableLayoutComponent tables={tables}>
+          <div className="now-playing-container">
+            <NowPlayingComponent />
           </div>
-          <div className="now-playing-table-container">
-            <NowPlayingTableComponent />
-          </div>
-          <div className="queue-label">
-            Up Next
-          </div>
-          <div className="queue-table-header-container">
-            <QueueTableHeaderComponent />
-          </div>
-        </div>
-        <div className="queue-table-container">
-          <QueueTableComponent />
-        </div>
+        </TableLayoutComponent>
       </div>
     );
   }
 }
 
-const updateNavBarStyle = (_) => {
-  $('.nav-bar').css($(window).scrollTop() !== 0
-      ? BOX_SHADOW_STYLE
-      : BORDER_STYLE);
+const mapStateToProps = (state, ownProps) => {
+  return {
+    tracks: state.queue.tracks
+  };
 };
 
-export default QueueComponent;
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QueueComponent);
