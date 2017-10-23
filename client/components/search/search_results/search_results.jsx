@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import TABLE_SCHEMA from './search_results_schema';
 
-import FlexTableComponent from '../../shared/flex_table/flex_table';
-import MatSpinnerComponent from '../../shared/mat_spinner/mat_spinner';
+import FlexTableComponent from '../../material/flex_table/flex_table';
+import MatSpinnerComponent from '../../material/mat_spinner/mat_spinner';
 
 import { isNotEmpty } from '../../../util/empty';
 import { addTrackToQueue, playTrack } from '../../../actions/queue_actions';

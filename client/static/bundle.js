@@ -2234,98 +2234,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-// Orange
-var orange_lighten_5 = exports.orange_lighten_5 = '#fff3e0';
-var orange_lighten_4 = exports.orange_lighten_4 = '#ffe0b2';
-var orange_lighten_3 = exports.orange_lighten_3 = '#ffcc80';
-var orange_lighten_2 = exports.orange_lighten_2 = '#ffb74d';
-var orange_lighten_1 = exports.orange_lighten_1 = '#ffa726';
-var orange = exports.orange = '#ff9800';
-var orange_darken_1 = exports.orange_darken_1 = '#fb8c00';
-var orange_darken_2 = exports.orange_darken_2 = '#f57c00';
-var orange_darken_3 = exports.orange_darken_3 = '#ef6c00';
-var orange_darken_4 = exports.orange_darken_4 = '#e65100';
-var orange_accent_1 = exports.orange_accent_1 = '#ffd180';
-var orange_accent_2 = exports.orange_accent_2 = '#ffab40';
-var orange_accent_3 = exports.orange_accent_3 = '#ff9100';
-var orange_accent_4 = exports.orange_accent_4 = '#ff6d00';
-
-// Blue
-var blue_lighten_5 = exports.blue_lighten_5 = '#e3f2fd';
-var blue_lighten_4 = exports.blue_lighten_4 = '#bbdefb';
-var blue_lighten_3 = exports.blue_lighten_3 = '#90caf9';
-var blue_lighten_2 = exports.blue_lighten_2 = '#64b5f6';
-var blue_lighten_1 = exports.blue_lighten_1 = '#42a5f5';
-var blue = exports.blue = '#2196f3';
-var blue_darken_1 = exports.blue_darken_1 = '#1e88e5';
-var blue_darken_2 = exports.blue_darken_2 = '#1976d2';
-var blue_darken_3 = exports.blue_darken_3 = '#1565c0';
-var blue_darken_4 = exports.blue_darken_4 = '#0d47a1';
-var blue_accent_1 = exports.blue_accent_1 = '#82b1ff';
-var blue_accent_2 = exports.blue_accent_2 = '#448aff';
-var blue_accent_3 = exports.blue_accent_3 = '#2979ff';
-var blue_accent_4 = exports.blue_accent_4 = '#2962ff';
-
-// Red
-var red_lighten_5 = exports.red_lighten_5 = '#ffebee';
-var red_lighten_4 = exports.red_lighten_4 = '#ffcdd2';
-var red_lighten_3 = exports.red_lighten_3 = '#ef9a9a';
-var red_lighten_2 = exports.red_lighten_2 = '#e57373';
-var red_lighten_1 = exports.red_lighten_1 = '#ef5350';
-var red = exports.red = '#f44336';
-var red_darken_1 = exports.red_darken_1 = '#e53935';
-var red_darken_2 = exports.red_darken_2 = '#d32f2f';
-var red_darken_3 = exports.red_darken_3 = '#c62828';
-var red_darken_4 = exports.red_darken_4 = '#b71c1c';
-var red_accent_1 = exports.red_accent_1 = '#ff8a80';
-var red_accent_2 = exports.red_accent_2 = '#ff5252';
-var red_accent_3 = exports.red_accent_3 = '#ff1744';
-var red_accent_4 = exports.red_accent_4 = '#d50000';
-
-// Green
-var green_lighten_5 = exports.green_lighten_5 = '#e8f5e9';
-var green_lighten_4 = exports.green_lighten_4 = '#c8e6c9';
-var green_lighten_3 = exports.green_lighten_3 = '#a5d6a7';
-var green_lighten_2 = exports.green_lighten_2 = '#81c784';
-var green_lighten_1 = exports.green_lighten_1 = '#66bb6a';
-var green = exports.green = '#4caf50';
-var green_darken_1 = exports.green_darken_1 = '#43a047';
-var green_darken_2 = exports.green_darken_2 = '#388e3c';
-var green_darken_3 = exports.green_darken_3 = '#2e7d32';
-var green_darken_4 = exports.green_darken_4 = '#1b5e20';
-var green_accent_1 = exports.green_accent_1 = '#b9f6ca';
-var green_accent_2 = exports.green_accent_2 = '#69f0ae';
-var green_accent_3 = exports.green_accent_3 = '#00e676';
-var green_accent_4 = exports.green_accent_4 = '#00c853';
-
-// Gray
-var grey_lighten_5 = exports.grey_lighten_5 = '#fafafa';
-var grey_lighten_4 = exports.grey_lighten_4 = '#f5f5f5';
-var grey_lighten_3 = exports.grey_lighten_3 = '#eeeeee';
-var grey_lighten_2 = exports.grey_lighten_2 = '#e0e0e0';
-var grey_lighten_1 = exports.grey_lighten_1 = '#bdbdbd';
-var grey = exports.grey = '#9e9e9e';
-var grey_darken_1 = exports.grey_darken_1 = '#757575';
-var grey_darken_2 = exports.grey_darken_2 = '#616161';
-var grey_darken_3 = exports.grey_darken_3 = '#424242';
-var grey_darken_4 = exports.grey_darken_4 = '#212121';
-
-// Black & White
-var white = exports.white = '#FFFFFF';
-var black = exports.black = '#000000';
-
-var transparent = exports.transparent = 'rgba(0,0,0,0)';
-
-/***/ }),
+/* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2787,151 +2696,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _simpleReactTooltip = __webpack_require__(294);
-
-var _simpleReactTooltip2 = _interopRequireDefault(_simpleReactTooltip);
-
-var _empty = __webpack_require__(5);
-
-var _mat_ripple = __webpack_require__(304);
-
-var _mat_ripple2 = _interopRequireDefault(_mat_ripple);
-
-var _mat_color = __webpack_require__(20);
-
-var _grid = __webpack_require__(48);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var BUTTON_CLASS_NAME = 'mat-btn';
-var WRAP_CLASS_NAME = 'mat-btn-wrap';
-var DISABLED_CLASS_NAME = 'disabled';
-var TEXT_CLASS_NAME = 'btn-txt';
-var CIRCLE_CLASS_NAME = 'btn-cir';
-
-var TEXT_ICON_SEPARATION = _grid.GRID;
-
-var DEFAULT_COLOR = _mat_color.white;
-var DEFAULT_BG_COLOR = _mat_color.transparent;
-
-var MatButtonComponent = function MatButtonComponent(_ref) {
-  var icon = _ref.icon,
-      isCircle = _ref.isCircle,
-      isText = _ref.isText,
-      isDisabled = _ref.isDisabled,
-      onClick = _ref.onClick,
-      tooltip = _ref.tooltip,
-      buttonClassName = _ref.buttonClassName,
-      color = _ref.color,
-      bgColor = _ref.bgColor,
-      colorHover = _ref.colorHover,
-      bgColorHover = _ref.bgColorHover,
-      isSubmit = _ref.isSubmit,
-      text = _ref.text,
-      wrapClassName = _ref.wrapClassName;
-
-
-  // Format button class name.
-  buttonClassName = (0, _empty.isNotEmpty)(buttonClassName) ? buttonClassName : '';
-  buttonClassName += ' ' + BUTTON_CLASS_NAME;
-  buttonClassName = buttonClassName.trim();
-  if (isDisabled) {
-    buttonClassName += ' ' + DISABLED_CLASS_NAME;
-  }
-  if (isText) {
-    buttonClassName += ' ' + TEXT_CLASS_NAME;
-  }
-  if (isCircle) {
-    buttonClassName += ' ' + CIRCLE_CLASS_NAME;
-  }
-
-  // Format wrap class name.
-  wrapClassName = (0, _empty.isNotEmpty)(wrapClassName) ? wrapClassName : '';
-  wrapClassName += ' ' + WRAP_CLASS_NAME;
-  wrapClassName = wrapClassName.trim();
-
-  // Format text and icon.
-  text = (0, _empty.isNotEmpty)(text) ? text : '';
-  var $icon = (0, _empty.isNotEmpty)(icon) ? _react2.default.createElement('i', { className: 'fa fa-' + icon,
-    style: {
-      marginLeft: (0, _empty.isNotEmpty)(text) ? TEXT_ICON_SEPARATION : 0
-    } }) : '';
-
-  // Format colors.
-  color = (0, _empty.isNotEmpty)(color) ? color : DEFAULT_COLOR;
-  colorHover = (0, _empty.isNotEmpty)(colorHover) ? colorHover : color;
-  bgColor = (0, _empty.isNotEmpty)(bgColor) ? bgColor : DEFAULT_BG_COLOR;
-  bgColorHover = (0, _empty.isNotEmpty)(bgColorHover) ? bgColorHover : bgColor;
-
-  // Render button w/o wrap or ripple.
-  var $button = _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'button',
-      { className: buttonClassName,
-        'data-tip': tooltip,
-        onClick: onClick,
-        type: isSubmit ? 'submit' : 'button',
-        style: {
-          'color': color,
-          'backgroundColor': bgColor
-        },
-        onMouseEnter: function onMouseEnter(e) {
-          if (isDisabled) {
-            return;
-          }
-          e.target.style.color = colorHover;
-          e.target.style.backgroundColor = bgColorHover;
-        },
-        onMouseLeave: function onMouseLeave(e) {
-          if (isDisabled) {
-            return;
-          }
-          e.target.style.color = color;
-          e.target.style.backgroundColor = bgColor;
-        } },
-      text,
-      $icon
-    ),
-    (0, _empty.isNotEmpty)(tooltip) ? _react2.default.createElement(_simpleReactTooltip2.default, { effect: 'solid' }) : ''
-  );
-
-  // Disabled buttons dont get ripple.
-  return isDisabled ? _react2.default.createElement(
-    'div',
-    { className: wrapClassName,
-      style: { display: 'inline-block' } },
-    $button
-  ) : _react2.default.createElement(
-    'div',
-    { className: wrapClassName,
-      style: { display: 'inline-block' } },
-    _react2.default.createElement(
-      _mat_ripple2.default,
-      { isCircle: isCircle },
-      $button
-    )
-  );
-};
-
-exports.default = MatButtonComponent;
-
-/***/ }),
+/* 23 */,
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3443,7 +3208,8 @@ var BASE_URL_PARAMS = {
 var QUERY_TYPE = Object.freeze({
   SEARCH: 0,
   GET_INFO: 1,
-  TOP_TRACKS: 2
+  TOP_TRACKS: 2,
+  TOP_ARTISTS: 3
 });
 
 /// Preforms a search query.
@@ -3474,13 +3240,25 @@ module.exports.topTracks = function (_ref2) {
   });
 };
 
+/// Fetches top artists from last fm.
+module.exports.topArtists = function (_ref3) {
+  var page = _ref3.page,
+      pageSize = _ref3.pageSize;
+
+  return genericQuery({
+    queryType: QUERY_TYPE.TOP_ARTISTS,
+    page: page,
+    pageSize: pageSize
+  });
+};
+
 /// Preforms a getInfo query, which returns more fields than a search query.
 ///
 /// Returns a single object with the entities info.
-module.exports.getInfo = function (_ref3) {
-  var mbid = _ref3.mbid,
-      trackName = _ref3.trackName,
-      artistName = _ref3.artistName;
+module.exports.getInfo = function (_ref4) {
+  var mbid = _ref4.mbid,
+      trackName = _ref4.trackName,
+      artistName = _ref4.artistName;
 
   return genericQuery({
     queryType: QUERY_TYPE.GET_INFO,
@@ -3510,13 +3288,13 @@ var genericQuery = function genericQuery(params) {
   });
 };
 
-var getQueryParams = function getQueryParams(_ref4) {
-  var queryType = _ref4.queryType,
-      query = _ref4.query,
-      artistName = _ref4.artistName,
-      mbid = _ref4.mbid,
-      page = _ref4.page,
-      pageSize = _ref4.pageSize;
+var getQueryParams = function getQueryParams(_ref5) {
+  var queryType = _ref5.queryType,
+      query = _ref5.query,
+      artistName = _ref5.artistName,
+      mbid = _ref5.mbid,
+      page = _ref5.page,
+      pageSize = _ref5.pageSize;
 
   return new Promise(function (resolve, reject) {
     if ((0, _empty.isEmpty)(queryType)) {
@@ -3552,6 +3330,11 @@ var getQueryParams = function getQueryParams(_ref4) {
         queryParams.page = (0, _empty.isNotEmpty)(page) ? page : 1;
         queryParams.limit = (0, _empty.isNotEmpty)(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
         break;
+      case QUERY_TYPE.TOP_ARTISTS:
+        queryParams.method = 'chart.gettopartists';
+        queryParams.page = (0, _empty.isNotEmpty)(page) ? page : 1;
+        queryParams.limit = (0, _empty.isNotEmpty)(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
+        break;
     }
     resolve(queryParams);
   });
@@ -3563,7 +3346,7 @@ var makeQuery = function makeQuery(queryType, queryParams) {
       switch (queryType) {
         case QUERY_TYPE.SEARCH:
           return resolve({
-            tracks: formatTracksFromApi(response.results.trackmatches.track),
+            tracks: formatEntitiesFromApi(response.results.trackmatches.track),
             total: parseInt(response.results['opensearch:totalResults']),
             page: response.results['opensearch:startIndex'] / response.results['opensearch:itemsPerPage']
           });
@@ -3571,9 +3354,15 @@ var makeQuery = function makeQuery(queryType, queryParams) {
           return resolve(response.track);
         case QUERY_TYPE.TOP_TRACKS:
           return resolve({
-            tracks: formatTracksFromApi(response.tracks.track),
+            tracks: formatEntitiesFromApi(response.tracks.track),
             total: parseInt(response.tracks['@attr'].total),
             page: parseInt(response.tracks['@attr'].page)
+          });
+        case QUERY_TYPE.TOP_ARTISTS:
+          return resolve({
+            artists: formatEntitiesFromApi(response.artists.artist),
+            total: parseInt(response.artists['@attr'].total),
+            page: parseInt(response.artists['@attr'].page)
           });
       }
     }).fail(function (err) {
@@ -3582,25 +3371,25 @@ var makeQuery = function makeQuery(queryType, queryParams) {
   });
 };
 
-var formatTracksFromApi = function formatTracksFromApi(tracks) {
+var formatEntitiesFromApi = function formatEntitiesFromApi(entities) {
   var takenIds = {};
-  var formattedTracks = [];
-  tracks.forEach(function (track) {
-    // format id
-    track.mbid = track.mbid || (0, _id.makeFakeId)();
-    if (takenIds[track.mbid]) {
+  var formattedEntities = [];
+  entities.forEach(function (entity) {
+    // format mbid.
+    entity.mbid = entity.mbid || (0, _id.makeFakeId)();
+    if (takenIds[entity.mbid]) {
       return;
     }
-    takenIds[track.mbid] = true;
+    takenIds[entity.mbid] = true;
 
-    // format artist
-    if (typeof track.artist === 'string') {
-      track.artist = { name: track.artist };
+    // format artist (for tracks only).
+    if (typeof entity.artist === 'string') {
+      entity.artist = { name: entity.artist };
     }
 
-    formattedTracks.push(track);
+    formattedEntities.push(entity);
   });
-  return formattedTracks;
+  return formattedEntities;
 };
 
 /***/ }),
@@ -5806,18 +5595,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 };
 
 /***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var GRID = exports.GRID = 8;
-
-/***/ }),
+/* 48 */,
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5831,100 +5609,7 @@ Object.defineProperty(exports, "__esModule", {
 var EMPTY_IMG_SRC = exports.EMPTY_IMG_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICA' + 'MAAACahl6sAAAABlBMVEX///8AAABVwtN+AAAA5ElEQVR4nO3PAQ0AMBADoZ9/07NBmsMB90' + 'bcuwlFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE' + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE' + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNE' + 'U0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0RTRFNEU0S5ERH83EAx0VzRQTAAAAAE' + 'lFTkSuQmCC';
 
 /***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(5);
-
-var _nested_field = __webpack_require__(325);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FlexTableComponent = function FlexTableComponent(_ref) {
-  var tableClassName = _ref.tableClassName,
-      rowObjs = _ref.rowObjs,
-      keyPath = _ref.keyPath,
-      schema = _ref.schema,
-      actions = _ref.actions,
-      componentPath = _ref.componentPath;
-
-
-  tableClassName = (0, _empty.isNotEmpty)(tableClassName) ? tableClassName : '';
-  tableClassName += ' flex-table';
-  tableClassName = tableClassName.trim();
-
-  return _react2.default.createElement(
-    'div',
-    { className: tableClassName },
-    getRows({ rowObjs: rowObjs, keyPath: keyPath, schema: schema, actions: actions, componentPath: componentPath })
-  );
-};
-
-var getRows = function getRows(_ref2) {
-  var rowObjs = _ref2.rowObjs,
-      keyPath = _ref2.keyPath,
-      schema = _ref2.schema,
-      actions = _ref2.actions,
-      componentPath = _ref2.componentPath;
-
-  return rowObjs.map(function (rowObj) {
-    return _react2.default.createElement(
-      'div',
-      { className: 'row',
-        key: rowObj[keyPath] },
-      getColumns({ rowObj: rowObj, schema: schema, actions: actions, componentPath: componentPath })
-    );
-  });
-};
-
-var getColumns = function getColumns(_ref3) {
-  var rowObj = _ref3.rowObj,
-      schema = _ref3.schema,
-      actions = _ref3.actions,
-      componentPath = _ref3.componentPath;
-
-  return Object.keys(schema).map(function (field) {
-    componentPath = (0, _empty.isNotEmpty)(componentPath) ? componentPath : 'component';
-    var component = schema[field][componentPath];
-    var $renderedComponent = typeof component === 'function' ? component((0, _nested_field.getNestedFieldValue)(rowObj, field), actions, rowObj) : component;
-    return getColumn({
-      $content: $renderedComponent,
-      schema: schema,
-      field: field
-    });
-  });
-};
-
-var getColumn = function getColumn(_ref4) {
-  var $content = _ref4.$content,
-      schema = _ref4.schema,
-      field = _ref4.field;
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'cell',
-      key: field,
-      style: {
-        flex: '0 1 ' + schema[field].width + '%'
-      } },
-    $content
-  );
-};
-
-exports.default = FlexTableComponent;
-
-/***/ }),
+/* 50 */,
 /* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8385,46 +8070,7 @@ var getUrlWithUpdatedParams = exports.getUrlWithUpdatedParams = function getUrlW
 };
 
 /***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(5);
-
-var _flex_table = __webpack_require__(50);
-
-var _flex_table2 = _interopRequireDefault(_flex_table);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FlexTableHeaderComponent = function FlexTableHeaderComponent(_ref) {
-  var headerClassName = _ref.headerClassName,
-      schema = _ref.schema;
-
-  headerClassName = (0, _empty.isNotEmpty)(headerClassName) ? headerClassName : '';
-  headerClassName += ' flex-table-header';
-  headerClassName = headerClassName.trim();
-
-  return _react2.default.createElement(_flex_table2.default, { tableClassName: headerClassName,
-    rowObjs: [{ key: 1 }],
-    keyPath: 'key',
-    schema: schema,
-    componentPath: 'label' });
-};
-
-exports.default = FlexTableHeaderComponent;
-
-/***/ }),
+/* 78 */,
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8435,15 +8081,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _text_cell = __webpack_require__(142);
+var _text_cell = __webpack_require__(347);
 
 var _text_cell2 = _interopRequireDefault(_text_cell);
 
-var _image_cell = __webpack_require__(143);
+var _image_cell = __webpack_require__(348);
 
 var _image_cell2 = _interopRequireDefault(_image_cell);
 
-var _mock_image_cell = __webpack_require__(144);
+var _mock_image_cell = __webpack_require__(349);
 
 var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
 
@@ -14084,187 +13730,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 137 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(26);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _empty = __webpack_require__(5);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var BAR_CLASS_NAME = 'mat-slider';
-var HANDLE_CLASS_NAME = 'handle';
-
-var MatMatSliderComponent = function (_React$Component) {
-  _inherits(MatMatSliderComponent, _React$Component);
-
-  function MatMatSliderComponent() {
-    _classCallCheck(this, MatMatSliderComponent);
-
-    return _possibleConstructorReturn(this, (MatMatSliderComponent.__proto__ || Object.getPrototypeOf(MatMatSliderComponent)).apply(this, arguments));
-  }
-
-  _createClass(MatMatSliderComponent, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props = this.props,
-          value = _props.value,
-          maxValue = _props.maxValue;
-
-      this.moveHandle.bind(this, value / maxValue)();
-    }
-  }, {
-    key: 'onHandleDown',
-    value: function onHandleDown(e) {
-      var _this2 = this;
-
-      var _props2 = this.props,
-          onValueChange = _props2.onValueChange,
-          maxValue = _props2.maxValue,
-          isDisabled = _props2.isDisabled,
-          handleWidth = _props2.handleWidth;
-
-      if (isDisabled) {
-        return;
-      }
-
-      var onMouseMove = function onMouseMove(e) {
-        var offsetRatio = _this2.getMouseOffsetRatio.bind(_this2, e)();
-        _this2.moveHandle.bind(_this2, offsetRatio)();
-      };
-
-      var onMouseUp = function onMouseUp(e) {
-        $(window).off('mousemove', onMouseMove);
-        $(window).off('mouseup', onMouseUp);
-        _this2.changeValue.bind(_this2, e)();
-      };
-
-      $(window).mousemove(onMouseMove);
-      $(window).mouseup(onMouseUp);
-    }
-  }, {
-    key: 'changeValue',
-    value: function changeValue(e) {
-      var _props3 = this.props,
-          onValueChange = _props3.onValueChange,
-          maxValue = _props3.maxValue,
-          isDisabled = _props3.isDisabled;
-
-      if (isDisabled || typeof onValueChange !== 'function') {
-        return;
-      }
-
-      var offsetRatio = this.getMouseOffsetRatio.bind(this, e)();
-      onValueChange(offsetRatio * maxValue);
-    }
-  }, {
-    key: 'moveHandle',
-    value: function moveHandle(offsetRatio) {
-      var handleWidth = this.props.handleWidth;
-
-      this.getHandle.bind(this)().css({
-        left: getHandleLeft({ offsetRatio: offsetRatio, handleWidth: handleWidth })
-      });
-    }
-  }, {
-    key: 'getMouseOffsetRatio',
-    value: function getMouseOffsetRatio(e) {
-      var $bar = this.getBar.bind(this)();
-      var mouseOffset = e.pageX - $bar.offset().left;
-      var offsetRatio = mouseOffset / $bar.width();
-      if (offsetRatio < 0) {
-        offsetRatio = 0;
-      }
-      if (offsetRatio > 1) {
-        offsetRatio = 1;
-      }
-      return offsetRatio;
-    }
-  }, {
-    key: 'getBar',
-    value: function getBar() {
-      return $(_reactDom2.default.findDOMNode(this));
-    }
-  }, {
-    key: 'getHandle',
-    value: function getHandle() {
-      return this.getBar.bind(this)().find('.' + HANDLE_CLASS_NAME);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props4 = this.props,
-          value = _props4.value,
-          maxValue = _props4.maxValue,
-          isDisabled = _props4.isDisabled,
-          handleWidth = _props4.handleWidth,
-          barClassName = _props4.barClassName,
-          handleClassName = _props4.handleClassName;
-
-
-      var barClassName1 = (0, _empty.isNotEmpty)(barClassName) ? barClassName : '';
-      barClassName1 += ' ' + BAR_CLASS_NAME;
-      barClassName1 = barClassName1.trim();
-
-      var handleClassName1 = (0, _empty.isNotEmpty)(handleClassName) ? handleClassName : '';
-      handleClassName1 += ' ' + HANDLE_CLASS_NAME;
-      handleClassName1 = handleClassName1.trim();
-
-      var offsetRatio = value / maxValue;
-      var $slider = !isDisabled ? _react2.default.createElement('span', { className: handleClassName1,
-        onMouseDown: this.onHandleDown.bind(this),
-        style: {
-          left: getHandleLeft({ offsetRatio: offsetRatio, handleWidth: handleWidth }),
-          cursor: 'pointer'
-        } }) : '';
-
-      return _react2.default.createElement(
-        'div',
-        { className: barClassName1,
-          onClick: this.changeValue.bind(this),
-          style: {
-            cursor: isDisabled ? 'auto' : 'pointer'
-          } },
-        $slider
-      );
-    }
-  }]);
-
-  return MatMatSliderComponent;
-}(_react2.default.Component);
-
-var getHandleLeft = function getHandleLeft(_ref) {
-  var offsetRatio = _ref.offsetRatio,
-      handleWidth = _ref.handleWidth;
-
-  return 'calc(' + offsetRatio * 100 + '% - ' + handleWidth / 2 + 'px)';
-};
-
-exports.default = MatMatSliderComponent;
-
-/***/ }),
+/* 137 */,
 /* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14274,7 +13740,7 @@ exports.default = MatMatSliderComponent;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RECEIVE_TOP_TRACKS = exports.fetchTracks = undefined;
+exports.RECEIVE_TOP_ARTISTS = exports.fetchTopArtists = exports.RECEIVE_TOP_TRACKS = exports.fetchTopTracks = undefined;
 
 var _last_fm_api = __webpack_require__(29);
 
@@ -14282,21 +13748,21 @@ var _last_fm_api2 = _interopRequireDefault(_last_fm_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fetchTracks = exports.fetchTracks = function fetchTracks() {
+var fetchTopTracks = exports.fetchTopTracks = function fetchTopTracks() {
   return function (dispatch) {
     return _last_fm_api2.default.topTracks({}).then(function (_ref) {
       var tracks = _ref.tracks,
           page = _ref.page,
           total = _ref.total;
 
-      dispatch(receiveTopTracks({ tracks: tracks, page: page, total: total }));
+      dispatch(receiveTopTracksMsg({ tracks: tracks, page: page, total: total }));
     }, function (err) {
       console.log('Error fetching top tracks: ' + err);
     });
   };
 };
 
-var receiveTopTracks = function receiveTopTracks(_ref2) {
+var receiveTopTracksMsg = function receiveTopTracksMsg(_ref2) {
   var tracks = _ref2.tracks,
       page = _ref2.page,
       total = _ref2.total;
@@ -14310,73 +13776,36 @@ var receiveTopTracks = function receiveTopTracks(_ref2) {
 };
 var RECEIVE_TOP_TRACKS = exports.RECEIVE_TOP_TRACKS = 'RECEIVE_TOP_TRACKS';
 
-/***/ }),
-/* 139 */
-/***/ (function(module, exports, __webpack_require__) {
+var fetchTopArtists = exports.fetchTopArtists = function fetchTopArtists() {
+  return function (dispatch) {
+    return _last_fm_api2.default.topArtists({}).then(function (_ref3) {
+      var artists = _ref3.artists,
+          page = _ref3.page,
+          total = _ref3.total;
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(5);
-
-var _grid = __webpack_require__(48);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SPINNER_CLASS_NAME = 'mat-spinner'; // Credit to Codepen user: jczimm
-// https://codepen.io/jczimm/pen/vEBpoL
-
-var SVG_CLASS_NAME = 'circular';
-var CIRCLE_CLASS_NAME = 'path';
-
-var DEFAULT_STROKE_WIDTH = _grid.GRID / 2;
-var DEFAULT_SIZE = _grid.GRID * 10;
-
-var MatSpinnerComponent = function MatSpinnerComponent(_ref) {
-  var spinnerClassName = _ref.spinnerClassName,
-      size = _ref.size,
-      strokeWidth = _ref.strokeWidth;
-
-  spinnerClassName = (0, _empty.isNotEmpty)(spinnerClassName) ? spinnerClassName : '';
-  spinnerClassName += ' ' + SPINNER_CLASS_NAME;
-  spinnerClassName = spinnerClassName.trim();
-
-  size = (0, _empty.isNotEmpty)(size) ? size : DEFAULT_SIZE;
-  strokeWidth = (0, _empty.isNotEmpty)(strokeWidth) ? strokeWidth : DEFAULT_STROKE_WIDTH;
-
-  var svgViewBox = size / 4 + ' ' + size / 4 + ' ' + size / 2 + ' ' + size / 2;
-  return _react2.default.createElement(
-    'div',
-    { className: spinnerClassName,
-      style: {
-        width: size
-      } },
-    _react2.default.createElement(
-      'svg',
-      { className: SVG_CLASS_NAME,
-        viewBox: svgViewBox },
-      _react2.default.createElement('circle', { className: CIRCLE_CLASS_NAME,
-        cx: size / 2,
-        cy: size / 2,
-        r: size / 5,
-        fill: 'none',
-        strokeWidth: strokeWidth,
-        strokeMiterlimit: '10' })
-    )
-  );
+      dispatch(receiveTopArtistsMsg({ artists: artists, page: page, total: total }));
+    }, function (err) {
+      console.log('Error fetching top artists: ' + err);
+    });
+  };
 };
 
-exports.default = MatSpinnerComponent;
+var receiveTopArtistsMsg = function receiveTopArtistsMsg(_ref4) {
+  var artists = _ref4.artists,
+      page = _ref4.page,
+      total = _ref4.total;
+
+  return {
+    type: RECEIVE_TOP_ARTISTS,
+    artists: artists,
+    page: page,
+    total: total
+  };
+};
+var RECEIVE_TOP_ARTISTS = exports.RECEIVE_TOP_ARTISTS = 'RECEIVE_TOP_ARTISTS';
 
 /***/ }),
+/* 139 */,
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14441,15 +13870,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _text_cell = __webpack_require__(142);
+var _text_cell = __webpack_require__(347);
 
 var _text_cell2 = _interopRequireDefault(_text_cell);
 
-var _image_cell = __webpack_require__(143);
+var _image_cell = __webpack_require__(348);
 
 var _image_cell2 = _interopRequireDefault(_image_cell);
 
-var _mock_image_cell = __webpack_require__(144);
+var _mock_image_cell = __webpack_require__(349);
 
 var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
 
@@ -14489,95 +13918,9 @@ var SCHEMA = Object.freeze({
 exports.default = SCHEMA;
 
 /***/ }),
-/* 142 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(5);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DEFAULT_TEXT = '--';
-
-var TextCellComponent = function TextCellComponent(text) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'text-cell' },
-    (0, _empty.isNotEmpty)(text) ? text.toString() : DEFAULT_TEXT
-  );
-};
-
-exports.default = TextCellComponent;
-
-/***/ }),
-/* 143 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(5);
-
-var _image = __webpack_require__(49);
-
-var _last_fm_api = __webpack_require__(29);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var IMAGE_IDX = 0;
-
-var ImageCellComponent = function ImageCellComponent(images) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'image-cell' },
-    _react2.default.createElement('img', { src: (0, _empty.isNotEmpty)(images) ? (0, _last_fm_api.getImageUrl)(images, 1) : _image.EMPTY_IMG_SRC })
-  );
-};
-
-exports.default = ImageCellComponent;
-
-/***/ }),
-/* 144 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MockImageCellComponent = function MockImageCellComponent(images) {
-  return _react2.default.createElement("div", { className: "mock-image-cell" });
-};
-
-exports.default = MockImageCellComponent;
-
-/***/ }),
+/* 142 */,
+/* 143 */,
+/* 144 */,
 /* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30324,11 +29667,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(135);
 
-var _mat_button = __webpack_require__(23);
+var _mat_button = __webpack_require__(341);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
-var _mat_color = __webpack_require__(20);
+var _mat_color = __webpack_require__(340);
 
 var _empty = __webpack_require__(5);
 
@@ -31646,160 +30989,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = '.__react_component_tooltip{border-radius:3px;display:inline-block;font-size:13px;left:-999em;opacity:0;padding:8px 21px;position:fixed;pointer-events:none;transition:opacity 0.3s ease-out;top:-999em;visibility:hidden;z-index:999}.__react_component_tooltip:before,.__react_component_tooltip:after{content:"";width:0;height:0;position:absolute}.__react_component_tooltip.show{opacity:0.9;margin-top:0px;margin-left:0px;visibility:visible}.__react_component_tooltip.type-dark{color:#fff;background-color:#222}.__react_component_tooltip.type-dark.place-top:after{border-top-color:#222;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-dark.place-bottom:after{border-bottom-color:#222;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-dark.place-left:after{border-left-color:#222;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-dark.place-right:after{border-right-color:#222;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-dark.border{border:1px solid #fff}.__react_component_tooltip.type-dark.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-dark.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-dark.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-dark.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-success{color:#fff;background-color:#8DC572}.__react_component_tooltip.type-success.place-top:after{border-top-color:#8DC572;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-success.place-bottom:after{border-bottom-color:#8DC572;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-success.place-left:after{border-left-color:#8DC572;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-success.place-right:after{border-right-color:#8DC572;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-success.border{border:1px solid #fff}.__react_component_tooltip.type-success.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-success.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-success.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-success.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-warning{color:#fff;background-color:#F0AD4E}.__react_component_tooltip.type-warning.place-top:after{border-top-color:#F0AD4E;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-warning.place-bottom:after{border-bottom-color:#F0AD4E;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-warning.place-left:after{border-left-color:#F0AD4E;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-warning.place-right:after{border-right-color:#F0AD4E;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-warning.border{border:1px solid #fff}.__react_component_tooltip.type-warning.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-warning.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-warning.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-warning.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-error{color:#fff;background-color:#BE6464}.__react_component_tooltip.type-error.place-top:after{border-top-color:#BE6464;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-error.place-bottom:after{border-bottom-color:#BE6464;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-error.place-left:after{border-left-color:#BE6464;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-error.place-right:after{border-right-color:#BE6464;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-error.border{border:1px solid #fff}.__react_component_tooltip.type-error.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-error.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-error.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-error.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-info{color:#fff;background-color:#337AB7}.__react_component_tooltip.type-info.place-top:after{border-top-color:#337AB7;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-info.place-bottom:after{border-bottom-color:#337AB7;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-info.place-left:after{border-left-color:#337AB7;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-info.place-right:after{border-right-color:#337AB7;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-info.border{border:1px solid #fff}.__react_component_tooltip.type-info.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-info.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-info.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-info.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-light{color:#222;background-color:#fff}.__react_component_tooltip.type-light.place-top:after{border-top-color:#fff;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-light.place-bottom:after{border-bottom-color:#fff;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-light.place-left:after{border-left-color:#fff;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-light.place-right:after{border-right-color:#fff;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-light.border{border:1px solid #222}.__react_component_tooltip.type-light.border.place-top:before{border-top:8px solid #222}.__react_component_tooltip.type-light.border.place-bottom:before{border-bottom:8px solid #222}.__react_component_tooltip.type-light.border.place-left:before{border-left:8px solid #222}.__react_component_tooltip.type-light.border.place-right:before{border-right:8px solid #222}.__react_component_tooltip.place-top{margin-top:-10px}.__react_component_tooltip.place-top:before{border-left:10px solid transparent;border-right:10px solid transparent;bottom:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-top:after{border-left:8px solid transparent;border-right:8px solid transparent;bottom:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-bottom{margin-top:10px}.__react_component_tooltip.place-bottom:before{border-left:10px solid transparent;border-right:10px solid transparent;top:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-bottom:after{border-left:8px solid transparent;border-right:8px solid transparent;top:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-left{margin-left:-10px}.__react_component_tooltip.place-left:before{border-top:6px solid transparent;border-bottom:6px solid transparent;right:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-left:after{border-top:5px solid transparent;border-bottom:5px solid transparent;right:-6px;top:50%;margin-top:-4px}.__react_component_tooltip.place-right{margin-left:10px}.__react_component_tooltip.place-right:before{border-top:6px solid transparent;border-bottom:6px solid transparent;left:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-right:after{border-top:5px solid transparent;border-bottom:5px solid transparent;left:-6px;top:50%;margin-top:-4px}.__react_component_tooltip .multi-line{display:block;padding:2px 0px;text-align:center}';
 
 /***/ }),
-/* 304 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Credit to Github user: rwu823
-// https://github.com/rwu823/react-ripples
-
-var RIPPLE_STYLE = Object.freeze({
-  position: 'absolute',
-  borderRadius: '50%',
-  opacity: 0,
-  width: 35,
-  height: 35,
-  transform: 'translate(-50%, -50%)',
-  pointerEvents: 'none'
-});
-
-var WRAP_STYLE = Object.freeze({
-  position: 'absolute',
-  display: 'inline-block',
-  overflow: 'hidden',
-  width: '100%',
-  height: '100%',
-  top: 0,
-  left: 0,
-  pointerEvents: 'none'
-});
-
-var CONTAINER_STYLE = Object.freeze({
-  position: 'relative',
-  display: 'inline-block'
-});
-
-var MatRippleComponent = function (_React$PureComponent) {
-  _inherits(MatRippleComponent, _React$PureComponent);
-
-  function MatRippleComponent(props) {
-    _classCallCheck(this, MatRippleComponent);
-
-    var _this = _possibleConstructorReturn(this, (MatRippleComponent.__proto__ || Object.getPrototypeOf(MatRippleComponent)).call(this, props));
-
-    _this.state = {
-      rippleStyle: {}
-    };
-    return _this;
-  }
-
-  _createClass(MatRippleComponent, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      // Prevent setting state after component unmounts.
-      clearTimeout(this.timeout);
-    }
-  }, {
-    key: 'handleClick',
-    value: function handleClick(e) {
-      var _this2 = this;
-
-      e.stopPropagation();
-
-      var _props = this.props,
-          onClick = _props.onClick,
-          color = _props.color,
-          duration = _props.duration;
-      var pageX = e.pageX,
-          pageY = e.pageY,
-          currentTarget = e.currentTarget;
-
-      var targetClientRect = currentTarget.getBoundingClientRect();
-
-      var left = pageX - targetClientRect.left;
-      var top = pageY - targetClientRect.top - $(window).scrollTop();
-
-      this.setState({
-        rippleStyle: {
-          top: top, left: left,
-          opacity: 1,
-          backgroundColor: color
-        }
-      });
-
-      this.timeout = setTimeout(function () {
-        var size = Math.max(targetClientRect.width, targetClientRect.height);
-
-        _this2.setState({
-          rippleStyle: {
-            top: top, left: left,
-            backgroundColor: color,
-            transition: 'all ' + duration + 'ms',
-            transform: RIPPLE_STYLE.transform + ' scale(' + size / 9 + ')',
-            opacity: 0
-          }
-        });
-      }, 50);
-
-      if (typeof onClick === 'function') {
-        onClick(e);
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props2 = this.props,
-          style = _props2.style,
-          isCircle = _props2.isCircle,
-          children = _props2.children;
-
-
-      var wrapStyle = Object.assign({}, style, WRAP_STYLE, isCircle ? { borderRadius: '50%' } : {});
-      var rippleStyle = Object.assign({}, RIPPLE_STYLE, this.state.rippleStyle);
-
-      return _react2.default.createElement(
-        'div',
-        { style: CONTAINER_STYLE,
-          onClick: this.handleClick.bind(this) },
-        _react2.default.createElement(
-          'div',
-          { style: wrapStyle },
-          _react2.default.createElement('s', { style: rippleStyle })
-        ),
-        children
-      );
-    }
-  }]);
-
-  return MatRippleComponent;
-}(_react2.default.PureComponent);
-
-MatRippleComponent.defaultProps = {
-  duration: 600,
-  color: 'rgba(255, 255, 255, .3)'
-};
-
-exports.default = MatRippleComponent;
-
-/***/ }),
+/* 304 */,
 /* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32265,11 +31455,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _empty = __webpack_require__(5);
 
-var _mat_button = __webpack_require__(23);
+var _mat_button = __webpack_require__(341);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
-var _mat_color = __webpack_require__(20);
+var _mat_color = __webpack_require__(340);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32311,17 +31501,17 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _mat_slider = __webpack_require__(137);
+var _mat_slider = __webpack_require__(345);
 
 var _mat_slider2 = _interopRequireDefault(_mat_slider);
 
-var _mat_button = __webpack_require__(23);
+var _mat_button = __webpack_require__(341);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
-var _mat_color = __webpack_require__(20);
+var _mat_color = __webpack_require__(340);
 
-var _grid = __webpack_require__(48);
+var _grid = __webpack_require__(342);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32374,11 +31564,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _time = __webpack_require__(314);
 
-var _mat_slider = __webpack_require__(137);
+var _mat_slider = __webpack_require__(345);
 
 var _mat_slider2 = _interopRequireDefault(_mat_slider);
 
-var _grid = __webpack_require__(48);
+var _grid = __webpack_require__(342);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32562,9 +31752,25 @@ var _reactRedux = __webpack_require__(19);
 
 var _home_actions = __webpack_require__(138);
 
+var _tabs = __webpack_require__(354);
+
+var _tabs2 = _interopRequireDefault(_tabs);
+
+var _mat_nav_bar = __webpack_require__(352);
+
+var _mat_nav_bar2 = _interopRequireDefault(_mat_nav_bar);
+
 var _top_tracks_gallery = __webpack_require__(317);
 
 var _top_tracks_gallery2 = _interopRequireDefault(_top_tracks_gallery);
+
+var _title = __webpack_require__(338);
+
+var _title2 = _interopRequireDefault(_title);
+
+var _table_type_picker = __webpack_require__(355);
+
+var _table_type_picker2 = _interopRequireDefault(_table_type_picker);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32574,44 +31780,36 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var BOX_SHADOW_STYLE = Object.freeze({
-  'border-bottom': '1px solid rgba(0, 0, 0, 0)',
-  'box-shadow': '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
+var TABLE_VALUES = Object.freeze({
+  TOP_TRACKS: 0,
+  TOP_ARTISTS: 1
 });
 
-var BORDER_STYLE = Object.freeze({
-  'border-bottom': '1px solid #e0e0e0',
-  'box-shadow': 'none'
-});
+var TABS = [{
+  label: 'Top Tracks',
+  value: TABLE_VALUES.TOP_TRACKS
+}, {
+  label: 'Top Artists',
+  value: TABLE_VALUES.TOP_ARTISTS
+}];
 
 var HomeComponent = function (_React$Component) {
   _inherits(HomeComponent, _React$Component);
 
-  function HomeComponent() {
+  function HomeComponent(props) {
     _classCallCheck(this, HomeComponent);
 
-    return _possibleConstructorReturn(this, (HomeComponent.__proto__ || Object.getPrototypeOf(HomeComponent)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (HomeComponent.__proto__ || Object.getPrototypeOf(HomeComponent)).call(this, props));
+
+    _this.state = { table: TABLE_VALUES.TOP_TRACKS };
+    return _this;
   }
 
   _createClass(HomeComponent, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.scrollHandler = this.updateNavBarStyle.bind(this);
-      $(document).scroll(this.scrollHandler);
-      this.scrollHandler();
-
-      this.props.fetchTracks();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      $(document).off('scroll', this.scrollHandler);
-    }
-  }, {
-    key: 'updateNavBarStyle',
-    value: function updateNavBarStyle() {
-      var style = $(window).scrollTop() !== 0 ? BOX_SHADOW_STYLE : BORDER_STYLE;
-      $(_reactDom2.default.findDOMNode(this)).find('.nav-bar').css(style);
+      this.props.fetchTopTracks();
+      this.props.fetchTopArtists();
     }
   }, {
     key: 'render',
@@ -32620,26 +31818,18 @@ var HomeComponent = function (_React$Component) {
         'div',
         { className: 'home' },
         _react2.default.createElement(
-          'div',
-          { className: 'nav-bar' },
+          _mat_nav_bar2.default,
+          null,
           _react2.default.createElement(
             'div',
             { className: 'title-container' },
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement('img', { src: '/static/images/logo.png' }),
-              _react2.default.createElement(
-                'span',
-                null,
-                'Orange Music'
-              )
-            )
+            _react2.default.createElement(_title2.default, null)
           ),
           _react2.default.createElement(
             'div',
-            { className: 'top-tracks-label' },
-            'Top Tracks'
+            { className: 'table-options-bar' },
+            _react2.default.createElement(_tabs2.default, { tabs: TABS }),
+            _react2.default.createElement(_table_type_picker2.default, null)
           )
         ),
         _react2.default.createElement(
@@ -32660,8 +31850,11 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchTracks: function fetchTracks() {
-      dispatch((0, _home_actions.fetchTracks)());
+    fetchTopTracks: function fetchTopTracks() {
+      dispatch((0, _home_actions.fetchTopTracks)());
+    },
+    fetchTopArtists: function fetchTopArtists() {
+      dispatch((0, _home_actions.fetchTopArtists)());
     }
   };
 };
@@ -32689,11 +31882,11 @@ var _empty = __webpack_require__(5);
 
 var _queue_actions = __webpack_require__(30);
 
-var _flex_gallery = __webpack_require__(318);
+var _flex_gallery = __webpack_require__(353);
 
 var _flex_gallery2 = _interopRequireDefault(_flex_gallery);
 
-var _mat_spinner = __webpack_require__(139);
+var _mat_spinner = __webpack_require__(346);
 
 var _mat_spinner2 = _interopRequireDefault(_mat_spinner);
 
@@ -32740,71 +31933,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TopTracksGalleryComponent);
 
 /***/ }),
-/* 318 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(5);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DEFAULT_MAX_COLUMNS = 4;
-
-var FlexGalleryComponent = function FlexGalleryComponent(_ref) {
-  var galleryClassName = _ref.galleryClassName,
-      objs = _ref.objs,
-      keyPath = _ref.keyPath,
-      component = _ref.component,
-      maxColumns = _ref.maxColumns,
-      actions = _ref.actions;
-
-
-  galleryClassName = (0, _empty.isNotEmpty)(galleryClassName) ? galleryClassName : '';
-  galleryClassName += ' flex-gallery';
-  galleryClassName = galleryClassName.trim();
-
-  maxColumns = (0, _empty.coalesce)(maxColumns, DEFAULT_MAX_COLUMNS);
-
-  return _react2.default.createElement(
-    'div',
-    { className: galleryClassName },
-    getItems({ objs: objs, keyPath: keyPath, component: component, maxColumns: maxColumns, actions: actions })
-  );
-};
-
-var getItems = function getItems(_ref2) {
-  var objs = _ref2.objs,
-      keyPath = _ref2.keyPath,
-      component = _ref2.component,
-      maxColumns = _ref2.maxColumns,
-      actions = _ref2.actions;
-
-  return objs.map(function (obj) {
-    return _react2.default.createElement(
-      'div',
-      { className: 'item',
-        key: obj[keyPath],
-        style: {
-          flex: '0 0 ' + 100 / maxColumns + '%'
-        } },
-      component(obj, actions)
-    );
-  });
-};
-
-exports.default = FlexGalleryComponent;
-
-/***/ }),
+/* 318 */,
 /* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32825,11 +31954,11 @@ var _image = __webpack_require__(49);
 
 var _last_fm_api = __webpack_require__(29);
 
-var _mat_button = __webpack_require__(23);
+var _mat_button = __webpack_require__(341);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
-var _mat_color = __webpack_require__(20);
+var _mat_color = __webpack_require__(340);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33015,11 +32144,11 @@ var _reactRedux = __webpack_require__(19);
 
 var _reactRouter = __webpack_require__(135);
 
-var _mat_button = __webpack_require__(23);
+var _mat_button = __webpack_require__(341);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
-var _mat_color = __webpack_require__(20);
+var _mat_color = __webpack_require__(340);
 
 var _last_fm_api = __webpack_require__(29);
 
@@ -33178,11 +32307,11 @@ var _search_results_schema = __webpack_require__(141);
 
 var _search_results_schema2 = _interopRequireDefault(_search_results_schema);
 
-var _flex_table = __webpack_require__(50);
+var _flex_table = __webpack_require__(343);
 
 var _flex_table2 = _interopRequireDefault(_flex_table);
 
-var _mat_spinner = __webpack_require__(139);
+var _mat_spinner = __webpack_require__(346);
 
 var _mat_spinner2 = _interopRequireDefault(_mat_spinner);
 
@@ -33248,11 +32377,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _mat_button = __webpack_require__(23);
+var _mat_button = __webpack_require__(341);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
-var _mat_color = __webpack_require__(20);
+var _mat_color = __webpack_require__(340);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33352,7 +32481,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _flex_table_header = __webpack_require__(78);
+var _flex_table_header = __webpack_require__(344);
 
 var _flex_table_header2 = _interopRequireDefault(_flex_table_header);
 
@@ -33526,11 +32655,11 @@ var _empty = __webpack_require__(5);
 
 var _queue_actions = __webpack_require__(30);
 
-var _flex_table = __webpack_require__(50);
+var _flex_table = __webpack_require__(343);
 
 var _flex_table2 = _interopRequireDefault(_flex_table);
 
-var _flex_table_header = __webpack_require__(78);
+var _flex_table_header = __webpack_require__(344);
 
 var _flex_table_header2 = _interopRequireDefault(_flex_table_header);
 
@@ -33594,11 +32723,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _mat_button = __webpack_require__(23);
+var _mat_button = __webpack_require__(341);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
-var _mat_color = __webpack_require__(20);
+var _mat_color = __webpack_require__(340);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33659,7 +32788,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _flex_table_header = __webpack_require__(78);
+var _flex_table_header = __webpack_require__(344);
 
 var _flex_table_header2 = _interopRequireDefault(_flex_table_header);
 
@@ -33696,7 +32825,7 @@ var _empty = __webpack_require__(5);
 
 var _queue_actions = __webpack_require__(30);
 
-var _flex_table = __webpack_require__(50);
+var _flex_table = __webpack_require__(343);
 
 var _flex_table2 = _interopRequireDefault(_flex_table);
 
@@ -33755,6 +32884,11 @@ var DEFAULT_STATE = Object.freeze({
     tracks: [],
     page: 1,
     total: 0
+  },
+  topArtists: {
+    artists: [],
+    page: 1,
+    total: 0
   }
 });
 
@@ -33767,6 +32901,14 @@ var homeReducer = function homeReducer() {
       return Object.assign({}, prevState, {
         topTracks: {
           tracks: action.tracks,
+          page: action.page,
+          total: action.total
+        }
+      });
+    case _home_actions.RECEIVE_TOP_ARTISTS:
+      return Object.assign({}, prevState, {
+        topArtists: {
+          artists: action.artists,
           page: action.page,
           total: action.total
         }
@@ -33902,6 +33044,1317 @@ var receiveVideoForTrack = function receiveVideoForTrack(prevState, action) {
 };
 
 exports.default = queueReducer;
+
+/***/ }),
+/* 336 */,
+/* 337 */,
+/* 338 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TITLE = 'Orange Music';
+var LOGO_IMG_SRC = '/static/images/logo.png';
+
+var OrangeMusicTitleComponent = function OrangeMusicTitleComponent() {
+  return _react2.default.createElement(
+    'div',
+    { className: 'orange-music-title' },
+    _react2.default.createElement('img', { src: LOGO_IMG_SRC }),
+    _react2.default.createElement(
+      'span',
+      null,
+      TITLE
+    )
+  );
+};
+
+exports.default = OrangeMusicTitleComponent;
+
+/***/ }),
+/* 339 */,
+/* 340 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// Orange
+var orange_lighten_5 = exports.orange_lighten_5 = '#fff3e0';
+var orange_lighten_4 = exports.orange_lighten_4 = '#ffe0b2';
+var orange_lighten_3 = exports.orange_lighten_3 = '#ffcc80';
+var orange_lighten_2 = exports.orange_lighten_2 = '#ffb74d';
+var orange_lighten_1 = exports.orange_lighten_1 = '#ffa726';
+var orange = exports.orange = '#ff9800';
+var orange_darken_1 = exports.orange_darken_1 = '#fb8c00';
+var orange_darken_2 = exports.orange_darken_2 = '#f57c00';
+var orange_darken_3 = exports.orange_darken_3 = '#ef6c00';
+var orange_darken_4 = exports.orange_darken_4 = '#e65100';
+var orange_accent_1 = exports.orange_accent_1 = '#ffd180';
+var orange_accent_2 = exports.orange_accent_2 = '#ffab40';
+var orange_accent_3 = exports.orange_accent_3 = '#ff9100';
+var orange_accent_4 = exports.orange_accent_4 = '#ff6d00';
+
+// Blue
+var blue_lighten_5 = exports.blue_lighten_5 = '#e3f2fd';
+var blue_lighten_4 = exports.blue_lighten_4 = '#bbdefb';
+var blue_lighten_3 = exports.blue_lighten_3 = '#90caf9';
+var blue_lighten_2 = exports.blue_lighten_2 = '#64b5f6';
+var blue_lighten_1 = exports.blue_lighten_1 = '#42a5f5';
+var blue = exports.blue = '#2196f3';
+var blue_darken_1 = exports.blue_darken_1 = '#1e88e5';
+var blue_darken_2 = exports.blue_darken_2 = '#1976d2';
+var blue_darken_3 = exports.blue_darken_3 = '#1565c0';
+var blue_darken_4 = exports.blue_darken_4 = '#0d47a1';
+var blue_accent_1 = exports.blue_accent_1 = '#82b1ff';
+var blue_accent_2 = exports.blue_accent_2 = '#448aff';
+var blue_accent_3 = exports.blue_accent_3 = '#2979ff';
+var blue_accent_4 = exports.blue_accent_4 = '#2962ff';
+
+// Red
+var red_lighten_5 = exports.red_lighten_5 = '#ffebee';
+var red_lighten_4 = exports.red_lighten_4 = '#ffcdd2';
+var red_lighten_3 = exports.red_lighten_3 = '#ef9a9a';
+var red_lighten_2 = exports.red_lighten_2 = '#e57373';
+var red_lighten_1 = exports.red_lighten_1 = '#ef5350';
+var red = exports.red = '#f44336';
+var red_darken_1 = exports.red_darken_1 = '#e53935';
+var red_darken_2 = exports.red_darken_2 = '#d32f2f';
+var red_darken_3 = exports.red_darken_3 = '#c62828';
+var red_darken_4 = exports.red_darken_4 = '#b71c1c';
+var red_accent_1 = exports.red_accent_1 = '#ff8a80';
+var red_accent_2 = exports.red_accent_2 = '#ff5252';
+var red_accent_3 = exports.red_accent_3 = '#ff1744';
+var red_accent_4 = exports.red_accent_4 = '#d50000';
+
+// Green
+var green_lighten_5 = exports.green_lighten_5 = '#e8f5e9';
+var green_lighten_4 = exports.green_lighten_4 = '#c8e6c9';
+var green_lighten_3 = exports.green_lighten_3 = '#a5d6a7';
+var green_lighten_2 = exports.green_lighten_2 = '#81c784';
+var green_lighten_1 = exports.green_lighten_1 = '#66bb6a';
+var green = exports.green = '#4caf50';
+var green_darken_1 = exports.green_darken_1 = '#43a047';
+var green_darken_2 = exports.green_darken_2 = '#388e3c';
+var green_darken_3 = exports.green_darken_3 = '#2e7d32';
+var green_darken_4 = exports.green_darken_4 = '#1b5e20';
+var green_accent_1 = exports.green_accent_1 = '#b9f6ca';
+var green_accent_2 = exports.green_accent_2 = '#69f0ae';
+var green_accent_3 = exports.green_accent_3 = '#00e676';
+var green_accent_4 = exports.green_accent_4 = '#00c853';
+
+// Gray
+var grey_lighten_5 = exports.grey_lighten_5 = '#fafafa';
+var grey_lighten_4 = exports.grey_lighten_4 = '#f5f5f5';
+var grey_lighten_3 = exports.grey_lighten_3 = '#eeeeee';
+var grey_lighten_2 = exports.grey_lighten_2 = '#e0e0e0';
+var grey_lighten_1 = exports.grey_lighten_1 = '#bdbdbd';
+var grey = exports.grey = '#9e9e9e';
+var grey_darken_1 = exports.grey_darken_1 = '#757575';
+var grey_darken_2 = exports.grey_darken_2 = '#616161';
+var grey_darken_3 = exports.grey_darken_3 = '#424242';
+var grey_darken_4 = exports.grey_darken_4 = '#212121';
+
+// Black & White
+var white = exports.white = '#FFFFFF';
+var black = exports.black = '#000000';
+
+var transparent = exports.transparent = 'rgba(0,0,0,0)';
+
+/***/ }),
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _simpleReactTooltip = __webpack_require__(294);
+
+var _simpleReactTooltip2 = _interopRequireDefault(_simpleReactTooltip);
+
+var _empty = __webpack_require__(5);
+
+var _mat_ripple = __webpack_require__(350);
+
+var _mat_ripple2 = _interopRequireDefault(_mat_ripple);
+
+var _grid = __webpack_require__(342);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BUTTON_CLASS_NAME = 'mat-btn';
+var WRAP_CLASS_NAME = 'mat-btn-wrap';
+var DISABLED_CLASS_NAME = 'disabled';
+var TEXT_CLASS_NAME = 'btn-txt';
+var CIRCLE_CLASS_NAME = 'btn-cir';
+var HOVERED_CLASS_NAME = 'hovered';
+
+var TEXT_ICON_SEPARATION = _grid.GRID;
+
+var MatButtonComponent = function (_React$Component) {
+  _inherits(MatButtonComponent, _React$Component);
+
+  function MatButtonComponent() {
+    _classCallCheck(this, MatButtonComponent);
+
+    return _possibleConstructorReturn(this, (MatButtonComponent.__proto__ || Object.getPrototypeOf(MatButtonComponent)).apply(this, arguments));
+  }
+
+  _createClass(MatButtonComponent, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          icon = _props.icon,
+          isCircle = _props.isCircle,
+          isText = _props.isText,
+          isDisabled = _props.isDisabled,
+          onClick = _props.onClick,
+          tooltip = _props.tooltip,
+          buttonClassName = _props.buttonClassName,
+          isSubmit = _props.isSubmit,
+          text = _props.text,
+          wrapClassName = _props.wrapClassName;
+
+      // Format button class name.
+
+      var buttonClassName1 = (0, _empty.isNotEmpty)(buttonClassName) ? buttonClassName : '';
+      buttonClassName1 += ' ' + BUTTON_CLASS_NAME;
+      if (isDisabled) {
+        buttonClassName1 += ' ' + DISABLED_CLASS_NAME;
+      }
+      if (isText) {
+        buttonClassName1 += ' ' + TEXT_CLASS_NAME;
+      }
+      if (isCircle) {
+        buttonClassName1 += ' ' + CIRCLE_CLASS_NAME;
+      }
+      buttonClassName1 = buttonClassName1.trim();
+
+      // Format wrap class name.
+      var wrapClassName1 = (0, _empty.isNotEmpty)(wrapClassName) ? wrapClassName : '';
+      wrapClassName1 += ' ' + WRAP_CLASS_NAME;
+      wrapClassName1 = wrapClassName1.trim();
+
+      // Format text and icon.
+      var text1 = (0, _empty.isNotEmpty)(text) ? text : '';
+      var $icon = (0, _empty.isNotEmpty)(icon) ? _react2.default.createElement('i', { className: 'fa fa-' + icon,
+        style: {
+          marginLeft: (0, _empty.isNotEmpty)(text1) ? TEXT_ICON_SEPARATION : 0
+        } }) : '';
+
+      // Render button w/o wrap or ripple.
+      var $button = _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'button',
+          { className: buttonClassName1,
+            'data-tip': tooltip,
+            onClick: onClick,
+            type: isSubmit ? 'submit' : 'button' },
+          text1,
+          $icon
+        ),
+        (0, _empty.isNotEmpty)(tooltip) ? _react2.default.createElement(_simpleReactTooltip2.default, { effect: 'solid' }) : ''
+      );
+
+      // Disabled buttons dont get ripple.
+      return isDisabled ? _react2.default.createElement(
+        'div',
+        { className: wrapClassName1,
+          style: { display: 'inline-block' } },
+        $button
+      ) : _react2.default.createElement(
+        'div',
+        { className: wrapClassName1,
+          style: { display: 'inline-block' } },
+        _react2.default.createElement(
+          _mat_ripple2.default,
+          { isCircle: isCircle },
+          $button
+        )
+      );
+    }
+  }]);
+
+  return MatButtonComponent;
+}(_react2.default.Component);
+
+exports.default = MatButtonComponent;
+
+/***/ }),
+/* 342 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var GRID = exports.GRID = 8;
+
+/***/ }),
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(5);
+
+var _nested_field = __webpack_require__(325);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FlexTableComponent = function FlexTableComponent(_ref) {
+  var tableClassName = _ref.tableClassName,
+      rowObjs = _ref.rowObjs,
+      keyPath = _ref.keyPath,
+      schema = _ref.schema,
+      actions = _ref.actions,
+      componentPath = _ref.componentPath;
+
+
+  tableClassName = (0, _empty.isNotEmpty)(tableClassName) ? tableClassName : '';
+  tableClassName += ' flex-table';
+  tableClassName = tableClassName.trim();
+
+  return _react2.default.createElement(
+    'div',
+    { className: tableClassName },
+    getRows({ rowObjs: rowObjs, keyPath: keyPath, schema: schema, actions: actions, componentPath: componentPath })
+  );
+};
+
+var getRows = function getRows(_ref2) {
+  var rowObjs = _ref2.rowObjs,
+      keyPath = _ref2.keyPath,
+      schema = _ref2.schema,
+      actions = _ref2.actions,
+      componentPath = _ref2.componentPath;
+
+  return rowObjs.map(function (rowObj) {
+    return _react2.default.createElement(
+      'div',
+      { className: 'row',
+        key: rowObj[keyPath] },
+      getColumns({ rowObj: rowObj, schema: schema, actions: actions, componentPath: componentPath })
+    );
+  });
+};
+
+var getColumns = function getColumns(_ref3) {
+  var rowObj = _ref3.rowObj,
+      schema = _ref3.schema,
+      actions = _ref3.actions,
+      componentPath = _ref3.componentPath;
+
+  return Object.keys(schema).map(function (field) {
+    componentPath = (0, _empty.isNotEmpty)(componentPath) ? componentPath : 'component';
+    var component = schema[field][componentPath];
+    var $renderedComponent = typeof component === 'function' ? component((0, _nested_field.getNestedFieldValue)(rowObj, field), actions, rowObj) : component;
+    return getColumn({
+      $content: $renderedComponent,
+      schema: schema,
+      field: field
+    });
+  });
+};
+
+var getColumn = function getColumn(_ref4) {
+  var $content = _ref4.$content,
+      schema = _ref4.schema,
+      field = _ref4.field;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'cell',
+      key: field,
+      style: {
+        flex: '0 1 ' + schema[field].width + '%'
+      } },
+    $content
+  );
+};
+
+exports.default = FlexTableComponent;
+
+/***/ }),
+/* 344 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(5);
+
+var _flex_table = __webpack_require__(343);
+
+var _flex_table2 = _interopRequireDefault(_flex_table);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FlexTableHeaderComponent = function FlexTableHeaderComponent(_ref) {
+  var headerClassName = _ref.headerClassName,
+      schema = _ref.schema;
+
+  headerClassName = (0, _empty.isNotEmpty)(headerClassName) ? headerClassName : '';
+  headerClassName += ' flex-table-header';
+  headerClassName = headerClassName.trim();
+
+  return _react2.default.createElement(_flex_table2.default, { tableClassName: headerClassName,
+    rowObjs: [{ key: 1 }],
+    keyPath: 'key',
+    schema: schema,
+    componentPath: 'label' });
+};
+
+exports.default = FlexTableHeaderComponent;
+
+/***/ }),
+/* 345 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(26);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _empty = __webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BAR_CLASS_NAME = 'mat-slider';
+var HANDLE_CLASS_NAME = 'handle';
+
+var MatMatSliderComponent = function (_React$Component) {
+  _inherits(MatMatSliderComponent, _React$Component);
+
+  function MatMatSliderComponent() {
+    _classCallCheck(this, MatMatSliderComponent);
+
+    return _possibleConstructorReturn(this, (MatMatSliderComponent.__proto__ || Object.getPrototypeOf(MatMatSliderComponent)).apply(this, arguments));
+  }
+
+  _createClass(MatMatSliderComponent, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _props = this.props,
+          value = _props.value,
+          maxValue = _props.maxValue;
+
+      this.moveHandle.bind(this, value / maxValue)();
+    }
+  }, {
+    key: 'onHandleDown',
+    value: function onHandleDown(e) {
+      var _this2 = this;
+
+      var _props2 = this.props,
+          onValueChange = _props2.onValueChange,
+          maxValue = _props2.maxValue,
+          isDisabled = _props2.isDisabled,
+          handleWidth = _props2.handleWidth;
+
+      if (isDisabled) {
+        return;
+      }
+
+      var onMouseMove = function onMouseMove(e) {
+        var offsetRatio = _this2.getMouseOffsetRatio.bind(_this2, e)();
+        _this2.moveHandle.bind(_this2, offsetRatio)();
+      };
+
+      var onMouseUp = function onMouseUp(e) {
+        $(window).off('mousemove', onMouseMove);
+        $(window).off('mouseup', onMouseUp);
+        _this2.changeValue.bind(_this2, e)();
+      };
+
+      $(window).mousemove(onMouseMove);
+      $(window).mouseup(onMouseUp);
+    }
+  }, {
+    key: 'changeValue',
+    value: function changeValue(e) {
+      var _props3 = this.props,
+          onValueChange = _props3.onValueChange,
+          maxValue = _props3.maxValue,
+          isDisabled = _props3.isDisabled;
+
+      if (isDisabled || typeof onValueChange !== 'function') {
+        return;
+      }
+
+      var offsetRatio = this.getMouseOffsetRatio.bind(this, e)();
+      onValueChange(offsetRatio * maxValue);
+    }
+  }, {
+    key: 'moveHandle',
+    value: function moveHandle(offsetRatio) {
+      var handleWidth = this.props.handleWidth;
+
+      this.getHandle.bind(this)().css({
+        left: getHandleLeft({ offsetRatio: offsetRatio, handleWidth: handleWidth })
+      });
+    }
+  }, {
+    key: 'getMouseOffsetRatio',
+    value: function getMouseOffsetRatio(e) {
+      var $bar = this.getBar.bind(this)();
+      var mouseOffset = e.pageX - $bar.offset().left;
+      var offsetRatio = mouseOffset / $bar.width();
+      if (offsetRatio < 0) {
+        offsetRatio = 0;
+      }
+      if (offsetRatio > 1) {
+        offsetRatio = 1;
+      }
+      return offsetRatio;
+    }
+  }, {
+    key: 'getBar',
+    value: function getBar() {
+      return $(_reactDom2.default.findDOMNode(this));
+    }
+  }, {
+    key: 'getHandle',
+    value: function getHandle() {
+      return this.getBar.bind(this)().find('.' + HANDLE_CLASS_NAME);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props4 = this.props,
+          value = _props4.value,
+          maxValue = _props4.maxValue,
+          isDisabled = _props4.isDisabled,
+          handleWidth = _props4.handleWidth,
+          barClassName = _props4.barClassName,
+          handleClassName = _props4.handleClassName;
+
+
+      var barClassName1 = (0, _empty.isNotEmpty)(barClassName) ? barClassName : '';
+      barClassName1 += ' ' + BAR_CLASS_NAME;
+      barClassName1 = barClassName1.trim();
+
+      var handleClassName1 = (0, _empty.isNotEmpty)(handleClassName) ? handleClassName : '';
+      handleClassName1 += ' ' + HANDLE_CLASS_NAME;
+      handleClassName1 = handleClassName1.trim();
+
+      var offsetRatio = value / maxValue;
+      var $slider = !isDisabled ? _react2.default.createElement('span', { className: handleClassName1,
+        onMouseDown: this.onHandleDown.bind(this),
+        style: {
+          left: getHandleLeft({ offsetRatio: offsetRatio, handleWidth: handleWidth }),
+          cursor: 'pointer'
+        } }) : '';
+
+      return _react2.default.createElement(
+        'div',
+        { className: barClassName1,
+          onClick: this.changeValue.bind(this),
+          style: {
+            cursor: isDisabled ? 'auto' : 'pointer'
+          } },
+        $slider
+      );
+    }
+  }]);
+
+  return MatMatSliderComponent;
+}(_react2.default.Component);
+
+var getHandleLeft = function getHandleLeft(_ref) {
+  var offsetRatio = _ref.offsetRatio,
+      handleWidth = _ref.handleWidth;
+
+  return 'calc(' + offsetRatio * 100 + '% - ' + handleWidth / 2 + 'px)';
+};
+
+exports.default = MatMatSliderComponent;
+
+/***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(5);
+
+var _grid = __webpack_require__(342);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SPINNER_CLASS_NAME = 'mat-spinner'; // Credit to Codepen user: jczimm
+// https://codepen.io/jczimm/pen/vEBpoL
+
+var SVG_CLASS_NAME = 'circular';
+var CIRCLE_CLASS_NAME = 'path';
+
+var DEFAULT_STROKE_WIDTH = _grid.GRID / 2;
+var DEFAULT_SIZE = _grid.GRID * 10;
+
+var MatSpinnerComponent = function MatSpinnerComponent(_ref) {
+  var spinnerClassName = _ref.spinnerClassName,
+      size = _ref.size,
+      strokeWidth = _ref.strokeWidth;
+
+  spinnerClassName = (0, _empty.isNotEmpty)(spinnerClassName) ? spinnerClassName : '';
+  spinnerClassName += ' ' + SPINNER_CLASS_NAME;
+  spinnerClassName = spinnerClassName.trim();
+
+  size = (0, _empty.isNotEmpty)(size) ? size : DEFAULT_SIZE;
+  strokeWidth = (0, _empty.isNotEmpty)(strokeWidth) ? strokeWidth : DEFAULT_STROKE_WIDTH;
+
+  var svgViewBox = size / 4 + ' ' + size / 4 + ' ' + size / 2 + ' ' + size / 2;
+  return _react2.default.createElement(
+    'div',
+    { className: spinnerClassName,
+      style: {
+        width: size
+      } },
+    _react2.default.createElement(
+      'svg',
+      { className: SVG_CLASS_NAME,
+        viewBox: svgViewBox },
+      _react2.default.createElement('circle', { className: CIRCLE_CLASS_NAME,
+        cx: size / 2,
+        cy: size / 2,
+        r: size / 5,
+        fill: 'none',
+        strokeWidth: strokeWidth,
+        strokeMiterlimit: '10' })
+    )
+  );
+};
+
+exports.default = MatSpinnerComponent;
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DEFAULT_TEXT = '--';
+
+var TextCellComponent = function TextCellComponent(text) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'text-cell' },
+    (0, _empty.isNotEmpty)(text) ? text.toString() : DEFAULT_TEXT
+  );
+};
+
+exports.default = TextCellComponent;
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(5);
+
+var _image = __webpack_require__(49);
+
+var _last_fm_api = __webpack_require__(29);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IMAGE_IDX = 0;
+
+var ImageCellComponent = function ImageCellComponent(images) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'image-cell' },
+    _react2.default.createElement('img', { src: (0, _empty.isNotEmpty)(images) ? (0, _last_fm_api.getImageUrl)(images, 1) : _image.EMPTY_IMG_SRC })
+  );
+};
+
+exports.default = ImageCellComponent;
+
+/***/ }),
+/* 349 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MockImageCellComponent = function MockImageCellComponent(images) {
+  return _react2.default.createElement("div", { className: "mock-image-cell" });
+};
+
+exports.default = MockImageCellComponent;
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Credit to Github user: rwu823
+// https://github.com/rwu823/react-ripples
+
+var RIPPLE_STYLE = Object.freeze({
+  position: 'absolute',
+  borderRadius: '50%',
+  opacity: 0,
+  width: 35,
+  height: 35,
+  transform: 'translate(-50%, -50%)',
+  pointerEvents: 'none'
+});
+
+var WRAP_STYLE = Object.freeze({
+  position: 'absolute',
+  display: 'inline-block',
+  overflow: 'hidden',
+  width: '100%',
+  height: '100%',
+  top: 0,
+  left: 0,
+  pointerEvents: 'none'
+});
+
+var CONTAINER_STYLE = Object.freeze({
+  position: 'relative',
+  display: 'inline-block'
+});
+
+var MatRippleComponent = function (_React$PureComponent) {
+  _inherits(MatRippleComponent, _React$PureComponent);
+
+  function MatRippleComponent(props) {
+    _classCallCheck(this, MatRippleComponent);
+
+    var _this = _possibleConstructorReturn(this, (MatRippleComponent.__proto__ || Object.getPrototypeOf(MatRippleComponent)).call(this, props));
+
+    _this.state = {
+      rippleStyle: {}
+    };
+    return _this;
+  }
+
+  _createClass(MatRippleComponent, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Prevent setting state after component unmounts.
+      clearTimeout(this.timeout);
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick(e) {
+      var _this2 = this;
+
+      e.stopPropagation();
+
+      var _props = this.props,
+          onClick = _props.onClick,
+          color = _props.color,
+          duration = _props.duration;
+      var pageX = e.pageX,
+          pageY = e.pageY,
+          currentTarget = e.currentTarget;
+
+      var targetClientRect = currentTarget.getBoundingClientRect();
+
+      var left = pageX - targetClientRect.left;
+      var top = pageY - targetClientRect.top - $(window).scrollTop();
+
+      this.setState({
+        rippleStyle: {
+          top: top, left: left,
+          opacity: 1,
+          backgroundColor: color
+        }
+      });
+
+      this.timeout = setTimeout(function () {
+        var size = Math.max(targetClientRect.width, targetClientRect.height);
+
+        _this2.setState({
+          rippleStyle: {
+            top: top, left: left,
+            backgroundColor: color,
+            transition: 'all ' + duration + 'ms',
+            transform: RIPPLE_STYLE.transform + ' scale(' + size / 9 + ')',
+            opacity: 0
+          }
+        });
+      }, 50);
+
+      if (typeof onClick === 'function') {
+        onClick(e);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props2 = this.props,
+          style = _props2.style,
+          isCircle = _props2.isCircle,
+          children = _props2.children;
+
+
+      var wrapStyle = Object.assign({}, style, WRAP_STYLE, isCircle ? { borderRadius: '50%' } : {});
+      var rippleStyle = Object.assign({}, RIPPLE_STYLE, this.state.rippleStyle);
+
+      return _react2.default.createElement(
+        'div',
+        { style: CONTAINER_STYLE,
+          onClick: this.handleClick.bind(this) },
+        _react2.default.createElement(
+          'div',
+          { style: wrapStyle },
+          _react2.default.createElement('s', { style: rippleStyle })
+        ),
+        children
+      );
+    }
+  }]);
+
+  return MatRippleComponent;
+}(_react2.default.PureComponent);
+
+MatRippleComponent.defaultProps = {
+  duration: 600,
+  color: 'rgba(255, 255, 255, .3)'
+};
+
+exports.default = MatRippleComponent;
+
+/***/ }),
+/* 351 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(5);
+
+var _grid = __webpack_require__(342);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Keep up to date with mat_tabs.less
+var LABEL_WIDTH = _grid.GRID * 25;
+var LABEL_PADDING = _grid.GRID;
+var UNDERLINE_LEFT_UNIT = LABEL_WIDTH + LABEL_PADDING * 2;
+
+/// Material tabs component.
+///
+/// Selectable labels positioned horizontally. The selected label has an underline.
+///
+/// property *tabs* is of the form [{label, value}, ...].
+
+var MatTabsComponent = function (_React$Component) {
+  _inherits(MatTabsComponent, _React$Component);
+
+  function MatTabsComponent(props) {
+    _classCallCheck(this, MatTabsComponent);
+
+    // *tabs* should never be emtpty.
+    var _this = _possibleConstructorReturn(this, (MatTabsComponent.__proto__ || Object.getPrototypeOf(MatTabsComponent)).call(this, props));
+
+    if ((0, _empty.isEmpty)(_this.props.tabs)) {
+      throw 'MatTabsComponent: property *tabs* should not be empty';
+    }
+
+    // Select first tab.
+    _this.state = { selectedValue: props.tabs[0].value };
+    return _this;
+  }
+
+  _createClass(MatTabsComponent, [{
+    key: 'onLabelClick',
+    value: function onLabelClick(labelValue) {
+      this.setState({ selectedValue: labelValue });
+      if (typeof this.props.onTabChange === 'function') {
+        this.props.onTabChange(labelValue);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          tabsClassName = _props.tabsClassName,
+          tabs = _props.tabs;
+      var selectedValue = this.state.selectedValue;
+
+
+      var tabsClassName1 = (0, _empty.isNotEmpty)(tabsClassName) ? tabsClassName : '';
+      tabsClassName1 += ' mat-tabs';
+      tabsClassName1 = tabsClassName1.trim();
+
+      var underlineLeft = void 0;
+      var $labels = tabs.map(function (tab, i) {
+        var className = 'label';
+        if (tab.value === selectedValue) {
+          underlineLeft = UNDERLINE_LEFT_UNIT * i;
+          className += ' selected';
+        }
+        return _react2.default.createElement(
+          'div',
+          { className: className,
+            key: tab.value,
+            onClick: function onClick() {
+              _this2.onLabelClick.bind(_this2)(tab.value);
+            } },
+          tab.label
+        );
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: tabsClassName1 },
+        _react2.default.createElement(
+          'div',
+          { className: 'labels-container' },
+          $labels
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'underline-container' },
+          _react2.default.createElement('div', { className: 'underline',
+            style: { left: underlineLeft } })
+        )
+      );
+    }
+  }]);
+
+  return MatTabsComponent;
+}(_react2.default.Component);
+
+exports.default = MatTabsComponent;
+
+/***/ }),
+/* 352 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(26);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/// Style for when the window has been scrolled.
+var BOX_SHADOW_STYLE = Object.freeze({
+  'border-bottom': 0,
+  'box-shadow': '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)' // .shadow-1()
+});
+
+/// Style for when the window has *not* been scrolled.
+var BORDER_STYLE = Object.freeze({
+  'border-bottom': '1px solid #e0e0e0',
+  'box-shadow': 'none'
+});
+
+/// Material Navigation Bar.
+///
+/// Alternates between a solid bottom border and a shadow border, depending on
+/// whether the window has been scrolled.
+
+var MatNavBarComponent = function (_React$Component) {
+  _inherits(MatNavBarComponent, _React$Component);
+
+  function MatNavBarComponent() {
+    _classCallCheck(this, MatNavBarComponent);
+
+    return _possibleConstructorReturn(this, (MatNavBarComponent.__proto__ || Object.getPrototypeOf(MatNavBarComponent)).apply(this, arguments));
+  }
+
+  _createClass(MatNavBarComponent, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // Bind scroll handler.
+      this.scrollHandler = this.updateNavBarStyle.bind(this);
+      $(document).scroll(this.scrollHandler);
+
+      // Set initial style.
+      this.scrollHandler();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      $(document).off('scroll', this.scrollHandler);
+    }
+  }, {
+    key: 'updateNavBarStyle',
+    value: function updateNavBarStyle() {
+      var style = $(window).scrollTop() !== 0 ? BOX_SHADOW_STYLE : BORDER_STYLE;
+      $(_reactDom2.default.findDOMNode(this)).css(style);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'mat-nav-bar' },
+        this.props.children
+      );
+    }
+  }]);
+
+  return MatNavBarComponent;
+}(_react2.default.Component);
+
+exports.default = MatNavBarComponent;
+
+/***/ }),
+/* 353 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DEFAULT_MAX_COLUMNS = 4;
+
+var FlexGalleryComponent = function FlexGalleryComponent(_ref) {
+  var galleryClassName = _ref.galleryClassName,
+      objs = _ref.objs,
+      keyPath = _ref.keyPath,
+      component = _ref.component,
+      maxColumns = _ref.maxColumns,
+      actions = _ref.actions;
+
+
+  galleryClassName = (0, _empty.isNotEmpty)(galleryClassName) ? galleryClassName : '';
+  galleryClassName += ' flex-gallery';
+  galleryClassName = galleryClassName.trim();
+
+  maxColumns = (0, _empty.coalesce)(maxColumns, DEFAULT_MAX_COLUMNS);
+
+  return _react2.default.createElement(
+    'div',
+    { className: galleryClassName },
+    getItems({ objs: objs, keyPath: keyPath, component: component, maxColumns: maxColumns, actions: actions })
+  );
+};
+
+var getItems = function getItems(_ref2) {
+  var objs = _ref2.objs,
+      keyPath = _ref2.keyPath,
+      component = _ref2.component,
+      maxColumns = _ref2.maxColumns,
+      actions = _ref2.actions;
+
+  return objs.map(function (obj) {
+    return _react2.default.createElement(
+      'div',
+      { className: 'item',
+        key: obj[keyPath],
+        style: {
+          flex: '0 0 ' + 100 / maxColumns + '%'
+        } },
+      component(obj, actions)
+    );
+  });
+};
+
+exports.default = FlexGalleryComponent;
+
+/***/ }),
+/* 354 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _mat_tabs = __webpack_require__(351);
+
+var _mat_tabs2 = _interopRequireDefault(_mat_tabs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TabsComponent = function TabsComponent(_ref) {
+  var tabs = _ref.tabs;
+
+  return _react2.default.createElement(_mat_tabs2.default, { tabsClassName: 'om-tabs',
+    tabs: tabs });
+};
+
+exports.default = TabsComponent;
+
+/***/ }),
+/* 355 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _mat_button = __webpack_require__(341);
+
+var _mat_button2 = _interopRequireDefault(_mat_button);
+
+var _mat_color = __webpack_require__(340);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TABLE_TYPES = Object.freeze({
+  GALLERY: 0,
+  LIST: 1
+});
+
+var TableTypePickerComponent = function (_React$Component) {
+  _inherits(TableTypePickerComponent, _React$Component);
+
+  function TableTypePickerComponent(props) {
+    _classCallCheck(this, TableTypePickerComponent);
+
+    var _this = _possibleConstructorReturn(this, (TableTypePickerComponent.__proto__ || Object.getPrototypeOf(TableTypePickerComponent)).call(this, props));
+
+    _this.state = {
+      selectedTableType: TABLE_TYPES.GALLERY
+    };
+    return _this;
+  }
+
+  _createClass(TableTypePickerComponent, [{
+    key: 'onButtonClick',
+    value: function onButtonClick(tableType) {
+      if (this.state.selectedTableType === tableType) {
+        return;
+      }
+      this.setState({ selectedTableType: tableType });
+      if (typeof this.props.onTableTypeChange === 'function') {
+        this.props.onTableTypeChange(tableType);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var selectedTableType = this.state.selectedTableType;
+
+
+      var galleryBtnClassName = 'table-type-btn gallery-btn';
+      if (selectedTableType === TABLE_TYPES.GALLERY) {
+        galleryBtnClassName += ' active';
+      }
+
+      var listBtnClassName = 'table-type-btn list-btn';
+      if (selectedTableType === TABLE_TYPES.LIST) {
+        listBtnClassName += ' active';
+      }
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'table-type-picker' },
+        _react2.default.createElement(_mat_button2.default, { buttonClassName: galleryBtnClassName,
+          wrapClassName: 'table-type-btn-wrap',
+          icon: 'th-large',
+          isText: true,
+          onClick: this.onButtonClick.bind(this, TABLE_TYPES.GALLERY) }),
+        _react2.default.createElement(_mat_button2.default, { buttonClassName: listBtnClassName,
+          wrapClassName: 'table-type-btn-wrap',
+          icon: 'bars',
+          isText: true,
+          onClick: this.onButtonClick.bind(this, TABLE_TYPES.LIST) })
+      );
+    }
+  }]);
+
+  return TableTypePickerComponent;
+}(_react2.default.Component);
+
+exports.default = TableTypePickerComponent;
 
 /***/ })
 /******/ ]);

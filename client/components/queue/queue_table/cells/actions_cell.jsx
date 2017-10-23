@@ -1,7 +1,7 @@
 import React from 'react';
 
-import MatButtonComponent from '../../../shared/mat_button/mat_button';
-import { red, red_darken_1 } from '../../../shared/mat_color/mat_color';
+import MatButtonComponent from '../../../material/mat_button/mat_button';
+import { red, red_darken_1 } from '../../../material/mat_color/mat_color';
 
 const ActionsCellComponent = (_, actions, track) => {
   return (

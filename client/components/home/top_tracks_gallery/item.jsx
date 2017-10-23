@@ -4,8 +4,8 @@ import { isNotEmpty } from '../../../util/empty';
 import { EMPTY_IMG_SRC } from '../../../util/image';
 import { getImageUrl } from '../../../api/last_fm/last_fm_api';
 
-import MatButtonComponent from '../../shared/mat_button/mat_button';
-import { blue, blue_darken_1, green, green_darken_1 } from '../../shared/mat_color/mat_color';
+import MatButtonComponent from '../../material/mat_button/mat_button';
+import { blue, blue_darken_1, green, green_darken_1 } from '../../material/mat_color/mat_color';
 
 const IMAGE_IDX = 2;
 

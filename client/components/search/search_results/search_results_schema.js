@@ -1,6 +1,6 @@
-import TextCellComponent from '../../shared/flex_table/cells/text_cell';
-import ImageCellComponent from '../../shared/flex_table/cells/image_cell';
-import MockImageCellComponent from '../../shared/flex_table/cells/mock_image_cell';
+import TextCellComponent from '../../material/flex_table/cells/text_cell';
+import ImageCellComponent from '../../material/flex_table/cells/image_cell';
+import MockImageCellComponent from '../../material/flex_table/cells/mock_image_cell';
 import ActionsCellComponent from './cells/actions_cell';
 import MockActionsCellComponent from './cells/mock_actions_cell';
 

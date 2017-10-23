@@ -1,9 +1,9 @@
 import React from 'react';
 
-import MatSliderComponent from '../../shared/mat_slider/mat_slider';
-import MatButtonComponent from '../../shared/mat_button/mat_button';
-import { white, grey_lighten_4 } from '../../shared/mat_color/mat_color';
-import { GRID } from '../../shared/grid/grid';
+import MatSliderComponent from '../../material/mat_slider/mat_slider';
+import MatButtonComponent from '../../material/mat_button/mat_button';
+import { white, grey_lighten_4 } from '../../material/mat_color/mat_color';
+import { GRID } from '../../material/grid/grid';
 
 const VOLUME_BAR_HANDLE_WIDTH = GRID * 2;
 

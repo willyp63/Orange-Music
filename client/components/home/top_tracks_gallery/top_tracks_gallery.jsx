@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { isNotEmpty } from '../../../util/empty';
 import { addTrackToQueue, playTrack } from '../../../actions/queue_actions';
 
-import FlexGalleryComponent from '../../shared/flex_gallery/flex_gallery';
-import MatSpinnerComponent from '../../shared/mat_spinner/mat_spinner';
+import FlexGalleryComponent from '../../material/flex_gallery/flex_gallery';
+import MatSpinnerComponent from '../../material/mat_spinner/mat_spinner';
 import TopTrackGalleryItemComponent from './item';
 
 const TopTracksGalleryComponent = ({tracks, playTrack, addTrackToQueue}) => {

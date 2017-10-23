@@ -1,37 +1,26 @@
 .home {
-  .nav-bar {
+  .mat-nav-bar {
     background-color: @white;
-    position: sticky;
-    top: 0;
-    z-index: 100;
 
     .title-container {
       display: flex;
       justify-content: space-around;
       padding-top: @grid * 6;
-      padding-bottom: @grid * 2;
-
-      .title {
-        display: flex;
-        align-items: center;
-
-        img {
-          width: @grid * 10;
-          height: @grid * 10;
-          margin-right: @grid * 2;
-        }
-
-        span {
-          font-size: @grid * 6;
-          font-weight: bold;
-          color: @orange;
-        }
-      }
+      padding-bottom: @grid * 4;
     }
 
-    .top-tracks-label {
-      font-size: @grid * 3;
-      padding: (@grid * 2) (@grid * 8);
+    .table-options-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .om-tabs {
+        margin-left: @grid * 4;
+      }
+
+      .table-type-picker {
+        margin-right: @grid * 4;
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FlexTableHeaderComponent from '../../shared/flex_table/flex_table_header';
+import FlexTableHeaderComponent from '../../material/flex_table/flex_table_header';
 
 import TABLE_SCHEMA from './search_results_schema';
 

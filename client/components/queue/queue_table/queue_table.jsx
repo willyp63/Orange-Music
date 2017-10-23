@@ -5,7 +5,7 @@ import { isNotEmpty } from '../../../util/empty';
 
 import { removeTrackFromQueue } from '../../../actions/queue_actions';
 
-import FlexTableComponent from '../../shared/flex_table/flex_table';
+import FlexTableComponent from '../../material/flex_table/flex_table';
 
 import TABLE_SCHEMA from '../queue_schema';
 

@@ -1,0 +1,31 @@
+@mat-tabs-label-width: @grid * 25;
+@mat-tabs-label-padding: @grid;
+@mat-tabs-underline-height: @grid / 4;
+
+.mat-tabs {
+  @underline-transition-time: 300ms;
+
+  .labels-container {
+    display: flex;
+
+    .label {
+      flex: 0 0 @mat-tabs-label-width;
+      padding: @mat-tabs-label-padding;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+
+  .underline-container {
+    position: relative;
+    height: @mat-tabs-underline-height;
+
+    .underline {
+      position: absolute;
+      top: 0;
+      width: @mat-tabs-label-width + (@mat-tabs-label-padding * 2);
+      height: 100%;
+      transition: left @underline-transition-time;
+    }
+  }
+}

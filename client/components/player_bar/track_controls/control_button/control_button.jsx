@@ -2,8 +2,8 @@ import React from 'react';
 
 import { isNotEmpty } from '../../../../util/empty';
 
-import MatButtonComponent from '../../../shared/mat_button/mat_button';
-import { white, grey_lighten_4 } from '../../../shared/mat_color/mat_color';
+import MatButtonComponent from '../../../material/mat_button/mat_button';
+import { white, grey_lighten_4 } from '../../../material/mat_color/mat_color';
 
 const ControlButtonComponent = ({icon, onClick, isDisabled, buttonClassName}) => {
   buttonClassName = isNotEmpty(buttonClassName) ? buttonClassName : '';

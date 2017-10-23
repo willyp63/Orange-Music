@@ -20,7 +20,8 @@ const BASE_URL_PARAMS = {
 const QUERY_TYPE = Object.freeze({
   SEARCH: 0,
   GET_INFO: 1,
-  TOP_TRACKS: 2
+  TOP_TRACKS: 2,
+  TOP_ARTISTS: 3
 });
 
 /// Preforms a search query.
@@ -39,6 +40,15 @@ module.exports.search = ({query, page, pageSize}) => {
 module.exports.topTracks = ({page, pageSize}) => {
   return genericQuery({
     queryType: QUERY_TYPE.TOP_TRACKS,
+    page: page,
+    pageSize: pageSize
+  });
+}
+
+/// Fetches top artists from last fm.
+module.exports.topArtists = ({page, pageSize}) => {
+  return genericQuery({
+    queryType: QUERY_TYPE.TOP_ARTISTS,
     page: page,
     pageSize: pageSize
   });
@@ -121,6 +131,15 @@ const getQueryParams = ({queryType, query, artistName, mbid, page, pageSize}) =>
           ? pageSize
           : DEFAULT_PAGE_SIZE;
         break;
+      case QUERY_TYPE.TOP_ARTISTS:
+        queryParams.method = 'chart.gettopartists';
+        queryParams.page = isNotEmpty(page)
+          ? page
+          : 1;
+        queryParams.limit = isNotEmpty(pageSize)
+          ? pageSize
+          : DEFAULT_PAGE_SIZE;
+        break;
     }
     resolve(queryParams);
   });
@@ -132,7 +151,7 @@ const makeQuery = (queryType, queryParams) => {
       switch (queryType) {
         case QUERY_TYPE.SEARCH:
           return resolve({
-            tracks: formatTracksFromApi(response.results.trackmatches.track),
+            tracks: formatEntitiesFromApi(response.results.trackmatches.track),
             total: parseInt(response.results['opensearch:totalResults']),
             page: response.results['opensearch:startIndex'] /
                 response.results['opensearch:itemsPerPage']
@@ -141,9 +160,15 @@ const makeQuery = (queryType, queryParams) => {
           return resolve(response.track);
         case QUERY_TYPE.TOP_TRACKS:
           return resolve({
-            tracks: formatTracksFromApi(response.tracks.track),
+            tracks: formatEntitiesFromApi(response.tracks.track),
             total: parseInt(response.tracks['@attr'].total),
             page: parseInt(response.tracks['@attr'].page)
+          });
+        case QUERY_TYPE.TOP_ARTISTS:
+          return resolve({
+            artists: formatEntitiesFromApi(response.artists.artist),
+            total: parseInt(response.artists['@attr'].total),
+            page: parseInt(response.artists['@attr'].page)
           });
       }
     }).fail((err) => {
@@ -152,21 +177,21 @@ const makeQuery = (queryType, queryParams) => {
   });
 }
 
-const formatTracksFromApi = (tracks) => {
+const formatEntitiesFromApi = (entities) => {
   const takenIds = {};
-  const formattedTracks = [];
-  tracks.forEach((track) => {
-    // format id
-    track.mbid = track.mbid || makeFakeId();
-    if (takenIds[track.mbid]) { return; }
-    takenIds[track.mbid] = true;
+  const formattedEntities = [];
+  entities.forEach((entity) => {
+    // format mbid.
+    entity.mbid = entity.mbid || makeFakeId();
+    if (takenIds[entity.mbid]) { return; }
+    takenIds[entity.mbid] = true;
 
-    // format artist
-    if (typeof track.artist === 'string') {
-      track.artist = {name: track.artist};
+    // format artist (for tracks only).
+    if (typeof entity.artist === 'string') {
+      entity.artist = {name: entity.artist};
     }
 
-    formattedTracks.push(track);
+    formattedEntities.push(entity);
   });
-  return formattedTracks;
+  return formattedEntities;
 }

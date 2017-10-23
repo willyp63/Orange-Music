@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import MatButtonComponent from '../../shared/mat_button/mat_button';
-import { blue_darken_1, blue } from '../../shared/mat_color/mat_color';
+import MatButtonComponent from '../../material/mat_button/mat_button';
+import { blue_darken_1, blue } from '../../material/mat_color/mat_color';
 
 import lastFmApi from '../../../api/last_fm/last_fm_api';
 

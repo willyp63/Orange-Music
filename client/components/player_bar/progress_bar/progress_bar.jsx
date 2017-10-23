@@ -2,8 +2,8 @@ import React from 'react';
 
 import { formatTimeMinutesSeconds } from '../../../util/time';
 
-import MatSliderComponent from '../../shared/mat_slider/mat_slider';
-import { GRID } from '../../shared/grid/grid';
+import MatSliderComponent from '../../material/mat_slider/mat_slider';
+import { GRID } from '../../material/grid/grid';
 
 const PROGRESS_BAR_HANDLE_SIZE = GRID * 2;
 
