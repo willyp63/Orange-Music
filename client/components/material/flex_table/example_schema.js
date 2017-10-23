@@ -1,7 +1,3 @@
-import TextCellComponent from '../../material/flex_table/cells/text_cell';
-import ImageCellComponent from '../../material/flex_table/cells/image_cell';
-import MockImageCellComponent from '../../material/flex_table/cells/mock_image_cell';
-
 const SCHEMA = Object.freeze({
   image: {
     label: MockImageCellComponent,
@@ -17,7 +13,10 @@ const SCHEMA = Object.freeze({
     label: 'Artist',
     width: 50,
     component: TextCellComponent
+  },
+  '@actions': {
+    label: MockActionsCellComponent,
+    width: 0,
+    component: ActionsCellComponent
   }
 });
-
-export default SCHEMA;

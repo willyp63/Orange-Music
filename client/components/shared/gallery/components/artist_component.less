@@ -1,0 +1,34 @@
+.om-gallery {
+  .artist-item {
+    position: relative;
+    padding: @grid;
+
+    img {
+      width: 100%;
+      height: 100%;
+
+      .shadow-2();
+    }
+
+    .artist-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      max-width: 80%;
+      position: absolute;
+      right: @grid * 2;
+      bottom: @grid * 5 / 2;
+
+      .artist-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 100%;
+        padding: (@grid / 4) (@grid * 3 / 2);
+        background-color: @white;
+        white-space: nowrap;
+        font-size: @grid * 2.5;
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ import React from 'react';
 import MatButtonComponent from '../../material/mat_button/mat_button';
 import { blue, blue_darken_1, orange, orange_darken_1 } from '../../material/mat_color/mat_color';
 
-const TABLE_TYPES = Object.freeze({
+export const TABLE_TYPES = Object.freeze({
   GALLERY: 0,
   LIST: 1,
 });

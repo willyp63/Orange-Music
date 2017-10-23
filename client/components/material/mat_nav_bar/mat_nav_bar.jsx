@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /// Style for when the window has been scrolled.
-const BOX_SHADOW_STYLE = Object.freeze({
+export const BOX_SHADOW_STYLE = Object.freeze({
   'border-bottom': 0,
   'box-shadow': '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)' // .shadow-1()
 });
 
 /// Style for when the window has *not* been scrolled.
-const BORDER_STYLE = Object.freeze({
+export const BORDER_STYLE = Object.freeze({
   'border-bottom': '1px solid #e0e0e0',
   'box-shadow': 'none'
 });

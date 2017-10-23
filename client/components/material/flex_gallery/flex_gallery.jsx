@@ -5,7 +5,7 @@ import { isNotEmpty, coalesce} from '../../../util/empty';
 const DEFAULT_MAX_COLUMNS = 4;
 
 const FlexGalleryComponent = ({galleryClassName, objs, keyPath, component,
-    maxColumns, actions}) => {
+    maxColumns}) => {
 
   galleryClassName = isNotEmpty(galleryClassName) ? galleryClassName : '';
   galleryClassName += ' flex-gallery';
@@ -15,19 +15,17 @@ const FlexGalleryComponent = ({galleryClassName, objs, keyPath, component,
 
   return (
     <div className={galleryClassName}>
-      {getItems({objs, keyPath, component, maxColumns, actions})}
+      {getItems({objs, keyPath, component, maxColumns})}
     </div>
   );
 };
 
-const getItems = ({objs, keyPath, component, maxColumns, actions}) => {
+const getItems = ({objs, keyPath, component, maxColumns}) => {
   return objs.map((obj) => (
     <div className="item"
          key={obj[keyPath]}
-         style={{
-           flex: `0 0 ${100 / maxColumns}%`
-         }}>
-      {component(obj, actions)}
+         style={{flex: `0 0 ${100 / maxColumns}%`}}>
+      {component(obj)}
     </div>
   ));
 };

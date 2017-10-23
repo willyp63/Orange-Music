@@ -1,0 +1,25 @@
+@import '../../../material/grid/grid.less';
+
+@imgae-size: @grid * 6;
+@margin-right: @grid * 2;
+
+.om-list {
+  .image-cell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: @margin-right;
+
+    img {
+      width: @imgae-size;
+      height: @imgae-size;
+      border-radius: @grid / 2;
+    }
+  }
+}
+
+.om-list-header {
+  .mock-image-cell {
+    width: @imgae-size + @margin-right;
+  }
+}

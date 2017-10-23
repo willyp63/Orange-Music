@@ -52,8 +52,7 @@ class MatButtonComponent extends React.Component {
                 data-tip={tooltip}
                 onClick={onClick}
                 type={isSubmit ? 'submit' : 'button'}>
-          {text1}
-          {$icon}
+          {text1}{$icon}
         </button>
         {isNotEmpty(tooltip) ? (<ReactTooltip effect={'solid'} />) : ''}
       </div>

@@ -5,8 +5,7 @@
     .title-container {
       display: flex;
       justify-content: space-around;
-      padding-top: @grid * 6;
-      padding-bottom: @grid * 4;
+      padding-top: @grid * 2;
     }
 
     .table-options-bar {
@@ -22,9 +21,12 @@
         margin-right: @grid * 4;
       }
     }
-  }
 
-  .top-tracks-table-container {
-    padding: (@grid * 2) (@grid * 8);
+    .list-header-container {
+      .om-list-header {
+        padding-top: @grid / 2;
+        padding-bottom: @grid / 2;
+      }
+    }
   }
 }
