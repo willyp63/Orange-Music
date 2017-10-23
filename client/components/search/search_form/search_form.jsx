@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     makeQuery: (query) => {
-      dispatch(searchTracks({query}));
+      dispatch(searchTracks(query));
     }
   };
 }
