@@ -8377,9 +8377,17 @@ var _image_cell = __webpack_require__(140);
 
 var _image_cell2 = _interopRequireDefault(_image_cell);
 
+var _mock_image_cell = __webpack_require__(141);
+
+var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
+
 var _actions_cell = __webpack_require__(313);
 
 var _actions_cell2 = _interopRequireDefault(_actions_cell);
+
+var _mock_actions_cell = __webpack_require__(314);
+
+var _mock_actions_cell2 = _interopRequireDefault(_mock_actions_cell);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8408,7 +8416,7 @@ ACTIONS[ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
 
 var TRACKS_LIST_SCHEMA = {
   image: {
-    label: _image_cell.MockImageCellComponent,
+    label: _mock_image_cell2.default,
     width: 0,
     component: _image_cell2.default
   },
@@ -8423,7 +8431,7 @@ var TRACKS_LIST_SCHEMA = {
     component: _text_cell2.default
   },
   '@actions': {
-    label: _actions_cell.MockActionsCellComponent,
+    label: _mock_actions_cell2.default,
     width: 0,
     component: _actions_cell2.default,
     actions: ACTIONS
@@ -14384,8 +14392,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _empty = __webpack_require__(7);
 
-var _image = __webpack_require__(35);
-
 var _last_fm_api = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -14400,15 +14406,32 @@ var ImageCellComponent = function ImageCellComponent(images) {
   );
 };
 
-var MockImageCellComponent = function MockImageCellComponent(images) {
-  return _react2.default.createElement('div', { className: 'mock-image-cell' });
-};
-
-ImageCellComponent.MockImageCellComponent = MockImageCellComponent;
 exports.default = ImageCellComponent;
 
 /***/ }),
-/* 141 */,
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MockImageCellComponent = function MockImageCellComponent(images) {
+  return _react2.default.createElement("div", { className: "mock-image-cell" });
+};
+
+exports.default = MockImageCellComponent;
+
+/***/ }),
 /* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14427,11 +14450,15 @@ var _image_cell = __webpack_require__(140);
 
 var _image_cell2 = _interopRequireDefault(_image_cell);
 
+var _mock_image_cell = __webpack_require__(141);
+
+var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ARTISTS_LIST_SCHEMA = {
   image: {
-    label: _image_cell.MockImageCellComponent,
+    label: _mock_image_cell2.default,
     width: 0,
     component: _image_cell2.default
   },
@@ -31671,9 +31698,6 @@ var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BUTTON_SIZE = _index.GRID * 8;
-var BUTTON_MARGIN = _index.GRID;
-
 var ActionsCellComponent = function ActionsCellComponent(_, track, actions, schema) {
   var $buttons = Object.keys(schema.actions).map(function (actionType) {
     var action = schema.actions[actionType];
@@ -31694,17 +31718,39 @@ var ActionsCellComponent = function ActionsCellComponent(_, track, actions, sche
   );
 };
 
+exports.default = ActionsCellComponent;
+
+/***/ }),
+/* 314 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = __webpack_require__(15);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BUTTON_SIZE = _index.GRID * 8;
+var BUTTON_MARGIN = _index.GRID;
+
 var MockActionsCellComponent = function MockActionsCellComponent(_, __, ___, schema) {
-  var numButtons = Object.keys(schema).length;
+  var numButtons = Object.keys(schema.actions).length;
   return _react2.default.createElement('div', { className: 'mock-track-actions-cell',
     style: { width: numButtons * BUTTON_SIZE + (numButtons - 1) * BUTTON_MARGIN } });
 };
 
-ActionsCellComponent.MockActionsCellComponent = MockActionsCellComponent;
-exports.default = ActionsCellComponent;
+exports.default = MockActionsCellComponent;
 
 /***/ }),
-/* 314 */,
 /* 315 */,
 /* 316 */
 /***/ (function(module, exports, __webpack_require__) {

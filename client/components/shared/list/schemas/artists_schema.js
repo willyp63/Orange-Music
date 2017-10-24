@@ -1,5 +1,6 @@
 import TextCellComponent from '../cells/text/text_cell';
-import ImageCellComponent, { MockImageCellComponent }from '../cells/image/image_cell';
+import ImageCellComponent from '../cells/image/image_cell';
+import MockImageCellComponent from '../cells/image/mock_image_cell';
 
 const ARTISTS_LIST_SCHEMA = {
   image: {

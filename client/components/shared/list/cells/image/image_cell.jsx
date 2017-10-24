@@ -1,6 +1,5 @@
 import React from 'react';
 import { isNotEmpty } from '../../../../../util/empty';
-import { EMPTY_IMG_SRC } from '../../../../../util/image';
 import { getImageUrl } from '../../../../../api/last_fm/last_fm_api';
 
 const IMAGE_IDX = 1;
@@ -11,10 +10,4 @@ const ImageCellComponent = (images) => (
   </div>
 );
 
-const MockImageCellComponent = (images) => (
-  <div className="mock-image-cell">
-  </div>
-);
-
-ImageCellComponent.MockImageCellComponent = MockImageCellComponent;
 export default ImageCellComponent;
