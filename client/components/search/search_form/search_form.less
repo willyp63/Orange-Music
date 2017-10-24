@@ -16,7 +16,7 @@
 
     .z-depth(2);
 
-    .title();
+    .font-title();
 
     &:focus {
       border: 1px solid @blue-300;
@@ -25,25 +25,27 @@
   }
 
   .mat-btn {
-    width: @search-bar-height;
-    height: @search-bar-height;
-    background-color: @blue-600;
-    color: @white;
+    .mat-icon-btn-raised-colorize(
+      @color: @white;
+      @colorHover: @grey-200;
+      @bgColor: @blue-600;
+      @bgColorHover: @blue);
 
     // Override default button border radius.
     border-radius: 0;
     border-top-right-radius: @grid;
     border-bottom-right-radius: @grid;
 
-    i {
-      position: relative;
-      left: -10px;
+    button {
+      width: @search-bar-height;
+      height: @search-bar-height;
 
-      .icon-lg();
+      // Override default button border radius.
+      border-radius: 0;
+      border-top-right-radius: @grid;
+      border-bottom-right-radius: @grid;
     }
 
-    &:hover {
-      background-color: @blue-500;
-    }
+    i { .font-icon-lg(); }
   }
 }

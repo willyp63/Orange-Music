@@ -1,36 +1,111 @@
-.mat-btn-wrap {
-  display: inline-block;
-  border-radius: @grid / 4; // To contain ripple.
+//
+// Material Button Mixins:
+//
+// ------------------------------------
 
-  .mat-btn {
+// No background.
+.mat-btn-colorize(
+  @color;
+  @colorHover;
+  @colorDisabled: @grey-300) {
+
+  button {
+    color: @color;
     transition: color @time @timing-fcn;
-    display: flex;
-    align-items: center;
-    padding: (@grid / 2) (@grid * 2);
 
-    &.raised {
-      transition: background-color @time @timing-fcn, @z-depth-transition;
+    &.disabled { color: @colorDisabled; }
+    &:hover:not(.disabled) { color: @colorHover; }
+  }
+}
 
-      .z-depth(2);
+// Raised with background.
+.mat-btn-raised-colorize(
+  @color;
+  @colorHover;
+  @colorDisabled: @grey-300;
+  @bgColor;
+  @bgColorHover;
+  @bgColorDisabled: @grey-300) {
 
-      &.cir {
-        border-radius: 50%;
-      }
+  button {
+    color: @color;
+    background-color: @bgColor;
+    transition: color @time @timing-fcn,
+      background-color @time @timing-fcn,
+      @z-depth-transition;
+
+    .z-depth(2);
+
+    &.disabled {
+      color: @colorDisabled;
+      background-color: @bgColorDisabled;
+
+      .z-depth(0);
     }
 
-    &.cir {
-      padding: 0;
-      justify-content: space-around;
-    }
+    &:hover:not(.disabled) {
+      color: @colorHover;
+      background-color: @bgColorHover;
 
-    &:not(.disabled) {
-      cursor: pointer;
-
-      &:hover {
-        &.raised {
-          .z-depth(3);
-        }
-      }
+      .z-depth(3);
     }
   }
+}
+
+// No background; for icon only buttons.
+.mat-icon-btn-colorize(@color; @colorHover; @colorDisabled: @grey-300) {
+  .mat-btn-colorize(@color; @colorHover; @colorDisabled);
+  .mat-icon-btn();
+  .mat-cir-btn();
+}
+
+// Raised with background; for icon only buttons.
+.mat-icon-btn-raised-colorize(@color; @colorHover; @colorDisabled: @grey-300; @bgColor;
+    @bgColorHover; @bgColorDisabled: @grey-300) {
+
+  .mat-btn-raised-colorize(@color; @colorHover; @colorDisabled; @bgColor; @bgColorHover;
+    @bgColorDisabled);
+  .mat-icon-btn();
+  .mat-cir-btn();
+}
+
+//
+// Private:
+//
+// ------------------------------------
+
+@mat-btn-border-radius: @grid / 4;
+@mat-btn-padding: (@grid / 2) (@grid * 2);
+
+.mat-btn {
+  display: inline-block;
+  border-radius: @mat-btn-border-radius; // To contain ripple.
+
+  button {
+    display: flex;
+    align-items: center;
+    padding: @mat-btn-padding;
+    border-radius: @mat-btn-border-radius;
+
+    .font-button();
+
+    &:not(.disabled) { cursor: pointer; }
+  }
+}
+
+// For buttons with no text just one icon (icon buttons).
+.mat-icon-btn() {
+  button {
+    // Remove padding and center icon both horz and vert.
+    padding: 0;
+    justify-content: space-around;
+  }
+}
+
+// For circular buttons.
+//
+// Only makes sense for icon buttons.
+.mat-cir-btn() {
+  border-radius: 50%;
+  button { border-radius: 50%; }
 }

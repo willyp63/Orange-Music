@@ -7,29 +7,26 @@
       padding-left: @grid * 4;
 
       .mat-btn {
-        height: @grid * 6;
-        width: @grid * 6;
+        .mat-icon-btn-colorize(
+          @color: @grey-200;
+          @colorHover: @white;
+          @colorDisabled: @grey-600);
 
-        .icon-light();
-
-        i {
-          .icon-md();
+        button {
+          width: @grid * 6;
+          height: @grid * 6;
         }
 
-        &:hover {
-          color: @grey-100;
-        }
+        i { .font-icon-md(); }
       }
 
       .mat-slider {
         flex-grow: 1;
-        margin-left: @grid;
+        margin-left: @grid * 2;
 
-        background-color: @white;
-
-        .handle {
-          background-color: @blue-600;
-        }
+        .mat-slider-colorize(
+          @color: @blue-600;
+          @bgColor: @white);
       }
     }
   }

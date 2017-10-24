@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { MatTabs } from '../../material/index';
-import { FONT } from '../../material/index';
+import { FONT_TYPES } from '../../material/index';
 
-const TABS_FONT = FONT.FONT_TYPES.HEADLINE;
+const TABS_FONT = FONT_TYPES.HEADLINE;
 
 const TabsComponent = ({tabs, selectedTab, onTabSelect}) => {
   return (

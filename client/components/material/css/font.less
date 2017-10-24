@@ -1,6 +1,89 @@
 //
-// Credit: https://codepen.io/zavoloklom/pen/IkaFL
+// Material Font Mixins
 //
+// https://codepen.io/zavoloklom/pen/IkaFL
+//
+// ----------------------------
+
+.font-display-4() {
+  font-size: @font-size-display-4;
+  font-weight: @font-weight-display-4;
+  text-transform: inherit;
+}
+.font-display-3() {
+  font-size: @font-size-display-3;
+  font-weight: @font-weight-display-3;
+  text-transform: inherit;
+}
+.font-display-2() {
+  font-size: @font-size-display-2;
+  font-weight: @font-weight-display-2;
+  text-transform: inherit;
+}
+.font-display-1() {
+  font-size: @font-size-display-1;
+  font-weight: @font-weight-display-1;
+  text-transform: inherit;
+}
+.font-headline() {
+  font-size: @font-size-headline;
+  font-weight: @font-weight-headline;
+  text-transform: inherit;
+}
+.font-title() {
+  font-size: @font-size-title;
+  font-weight: @font-weight-title;
+  text-transform: inherit;
+}
+.font-subhead-2() {
+  font-size: @font-size-subhead-2;
+  font-weight: @font-weight-subhead-2;
+  text-transform: inherit;
+}
+.font-subhead-1() {
+  font-size: @font-size-subhead-1;
+  font-weight: @font-weight-subhead-1;
+  text-transform: inherit;
+}
+.font-body-2() {
+  font-size: @font-size-body-2;
+  font-weight: @font-weight-body-2;
+  text-transform: inherit;
+}
+.font-body-1() {
+  font-size: @font-size-body-1;
+  font-weight: @font-weight-body-1;
+  text-transform: inherit;
+}
+.font-caption() {
+  font-size: @font-size-caption;
+  font-weight: @font-weight-caption;
+  text-transform: inherit;
+}
+.font-label() {
+  font-size: @font-size-label;
+  font-weight: @font-weight-label;
+  text-transform: inherit;
+}
+.font-menu() {
+  font-size: @font-size-menu;
+  font-weight: @font-weight-menu;
+  text-transform: inherit;
+}
+.font-button() {
+  font-size: @font-size-button;
+  font-weight: @font-weight-button;
+  text-transform: uppercase;
+}
+.font-icon-sm() { font-size: 18px; }
+.font-icon-md() { font-size: 24px; }
+.font-icon-lg() { font-size: 36px; }
+.font-icon-xlg() { font-size: 48px; }
+
+//
+// Private
+//
+// ----------------------------
 
 body {
   font-family: 'Roboto';
@@ -9,11 +92,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-
-/* Material Design Typography */
-
-// Variables
-// ----------------------------
 @font-size-display-4:       112px;
 @font-size-display-3:       56px;
 @font-size-display-2:       45px;
@@ -43,81 +121,3 @@ body {
 @font-weight-label:         300;
 @font-weight-menu:          400;
 @font-weight-button:        400;
-
-// Mixins
-// ----------------------------
-.display-4() {
-  font-size: @font-size-display-4;
-  font-weight: @font-weight-display-4;
-  text-transform: inherit;
-}
-.display-3() {
-  font-size: @font-size-display-3;
-  font-weight: @font-weight-display-3;
-  text-transform: inherit;
-}
-.display-2() {
-  font-size: @font-size-display-2;
-  font-weight: @font-weight-display-2;
-  text-transform: inherit;
-}
-.display-1() {
-  font-size: @font-size-display-1;
-  font-weight: @font-weight-display-1;
-  text-transform: inherit;
-}
-.headline() {
-  font-size: @font-size-headline;
-  font-weight: @font-weight-headline;
-  text-transform: inherit;
-}
-.title() {
-  font-size: @font-size-title;
-  font-weight: @font-weight-title;
-  text-transform: inherit;
-}
-.subhead-2() {
-  font-size: @font-size-subhead-2;
-  font-weight: @font-weight-subhead-2;
-  text-transform: inherit;
-}
-.subhead-1() {
-  font-size: @font-size-subhead-1;
-  font-weight: @font-weight-subhead-1;
-  text-transform: inherit;
-}
-.body-2() {
-  font-size: @font-size-body-2;
-  font-weight: @font-weight-body-2;
-  text-transform: inherit;
-}
-.body-1() {
-  font-size: @font-size-body-1;
-  font-weight: @font-weight-body-1;
-  text-transform: inherit;
-}
-.caption() {
-  font-size: @font-size-caption;
-  font-weight: @font-weight-caption;
-  text-transform: inherit;
-}
-.label() {
-  font-size: @font-size-label;
-  font-weight: @font-weight-label;
-  text-transform: inherit;
-}
-.menu() {
-  font-size: @font-size-menu;
-  font-weight: @font-weight-menu;
-  text-transform: inherit;
-}
-.button() {
-  font-size: @font-size-button;
-  font-weight: @font-weight-button;
-  text-transform: uppercase;
-}
-
-.icon-sm() { font-size: 18px; }
-.icon-md() { font-size: 24px; }
-.icon-lg() { font-size: 36px; }
-.icon-xlg() { font-size: 48px; }

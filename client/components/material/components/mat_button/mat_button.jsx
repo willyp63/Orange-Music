@@ -1,49 +1,32 @@
 import React from 'react';
 import MatRipple from '../mat_ripple/mat_ripple';
 import Grid from '../../css/grid';
+const { GRID } = Grid;
 
-const MatButton = ({text, icon, isCircle, isRaised, isSubmit,
-    isDisabled, onClick, className, wrapClassName}) => {
-
-  // Format button class name.
+const MatButton = ({text, icon, isSubmit, isDisabled, onClick, className}) => {
   className = className ? className + ' mat-btn' : 'mat-btn';
-  if (isDisabled) { className += ' disabled'; }
-  if (isCircle) { className += ' cir'; }
-  if (isRaised) { className += ' raised'; }
+  const buttonClassName = isDisabled ? 'disabled' : '';
 
-  // Format wrap class name.
-  wrapClassName = wrapClassName ? wrapClassName + ' mat-btn-wrap' : 'mat-btn-wrap';
-
-  // Format icon (uses font awesome icons).
+  // Format icon (https://material.io/icons/).
+  const marginLeft = text ? Grid.GRID : 0; // Separate icon from text.
   const $icon = (typeof icon === 'string' && icon.length > 0)
-    ? (<i className="material-icons"
-          style={{marginLeft: text ? Grid.GRID : 0}}>
-         {icon}
-       </i>)
+    ? (<i className="material-icons" style={{marginLeft}}>{icon}</i>)
     : '';
 
   // Render button w/o wrap or ripple.
   let $button = (
-    <button className={className}
-            onClick={onClick}
-            type={isSubmit ? 'submit' : 'button'}>
+    <button className={buttonClassName}
+            type={isSubmit ? 'submit' : 'button'}
+            onClick={onClick}>
       {text}{$icon}
     </button>
   );
 
   // If not disabled, wrap button in ripple.
-  if (!isDisabled) {
-    $button = (
-      <MatRipple isCircle={isCircle}>
-        {$button}
-      </MatRipple>
-    );
-  }
+  if (!isDisabled) { $button = (<MatRipple>{$button}</MatRipple>); }
 
   return (
-    <div className={wrapClassName}>
-      {$button}
-    </div>
+    <span className={className}>{$button}</span>
   );
 }
 

@@ -19,6 +19,7 @@ const RIPPLE_STYLE = Object.freeze({
 
 const WRAP_STYLE = Object.freeze({
   position: 'absolute',
+  borderRadius: 'inherit',
   display: 'inline-block',
   overflow: 'hidden',
   width: '100%',
@@ -29,6 +30,7 @@ const WRAP_STYLE = Object.freeze({
 });
 
 const CONTAINER_STYLE = Object.freeze({
+  borderRadius: 'inherit',
   position: 'relative',
   display: 'inline-block'
 });
@@ -94,7 +96,8 @@ class MatRipple extends React.PureComponent {
     );
 
     return (
-      <div style={CONTAINER_STYLE}
+      <div className='mat-ripple'
+           style={CONTAINER_STYLE}
            onClick={this.handleClick.bind(this)}>
         <div style={wrapStyle}>
           <s style={rippleStyle} />

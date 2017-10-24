@@ -7,10 +7,12 @@ const ActionsCellComponent = (_, track, actions, schema) => {
     return (
       <MatButton className={action.buttonClassName}
                  icon={action.icon}
-                 isRaised={true}
-                 isCircle={true}
                  key={actionType}
-                 onClick={() => { actions[action.actionName](track); }} />
+                 onClick={() => {
+                   if (typeof actions[action.actionName] === 'function') {
+                     actions[action.actionName](track);
+                   }
+                 }} />
     )
   });
 

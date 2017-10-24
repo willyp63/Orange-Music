@@ -4,22 +4,16 @@
     align-items: center;
 
     .mat-btn {
-      color: @blue-700;
+      .mat-icon-btn-colorize(
+        @color: @blue-700;
+        @colorHover: @blue);
 
-      i {
-        .icon-lg();
-      }
+      i { .font-icon-lg(); }
 
       &.active {
-        color: @orange-700;
-      }
-
-      &:hover {
-        color: @blue-600;
-
-        &.active {
-          color: @orange-600;
-        }
+        .mat-icon-btn-colorize(
+          @color: @orange-700;
+          @colorHover: @orange);
       }
     }
   }

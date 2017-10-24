@@ -6,7 +6,6 @@ const GalleryComponent = ({entities, component}) => {
     <FlexGalleryComponent className={'om-gallery'}
                           objs={entities}
                           keyPath={'mbid'}
-                          maxColumns={3}
                           component={component} />
   )
 };

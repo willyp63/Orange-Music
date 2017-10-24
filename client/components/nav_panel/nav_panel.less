@@ -17,27 +17,21 @@
     flex-direction: column;
     padding: (@grid * 4) (@grid * 2);
 
-    .mat-btn-wrap {
-      margin-bottom: @grid;
-    }
-
-    .mat-btn-wrap:last-of-type {
-      margin-bottom: 0;
-    }
-
     .mat-btn {
-      color: @grey-800;
+      margin-bottom: @grid;
 
-      .headline();
-      font-weight: 400;
+      .mat-btn-colorize(@color: @grey-800; @colorHover: @grey-600);
 
-      i {
-        .icon-lg();
+      button {
+        .font-headline();
+        font-weight: 400; // Make up slightly thicker font.
+
+        i { .font-icon-lg(); }
       }
+    }
 
-      &:hover {
-        color: @grey-900;
-      }
+    .mat-btn:last-of-type {
+      margin-bottom: 0;
     }
 
     .divider {

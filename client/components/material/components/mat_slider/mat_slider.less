@@ -1,21 +1,44 @@
+//
+// Material Slider Mixins:
+//
+// ------------------------------------
+
+.mat-slider-colorize(@color; @bgColor) {
+  .bar { background-color: @bgColor; }
+  .handle, .fill { background-color: @color; }
+}
+
+//
+// Private:
+//
+// ------------------------------------
+
 .mat-slider {
-  border-radius: 9999px;
+  @handle-height: @grid * 2;
+  @bar-height: @grid / 2;
+
   position: relative;
-  height: @grid / 2;
+  height: @handle-height;
 
   &:not(.disabled) {
     cursor: pointer;
-
-    .handle {
-      cursor: pointer;
-    }
+    .handle { cursor: pointer; }
   }
 
-  .handle {
-    border-radius: 50%;
-    height: @grid * 3;
-    width: @grid * 3;
+  .bar, .fill {
     position: absolute;
-    top: @grid * -5 / 4;
+    top: (@handle-height - @bar-height) / 2;;
+    height: @bar-height;
+    border-radius: 9999px;
+  }
+
+  .bar { width: 100%; }
+
+  .handle {
+    position: absolute;
+    top: 0;
+    height: @handle-height;
+    width: @handle-height;
+    border-radius: 50%;
   }
 }

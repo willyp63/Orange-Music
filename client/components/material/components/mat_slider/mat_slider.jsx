@@ -3,21 +3,14 @@ import ReactDOM from 'react-dom';
 import { isNotEmpty } from '../util/empty';
 import Grid from '../../css/grid';
 
-const HANDLE_WIDTH = Grid.GRID * 3;
-const HANDLE_CLASS_NAME = 'handle';
+const HANDLE_WIDTH = Grid.GRID * 2;
 
 class MatSlider extends React.Component {
-  componentDidMount() {
-    const { value, maxValue } = this.props;
-    this.moveHandle.bind(this, value / maxValue)();
-  }
   onHandleDown(e) {
     const { onValueChange, maxValue, isDisabled } = this.props;
     if (isDisabled) { return; }
 
     const onMouseMove = (e) => {
-      const offsetRatio = this.getMouseOffsetRatio.bind(this, e)();
-      this.moveHandle.bind(this, offsetRatio)();
       this.changeValue.bind(this, e)();
     }
 
@@ -37,24 +30,13 @@ class MatSlider extends React.Component {
     const offsetRatio = this.getMouseOffsetRatio.bind(this, e)();
     onValueChange(offsetRatio * maxValue);
   }
-  moveHandle(offsetRatio) {
-    this.getHandle.bind(this)().css({
-      left: getHandleLeft(offsetRatio)
-    });
-  }
   getMouseOffsetRatio(e) {
-    const $bar = this.getBar.bind(this)();
+    const $bar = $(ReactDOM.findDOMNode(this));
     const mouseOffset = e.pageX - $bar.offset().left;
     let offsetRatio = mouseOffset / $bar.width();
     if (offsetRatio < 0) { offsetRatio = 0; }
     if (offsetRatio > 1) { offsetRatio = 1; }
     return offsetRatio;
-  }
-  getBar() {
-    return $(ReactDOM.findDOMNode(this));
-  }
-  getHandle() {
-    return this.getBar.bind(this)().find(`.${HANDLE_CLASS_NAME}`);
   }
   render() {
     const { value, maxValue, isDisabled, className } = this.props;
@@ -62,12 +44,14 @@ class MatSlider extends React.Component {
     let className_1 = className ? className + ' mat-slider' : 'mat-slider';
     if (isDisabled) { className_1 += ' disabled'; }
 
-    const c = getHandleLeft(value / maxValue);
-
     return (
       <div className={className_1}
            onClick={this.changeValue.bind(this)}>
-        <span className={HANDLE_CLASS_NAME}
+        <span className='bar'></span>
+        <span className='fill'
+              style={{width: getFillWidth(value / maxValue)}}>
+        </span>
+        <span className='handle'
               onMouseDown={this.onHandleDown.bind(this)}
               style={{left: getHandleLeft(value / maxValue)}}>
         </span>
@@ -78,6 +62,10 @@ class MatSlider extends React.Component {
 
 const getHandleLeft = (offsetRatio) => {
   return `calc(${offsetRatio * 100}% - ${HANDLE_WIDTH / 2}px)`;
+};
+
+const getFillWidth = (offsetRatio) => {
+  return `${offsetRatio * 100}%`;
 };
 
 export default MatSlider;

@@ -5,46 +5,51 @@
   .actions-cell{
     display: flex;
 
-    .mat-btn-wrap {
+    .mat-btn {
       margin-left: @om-list-action-btn-margin;
+
+      button {
+        width: @om-list-action-btn-size;
+        height: @om-list-action-btn-size;
+      }
+
+      i { .font-icon-lg(); }
     }
 
-    .mat-btn-wrap:first-of-type {
+    .mat-btn:first-of-type {
       margin-left: 0;
     }
 
-    .mat-btn {
-      width: @om-list-action-btn-size;
-      height: @om-list-action-btn-size;
-      color: @white;
-
-      i {
-        .icon-lg();
-      }
-    }
-
     .play-btn {
-      background-color: @blue-600;
-
-      &:hover {
-        background-color: @blue-500;
-      }
+      .mat-icon-btn-raised-colorize(
+        @color: @white;
+        @colorHover: @grey-200;
+        @bgColor: @blue-600;
+        @bgColorHover: @blue);
     }
 
     .add-to-queue-btn {
-      background-color: @green-600;
-
-      &:hover {
-        background-color: @green-500;
-      }
+      .mat-icon-btn-raised-colorize(
+        @color: @white;
+        @colorHover: @grey-200;
+        @bgColor: @green-600;
+        @bgColorHover: @green);
     }
 
     .remove-from-queue-btn {
-      background-color: @red-600;
+      .mat-icon-btn-raised-colorize(
+        @color: @white;
+        @colorHover: @grey-200;
+        @bgColor: @red-600;
+        @bgColorHover: @red);
+    }
 
-      &:hover {
-        background-color: @red-500;
-      }
+    .add-to-playlist-btn {
+      .mat-icon-btn-raised-colorize(
+        @color: @white;
+        @colorHover: @grey-200;
+        @bgColor: @orange-600;
+        @bgColorHover: @orange);
     }
   }
 }

@@ -7,6 +7,7 @@ import MockActionsCellComponent from '../cells/actions/mock_actions_cell';
 const ACTION_TYPES = {
   PLAY_TRACK: 0,
   ADD_TRACK_TO_QUEUE: 1,
+  ADD_TRACK_TO_PLAYLIST: 2,
 };
 
 const ACTIONS = {};
@@ -19,6 +20,11 @@ ACTIONS[ACTION_TYPES.ADD_TRACK_TO_QUEUE] = {
   buttonClassName: 'add-to-queue-btn',
   icon: 'add',
   actionName: 'addTrackToQueue',
+};
+ACTIONS[ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
+  buttonClassName: 'add-to-playlist-btn',
+  icon: 'playlist_add',
+  actionName: 'TODO', // TODO
 };
 
 const TRACKS_LIST_SCHEMA = {

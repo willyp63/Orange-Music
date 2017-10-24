@@ -49,9 +49,7 @@ class SearchFormComponent extends React.Component {
                  this.onQueryChange.bind(this, e.target.value)();
                }}>
         </input>
-        <MatButton icon={'search'}
-                   isRaised={true}
-                   isSubmit={true} />
+        <MatButton icon={'search'} isSubmit={true} />
       </form>
     );
   }

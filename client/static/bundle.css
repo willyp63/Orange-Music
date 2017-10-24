@@ -26,24 +26,30 @@
   flex-direction: column;
   padding: 32px 16px;
 }
-.om-nav-panel .nav-btns .mat-btn-wrap {
+.om-nav-panel .nav-btns .mat-btn {
   margin-bottom: 8px;
 }
-.om-nav-panel .nav-btns .mat-btn-wrap:last-of-type {
-  margin-bottom: 0;
-}
-.om-nav-panel .nav-btns .mat-btn {
+.om-nav-panel .nav-btns .mat-btn button {
   color: #424242;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.om-nav-panel .nav-btns .mat-btn button.disabled {
+  color: #E0E0E0;
+}
+.om-nav-panel .nav-btns .mat-btn button:hover:not(.disabled) {
+  color: #757575;
+}
+.om-nav-panel .nav-btns .mat-btn button {
   font-size: 24px;
   font-weight: 300;
   text-transform: inherit;
   font-weight: 400;
 }
-.om-nav-panel .nav-btns .mat-btn i {
+.om-nav-panel .nav-btns .mat-btn button i {
   font-size: 36px;
 }
-.om-nav-panel .nav-btns .mat-btn:hover {
-  color: #212121;
+.om-nav-panel .nav-btns .mat-btn:last-of-type {
+  margin-bottom: 0;
 }
 .om-nav-panel .nav-btns .divider {
   height: 1px;
@@ -102,26 +108,35 @@
   text-transform: inherit;
 }
 .om-player .track-controls {
-  align-items: center;
   display: flex;
-}
-.om-player .track-controls .mat-btn-wrap {
-  margin-left: 8px;
-}
-.om-player .track-controls .mat-btn-wrap:first-of-type {
-  margin-left: 0;
+  align-items: center;
 }
 .om-player .track-controls .mat-btn {
-  color: #ffffff;
+  margin-right: 8px;
+  border-radius: 50%;
 }
-.om-player .track-controls .mat-btn.disabled {
-  color: rgba(255, 255, 255, 0.3);
+.om-player .track-controls .mat-btn button {
+  color: #EEEEEE;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.om-player .track-controls .mat-btn button.disabled {
+  color: #757575;
+}
+.om-player .track-controls .mat-btn button:hover:not(.disabled) {
+  color: #FFFFFF;
+}
+.om-player .track-controls .mat-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-player .track-controls .mat-btn button {
+  border-radius: 50%;
 }
 .om-player .track-controls .mat-btn i {
   font-size: 48px;
 }
-.om-player .track-controls .mat-btn:hover {
-  color: #F5F5F5;
+.om-player .track-controls .mat-btn:last-of-type {
+  margin-right: 0;
 }
 .om-player .volume-controls .controls-container {
   display: flex;
@@ -130,25 +145,41 @@
   padding-left: 32px;
 }
 .om-player .volume-controls .controls-container .mat-btn {
-  height: 48px;
-  width: 48px;
-  color: #ffffff;
+  border-radius: 50%;
 }
-.om-player .volume-controls .controls-container .mat-btn.disabled {
-  color: rgba(255, 255, 255, 0.3);
+.om-player .volume-controls .controls-container .mat-btn button {
+  color: #EEEEEE;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.om-player .volume-controls .controls-container .mat-btn button.disabled {
+  color: #757575;
+}
+.om-player .volume-controls .controls-container .mat-btn button:hover:not(.disabled) {
+  color: #FFFFFF;
+}
+.om-player .volume-controls .controls-container .mat-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-player .volume-controls .controls-container .mat-btn button {
+  border-radius: 50%;
+}
+.om-player .volume-controls .controls-container .mat-btn button {
+  width: 48px;
+  height: 48px;
 }
 .om-player .volume-controls .controls-container .mat-btn i {
   font-size: 24px;
 }
-.om-player .volume-controls .controls-container .mat-btn:hover {
-  color: #F5F5F5;
-}
 .om-player .volume-controls .controls-container .mat-slider {
   flex-grow: 1;
-  margin-left: 8px;
+  margin-left: 16px;
+}
+.om-player .volume-controls .controls-container .mat-slider .bar {
   background-color: #FFFFFF;
 }
-.om-player .volume-controls .controls-container .mat-slider .handle {
+.om-player .volume-controls .controls-container .mat-slider .handle,
+.om-player .volume-controls .controls-container .mat-slider .fill {
   background-color: #1E88E5;
 }
 .progress-bar {
@@ -165,9 +196,12 @@
 .progress-bar .mat-slider {
   flex-grow: 1;
   margin: 0 16px;
+}
+.progress-bar .mat-slider .bar {
   background-color: #FFFFFF;
 }
-.progress-bar .mat-slider .handle {
+.progress-bar .mat-slider .handle,
+.progress-bar .mat-slider .fill {
   background-color: #1E88E5;
 }
 .home .title-container {
@@ -176,7 +210,7 @@
   padding-top: 16px;
 }
 .home .title-container span {
-  color: #F57C00;
+  color: #FFA726;
   font-size: 56px;
   font-weight: 300;
   text-transform: inherit;
@@ -209,21 +243,43 @@
   border-right: 0;
 }
 .search-form .mat-btn {
+  border-radius: 50%;
+  border-radius: 0;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.search-form .mat-btn button {
+  color: #FFFFFF;
+  background-color: #1E88E5;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.search-form .mat-btn button.disabled {
+  color: #E0E0E0;
+  background-color: #E0E0E0;
+  box-shadow: none;
+}
+.search-form .mat-btn button:hover:not(.disabled) {
+  color: #EEEEEE;
+  background-color: #2196F3;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.search-form .mat-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.search-form .mat-btn button {
+  border-radius: 50%;
+}
+.search-form .mat-btn button {
   width: 48px;
   height: 48px;
-  background-color: #1E88E5;
-  color: #FFFFFF;
   border-radius: 0;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
 }
 .search-form .mat-btn i {
-  position: relative;
-  left: -10px;
   font-size: 36px;
-}
-.search-form .mat-btn:hover {
-  background-color: #2196F3;
 }
 .queue .now-playing-container {
   padding-top: 16px;
@@ -258,19 +314,47 @@
   align-items: center;
 }
 .om-table-layout .display-type-picker .mat-btn {
+  border-radius: 50%;
+}
+.om-table-layout .display-type-picker .mat-btn button {
   color: #1976D2;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.om-table-layout .display-type-picker .mat-btn button.disabled {
+  color: #E0E0E0;
+}
+.om-table-layout .display-type-picker .mat-btn button:hover:not(.disabled) {
+  color: #2196F3;
+}
+.om-table-layout .display-type-picker .mat-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-table-layout .display-type-picker .mat-btn button {
+  border-radius: 50%;
 }
 .om-table-layout .display-type-picker .mat-btn i {
   font-size: 36px;
 }
 .om-table-layout .display-type-picker .mat-btn.active {
+  border-radius: 50%;
+}
+.om-table-layout .display-type-picker .mat-btn.active button {
   color: #F57C00;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.om-table-layout .display-type-picker .mat-btn:hover {
-  color: #1E88E5;
+.om-table-layout .display-type-picker .mat-btn.active button.disabled {
+  color: #E0E0E0;
 }
-.om-table-layout .display-type-picker .mat-btn:hover.active {
-  color: #FB8C00;
+.om-table-layout .display-type-picker .mat-btn.active button:hover:not(.disabled) {
+  color: #FF9800;
+}
+.om-table-layout .display-type-picker .mat-btn.active button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-table-layout .display-type-picker .mat-btn.active button {
+  border-radius: 50%;
 }
 .om-tabs .tab {
   color: #1976D2;
@@ -341,37 +425,122 @@
 .om-list .actions-cell {
   display: flex;
 }
-.om-list .actions-cell .mat-btn-wrap {
+.om-list .actions-cell .mat-btn {
   margin-left: 8px;
 }
-.om-list .actions-cell .mat-btn-wrap:first-of-type {
-  margin-left: 0;
-}
-.om-list .actions-cell .mat-btn {
+.om-list .actions-cell .mat-btn button {
   width: 64px;
   height: 64px;
-  color: #FFFFFF;
 }
 .om-list .actions-cell .mat-btn i {
   font-size: 36px;
 }
-.om-list .actions-cell .play-btn {
-  background-color: #1E88E5;
+.om-list .actions-cell .mat-btn:first-of-type {
+  margin-left: 0;
 }
-.om-list .actions-cell .play-btn:hover {
+.om-list .actions-cell .play-btn {
+  border-radius: 50%;
+}
+.om-list .actions-cell .play-btn button {
+  color: #FFFFFF;
+  background-color: #1E88E5;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.om-list .actions-cell .play-btn button.disabled {
+  color: #E0E0E0;
+  background-color: #E0E0E0;
+  box-shadow: none;
+}
+.om-list .actions-cell .play-btn button:hover:not(.disabled) {
+  color: #EEEEEE;
   background-color: #2196F3;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.om-list .actions-cell .play-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-list .actions-cell .play-btn button {
+  border-radius: 50%;
 }
 .om-list .actions-cell .add-to-queue-btn {
-  background-color: #43A047;
+  border-radius: 50%;
 }
-.om-list .actions-cell .add-to-queue-btn:hover {
+.om-list .actions-cell .add-to-queue-btn button {
+  color: #FFFFFF;
+  background-color: #43A047;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.om-list .actions-cell .add-to-queue-btn button.disabled {
+  color: #E0E0E0;
+  background-color: #E0E0E0;
+  box-shadow: none;
+}
+.om-list .actions-cell .add-to-queue-btn button:hover:not(.disabled) {
+  color: #EEEEEE;
   background-color: #4CAF50;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.om-list .actions-cell .add-to-queue-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-list .actions-cell .add-to-queue-btn button {
+  border-radius: 50%;
 }
 .om-list .actions-cell .remove-from-queue-btn {
-  background-color: #E53935;
+  border-radius: 50%;
 }
-.om-list .actions-cell .remove-from-queue-btn:hover {
+.om-list .actions-cell .remove-from-queue-btn button {
+  color: #FFFFFF;
+  background-color: #E53935;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.om-list .actions-cell .remove-from-queue-btn button.disabled {
+  color: #E0E0E0;
+  background-color: #E0E0E0;
+  box-shadow: none;
+}
+.om-list .actions-cell .remove-from-queue-btn button:hover:not(.disabled) {
+  color: #EEEEEE;
   background-color: #F44336;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.om-list .actions-cell .remove-from-queue-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-list .actions-cell .remove-from-queue-btn button {
+  border-radius: 50%;
+}
+.om-list .actions-cell .add-to-playlist-btn {
+  border-radius: 50%;
+}
+.om-list .actions-cell .add-to-playlist-btn button {
+  color: #FFFFFF;
+  background-color: #FB8C00;
+  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.om-list .actions-cell .add-to-playlist-btn button.disabled {
+  color: #E0E0E0;
+  background-color: #E0E0E0;
+  box-shadow: none;
+}
+.om-list .actions-cell .add-to-playlist-btn button:hover:not(.disabled) {
+  color: #EEEEEE;
+  background-color: #FF9800;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.om-list .actions-cell .add-to-playlist-btn button {
+  padding: 0;
+  justify-content: space-around;
+}
+.om-list .actions-cell .add-to-playlist-btn button {
+  border-radius: 50%;
 }
 .om-gallery {
   padding: 0 32px;
@@ -452,50 +621,40 @@
   justify-content: space-around;
   align-items: stretch;
 }
-/* Rules for using icons as black on a light background. */
-/* Rules for using icons as white on a dark background. */
+/* Colors for using icons as black on a light background. */
+@icon-dark-disabled : color: rgba(0, 0, 0, 0.26);
+/* Colors for using icons as white on a dark background. */
+@icon-light : color: rgba(255, 255, 255, 1);
+@icon-light-disabled : color: rgba(255, 255, 255, 0.3);
 body {
   font-family: 'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-/* Material Design Typography */
-.mat-btn-wrap {
+.mat-btn {
   display: inline-block;
   border-radius: 2px;
 }
-.mat-btn-wrap .mat-btn {
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+.mat-btn button {
   display: flex;
   align-items: center;
   padding: 4px 16px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
 }
-.mat-btn-wrap .mat-btn.raised {
-  transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-}
-.mat-btn-wrap .mat-btn.raised.cir {
-  border-radius: 50%;
-}
-.mat-btn-wrap .mat-btn.cir {
-  padding: 0;
-  justify-content: space-around;
-}
-.mat-btn-wrap .mat-btn:not(.disabled) {
+.mat-btn button:not(.disabled) {
   cursor: pointer;
-}
-.mat-btn-wrap .mat-btn:not(.disabled):hover.raised {
-  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
 .mat-chip {
   border-radius: 9999px;
   padding: 4px 16px;
 }
 .mat-slider {
-  border-radius: 9999px;
   position: relative;
-  height: 4px;
+  height: 16px;
 }
 .mat-slider:not(.disabled) {
   cursor: pointer;
@@ -503,12 +662,22 @@ body {
 .mat-slider:not(.disabled) .handle {
   cursor: pointer;
 }
-.mat-slider .handle {
-  border-radius: 50%;
-  height: 24px;
-  width: 24px;
+.mat-slider .bar,
+.mat-slider .fill {
   position: absolute;
-  top: -10px;
+  top: 6px;
+  height: 4px;
+  border-radius: 9999px;
+}
+.mat-slider .bar {
+  width: 100%;
+}
+.mat-slider .handle {
+  position: absolute;
+  top: 0;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
 }
 .mat-spinner {
   position: relative;

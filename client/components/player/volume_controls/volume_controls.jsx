@@ -15,7 +15,6 @@ const VolumeControlsComponent = ({volume, maxVolume, onVolumeButtonClick,
       <div className="controls-container">
         <MatButton icon={volumeButtonIcon}
                    isDisabled={isDisabled}
-                   isCircle={true}
                    onClick={onVolumeButtonClick} />
         <MatSlider value={volume}
                    maxValue={maxVolume}

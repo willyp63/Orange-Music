@@ -1449,7 +1449,7 @@ module.exports = invariant;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FONT = exports.GRID = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
+exports.measureText = exports.FONT_TYPES = exports.GRID = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(297);
 
@@ -1493,7 +1493,8 @@ var MatSpinner = exports.MatSpinner = _mat_spinner2.default;
 var MatTabs = exports.MatTabs = _mat_tabs2.default;
 
 var GRID = exports.GRID = _grid2.default.GRID;
-var FONT = exports.FONT = _font2.default;
+var FONT_TYPES = exports.FONT_TYPES = _font2.default.FONT_TYPES;
+var measureText = exports.measureText = _font2.default.measureText;
 
 /***/ }),
 /* 16 */
@@ -8045,6 +8046,7 @@ var RIPPLE_STYLE = Object.freeze({
 
 var WRAP_STYLE = Object.freeze({
   position: 'absolute',
+  borderRadius: 'inherit',
   display: 'inline-block',
   overflow: 'hidden',
   width: '100%',
@@ -8055,6 +8057,7 @@ var WRAP_STYLE = Object.freeze({
 });
 
 var CONTAINER_STYLE = Object.freeze({
+  borderRadius: 'inherit',
   position: 'relative',
   display: 'inline-block'
 });
@@ -8139,7 +8142,8 @@ var MatRipple = function (_React$PureComponent) {
 
       return _react2.default.createElement(
         'div',
-        { style: CONTAINER_STYLE,
+        { className: 'mat-ripple',
+          style: CONTAINER_STYLE,
           onClick: this.handleClick.bind(this) },
         _react2.default.createElement(
           'div',
@@ -8389,7 +8393,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ACTION_TYPES = {
   PLAY_TRACK: 0,
-  ADD_TRACK_TO_QUEUE: 1
+  ADD_TRACK_TO_QUEUE: 1,
+  ADD_TRACK_TO_PLAYLIST: 2
 };
 
 var ACTIONS = {};
@@ -8402,6 +8407,11 @@ ACTIONS[ACTION_TYPES.ADD_TRACK_TO_QUEUE] = {
   buttonClassName: 'add-to-queue-btn',
   icon: 'add',
   actionName: 'addTrackToQueue'
+};
+ACTIONS[ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
+  buttonClassName: 'add-to-playlist-btn',
+  icon: 'playlist_add',
+  actionName: 'TODO' // TODO
 };
 
 var TRACKS_LIST_SCHEMA = {
@@ -30564,47 +30574,34 @@ var _grid2 = _interopRequireDefault(_grid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var GRID = _grid2.default.GRID;
+
+
 var MatButton = function MatButton(_ref) {
   var text = _ref.text,
       icon = _ref.icon,
-      isCircle = _ref.isCircle,
-      isRaised = _ref.isRaised,
       isSubmit = _ref.isSubmit,
       isDisabled = _ref.isDisabled,
       onClick = _ref.onClick,
-      className = _ref.className,
-      wrapClassName = _ref.wrapClassName;
+      className = _ref.className;
 
-
-  // Format button class name.
   className = className ? className + ' mat-btn' : 'mat-btn';
-  if (isDisabled) {
-    className += ' disabled';
-  }
-  if (isCircle) {
-    className += ' cir';
-  }
-  if (isRaised) {
-    className += ' raised';
-  }
+  var buttonClassName = isDisabled ? 'disabled' : '';
 
-  // Format wrap class name.
-  wrapClassName = wrapClassName ? wrapClassName + ' mat-btn-wrap' : 'mat-btn-wrap';
-
-  // Format icon (uses font awesome icons).
+  // Format icon (https://material.io/icons/).
+  var marginLeft = text ? _grid2.default.GRID : 0; // Separate icon from text.
   var $icon = typeof icon === 'string' && icon.length > 0 ? _react2.default.createElement(
     'i',
-    { className: 'material-icons',
-      style: { marginLeft: text ? _grid2.default.GRID : 0 } },
+    { className: 'material-icons', style: { marginLeft: marginLeft } },
     icon
   ) : '';
 
   // Render button w/o wrap or ripple.
   var $button = _react2.default.createElement(
     'button',
-    { className: className,
-      onClick: onClick,
-      type: isSubmit ? 'submit' : 'button' },
+    { className: buttonClassName,
+      type: isSubmit ? 'submit' : 'button',
+      onClick: onClick },
     text,
     $icon
   );
@@ -30613,14 +30610,14 @@ var MatButton = function MatButton(_ref) {
   if (!isDisabled) {
     $button = _react2.default.createElement(
       _mat_ripple2.default,
-      { isCircle: isCircle },
+      null,
       $button
     );
   }
 
   return _react2.default.createElement(
-    'div',
-    { className: wrapClassName },
+    'span',
+    { className: className },
     $button
   );
 };
@@ -30700,8 +30697,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var HANDLE_WIDTH = _grid2.default.GRID * 3;
-var HANDLE_CLASS_NAME = 'handle';
+var HANDLE_WIDTH = _grid2.default.GRID * 2;
 
 var MatSlider = function (_React$Component) {
   _inherits(MatSlider, _React$Component);
@@ -30713,31 +30709,20 @@ var MatSlider = function (_React$Component) {
   }
 
   _createClass(MatSlider, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props = this.props,
-          value = _props.value,
-          maxValue = _props.maxValue;
-
-      this.moveHandle.bind(this, value / maxValue)();
-    }
-  }, {
     key: 'onHandleDown',
     value: function onHandleDown(e) {
       var _this2 = this;
 
-      var _props2 = this.props,
-          onValueChange = _props2.onValueChange,
-          maxValue = _props2.maxValue,
-          isDisabled = _props2.isDisabled;
+      var _props = this.props,
+          onValueChange = _props.onValueChange,
+          maxValue = _props.maxValue,
+          isDisabled = _props.isDisabled;
 
       if (isDisabled) {
         return;
       }
 
       var onMouseMove = function onMouseMove(e) {
-        var offsetRatio = _this2.getMouseOffsetRatio.bind(_this2, e)();
-        _this2.moveHandle.bind(_this2, offsetRatio)();
         _this2.changeValue.bind(_this2, e)();
       };
 
@@ -30753,10 +30738,10 @@ var MatSlider = function (_React$Component) {
   }, {
     key: 'changeValue',
     value: function changeValue(e) {
-      var _props3 = this.props,
-          onValueChange = _props3.onValueChange,
-          maxValue = _props3.maxValue,
-          isDisabled = _props3.isDisabled;
+      var _props2 = this.props,
+          onValueChange = _props2.onValueChange,
+          maxValue = _props2.maxValue,
+          isDisabled = _props2.isDisabled;
 
       if (isDisabled || typeof onValueChange !== 'function') {
         return;
@@ -30766,16 +30751,9 @@ var MatSlider = function (_React$Component) {
       onValueChange(offsetRatio * maxValue);
     }
   }, {
-    key: 'moveHandle',
-    value: function moveHandle(offsetRatio) {
-      this.getHandle.bind(this)().css({
-        left: getHandleLeft(offsetRatio)
-      });
-    }
-  }, {
     key: 'getMouseOffsetRatio',
     value: function getMouseOffsetRatio(e) {
-      var $bar = this.getBar.bind(this)();
+      var $bar = $(_reactDom2.default.findDOMNode(this));
       var mouseOffset = e.pageX - $bar.offset().left;
       var offsetRatio = mouseOffset / $bar.width();
       if (offsetRatio < 0) {
@@ -30787,23 +30765,13 @@ var MatSlider = function (_React$Component) {
       return offsetRatio;
     }
   }, {
-    key: 'getBar',
-    value: function getBar() {
-      return $(_reactDom2.default.findDOMNode(this));
-    }
-  }, {
-    key: 'getHandle',
-    value: function getHandle() {
-      return this.getBar.bind(this)().find('.' + HANDLE_CLASS_NAME);
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _props4 = this.props,
-          value = _props4.value,
-          maxValue = _props4.maxValue,
-          isDisabled = _props4.isDisabled,
-          className = _props4.className;
+      var _props3 = this.props,
+          value = _props3.value,
+          maxValue = _props3.maxValue,
+          isDisabled = _props3.isDisabled,
+          className = _props3.className;
 
 
       var className_1 = className ? className + ' mat-slider' : 'mat-slider';
@@ -30811,13 +30779,14 @@ var MatSlider = function (_React$Component) {
         className_1 += ' disabled';
       }
 
-      var c = getHandleLeft(value / maxValue);
-
       return _react2.default.createElement(
         'div',
         { className: className_1,
           onClick: this.changeValue.bind(this) },
-        _react2.default.createElement('span', { className: HANDLE_CLASS_NAME,
+        _react2.default.createElement('span', { className: 'bar' }),
+        _react2.default.createElement('span', { className: 'fill',
+          style: { width: getFillWidth(value / maxValue) } }),
+        _react2.default.createElement('span', { className: 'handle',
           onMouseDown: this.onHandleDown.bind(this),
           style: { left: getHandleLeft(value / maxValue) } })
       );
@@ -30829,6 +30798,10 @@ var MatSlider = function (_React$Component) {
 
 var getHandleLeft = function getHandleLeft(offsetRatio) {
   return 'calc(' + offsetRatio * 100 + '% - ' + HANDLE_WIDTH / 2 + 'px)';
+};
+
+var getFillWidth = function getFillWidth(offsetRatio) {
+  return offsetRatio * 100 + '%';
 };
 
 exports.default = MatSlider;
@@ -31460,17 +31433,14 @@ var TrackControlsComponent = function TrackControlsComponent(_ref) {
                       { className: 'track-controls' },
                       _react2.default.createElement(_index.MatButton, { buttonClassName: 'prev-btn',
                                  icon: 'skip_previous',
-                                 isCircle: true,
                                  isDisabled: isDisabled,
                                  onClick: onPrev }),
                       _react2.default.createElement(_index.MatButton, { buttonClassName: 'play-pause-btn',
                                  icon: playPauseButtonIcon,
-                                 isCircle: true,
                                  isDisabled: isDisabled,
                                  onClick: onPlayPause }),
                       _react2.default.createElement(_index.MatButton, { buttonClassName: 'next-btn',
                                  icon: 'skip_next',
-                                 isCircle: true,
                                  isDisabled: isDisabled,
                                  onClick: onNext })
            );
@@ -31518,7 +31488,6 @@ var VolumeControlsComponent = function VolumeControlsComponent(_ref) {
       { className: 'controls-container' },
       _react2.default.createElement(_index.MatButton, { icon: volumeButtonIcon,
         isDisabled: isDisabled,
-        isCircle: true,
         onClick: onVolumeButtonClick }),
       _react2.default.createElement(_index.MatSlider, { value: volume,
         maxValue: maxVolume,
@@ -31864,11 +31833,11 @@ var ActionsCellComponent = function ActionsCellComponent(_, track, actions, sche
     var action = schema.actions[actionType];
     return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
       icon: action.icon,
-      isRaised: true,
-      isCircle: true,
       key: actionType,
       onClick: function onClick() {
-        actions[action.actionName](track);
+        if (typeof actions[action.actionName] === 'function') {
+          actions[action.actionName](track);
+        }
       } });
   });
 
@@ -31930,7 +31899,7 @@ var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TABS_FONT = _index.FONT.FONT_TYPES.HEADLINE;
+var TABS_FONT = _index.FONT_TYPES.HEADLINE;
 
 var TabsComponent = function TabsComponent(_ref) {
   var tabs = _ref.tabs,
@@ -32190,7 +32159,6 @@ var GalleryComponent = function GalleryComponent(_ref) {
   return _react2.default.createElement(_flex_gallery2.default, { className: 'om-gallery',
     objs: entities,
     keyPath: 'mbid',
-    maxColumns: 3,
     component: component });
 };
 
@@ -32496,9 +32464,7 @@ var SearchFormComponent = function (_React$Component) {
           onChange: function onChange(e) {
             _this2.onQueryChange.bind(_this2, e.target.value)();
           } }),
-        _react2.default.createElement(_index.MatButton, { icon: 'search',
-          isRaised: true,
-          isSubmit: true })
+        _react2.default.createElement(_index.MatButton, { icon: 'search', isSubmit: true })
       );
     }
   }]);

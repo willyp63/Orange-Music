@@ -5,17 +5,15 @@
   padding: 0 (@grid * 2);
 
   .time-label {
-    .subhead-2();
+    .font-subhead-2();
   }
 
   .mat-slider {
     flex-grow: 1;
     margin: 0 (@grid * 2);
 
-    background-color: @white;
-
-    .handle {
-      background-color: @blue-600;
-    }
+    .mat-slider-colorize(
+      @color: @blue-600;
+      @bgColor: @white);
   }
 }
