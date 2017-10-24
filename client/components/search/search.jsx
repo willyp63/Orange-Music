@@ -7,6 +7,7 @@ import TrackGalleryComponent from '../shared/gallery/components/track_component'
 import ArtistGalleryComponent from '../shared/gallery/components/artist_component';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
+
 const TABLE_TYPES = Object.freeze({
   TRACKS: 0,
   ARTISTS: 1,
@@ -24,6 +25,7 @@ TABLES1[TABLE_TYPES.ARTISTS] = {
   galleryComponent: ArtistGalleryComponent,
 };
 const TABLES = Object.freeze(TABLES1);
+
 
 class SearchComponent extends React.Component {
   componentDidMount() {

@@ -11,4 +11,10 @@ const ImageCellComponent = (images) => (
   </div>
 );
 
+const MockImageCellComponent = (images) => (
+  <div className="mock-image-cell">
+  </div>
+);
+
+ImageCellComponent.MockImageCellComponent = MockImageCellComponent;
 export default ImageCellComponent;

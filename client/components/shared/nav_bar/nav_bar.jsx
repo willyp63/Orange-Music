@@ -22,9 +22,7 @@ class NavBarComponent extends React.Component {
     let className = 'om-nav-bar';
     if (this.state.isScrolled) { className += ' scrolled'; }
     return (
-      <div className={className}>
-        {this.props.children}
-      </div>
+      <div className={className}>{this.props.children}</div>
     );
   }
 }

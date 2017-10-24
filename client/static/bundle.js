@@ -8369,7 +8369,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _text_cell = __webpack_require__(139);
+var _text_cell = __webpack_require__(332);
 
 var _text_cell2 = _interopRequireDefault(_text_cell);
 
@@ -8377,17 +8377,9 @@ var _image_cell = __webpack_require__(140);
 
 var _image_cell2 = _interopRequireDefault(_image_cell);
 
-var _mock_image_cell = __webpack_require__(141);
-
-var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
-
 var _actions_cell = __webpack_require__(313);
 
 var _actions_cell2 = _interopRequireDefault(_actions_cell);
-
-var _mock_actions_cell = __webpack_require__(314);
-
-var _mock_actions_cell2 = _interopRequireDefault(_mock_actions_cell);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8416,7 +8408,7 @@ ACTIONS[ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
 
 var TRACKS_LIST_SCHEMA = {
   image: {
-    label: _mock_image_cell2.default,
+    label: _image_cell.MockImageCellComponent,
     width: 0,
     component: _image_cell2.default
   },
@@ -8431,7 +8423,7 @@ var TRACKS_LIST_SCHEMA = {
     component: _text_cell2.default
   },
   '@actions': {
-    label: _mock_actions_cell2.default,
+    label: _actions_cell.MockActionsCellComponent,
     width: 0,
     component: _actions_cell2.default,
     actions: ACTIONS
@@ -14375,31 +14367,7 @@ var receiveTopArtistsMsg = function receiveTopArtistsMsg(_ref4) {
 var RECEIVE_TOP_ARTISTS = exports.RECEIVE_TOP_ARTISTS = 'RECEIVE_TOP_ARTISTS';
 
 /***/ }),
-/* 139 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var TextCellComponent = function TextCellComponent(text) {
-  return (0, _empty.isNotEmpty)(text) ? text.toString() : '';
-};
-
-exports.default = TextCellComponent;
-
-/***/ }),
+/* 139 */,
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14432,32 +14400,15 @@ var ImageCellComponent = function ImageCellComponent(images) {
   );
 };
 
+var MockImageCellComponent = function MockImageCellComponent(images) {
+  return _react2.default.createElement('div', { className: 'mock-image-cell' });
+};
+
+ImageCellComponent.MockImageCellComponent = MockImageCellComponent;
 exports.default = ImageCellComponent;
 
 /***/ }),
-/* 141 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MockImageCellComponent = function MockImageCellComponent(images) {
-  return _react2.default.createElement("div", { className: "mock-image-cell" });
-};
-
-exports.default = MockImageCellComponent;
-
-/***/ }),
+/* 141 */,
 /* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14468,7 +14419,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _text_cell = __webpack_require__(139);
+var _text_cell = __webpack_require__(332);
 
 var _text_cell2 = _interopRequireDefault(_text_cell);
 
@@ -14476,15 +14427,11 @@ var _image_cell = __webpack_require__(140);
 
 var _image_cell2 = _interopRequireDefault(_image_cell);
 
-var _mock_image_cell = __webpack_require__(141);
-
-var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ARTISTS_LIST_SCHEMA = {
   image: {
-    label: _mock_image_cell2.default,
+    label: _image_cell.MockImageCellComponent,
     width: 0,
     component: _image_cell2.default
   },
@@ -14559,11 +14506,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(20);
 
-var _queue_actions = __webpack_require__(77);
-
-var _flex_table = __webpack_require__(145);
+var _flex_table = __webpack_require__(329);
 
 var _flex_table2 = _interopRequireDefault(_flex_table);
+
+var _queue_actions = __webpack_require__(77);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14605,96 +14552,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ListComponent);
 
 /***/ }),
-/* 145 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(7);
-
-var _nested_field = __webpack_require__(318);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FlexTableComponent = function FlexTableComponent(_ref) {
-  var className = _ref.className,
-      rowObjs = _ref.rowObjs,
-      keyPath = _ref.keyPath,
-      schema = _ref.schema,
-      componentPath = _ref.componentPath,
-      actions = _ref.actions;
-
-
-  className = className ? className + ' flex-table' : 'flex-table';
-
-  return _react2.default.createElement(
-    'div',
-    { className: className },
-    getRows({ rowObjs: rowObjs, keyPath: keyPath, schema: schema, componentPath: componentPath, actions: actions })
-  );
-};
-
-var getRows = function getRows(_ref2) {
-  var rowObjs = _ref2.rowObjs,
-      keyPath = _ref2.keyPath,
-      schema = _ref2.schema,
-      componentPath = _ref2.componentPath,
-      actions = _ref2.actions;
-
-  return rowObjs.map(function (rowObj) {
-    return _react2.default.createElement(
-      'div',
-      { className: 'row',
-        key: rowObj[keyPath] },
-      getColumns({ rowObj: rowObj, schema: schema, componentPath: componentPath, actions: actions })
-    );
-  });
-};
-
-var getColumns = function getColumns(_ref3) {
-  var rowObj = _ref3.rowObj,
-      schema = _ref3.schema,
-      componentPath = _ref3.componentPath,
-      actions = _ref3.actions;
-
-  return Object.keys(schema).map(function (field) {
-    componentPath = (0, _empty.isNotEmpty)(componentPath) ? componentPath : 'component';
-    var component = schema[field][componentPath];
-    var $renderedComponent = typeof component === 'function' ? component((0, _nested_field.getNestedFieldValue)(rowObj, field), rowObj, actions, schema[field]) : component;
-    return getColumn({
-      $content: $renderedComponent,
-      schema: schema,
-      field: field
-    });
-  });
-};
-
-var getColumn = function getColumn(_ref4) {
-  var $content = _ref4.$content,
-      schema = _ref4.schema,
-      field = _ref4.field;
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'cell',
-      key: field,
-      style: { flex: '0 1 ' + schema[field].width + '%' } },
-    $content
-  );
-};
-
-exports.default = FlexTableComponent;
-
-/***/ }),
+/* 145 */,
 /* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14709,7 +14567,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _flex_table_header = __webpack_require__(319);
+var _flex_table_header = __webpack_require__(330);
 
 var _flex_table_header2 = _interopRequireDefault(_flex_table_header);
 
@@ -14718,8 +14576,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ListHeaderComponent = function ListHeaderComponent(_ref) {
   var schema = _ref.schema;
 
-  return _react2.default.createElement(_flex_table_header2.default, { className: 'om-list-header',
-    schema: schema });
+  return _react2.default.createElement(_flex_table_header2.default, { className: 'om-list-header', schema: schema });
 };
 
 exports.default = ListHeaderComponent;
@@ -31814,6 +31671,9 @@ var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var BUTTON_SIZE = _index.GRID * 8;
+var BUTTON_MARGIN = _index.GRID;
+
 var ActionsCellComponent = function ActionsCellComponent(_, track, actions, schema) {
   var $buttons = Object.keys(schema.actions).map(function (actionType) {
     var action = schema.actions[actionType];
@@ -31834,39 +31694,17 @@ var ActionsCellComponent = function ActionsCellComponent(_, track, actions, sche
   );
 };
 
-exports.default = ActionsCellComponent;
-
-/***/ }),
-/* 314 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(15);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var BUTTON_SIZE = _index.GRID * 8;
-var BUTTON_MARGIN = _index.GRID;
-
 var MockActionsCellComponent = function MockActionsCellComponent(_, __, ___, schema) {
   var numButtons = Object.keys(schema).length;
   return _react2.default.createElement('div', { className: 'mock-track-actions-cell',
     style: { width: numButtons * BUTTON_SIZE + (numButtons - 1) * BUTTON_MARGIN } });
 };
 
-exports.default = MockActionsCellComponent;
+ActionsCellComponent.MockActionsCellComponent = MockActionsCellComponent;
+exports.default = ActionsCellComponent;
 
 /***/ }),
+/* 314 */,
 /* 315 */,
 /* 316 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -31982,33 +31820,31 @@ var DisplayTypePickerComponent = function DisplayTypePickerComponent(_ref) {
       onDisplayTypeSelect = _ref.onDisplayTypeSelect;
 
   if ((0, _empty.isEmpty)(selectedDisplayType) || typeof onDisplayTypeSelect !== 'function') {
-    throw 'DisplayTypePickerComponent: all properties are required!';
+    throw 'DisplayTypePickerComponent: missing required props!';
   }
 
-  var galleryBtnClassName = 'gallery-btn';
-  var listBtnClassName = 'list-btn';
-  if (selectedDisplayType === TABLE_DISPLAY_TYPES.GALLERY) {
-    galleryBtnClassName += ' active';
-  } else {
-    listBtnClassName += ' active';
-  }
+  var onButtonClick = function onButtonClick(clickedDisplayType) {
+    if (selectedDisplayType !== clickedDisplayType) {
+      onDisplayTypeSelect(clickedDisplayType);
+    }
+  };
+
+  var getClassName = function getClassName(displayType) {
+    return selectedDisplayType === displayType ? 'active' : '';
+  };
 
   return _react2.default.createElement(
     'div',
     { className: 'display-type-picker' },
-    _react2.default.createElement(_index.MatButton, { className: galleryBtnClassName,
+    _react2.default.createElement(_index.MatButton, { className: getClassName(TABLE_DISPLAY_TYPES.GALLERY),
       icon: 'view_module',
       onClick: function onClick() {
-        if (selectedDisplayType !== TABLE_DISPLAY_TYPES.GALLERY) {
-          onDisplayTypeSelect(TABLE_DISPLAY_TYPES.GALLERY);
-        }
+        onButtonClick(TABLE_DISPLAY_TYPES.GALLERY);
       } }),
-    _react2.default.createElement(_index.MatButton, { className: listBtnClassName,
+    _react2.default.createElement(_index.MatButton, { className: getClassName(TABLE_DISPLAY_TYPES.LIST),
       icon: 'view_list',
       onClick: function onClick() {
-        if (selectedDisplayType !== TABLE_DISPLAY_TYPES.LIST) {
-          onDisplayTypeSelect(TABLE_DISPLAY_TYPES.LIST);
-        }
+        onButtonClick(TABLE_DISPLAY_TYPES.LIST);
       } })
   );
 };
@@ -32046,44 +31882,7 @@ var getNestedFieldValue = exports.getNestedFieldValue = function getNestedFieldV
 };
 
 /***/ }),
-/* 319 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(7);
-
-var _flex_table = __webpack_require__(145);
-
-var _flex_table2 = _interopRequireDefault(_flex_table);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FlexTableHeaderComponent = function FlexTableHeaderComponent(_ref) {
-  var className = _ref.className,
-      schema = _ref.schema;
-
-  className = className ? className + ' flex-table-header' : 'flex-table-header';
-
-  return _react2.default.createElement(_flex_table2.default, { className: className,
-    rowObjs: [{ key: 1 }],
-    keyPath: 'key',
-    schema: schema,
-    componentPath: 'label' });
-};
-
-exports.default = FlexTableHeaderComponent;
-
-/***/ }),
+/* 319 */,
 /* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32098,84 +31897,40 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _flex_gallery = __webpack_require__(321);
-
-var _flex_gallery2 = _interopRequireDefault(_flex_gallery);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NUM_COLUMNS = 3;
 
 var GalleryComponent = function GalleryComponent(_ref) {
   var entities = _ref.entities,
       component = _ref.component;
 
-  return _react2.default.createElement(_flex_gallery2.default, { className: 'om-gallery',
-    objs: entities,
-    keyPath: 'mbid',
-    component: component });
+  return _react2.default.createElement(
+    'div',
+    { className: 'om-gallery' },
+    getItems({ entities: entities, component: component })
+  );
+};
+
+var getItems = function getItems(_ref2) {
+  var entities = _ref2.entities,
+      component = _ref2.component;
+
+  return entities.map(function (entity) {
+    return _react2.default.createElement(
+      'div',
+      { className: 'item',
+        key: entity['mbid'],
+        style: { flex: '0 0 ' + 100 / NUM_COLUMNS + '%' } },
+      component(entity)
+    );
+  });
 };
 
 exports.default = GalleryComponent;
 
 /***/ }),
-/* 321 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DEFAULT_MAX_COLUMNS = 4;
-
-var FlexGalleryComponent = function FlexGalleryComponent(_ref) {
-  var className = _ref.className,
-      objs = _ref.objs,
-      keyPath = _ref.keyPath,
-      component = _ref.component,
-      maxColumns = _ref.maxColumns;
-
-
-  className = className ? className + ' flex-gallery' : 'flex-gallery';
-
-  maxColumns = (0, _empty.coalesce)(maxColumns, DEFAULT_MAX_COLUMNS);
-
-  return _react2.default.createElement(
-    'div',
-    { className: className },
-    getItems({ objs: objs, keyPath: keyPath, component: component, maxColumns: maxColumns })
-  );
-};
-
-var getItems = function getItems(_ref2) {
-  var objs = _ref2.objs,
-      keyPath = _ref2.keyPath,
-      component = _ref2.component,
-      maxColumns = _ref2.maxColumns;
-
-  return objs.map(function (obj) {
-    return _react2.default.createElement(
-      'div',
-      { className: 'item',
-        key: obj[keyPath],
-        style: { flex: '0 0 ' + 100 / maxColumns + '%' } },
-      component(obj)
-    );
-  });
-};
-
-exports.default = FlexGalleryComponent;
-
-/***/ }),
+/* 321 */,
 /* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32780,6 +32535,160 @@ var receiveVideoForTrack = function receiveVideoForTrack(prevState, action) {
 };
 
 exports.default = queueReducer;
+
+/***/ }),
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(7);
+
+var _nested_field = __webpack_require__(318);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FlexTableComponent = function FlexTableComponent(_ref) {
+  var className = _ref.className,
+      rowObjs = _ref.rowObjs,
+      keyPath = _ref.keyPath,
+      schema = _ref.schema,
+      componentPath = _ref.componentPath,
+      actions = _ref.actions;
+
+
+  className = className ? className + ' flex-table' : 'flex-table';
+
+  return _react2.default.createElement(
+    'div',
+    { className: className },
+    getRows({ rowObjs: rowObjs, keyPath: keyPath, schema: schema, componentPath: componentPath, actions: actions })
+  );
+};
+
+var getRows = function getRows(_ref2) {
+  var rowObjs = _ref2.rowObjs,
+      keyPath = _ref2.keyPath,
+      schema = _ref2.schema,
+      componentPath = _ref2.componentPath,
+      actions = _ref2.actions;
+
+  return rowObjs.map(function (rowObj) {
+    return _react2.default.createElement(
+      'div',
+      { className: 'row',
+        key: rowObj[keyPath] },
+      getColumns({ rowObj: rowObj, schema: schema, componentPath: componentPath, actions: actions })
+    );
+  });
+};
+
+var getColumns = function getColumns(_ref3) {
+  var rowObj = _ref3.rowObj,
+      schema = _ref3.schema,
+      componentPath = _ref3.componentPath,
+      actions = _ref3.actions;
+
+  return Object.keys(schema).map(function (field) {
+    componentPath = (0, _empty.isNotEmpty)(componentPath) ? componentPath : 'component';
+    var component = schema[field][componentPath];
+    var $renderedComponent = typeof component === 'function' ? component((0, _nested_field.getNestedFieldValue)(rowObj, field), rowObj, actions, schema[field]) : component;
+    return getColumn({
+      $content: $renderedComponent,
+      schema: schema,
+      field: field
+    });
+  });
+};
+
+var getColumn = function getColumn(_ref4) {
+  var $content = _ref4.$content,
+      schema = _ref4.schema,
+      field = _ref4.field;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'cell',
+      key: field,
+      style: { flex: '0 1 ' + schema[field].width + '%' } },
+    $content
+  );
+};
+
+exports.default = FlexTableComponent;
+
+/***/ }),
+/* 330 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(7);
+
+var _flex_table = __webpack_require__(329);
+
+var _flex_table2 = _interopRequireDefault(_flex_table);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FlexTableHeaderComponent = function FlexTableHeaderComponent(_ref) {
+  var className = _ref.className,
+      schema = _ref.schema;
+
+  className = className ? className + ' flex-table-header' : 'flex-table-header';
+
+  return _react2.default.createElement(_flex_table2.default, { className: className,
+    rowObjs: [{ key: 1 }],
+    keyPath: 'key',
+    schema: schema,
+    componentPath: 'label' });
+};
+
+exports.default = FlexTableHeaderComponent;
+
+/***/ }),
+/* 331 */,
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(7);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TextCellComponent = function TextCellComponent(text) {
+  return (0, _empty.isNotEmpty)(text) ? text.toString() : '';
+};
+
+exports.default = TextCellComponent;
 
 /***/ })
 /******/ ]);

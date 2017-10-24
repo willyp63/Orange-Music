@@ -4,11 +4,16 @@
     align-items: center;
 
     .mat-btn {
+      button {
+        width: @grid * 6;
+        height: @grid * 6;
+      }
+
+      i { .font-icon-lg(); }
+
       .mat-icon-btn-colorize(
         @color: @blue-700;
         @colorHover: @blue);
-
-      i { .font-icon-lg(); }
 
       &.active {
         .mat-icon-btn-colorize(
@@ -16,5 +21,7 @@
           @colorHover: @orange);
       }
     }
+
+    .mat-btn:first-of-type { margin-right: @grid; }
   }
 }

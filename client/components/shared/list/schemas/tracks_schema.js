@@ -1,8 +1,6 @@
-import TextCellComponent from '../../flex_table/cells/text_cell';
-import ImageCellComponent from '../cells/image/image_cell';
-import MockImageCellComponent from '../cells/image/mock_image_cell';
-import ActionsCellComponent from '../cells/actions/actions_cell';
-import MockActionsCellComponent from '../cells/actions/mock_actions_cell';
+import TextCellComponent from '../cells/text/text_cell';
+import ImageCellComponent, { MockImageCellComponent }from '../cells/image/image_cell';
+import ActionsCellComponent, { MockActionsCellComponent }from '../cells/actions/actions_cell';
 
 const ACTION_TYPES = {
   PLAY_TRACK: 0,

@@ -7,6 +7,7 @@ import TrackGalleryComponent from '../shared/gallery/components/track_component'
 import ArtistGalleryComponent from '../shared/gallery/components/artist_component';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
+
 const TABLE_TYPES = Object.freeze({
   TOP_TRACKS: 0,
   TOP_ARTISTS: 1,
@@ -24,6 +25,7 @@ TABLES1[TABLE_TYPES.TOP_ARTISTS] = {
   galleryComponent: ArtistGalleryComponent,
 };
 const TABLES = Object.freeze(TABLES1);
+
 
 class HomeComponent extends React.Component {
   componentDidMount() {

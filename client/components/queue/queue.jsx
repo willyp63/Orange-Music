@@ -5,6 +5,7 @@ import QUEUE_LIST_SCHEMA from './list_schema';
 import TrackGalleryComponent from '../shared/gallery/components/track_component';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
+
 const TABLE_TYPES = Object.freeze({
   QUEUE: 0,
   HISTORY: 1,
@@ -22,6 +23,7 @@ TABLES1[TABLE_TYPES.HISTORY] = {
   galleryComponent: TrackGalleryComponent,
 };
 const TABLES = Object.freeze(TABLES1);
+
 
 class QueueComponent extends React.Component {
   render() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import FlexTableComponent from './flex_table/flex_table';
 import { playTrack, addTrackToQueue, removeTrackFromQueue } from '../../../actions/queue_actions';
-import FlexTableComponent from '../flex_table/flex_table';
 
 const ListComponent = ({entities, schema, playTrack, addTrackToQueue,
     removeTrackFromQueue}) => {

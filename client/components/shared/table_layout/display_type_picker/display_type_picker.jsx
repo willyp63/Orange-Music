@@ -10,33 +10,27 @@ export const TABLE_DISPLAY_TYPES = {
 const DisplayTypePickerComponent = ({ selectedDisplayType, onDisplayTypeSelect }) => {
   if (isEmpty(selectedDisplayType) ||
       typeof onDisplayTypeSelect !== 'function') {
-    throw 'DisplayTypePickerComponent: all properties are required!';
+    throw 'DisplayTypePickerComponent: missing required props!';
   }
 
-  let galleryBtnClassName = 'gallery-btn';
-  let listBtnClassName = 'list-btn';
-  if (selectedDisplayType === TABLE_DISPLAY_TYPES.GALLERY) {
-    galleryBtnClassName += ' active';
-  } else {
-    listBtnClassName += ' active';
-  }
+  const onButtonClick = (clickedDisplayType) => {
+    if (selectedDisplayType !== clickedDisplayType) {
+      onDisplayTypeSelect(clickedDisplayType);
+    }
+  };
+
+  const getClassName = (displayType) => {
+    return selectedDisplayType === displayType ? 'active' : '';
+  };
 
   return (
     <div className='display-type-picker'>
-      <MatButton className={galleryBtnClassName}
+      <MatButton className={getClassName(TABLE_DISPLAY_TYPES.GALLERY)}
                  icon={'view_module'}
-                 onClick={() => {
-                   if (selectedDisplayType !== TABLE_DISPLAY_TYPES.GALLERY) {
-                     onDisplayTypeSelect(TABLE_DISPLAY_TYPES.GALLERY);
-                   }
-                 }} />
-      <MatButton className={listBtnClassName}
+                 onClick={() => { onButtonClick(TABLE_DISPLAY_TYPES.GALLERY); }} />
+      <MatButton className={getClassName(TABLE_DISPLAY_TYPES.LIST)}
                  icon={'view_list'}
-                 onClick={() => {
-                   if (selectedDisplayType !== TABLE_DISPLAY_TYPES.LIST) {
-                     onDisplayTypeSelect(TABLE_DISPLAY_TYPES.LIST);
-                   }
-                 }} />
+                 onClick={() => { onButtonClick(TABLE_DISPLAY_TYPES.LIST); }} />
     </div>
   );
 };
