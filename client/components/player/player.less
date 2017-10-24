@@ -1,0 +1,40 @@
+@om-player-z-idx: 300;
+
+.om-player {
+  position: fixed;
+  bottom: @grid * 2;
+  z-index: @om-player-z-idx;
+  width: @grid * 100;
+
+  padding: @grid;
+
+  background-color: @orange-300;
+  border-radius: @grid / 2;
+
+  .z-depth(16);
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+
+    .track-info {
+      flex: 1 0 0;
+    }
+
+    .track-controls {
+      flex: 0 1 0;
+    }
+
+    .volume-controls {
+      flex: 1 0 0;
+    }
+
+    .track-info, .track-controls {
+      margin-right: @grid * 4;
+    }
+  }
+
+  .bottom-bar {
+    margin-top: @grid * 2;
+  }
+}

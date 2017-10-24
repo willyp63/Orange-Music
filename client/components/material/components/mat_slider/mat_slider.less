@@ -1,10 +1,21 @@
 .mat-slider {
-  background-color: @white;
-  border-radius: @grid;
+  border-radius: 9999px;
   position: relative;
+  height: @grid / 2;
+
+  &:not(.disabled) {
+    cursor: pointer;
+
+    .handle {
+      cursor: pointer;
+    }
+  }
 
   .handle {
-    border-radius: @grid;
+    border-radius: 50%;
+    height: @grid * 3;
+    width: @grid * 3;
     position: absolute;
+    top: @grid * -5 / 4;
   }
 }

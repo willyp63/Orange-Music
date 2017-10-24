@@ -13,7 +13,7 @@ import AudioApi from './audio_api/audio_api';
 const AUTO_PLAY = true;
 const IMAGE_IDX = 2;
 
-class PlayerBarComponent extends React.Component {
+class PlayerComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -109,23 +109,20 @@ class PlayerBarComponent extends React.Component {
     const isDisabled = isEmpty(track) || isLoading;
 
     return (
-      <div className="player-bar">
+      <div className="om-player">
         <div className="top-bar">
           <TrackInfoComponent trackName={trackName}
                               artistName={artistName}
-                              imageSrc={imageSrc}>
-          </TrackInfoComponent>
+                              imageSrc={imageSrc} />
           <TrackControlsComponent isPlaying={isPlaying}
                                   isDisabled={isDisabled}
                                   onPrev={this.onPrevButtonClick.bind(this)}
                                   onPlayPause={this.onPlayPauseButtonClick.bind(this)}
-                                  onNext={this.onNextButtonClick.bind(this)}>
-          </TrackControlsComponent>
+                                  onNext={this.onNextButtonClick.bind(this)} />
           <VolumeControlsComponent volume={volume}
                                    maxVolume={MAX_VOLUME}
                                    onVolumeChange={this.setVolume.bind(this)}
-                                   onVolumeButtonClick={this.onVolumeButtonClick.bind(this)}>
-          </VolumeControlsComponent>
+                                   onVolumeButtonClick={this.onVolumeButtonClick.bind(this)} />
         </div>
         <div className="bottom-bar">
           <ProgressBarComponent currentTime={currentTime}
@@ -176,4 +173,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PlayerBarComponent);
+)(PlayerComponent);

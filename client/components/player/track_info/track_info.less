@@ -1,0 +1,22 @@
+.om-player {
+  .track-info {
+    display: flex;
+    align-items: flex-end;
+
+    img {
+      width: @grid * 8;
+      height: @grid * 8;
+      margin-right: @grid;
+
+      .z-depth(2);
+    }
+
+    .track-name {
+      .subhead-2();
+    }
+
+    .artist-name {
+      .subhead-1();
+    }
+  }
+}

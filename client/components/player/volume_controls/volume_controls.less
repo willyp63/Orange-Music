@@ -1,0 +1,36 @@
+.om-player {
+  .volume-controls {
+    .controls-container {
+      display: flex;
+      align-items: center;
+      padding-right: @grid * 6;
+      padding-left: @grid * 4;
+
+      .mat-btn {
+        height: @grid * 6;
+        width: @grid * 6;
+
+        .icon-light();
+
+        i {
+          .icon-md();
+        }
+
+        &:hover {
+          color: @grey-100;
+        }
+      }
+
+      .mat-slider {
+        flex-grow: 1;
+        margin-left: @grid;
+
+        background-color: @white;
+
+        .handle {
+          background-color: @blue-600;
+        }
+      }
+    }
+  }
+}

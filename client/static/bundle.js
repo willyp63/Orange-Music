@@ -30391,9 +30391,9 @@ var _nav_panel = __webpack_require__(295);
 
 var _nav_panel2 = _interopRequireDefault(_nav_panel);
 
-var _player_bar = __webpack_require__(301);
+var _player = __webpack_require__(329);
 
-var _player_bar2 = _interopRequireDefault(_player_bar);
+var _player2 = _interopRequireDefault(_player);
 
 var _home = __webpack_require__(311);
 
@@ -30431,14 +30431,13 @@ var AppComponent = function AppComponent(_ref) {
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _search2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default })
-        ),
-        _react2.default.createElement('div', { className: 'footer-container' })
+        )
       )
     ),
     _react2.default.createElement(
       'div',
       { className: 'player-bar-container' },
-      _react2.default.createElement(_player_bar2.default, null)
+      _react2.default.createElement(_player2.default, null)
     )
   );
 };
@@ -30655,6 +30654,8 @@ var _empty = __webpack_require__(75);
 
 var _grid = __webpack_require__(34);
 
+var _grid2 = _interopRequireDefault(_grid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30663,19 +30664,19 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var HANDLE_WIDTH = _grid.GRID * 4;
+var HANDLE_WIDTH = _grid2.default.GRID * 3;
 var HANDLE_CLASS_NAME = 'handle';
 
-var MatMatSlider = function (_React$Component) {
-  _inherits(MatMatSlider, _React$Component);
+var MatSlider = function (_React$Component) {
+  _inherits(MatSlider, _React$Component);
 
-  function MatMatSlider() {
-    _classCallCheck(this, MatMatSlider);
+  function MatSlider() {
+    _classCallCheck(this, MatSlider);
 
-    return _possibleConstructorReturn(this, (MatMatSlider.__proto__ || Object.getPrototypeOf(MatMatSlider)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (MatSlider.__proto__ || Object.getPrototypeOf(MatSlider)).apply(this, arguments));
   }
 
-  _createClass(MatMatSlider, [{
+  _createClass(MatSlider, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _props = this.props,
@@ -30766,41 +30767,35 @@ var MatMatSlider = function (_React$Component) {
           value = _props4.value,
           maxValue = _props4.maxValue,
           isDisabled = _props4.isDisabled,
-          barClassName = _props4.barClassName,
-          handleClassName = _props4.handleClassName;
+          className = _props4.className;
 
 
-      var barClassName_1 = barClassName ? barClassName + ' mat-slider' : 'mat-slider';
-      var handleClassName_1 = handleClassName ? handleClassName + (' ' + HANDLE_CLASS_NAME) : HANDLE_CLASS_NAME;
+      var className_1 = className ? className + ' mat-slider' : 'mat-slider';
+      if (isDisabled) {
+        className_1 += ' disabled';
+      }
 
-      var offsetRatio = value / maxValue;
-      var $slider = !isDisabled ? _react2.default.createElement('span', { className: handleClassName_1,
-        onMouseDown: this.onHandleDown.bind(this),
-        style: {
-          left: getHandleLeft(offsetRatio),
-          cursor: 'pointer'
-        } }) : '';
+      var c = getHandleLeft(value / maxValue);
 
       return _react2.default.createElement(
         'div',
-        { className: barClassName_1,
-          onClick: this.changeValue.bind(this),
-          style: {
-            cursor: isDisabled ? 'auto' : 'pointer'
-          } },
-        $slider
+        { className: className_1,
+          onClick: this.changeValue.bind(this) },
+        _react2.default.createElement('span', { className: HANDLE_CLASS_NAME,
+          onMouseDown: this.onHandleDown.bind(this),
+          style: { left: getHandleLeft(value / maxValue) } })
       );
     }
   }]);
 
-  return MatMatSlider;
+  return MatSlider;
 }(_react2.default.Component);
 
 var getHandleLeft = function getHandleLeft(offsetRatio) {
   return 'calc(' + offsetRatio * 100 + '% - ' + HANDLE_WIDTH / 2 + 'px)';
 };
 
-exports.default = MatMatSlider;
+exports.default = MatSlider;
 
 /***/ }),
 /* 299 */
@@ -30998,291 +30993,7 @@ var getTabWidth = function getTabWidth(tabText, font) {
 exports.default = MatTabs;
 
 /***/ }),
-/* 301 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(20);
-
-var _empty = __webpack_require__(7);
-
-var _image = __webpack_require__(35);
-
-var _last_fm_api = __webpack_require__(23);
-
-var _queue_actions = __webpack_require__(77);
-
-var _track_info = __webpack_require__(305);
-
-var _track_info2 = _interopRequireDefault(_track_info);
-
-var _track_controls = __webpack_require__(306);
-
-var _track_controls2 = _interopRequireDefault(_track_controls);
-
-var _volume_controls = __webpack_require__(307);
-
-var _volume_controls2 = _interopRequireDefault(_volume_controls);
-
-var _progress_bar = __webpack_require__(308);
-
-var _progress_bar2 = _interopRequireDefault(_progress_bar);
-
-var _audio_api = __webpack_require__(310);
-
-var _audio_api2 = _interopRequireDefault(_audio_api);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var AUTO_PLAY = true;
-var IMAGE_IDX = 2;
-
-var PlayerBarComponent = function (_React$Component) {
-  _inherits(PlayerBarComponent, _React$Component);
-
-  function PlayerBarComponent(props) {
-    _classCallCheck(this, PlayerBarComponent);
-
-    var _this = _possibleConstructorReturn(this, (PlayerBarComponent.__proto__ || Object.getPrototypeOf(PlayerBarComponent)).call(this, props));
-
-    _this.state = {
-      isPlaying: false,
-      isLoading: false,
-      currentTime: 0,
-      volume: MAX_VOLUME
-    };
-
-    _this.audioApi = new _audio_api2.default(AUDIO_PLAYER_ID, {
-      onPlay: function onPlay() {
-        _this.setState({ isPlaying: true });
-      },
-      onPause: function onPause() {
-        _this.setState({ isPlaying: false });
-      },
-      onTimeUpdate: function onTimeUpdate(currentTime) {
-        _this.setState({ currentTime: currentTime });
-      },
-      onCanPlay: function onCanPlay() {
-        _this.setState({ isLoading: false });
-      },
-      onEnded: function onEnded() {
-        _this.playNextTrack.bind(_this)();
-      }
-    });
-    return _this;
-  }
-
-  _createClass(PlayerBarComponent, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      var _this2 = this;
-
-      if ((0, _empty.isEmpty)(newProps.track)) {
-        this.killTrack.bind(this)();
-      } else {
-        if ((0, _empty.isEmpty)(newProps.video)) {
-          // If we have a track but no video, then fetch the video.
-          this.killTrack.bind(this, function () {
-            _this2.setState({ isLoading: true }, function () {
-              newProps.fetchVideoForTrack(newProps.track);
-            });
-          })();
-        } else {
-          this.loadTrack.bind(this)();
-        }
-      }
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.audioApi.dispose();
-    }
-  }, {
-    key: 'loadTrack',
-    value: function loadTrack() {
-      var _this3 = this;
-
-      this.setState({
-        isPlaying: false,
-        isLoading: true,
-        currentTime: 0
-      }, function () {
-        _this3.audioApi.load();
-      });
-    }
-  }, {
-    key: 'killTrack',
-    value: function killTrack(onStateSet) {
-      var _this4 = this;
-
-      this.setState({
-        isPlaying: false,
-        isLoading: false,
-        currentTime: 0
-      }, function () {
-        _this4.audioApi.pause();
-        if (typeof onStateSet === 'function') {
-          onStateSet();
-        }
-      });
-    }
-  }, {
-    key: 'playNextTrack',
-    value: function playNextTrack() {
-      var _this5 = this;
-
-      this.killTrack.bind(this, function () {
-        _this5.props.removeTrackFromQueue(_this5.props.track);
-      })();
-    }
-  }, {
-    key: 'onPlayPauseButtonClick',
-    value: function onPlayPauseButtonClick() {
-      this.state.isPlaying ? this.audioApi.pause() : this.audioApi.play();
-    }
-  }, {
-    key: 'onPrevButtonClick',
-    value: function onPrevButtonClick() {
-      this.setCurrentTime.bind(this, 0)();
-    }
-  }, {
-    key: 'onNextButtonClick',
-    value: function onNextButtonClick() {
-      this.playNextTrack.bind(this)();
-    }
-  }, {
-    key: 'setCurrentTime',
-    value: function setCurrentTime(currentTime) {
-      var _this6 = this;
-
-      this.setState({ currentTime: currentTime }, function () {
-        _this6.audioApi.setCurrentTime(currentTime);
-      });
-    }
-  }, {
-    key: 'onVolumeButtonClick',
-    value: function onVolumeButtonClick() {
-      this.state.volume === 0 ? this.setVolume.bind(this, MAX_VOLUME)() : this.setVolume.bind(this, 0)();
-    }
-  }, {
-    key: 'setVolume',
-    value: function setVolume(volume) {
-      var _this7 = this;
-
-      this.setState({ volume: volume }, function () {
-        _this7.audioApi.setVolume(volume);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          duration = _props.duration,
-          audioSrc = _props.audioSrc,
-          imageSrc = _props.imageSrc,
-          artistName = _props.artistName,
-          trackName = _props.trackName,
-          track = _props.track;
-      var _state = this.state,
-          isPlaying = _state.isPlaying,
-          currentTime = _state.currentTime,
-          volume = _state.volume,
-          isLoading = _state.isLoading;
-
-
-      var isDisabled = (0, _empty.isEmpty)(track) || isLoading;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'player-bar' },
-        _react2.default.createElement(
-          'div',
-          { className: 'top-bar' },
-          _react2.default.createElement(_track_info2.default, { trackName: trackName,
-            artistName: artistName,
-            imageSrc: imageSrc }),
-          _react2.default.createElement(_track_controls2.default, { isPlaying: isPlaying,
-            isDisabled: isDisabled,
-            onPrev: this.onPrevButtonClick.bind(this),
-            onPlayPause: this.onPlayPauseButtonClick.bind(this),
-            onNext: this.onNextButtonClick.bind(this) }),
-          _react2.default.createElement(_volume_controls2.default, { volume: volume,
-            maxVolume: MAX_VOLUME,
-            onVolumeChange: this.setVolume.bind(this),
-            onVolumeButtonClick: this.onVolumeButtonClick.bind(this) })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'bottom-bar' },
-          _react2.default.createElement(_progress_bar2.default, { currentTime: currentTime,
-            duration: duration,
-            isDisabled: isDisabled,
-            onCurrentTimeChange: this.setCurrentTime.bind(this) })
-        ),
-        _react2.default.createElement(
-          'audio',
-          { id: AUDIO_PLAYER_ID, autoPlay: AUTO_PLAY },
-          _react2.default.createElement('source', { src: audioSrc })
-        )
-      );
-    }
-  }]);
-
-  return PlayerBarComponent;
-}(_react2.default.Component);
-
-var AUDIO_PLAYER_ID = 'audio-player';
-var MAX_VOLUME = 1;
-
-var mapStateToProps = function mapStateToProps(state) {
-  var track = state.queue.tracks[0];
-  var video = (0, _empty.isNotEmpty)(track) ? track.video : null;
-
-  var hasTrack = (0, _empty.isNotEmpty)(track);
-  var hasVideo = (0, _empty.isNotEmpty)(video);
-  return {
-    trackName: hasTrack ? track.name : '',
-    artistName: hasTrack ? track.artist.name : '',
-    imageSrc: hasTrack ? (0, _last_fm_api.getImageUrl)(track.image, IMAGE_IDX) : _image.EMPTY_IMG_SRC,
-    audioSrc: hasVideo ? video.stream.url : null,
-    duration: hasVideo ? video.contentDetails.duration : 0,
-    track: track,
-    video: video
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    fetchVideoForTrack: function fetchVideoForTrack(track) {
-      dispatch((0, _queue_actions.fetchVideoForTrack)(track));
-    },
-    removeTrackFromQueue: function removeTrackFromQueue(track) {
-      dispatch((0, _queue_actions.removeTrackFromQueue)(track));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PlayerBarComponent);
-
-/***/ }),
+/* 301 */,
 /* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31351,194 +31062,10 @@ module.exports.getVideo = function (_ref) {
 };
 
 /***/ }),
-/* 305 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var TrackInfoComponent = function TrackInfoComponent(_ref) {
-  var trackName = _ref.trackName,
-      artistName = _ref.artistName,
-      imageSrc = _ref.imageSrc;
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'track-info' },
-    (0, _empty.isNotEmpty)(imageSrc) ? _react2.default.createElement('img', { src: imageSrc }) : '',
-    _react2.default.createElement(
-      'div',
-      { className: 'info-text' },
-      _react2.default.createElement(
-        'div',
-        { className: 'track-name' },
-        (0, _empty.isNotEmpty)(trackName) ? trackName : '--'
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'artist-name' },
-        (0, _empty.isNotEmpty)(artistName) ? artistName : '--'
-      )
-    )
-  );
-};
-
-exports.default = TrackInfoComponent;
-
-/***/ }),
-/* 306 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-           value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var TrackControlsComponent = function TrackControlsComponent(_ref) {
-           var isPlaying = _ref.isPlaying,
-               isDisabled = _ref.isDisabled,
-               onPrev = _ref.onPrev,
-               onPlayPause = _ref.onPlayPause,
-               onNext = _ref.onNext;
-
-           var playPauseButtonIcon = isPlaying ? 'pause-circle' : 'play-circle';
-           return _react2.default.createElement(
-                      'div',
-                      { className: 'track-controls' },
-                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'prev-btn',
-                                 icon: 'step-backward',
-                                 isDisabled: isDisabled,
-                                 onClick: onPrev }),
-                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'play-pause-btn',
-                                 icon: playPauseButtonIcon,
-                                 isDisabled: isDisabled,
-                                 onClick: onPlayPause }),
-                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'next-btn',
-                                 icon: 'step-forward',
-                                 isDisabled: isDisabled,
-                                 onClick: onNext })
-           );
-};
-
-exports.default = TrackControlsComponent;
-
-/***/ }),
-/* 307 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// <MatSliderComponent value={volume}
-//                     maxValue={maxVolume}
-//                     isDisabled={isDisabled}
-//                     onValueChange={onVolumeChange} />
-
-var VolumeControlsComponent = function VolumeControlsComponent(_ref) {
-  var volume = _ref.volume,
-      maxVolume = _ref.maxVolume,
-      onVolumeButtonClick = _ref.onVolumeButtonClick,
-      onVolumeChange = _ref.onVolumeChange,
-      isDisabled = _ref.isDisabled;
-
-  var volumeButtonIcon = volume === 0 ? 'volume-off' : 'volume-up';
-  return _react2.default.createElement(
-    'div',
-    { className: 'volume-controls' },
-    _react2.default.createElement(_index.MatButton, { icon: volumeButtonIcon,
-      isDisabled: isDisabled,
-      onClick: onVolumeButtonClick }),
-    _react2.default.createElement('div', { className: 'SLIDER GOES HERE' })
-  );
-};
-
-exports.default = VolumeControlsComponent;
-
-/***/ }),
-/* 308 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _time = __webpack_require__(309);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// <MatSlider value={currentTime}
-//            maxValue={duration}
-//            isDisabled={isDisabled}
-//            onValueChange={onCurrentTimeChange} />
-
-var ProgressBarComponent = function ProgressBarComponent(_ref) {
-  var currentTime = _ref.currentTime,
-      duration = _ref.duration,
-      onCurrentTimeChange = _ref.onCurrentTimeChange,
-      isDisabled = _ref.isDisabled;
-
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'progress-bar' },
-    _react2.default.createElement(
-      'div',
-      { className: 'time-label' },
-      (0, _time.formatTimeMinutesSeconds)(currentTime)
-    ),
-    _react2.default.createElement('div', { className: 'SLIDER GOES HERE' }),
-    _react2.default.createElement(
-      'div',
-      { className: 'time-label' },
-      (0, _time.formatTimeMinutesSeconds)(duration)
-    )
-  );
-};
-
-exports.default = ProgressBarComponent;
-
-/***/ }),
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
 /* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31564,104 +31091,7 @@ var formatTimeMinutesSeconds = exports.formatTimeMinutesSeconds = function forma
 };
 
 /***/ }),
-/* 310 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _empty = __webpack_require__(7);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var AudioApi = function () {
-  function AudioApi(eleId, _ref) {
-    var onPlay = _ref.onPlay,
-        onPause = _ref.onPause,
-        onTimeUpdate = _ref.onTimeUpdate,
-        onEnded = _ref.onEnded,
-        onCanPlay = _ref.onCanPlay;
-
-    _classCallCheck(this, AudioApi);
-
-    this.eleId = eleId;
-    this.onPlay = onPlay;
-    this.onPause = onPause;
-    this.onTimeUpdate = onTimeUpdate;
-    this.onEnded = onEnded;
-    this.onCanPlay = onCanPlay;
-  }
-
-  _createClass(AudioApi, [{
-    key: 'load',
-    value: function load() {
-      var _this = this;
-
-      var player = this._audioPlayer();
-      if ((0, _empty.isEmpty)(player)) throw 'MyAudioPlayer failed to find audio element!!';
-
-      player.load();
-      player.addEventListener('play', this.onPlay);
-      player.addEventListener('pause', this.onPause);
-      player.addEventListener('ended', this.onEnded);
-      player.addEventListener('canplay', this.onCanPlay);
-      player.addEventListener('timeupdate', function () {
-        _this.onTimeUpdate(_this.currentTime());
-      });
-    }
-  }, {
-    key: 'play',
-    value: function play() {
-      this._audioPlayer().play();
-    }
-  }, {
-    key: 'pause',
-    value: function pause() {
-      this._audioPlayer().pause();
-    }
-  }, {
-    key: 'setCurrentTime',
-    value: function setCurrentTime(newCurrentTime) {
-      this._audioPlayer().currentTime = newCurrentTime;
-    }
-  }, {
-    key: 'setVolume',
-    value: function setVolume(newVolume) {
-      this._audioPlayer().volume = newVolume;
-    }
-  }, {
-    key: 'currentTime',
-    value: function currentTime() {
-      return this._audioPlayer().currentTime;
-    }
-  }, {
-    key: 'dispose',
-    value: function dispose() {
-      player.removeEventListener('play', this.onPlay);
-      player.removeEventListener('pause', this.onPause);
-      player.removeEventListener('timeupdate', this.onTimeUpdate);
-      player.removeEventListener('ended', this.onEnded);
-      player.removeEventListener('canplay', this.onCanPlay);
-    }
-  }, {
-    key: '_audioPlayer',
-    value: function _audioPlayer() {
-      return $('#' + this.eleId)[0];
-    }
-  }]);
-
-  return AudioApi;
-}();
-
-exports.default = AudioApi;
-
-/***/ }),
+/* 310 */,
 /* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32856,6 +32286,588 @@ var receiveVideoForTrack = function receiveVideoForTrack(prevState, action) {
 };
 
 exports.default = queueReducer;
+
+/***/ }),
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(20);
+
+var _empty = __webpack_require__(7);
+
+var _image = __webpack_require__(35);
+
+var _last_fm_api = __webpack_require__(23);
+
+var _queue_actions = __webpack_require__(77);
+
+var _track_info = __webpack_require__(330);
+
+var _track_info2 = _interopRequireDefault(_track_info);
+
+var _track_controls = __webpack_require__(331);
+
+var _track_controls2 = _interopRequireDefault(_track_controls);
+
+var _volume_controls = __webpack_require__(332);
+
+var _volume_controls2 = _interopRequireDefault(_volume_controls);
+
+var _progress_bar = __webpack_require__(333);
+
+var _progress_bar2 = _interopRequireDefault(_progress_bar);
+
+var _audio_api = __webpack_require__(334);
+
+var _audio_api2 = _interopRequireDefault(_audio_api);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AUTO_PLAY = true;
+var IMAGE_IDX = 2;
+
+var PlayerComponent = function (_React$Component) {
+  _inherits(PlayerComponent, _React$Component);
+
+  function PlayerComponent(props) {
+    _classCallCheck(this, PlayerComponent);
+
+    var _this = _possibleConstructorReturn(this, (PlayerComponent.__proto__ || Object.getPrototypeOf(PlayerComponent)).call(this, props));
+
+    _this.state = {
+      isPlaying: false,
+      isLoading: false,
+      currentTime: 0,
+      volume: MAX_VOLUME
+    };
+
+    _this.audioApi = new _audio_api2.default(AUDIO_PLAYER_ID, {
+      onPlay: function onPlay() {
+        _this.setState({ isPlaying: true });
+      },
+      onPause: function onPause() {
+        _this.setState({ isPlaying: false });
+      },
+      onTimeUpdate: function onTimeUpdate(currentTime) {
+        _this.setState({ currentTime: currentTime });
+      },
+      onCanPlay: function onCanPlay() {
+        _this.setState({ isLoading: false });
+      },
+      onEnded: function onEnded() {
+        _this.playNextTrack.bind(_this)();
+      }
+    });
+    return _this;
+  }
+
+  _createClass(PlayerComponent, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      var _this2 = this;
+
+      if ((0, _empty.isEmpty)(newProps.track)) {
+        this.killTrack.bind(this)();
+      } else {
+        if ((0, _empty.isEmpty)(newProps.video)) {
+          // If we have a track but no video, then fetch the video.
+          this.killTrack.bind(this, function () {
+            _this2.setState({ isLoading: true }, function () {
+              newProps.fetchVideoForTrack(newProps.track);
+            });
+          })();
+        } else {
+          this.loadTrack.bind(this)();
+        }
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.audioApi.dispose();
+    }
+  }, {
+    key: 'loadTrack',
+    value: function loadTrack() {
+      var _this3 = this;
+
+      this.setState({
+        isPlaying: false,
+        isLoading: true,
+        currentTime: 0
+      }, function () {
+        _this3.audioApi.load();
+      });
+    }
+  }, {
+    key: 'killTrack',
+    value: function killTrack(onStateSet) {
+      var _this4 = this;
+
+      this.setState({
+        isPlaying: false,
+        isLoading: false,
+        currentTime: 0
+      }, function () {
+        _this4.audioApi.pause();
+        if (typeof onStateSet === 'function') {
+          onStateSet();
+        }
+      });
+    }
+  }, {
+    key: 'playNextTrack',
+    value: function playNextTrack() {
+      var _this5 = this;
+
+      this.killTrack.bind(this, function () {
+        _this5.props.removeTrackFromQueue(_this5.props.track);
+      })();
+    }
+  }, {
+    key: 'onPlayPauseButtonClick',
+    value: function onPlayPauseButtonClick() {
+      this.state.isPlaying ? this.audioApi.pause() : this.audioApi.play();
+    }
+  }, {
+    key: 'onPrevButtonClick',
+    value: function onPrevButtonClick() {
+      this.setCurrentTime.bind(this, 0)();
+    }
+  }, {
+    key: 'onNextButtonClick',
+    value: function onNextButtonClick() {
+      this.playNextTrack.bind(this)();
+    }
+  }, {
+    key: 'setCurrentTime',
+    value: function setCurrentTime(currentTime) {
+      var _this6 = this;
+
+      this.setState({ currentTime: currentTime }, function () {
+        _this6.audioApi.setCurrentTime(currentTime);
+      });
+    }
+  }, {
+    key: 'onVolumeButtonClick',
+    value: function onVolumeButtonClick() {
+      this.state.volume === 0 ? this.setVolume.bind(this, MAX_VOLUME)() : this.setVolume.bind(this, 0)();
+    }
+  }, {
+    key: 'setVolume',
+    value: function setVolume(volume) {
+      var _this7 = this;
+
+      this.setState({ volume: volume }, function () {
+        _this7.audioApi.setVolume(volume);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          duration = _props.duration,
+          audioSrc = _props.audioSrc,
+          imageSrc = _props.imageSrc,
+          artistName = _props.artistName,
+          trackName = _props.trackName,
+          track = _props.track;
+      var _state = this.state,
+          isPlaying = _state.isPlaying,
+          currentTime = _state.currentTime,
+          volume = _state.volume,
+          isLoading = _state.isLoading;
+
+
+      var isDisabled = (0, _empty.isEmpty)(track) || isLoading;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'om-player' },
+        _react2.default.createElement(
+          'div',
+          { className: 'top-bar' },
+          _react2.default.createElement(_track_info2.default, { trackName: trackName,
+            artistName: artistName,
+            imageSrc: imageSrc }),
+          _react2.default.createElement(_track_controls2.default, { isPlaying: isPlaying,
+            isDisabled: isDisabled,
+            onPrev: this.onPrevButtonClick.bind(this),
+            onPlayPause: this.onPlayPauseButtonClick.bind(this),
+            onNext: this.onNextButtonClick.bind(this) }),
+          _react2.default.createElement(_volume_controls2.default, { volume: volume,
+            maxVolume: MAX_VOLUME,
+            onVolumeChange: this.setVolume.bind(this),
+            onVolumeButtonClick: this.onVolumeButtonClick.bind(this) })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'bottom-bar' },
+          _react2.default.createElement(_progress_bar2.default, { currentTime: currentTime,
+            duration: duration,
+            isDisabled: isDisabled,
+            onCurrentTimeChange: this.setCurrentTime.bind(this) })
+        ),
+        _react2.default.createElement(
+          'audio',
+          { id: AUDIO_PLAYER_ID, autoPlay: AUTO_PLAY },
+          _react2.default.createElement('source', { src: audioSrc })
+        )
+      );
+    }
+  }]);
+
+  return PlayerComponent;
+}(_react2.default.Component);
+
+var AUDIO_PLAYER_ID = 'audio-player';
+var MAX_VOLUME = 1;
+
+var mapStateToProps = function mapStateToProps(state) {
+  var track = state.queue.tracks[0];
+  var video = (0, _empty.isNotEmpty)(track) ? track.video : null;
+
+  var hasTrack = (0, _empty.isNotEmpty)(track);
+  var hasVideo = (0, _empty.isNotEmpty)(video);
+  return {
+    trackName: hasTrack ? track.name : '',
+    artistName: hasTrack ? track.artist.name : '',
+    imageSrc: hasTrack ? (0, _last_fm_api.getImageUrl)(track.image, IMAGE_IDX) : _image.EMPTY_IMG_SRC,
+    audioSrc: hasVideo ? video.stream.url : null,
+    duration: hasVideo ? video.contentDetails.duration : 0,
+    track: track,
+    video: video
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchVideoForTrack: function fetchVideoForTrack(track) {
+      dispatch((0, _queue_actions.fetchVideoForTrack)(track));
+    },
+    removeTrackFromQueue: function removeTrackFromQueue(track) {
+      dispatch((0, _queue_actions.removeTrackFromQueue)(track));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PlayerComponent);
+
+/***/ }),
+/* 330 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(7);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TrackInfoComponent = function TrackInfoComponent(_ref) {
+  var trackName = _ref.trackName,
+      artistName = _ref.artistName,
+      imageSrc = _ref.imageSrc;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'track-info' },
+    (0, _empty.isNotEmpty)(imageSrc) ? _react2.default.createElement('img', { src: imageSrc }) : '',
+    _react2.default.createElement(
+      'div',
+      { className: 'info-text' },
+      _react2.default.createElement(
+        'div',
+        { className: 'track-name' },
+        (0, _empty.isNotEmpty)(trackName) ? trackName : '--'
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'artist-name' },
+        (0, _empty.isNotEmpty)(artistName) ? artistName : '--'
+      )
+    )
+  );
+};
+
+exports.default = TrackInfoComponent;
+
+/***/ }),
+/* 331 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+           value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TrackControlsComponent = function TrackControlsComponent(_ref) {
+           var isPlaying = _ref.isPlaying,
+               isDisabled = _ref.isDisabled,
+               onPrev = _ref.onPrev,
+               onPlayPause = _ref.onPlayPause,
+               onNext = _ref.onNext;
+
+           var playPauseButtonIcon = isPlaying ? 'pause' : 'play_arrow';
+           return _react2.default.createElement(
+                      'div',
+                      { className: 'track-controls' },
+                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'prev-btn',
+                                 icon: 'skip_previous',
+                                 isCircle: true,
+                                 isDisabled: isDisabled,
+                                 onClick: onPrev }),
+                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'play-pause-btn',
+                                 icon: playPauseButtonIcon,
+                                 isCircle: true,
+                                 isDisabled: isDisabled,
+                                 onClick: onPlayPause }),
+                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'next-btn',
+                                 icon: 'skip_next',
+                                 isCircle: true,
+                                 isDisabled: isDisabled,
+                                 onClick: onNext })
+           );
+};
+
+exports.default = TrackControlsComponent;
+
+/***/ }),
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// <MatSliderComponent value={volume}
+//                     maxValue={maxVolume}
+//                     isDisabled={isDisabled}
+//                     onValueChange={onVolumeChange} />
+
+var VolumeControlsComponent = function VolumeControlsComponent(_ref) {
+  var volume = _ref.volume,
+      maxVolume = _ref.maxVolume,
+      onVolumeButtonClick = _ref.onVolumeButtonClick,
+      onVolumeChange = _ref.onVolumeChange,
+      isDisabled = _ref.isDisabled;
+
+  var volumeButtonIcon = volume === 0 ? 'volume_off' : 'volume_up';
+  return _react2.default.createElement(
+    'div',
+    { className: 'volume-controls' },
+    _react2.default.createElement(
+      'div',
+      { className: 'controls-container' },
+      _react2.default.createElement(_index.MatButton, { icon: volumeButtonIcon,
+        isDisabled: isDisabled,
+        isCircle: true,
+        onClick: onVolumeButtonClick }),
+      _react2.default.createElement(_index.MatSlider, { value: volume,
+        maxValue: maxVolume,
+        isDisabled: isDisabled,
+        onValueChange: onVolumeChange })
+    )
+  );
+};
+
+exports.default = VolumeControlsComponent;
+
+/***/ }),
+/* 333 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _time = __webpack_require__(309);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ProgressBarComponent = function ProgressBarComponent(_ref) {
+  var currentTime = _ref.currentTime,
+      duration = _ref.duration,
+      onCurrentTimeChange = _ref.onCurrentTimeChange,
+      isDisabled = _ref.isDisabled;
+
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'progress-bar' },
+    _react2.default.createElement(
+      'div',
+      { className: 'time-label' },
+      (0, _time.formatTimeMinutesSeconds)(currentTime)
+    ),
+    _react2.default.createElement(_index.MatSlider, { value: currentTime,
+      maxValue: duration,
+      isDisabled: isDisabled,
+      onValueChange: onCurrentTimeChange }),
+    _react2.default.createElement(
+      'div',
+      { className: 'time-label' },
+      (0, _time.formatTimeMinutesSeconds)(duration)
+    )
+  );
+};
+
+exports.default = ProgressBarComponent;
+
+/***/ }),
+/* 334 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _empty = __webpack_require__(7);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AudioApi = function () {
+  function AudioApi(eleId, _ref) {
+    var onPlay = _ref.onPlay,
+        onPause = _ref.onPause,
+        onTimeUpdate = _ref.onTimeUpdate,
+        onEnded = _ref.onEnded,
+        onCanPlay = _ref.onCanPlay;
+
+    _classCallCheck(this, AudioApi);
+
+    this.eleId = eleId;
+    this.onPlay = onPlay;
+    this.onPause = onPause;
+    this.onTimeUpdate = onTimeUpdate;
+    this.onEnded = onEnded;
+    this.onCanPlay = onCanPlay;
+  }
+
+  _createClass(AudioApi, [{
+    key: 'load',
+    value: function load() {
+      var _this = this;
+
+      var player = this._audioPlayer();
+      if ((0, _empty.isEmpty)(player)) throw 'MyAudioPlayer failed to find audio element!!';
+
+      player.load();
+      player.addEventListener('play', this.onPlay);
+      player.addEventListener('pause', this.onPause);
+      player.addEventListener('ended', this.onEnded);
+      player.addEventListener('canplay', this.onCanPlay);
+      player.addEventListener('timeupdate', function () {
+        _this.onTimeUpdate(_this.currentTime());
+      });
+    }
+  }, {
+    key: 'play',
+    value: function play() {
+      this._audioPlayer().play();
+    }
+  }, {
+    key: 'pause',
+    value: function pause() {
+      this._audioPlayer().pause();
+    }
+  }, {
+    key: 'setCurrentTime',
+    value: function setCurrentTime(newCurrentTime) {
+      this._audioPlayer().currentTime = newCurrentTime;
+    }
+  }, {
+    key: 'setVolume',
+    value: function setVolume(newVolume) {
+      this._audioPlayer().volume = newVolume;
+    }
+  }, {
+    key: 'currentTime',
+    value: function currentTime() {
+      return this._audioPlayer().currentTime;
+    }
+  }, {
+    key: 'dispose',
+    value: function dispose() {
+      player.removeEventListener('play', this.onPlay);
+      player.removeEventListener('pause', this.onPause);
+      player.removeEventListener('timeupdate', this.onTimeUpdate);
+      player.removeEventListener('ended', this.onEnded);
+      player.removeEventListener('canplay', this.onCanPlay);
+    }
+  }, {
+    key: '_audioPlayer',
+    value: function _audioPlayer() {
+      return $('#' + this.eleId)[0];
+    }
+  }]);
+
+  return AudioApi;
+}();
+
+exports.default = AudioApi;
 
 /***/ })
 /******/ ]);

@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 // Static components
 import NavPanelComponent from './nav_panel/nav_panel';
-import PlayerBarComponent from './player_bar/player_bar';
+import PlayerComponent from './player/player';
 
 // Route components
 import HomeComponent from './home/home';
@@ -22,12 +22,10 @@ const AppComponent = ({children}) => (
           <Route path="/search" component={SearchComponent} />
           <Route path="/queue" component={QueueComponent} />
         </div>
-        <div className="footer-container">
-        </div>
       </div>
     </div>
     <div className="player-bar-container">
-      <PlayerBarComponent />
+      <PlayerComponent />
     </div>
   </div>
 );

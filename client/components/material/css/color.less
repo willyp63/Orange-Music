@@ -299,3 +299,21 @@
 
 @black: #000000;
 @white: #FFFFFF;
+
+/* Rules for using icons as black on a light background. */
+.icon-dark() {
+  color: rgba(0, 0, 0, 0.54);
+
+  &.disabled {
+    color: rgba(0, 0, 0, 0.26);
+  }
+}
+
+/* Rules for using icons as white on a dark background. */
+.icon-light() {
+  color: rgba(255, 255, 255, 1);
+
+  &.disabled {
+    color: rgba(255, 255, 255, 0.3);
+  }
+}

@@ -1,0 +1,26 @@
+.om-player {
+  .track-controls {
+    align-items: center;
+    display: flex;
+
+    .mat-btn-wrap {
+      margin-left: @grid;
+    }
+
+    .mat-btn-wrap:first-of-type {
+      margin-left: 0;
+    }
+
+    .mat-btn {
+      .icon-light();
+
+      i {
+        .icon-xlg();
+      }
+
+      &:hover {
+        color: @grey-100;
+      }
+    }
+  }
+}
