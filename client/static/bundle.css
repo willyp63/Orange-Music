@@ -253,6 +253,10 @@
 .om-table-layout .om-nav-bar .table-controls-container.bordered {
   border-bottom: 1px solid #E0E0E0;
 }
+.om-table-layout .display-type-picker {
+  display: flex;
+  align-items: center;
+}
 .om-table-layout .display-type-picker .mat-btn {
   color: #1976D2;
 }

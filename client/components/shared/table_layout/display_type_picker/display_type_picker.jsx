@@ -31,7 +31,7 @@ const DisplayTypePickerComponent = ({ selectedDisplayType, onDisplayTypeSelect }
                    }
                  }} />
       <MatButton className={listBtnClassName}
-                 icon={'list'}
+                 icon={'view_list'}
                  onClick={() => {
                    if (selectedDisplayType !== TABLE_DISPLAY_TYPES.LIST) {
                      onDisplayTypeSelect(TABLE_DISPLAY_TYPES.LIST);
