@@ -16,8 +16,8 @@
 @image-size: @grid * 7;
 
 .player-bar {
-  background-color: @orange;
-  border-radius: @grid;
+  background-color: @orange-300;
+  border-radius: @grid / 2;
   bottom: @player-bar-margin;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,8 @@
   position: fixed;
   width: @player-bar-width;
   z-index: 300;
+
+  .z-depth(16);
 
   .top-bar {
     display: flex;

@@ -8,11 +8,15 @@ const NavPanelComponent = ({history}) => {
       <div className="nav-btns">
         <MatButton text={'HOME'}
                    onClick={() => { history.push('/'); }} />
+        <div className="divider"></div>
         <MatButton text={'SEARCH'}
                    icon={'search'}
                    onClick={() => { history.push('/search'); }} />
+        <div className="divider"></div>
         <MatButton text={'QUEUE'}
                    onClick={() => { history.push('/queue'); }} />
+        <MatButton text={'PLAYLISTS'}
+                   onClick={() => { history.push('/playlists'); }} />
       </div>
     </div>
   );

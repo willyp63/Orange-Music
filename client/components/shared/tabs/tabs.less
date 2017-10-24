@@ -1,17 +1,23 @@
 .om-tabs {
   .tab {
-    color: @blue;
+    color: @blue-700;
 
     .headline();
 
     &.selected {
-      color: @orange;
+      color: @orange-700;
+    }
 
-      .headline();
+    &:hover {
+      color: @blue-600;
+
+      &.selected {
+        color: @orange-600;
+      }
     }
   }
 
   .underline {
-    background-color: @orange;
+    background-color: @orange-700;
   }
 }

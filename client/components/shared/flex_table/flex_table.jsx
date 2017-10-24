@@ -28,7 +28,7 @@ const getColumns = ({rowObj, schema, componentPath, actions}) => {
     componentPath = isNotEmpty(componentPath) ? componentPath : 'component';
     const component = schema[field][componentPath];
     const $renderedComponent = typeof component === 'function'
-      ? component(getNestedFieldValue(rowObj, field), rowObj, actions)
+      ? component(getNestedFieldValue(rowObj, field), rowObj, actions, schema[field])
       : component;
     return getColumn({
       $content: $renderedComponent,

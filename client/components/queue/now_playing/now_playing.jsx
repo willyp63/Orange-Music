@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ListComponent from '../../shared/list/list';
 import ListHeaderComponent from '../../shared/list/list_header';
-import QUEUE_TRACKS_LIST_SCHEMA from '../list/tracks_schema';
+import QUEUE_LIST_SCHEMA from '../list_schema';
 
 const NowPlayingComponent = ({tracks}) => {
   return (
@@ -10,9 +10,9 @@ const NowPlayingComponent = ({tracks}) => {
       <div className='label'>
         Now Playing
       </div>
-      <ListHeaderComponent schema={QUEUE_TRACKS_LIST_SCHEMA} />
+      <ListHeaderComponent schema={QUEUE_LIST_SCHEMA} />
       <ListComponent entities={tracks.slice(0, 1)}
-                     schema={QUEUE_TRACKS_LIST_SCHEMA} />
+                     schema={QUEUE_LIST_SCHEMA} />
     </div>
   );
 };

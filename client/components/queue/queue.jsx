@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NowPlayingComponent from './now_playing/now_playing';
-import QUEUE_TRACKS_LIST_SCHEMA from './list/tracks_schema';
+import QUEUE_LIST_SCHEMA from './list_schema';
 import TrackGalleryComponent from '../shared/gallery/components/track_component';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
@@ -13,12 +13,12 @@ const TABLE_TYPES = Object.freeze({
 let TABLES1 = {};
 TABLES1[TABLE_TYPES.QUEUE] = {
   label: 'Queue',
-  listSchema: QUEUE_TRACKS_LIST_SCHEMA,
+  listSchema: QUEUE_LIST_SCHEMA,
   galleryComponent: TrackGalleryComponent,
 };
 TABLES1[TABLE_TYPES.HISTORY] = {
   label: 'History',
-  listSchema: QUEUE_TRACKS_LIST_SCHEMA,
+  listSchema: QUEUE_LIST_SCHEMA,
   galleryComponent: TrackGalleryComponent,
 };
 const TABLES = Object.freeze(TABLES1);

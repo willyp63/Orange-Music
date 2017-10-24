@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchTopTracks, fetchTopArtists } from '../../actions/home_actions';
-import OrangeMusicTitleComponent from './title/title';
 import TRACKS_LIST_SCHEMA from '../shared/list/schemas/tracks_schema';
 import ARTIST_LIST_SCHEMA from '../shared/list/schemas/artists_schema';
 import TrackGalleryComponent from '../shared/gallery/components/track_component';
@@ -42,7 +41,7 @@ class HomeComponent extends React.Component {
       <div className="home">
         <TableLayoutComponent tables={tables}>
           <div className="title-container">
-            <OrangeMusicTitleComponent />
+            <span>Orange Music</span>
           </div>
         </TableLayoutComponent>
       </div>

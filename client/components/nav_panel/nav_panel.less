@@ -8,9 +8,9 @@
   display: flex;
   flex-direction: column;
 
-  background-color: @grey-100;
+  background-color: @orange-300;
 
-  .z-depth(-6);
+  .z-depth(16);
 
   .nav-btns {
     display: flex;
@@ -18,7 +18,7 @@
     padding: (@grid * 4) (@grid * 2);
 
     .mat-btn-wrap {
-      margin-bottom: @grid * 2;
+      margin-bottom: @grid;
     }
 
     .mat-btn-wrap:last-of-type {
@@ -32,12 +32,19 @@
       font-weight: 400;
 
       i {
-        .icon-md();
+        .icon-lg();
       }
 
       &:hover {
-        color: @black;
+        color: @grey-900;
       }
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background-color: @grey-800;
+      margin-bottom: @grid;
     }
   }
 }

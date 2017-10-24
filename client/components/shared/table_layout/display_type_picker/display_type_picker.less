@@ -1,14 +1,22 @@
 .om-table-layout {
   .display-type-picker {
     .mat-btn {
-      color: @blue;
+      color: @blue-700;
 
       i {
         .icon-lg();
       }
 
       &.active {
-        color: @orange;
+        color: @orange-700;
+      }
+
+      &:hover {
+        color: @blue-600;
+
+        &.active {
+          color: @orange-600;
+        }
       }
     }
   }

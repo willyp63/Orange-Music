@@ -1,0 +1,53 @@
+@om-list-action-btn-size: @grid * 8;
+@om-list-action-btn-margin: @grid;
+
+.om-list {
+  .actions-cell{
+    display: flex;
+
+    .mat-btn-wrap {
+      margin-left: @om-list-action-btn-margin;
+    }
+
+    .mat-btn-wrap:first-of-type {
+      margin-left: 0;
+    }
+
+    .mat-btn {
+      width: @om-list-action-btn-size;
+      height: @om-list-action-btn-size;
+      color: @white;
+
+      i {
+        position: relative;
+        left: -2px;
+
+        .icon-lg();
+      }
+    }
+
+    .play-btn {
+      background-color: @blue-600;
+
+      &:hover {
+        background-color: @blue-500;
+      }
+    }
+
+    .add-to-queue-btn {
+      background-color: @green-600;
+
+      &:hover {
+        background-color: @green-500;
+      }
+    }
+
+    .remove-from-queue-btn {
+      background-color: @red-600;
+
+      &:hover {
+        background-color: @red-500;
+      }
+    }
+  }
+}
