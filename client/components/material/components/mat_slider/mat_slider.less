@@ -3,9 +3,19 @@
 //
 // ------------------------------------
 
-.mat-slider-colorize(@color; @bgColor) {
+.mat-slider-colorize(
+  @color;
+  @colorDisabled: @grey-600;
+  @bgColor;
+  @bgColorDisabled: @grey-400) {
+
   .bar { background-color: @bgColor; }
   .handle, .fill { background-color: @color; }
+
+  &.disabled {
+    .bar { background-color: @bgColorDisabled; }
+    .handle, .fill { background-color: @colorDisabled; }
+  }
 }
 
 //
@@ -37,6 +47,7 @@
   .handle {
     position: absolute;
     top: 0;
+    left: @handle-height / -2;
     height: @handle-height;
     width: @handle-height;
     border-radius: 50%;

@@ -1,23 +1,56 @@
-.mat-tabs {
-  .tabs-container {
-    display: flex;
-    align-items: center;
+//
+// Material Slider Mixins:
+//
+// ------------------------------------
 
-    .tab {
-      cursor: pointer;
-      padding: (@grid / 2) (@grid * 2);
+.mat-tabs-colorize(
+  @color;
+  @hoverColor;
+  @activeColor;
+  @activeHoverColor) {
+
+  .tab {
+    .mat-btn-colorize(
+      @color: @color;
+      @colorHover: @hoverColor);
+
+    &.selected {
+      .mat-btn-colorize(
+        @color: @activeColor;
+        @colorHover: @activeHoverColor);
     }
+  }
+
+  .underline { background-color: @activeColor; }
+}
+
+//
+// Private:
+//
+// ------------------------------------
+
+.mat-tabs {
+  @tab-width: @grid * 24;
+  @underline-height: @grid / 4;
+
+  .tab button {
+    width: @tab-width;
+    display: inline-flex;
+    justify-content: space-around;
+
+    .font-headline();
   }
 
   .underline-container {
     position: relative;
-    height: @grid / 4;
+    height: @underline-height;
 
     .underline {
       position: absolute;
       top: 0;
       height: 100%;
-      transition: left @time @timing-fcn, width @time @timing-fcn;
+      width: @tab-width;
+      transition: left @time @timing-fcn;
     }
   }
 }

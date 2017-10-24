@@ -8506,9 +8506,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _empty = __webpack_require__(7);
 
-var _tabs = __webpack_require__(315);
-
-var _tabs2 = _interopRequireDefault(_tabs);
+var _index = __webpack_require__(15);
 
 var _nav_bar = __webpack_require__(316);
 
@@ -8596,7 +8594,7 @@ var TableLayoutComponent = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: tableControlsContainerClassName },
-            _react2.default.createElement(_tabs2.default, { tabs: tabs,
+            _react2.default.createElement(_index.MatTabs, { tabs: tabs,
               selectedTab: selectedTableType,
               onTabSelect: function onTabSelect(tableType) {
                 _this2.setState({ selectedTableType: tableType });
@@ -30895,9 +30893,9 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _empty = __webpack_require__(75);
 
-var _mat_ripple = __webpack_require__(74);
+var _mat_button = __webpack_require__(297);
 
-var _mat_ripple2 = _interopRequireDefault(_mat_ripple);
+var _mat_button2 = _interopRequireDefault(_mat_button);
 
 var _grid = __webpack_require__(34);
 
@@ -30923,54 +30921,46 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // ------------------------------------
 
 var LABEL_PADDING = _grid2.default.GRID * 2;
+var DEFAULT_TAB_WIDTH = _grid2.default.GRID * 24;
 
 var MatTabs = function MatTabs(_ref) {
   var tabs = _ref.tabs,
       selectedTab = _ref.selectedTab,
       onTabSelect = _ref.onTabSelect,
       className = _ref.className,
-      font = _ref.font;
+      font = _ref.font,
+      tabWidth = _ref.tabWidth;
 
-  if ((0, _empty.isEmpty)(tabs) || (0, _empty.isEmpty)(selectedTab) || (0, _empty.isEmpty)(font) || typeof onTabSelect !== 'function') {
+
+  if ((0, _empty.isEmpty)(tabs) || (0, _empty.isEmpty)(selectedTab) || typeof onTabSelect !== 'function') {
     throw 'MatTabs: all properties are required (See mat_tabs.js)!';
   }
 
   className = className ? className + ' mat-tabs' : 'mat-tabs';
+
+  font = font || _font2.default.FONT_TYPES.HEADLINE;
+  tabWidth = tabWidth || DEFAULT_TAB_WIDTH;
 
   var $labels = Object.keys(tabs).map(function (tabValue) {
     var className = 'tab';
     if (tabValue === selectedTab) {
       className += ' selected';
     }
-    return _react2.default.createElement(
-      'div',
-      { className: className,
-        key: tabValue },
-      _react2.default.createElement(
-        _mat_ripple2.default,
-        null,
-        _react2.default.createElement(
-          'span',
-          { onClick: function onClick() {
-              if (tabValue !== selectedTab) {
-                onTabSelect(tabValue);
-              };
-            } },
-          tabs[tabValue].label
-        )
-      )
-    );
+    return _react2.default.createElement(_mat_button2.default, { className: className,
+      text: tabs[tabValue].label,
+      key: tabValue,
+      onClick: function onClick() {
+        if (tabValue !== selectedTab) {
+          onTabSelect(tabValue);
+        };
+      } });
   });
 
   var underlineLeft = 0;
-  var underLineWidth = 0;
   var tabValues = Object.keys(tabs);
   for (var i = 0; i < tabValues.length; i++) {
     if (tabValues[i] === selectedTab) {
-      underLineWidth = getTabWidth(tabs[tabValues[i]].label, font);
-      break;
-    } else {
-      underlineLeft += getTabWidth(tabs[tabValues[i]].label, font);
+      underlineLeft = tabWidth * i;
     }
   }
 
@@ -30985,11 +30975,7 @@ var MatTabs = function MatTabs(_ref) {
     _react2.default.createElement(
       'div',
       { className: 'underline-container' },
-      _react2.default.createElement('div', { className: 'underline',
-        style: {
-          left: underlineLeft,
-          width: underLineWidth
-        } })
+      _react2.default.createElement('div', { className: 'underline', style: { left: underlineLeft } })
     )
   );
 };
@@ -31881,41 +31867,7 @@ var MockActionsCellComponent = function MockActionsCellComponent(_, __, ___, sch
 exports.default = MockActionsCellComponent;
 
 /***/ }),
-/* 315 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(15);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var TABS_FONT = _index.FONT_TYPES.HEADLINE;
-
-var TabsComponent = function TabsComponent(_ref) {
-  var tabs = _ref.tabs,
-      selectedTab = _ref.selectedTab,
-      onTabSelect = _ref.onTabSelect;
-
-  return _react2.default.createElement(_index.MatTabs, { className: 'om-tabs',
-    tabs: tabs,
-    selectedTab: selectedTab,
-    onTabSelect: onTabSelect,
-    font: TABS_FONT });
-};
-
-exports.default = TabsComponent;
-
-/***/ }),
+/* 315 */,
 /* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { isNotEmpty } from '../../../util/empty';
-import TabsComponent from '../tabs/tabs';
+import { MatTabs } from '../../material/index';
 import NavBarComponent from '../nav_bar/nav_bar';
 import DisplayTypePickerComponent, { TABLE_DISPLAY_TYPES } from './display_type_picker/display_type_picker';
 import ListComponent from '../list/list';
@@ -51,11 +51,11 @@ class TableLayoutComponent extends React.Component {
         <NavBarComponent>
           {children}
           <div className={tableControlsContainerClassName}>
-            <TabsComponent tabs={tabs}
-                           selectedTab={selectedTableType}
-                           onTabSelect={(tableType) => {
-                             this.setState({selectedTableType: tableType});
-                           }} />
+            <MatTabs tabs={tabs}
+                     selectedTab={selectedTableType}
+                     onTabSelect={(tableType) => {
+                       this.setState({selectedTableType: tableType});
+                     }} />
             <DisplayTypePickerComponent selectedDisplayType={selectedDisplayType}
                                         onDisplayTypeSelect={(displayType) => {
                                           this.setState({selectedDisplayType: displayType});
