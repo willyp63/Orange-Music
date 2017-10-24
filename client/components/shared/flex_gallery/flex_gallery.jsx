@@ -6,9 +6,7 @@ const DEFAULT_MAX_COLUMNS = 4;
 const FlexGalleryComponent = ({className, objs, keyPath, component,
     maxColumns}) => {
 
-  className = isNotEmpty(className) ? className : '';
-  className += ' flex-gallery';
-  className = className.trim();
+  className = className ? className + ' flex-gallery' : 'flex-gallery';
 
   maxColumns = coalesce(maxColumns, DEFAULT_MAX_COLUMNS);
 

@@ -1,6 +1,5 @@
 .om-title {
-  @image-size: @grid * 10;
-  @title-font-size: @grid * 8;
+  @image-size: @grid * 8;
 
   display: flex;
   align-items: center;
@@ -8,11 +7,12 @@
   img {
     width: @image-size;
     height: @image-size;
-    margin-right: @grid * 2;
+    margin-right: @grid;
   }
 
   span {
-    font-size: @title-font-size;
     color: @orange;
+
+    .display-3();
   }
 }

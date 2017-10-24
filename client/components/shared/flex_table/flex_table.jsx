@@ -5,9 +5,7 @@ import { getNestedFieldValue } from '../../../util/nested_field';
 const FlexTableComponent = ({className, rowObjs, keyPath, schema,
     componentPath, actions}) => {
 
-  className = isNotEmpty(className) ? className : '';
-  className += ' flex-table';
-  className = className.trim();
+  className = className ? className + ' flex-table' : 'flex-table';
 
   return (
     <div className={className}>

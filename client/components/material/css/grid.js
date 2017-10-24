@@ -1,1 +1,3 @@
-export const GRID = 8;
+const GRID = 8;
+
+export default { GRID };

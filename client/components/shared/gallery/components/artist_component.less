@@ -1,7 +1,7 @@
 .om-gallery {
   .artist-item {
     position: relative;
-    padding: @grid;
+    padding: @grid / 2;
 
     img {
       width: 100%;
@@ -14,21 +14,19 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      max-width: 80%;
       position: absolute;
+      width: 70%;
       right: @grid * 2;
       bottom: @grid * 5 / 2;
 
       .artist-name {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 100%;
-        padding: (@grid / 4) (@grid * 3 / 2);
         background-color: @white;
         white-space: nowrap;
-        font-size: @grid * 2.5;
-        font-weight: bold;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
 
+        .subhead-2();
         .z-depth(2);
       }
     }

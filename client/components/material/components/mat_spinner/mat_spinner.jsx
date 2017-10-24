@@ -16,17 +16,15 @@ const CIRCLE_CLASS_NAME = 'path';
 const DEFAULT_STROKE_WIDTH = GRID / 2;
 const DEFAULT_SIZE = GRID * 10;
 
-const MatSpinner = ({spinnerClassName, size, strokeWidth}) => {
-  spinnerClassName = isNotEmpty(spinnerClassName) ? spinnerClassName : '';
-  spinnerClassName += ` ${SPINNER_CLASS_NAME}`;
-  spinnerClassName = spinnerClassName.trim();
+const MatSpinner = ({className, size, strokeWidth}) => {
+  className = className ? className + ` ${SPINNER_CLASS_NAME}` :  SPINNER_CLASS_NAME;
 
   size = isNotEmpty(size) ? size : DEFAULT_SIZE;
   strokeWidth = isNotEmpty(strokeWidth) ? strokeWidth : DEFAULT_STROKE_WIDTH;
 
   const svgViewBox = `${size / 4} ${size / 4} ${size / 2} ${size / 2}`;
   return (
-    <div className={spinnerClassName}
+    <div className={className}
          style={{
            width: size
          }}>

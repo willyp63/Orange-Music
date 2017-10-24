@@ -3,7 +3,7 @@
     .table-controls-container {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
 
       .om-tabs {
         margin-left: @grid * 4;
@@ -11,6 +11,10 @@
 
       .display-type-picker {
         margin-right: @grid * 4;
+      }
+
+      &.bordered {
+        border-bottom: 1px solid @grey-300;
       }
     }
   }

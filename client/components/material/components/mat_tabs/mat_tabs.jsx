@@ -14,54 +14,71 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { isNotEmpty, isEmpty } from '../util/empty';
-import { GRID } from '../../css/grid';
+import MatRipple from '../mat_ripple/mat_ripple'
+import Grid from '../../css/grid';
+import Font from '../../css/font';
 
-// Keep up to date with mat_tabs.less
-const LABEL_WIDTH = GRID * 25;
-const LABEL_PADDING = GRID;
-const UNDERLINE_LEFT_UNIT = LABEL_WIDTH + (LABEL_PADDING * 2);
+const LABEL_PADDING = Grid.GRID * 2;
 
-const MatTabs = ({ tabs, selectedTab, onTabSelect, className }) => {
+const MatTabs = ({ tabs, selectedTab, onTabSelect, className, font }) => {
   if (isEmpty(tabs) ||
       isEmpty(selectedTab) ||
+      isEmpty(font) ||
       typeof onTabSelect !== 'function') {
     throw 'MatTabs: all properties are required (See mat_tabs.js)!';
   }
 
-  className = (className + ' mat-tabs').trim();
+  className = className ? className + ' mat-tabs' : 'mat-tabs';
 
   const $labels = Object.keys(tabs).map((tabValue) => {
-    let className = 'label';
+    let className = 'tab';
     if (tabValue === selectedTab) { className += ' selected'; }
     return (
       <div className={className}
-           key={tabValue}
-           onClick={() => {
-             if (tabValue !== selectedTab) { onTabSelect(tabValue); };
-           }}>
-        {tabs[tabValue].label}
+           key={tabValue}>
+        <MatRipple>
+          <span onClick={() => {
+                  if (tabValue !== selectedTab) { onTabSelect(tabValue); };
+                }}>
+            {tabs[tabValue].label}
+          </span>
+        </MatRipple>
       </div>
     );
   });
 
   let underlineLeft = 0;
   let underLineWidth = 0;
-  Object.keys(tabs).map((tabValue, i) => {
-    if (tabValue === selectedTab) { underlineLeft = UNDERLINE_LEFT_UNIT * i; }
-  });
+  const tabValues = Object.keys(tabs);
+  for (let i = 0; i < tabValues.length; i++) {
+    if (tabValues[i] === selectedTab) {
+      underLineWidth = getTabWidth(tabs[tabValues[i]].label, font);
+      break;
+    } else {
+      underlineLeft += getTabWidth(tabs[tabValues[i]].label, font);
+    }
+  }
 
   return (
     <div className={className}>
-      <div className='labels-container'>
+      <div className='tabs-container'>
         {$labels}
       </div>
       <div className='underline-container'>
         <div className='underline'
-             style={{left: underlineLeft}}>
+             style={{
+               left: underlineLeft,
+               width: underLineWidth,
+             }}>
         </div>
       </div>
     </div>
   );
+};
+
+const getTabWidth = (tabText, font) => {
+  const c = Font.measureText(tabText, font);
+  return Font.measureText(tabText, font) + LABEL_PADDING * 2;
 };
 
 export default MatTabs;

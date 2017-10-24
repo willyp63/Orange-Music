@@ -3,14 +3,15 @@
   border-radius: @grid / 4; // To contain ripple.
 
   .mat-btn {
-    transition: color @time @timing-fcn, @z-depth-transition;
+    transition: color @time @timing-fcn;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 (@grid * 2);
+    padding: (@grid / 2) (@grid * 2);
 
     &.raised {
       transition: background-color @time @timing-fcn, @z-depth-transition;
+
+      .z-depth(2);
 
       &.cir {
         border-radius: 50%;
@@ -21,18 +22,10 @@
       cursor: pointer;
 
       &:hover {
-        .z-txt-depth(2);
-
         &.raised {
-          text-shadow: none;
-
-          .z-depth(2);
+          .z-depth(3);
         }
       }
-    }
-
-    i {
-      margin-left: @grid; // space between text and icon
     }
   }
 }

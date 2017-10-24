@@ -1,27 +1,30 @@
 import React from 'react';
 import MatRipple from '../mat_ripple/mat_ripple';
+import Grid from '../../css/grid';
 
 const MatButton = ({text, icon, isCircle, isRaised, isSubmit,
-    isDisabled, onClick, buttonClassName, wrapClassName}) => {
+    isDisabled, onClick, className, wrapClassName}) => {
 
   // Format button class name.
-  buttonClassName = buttonClassName + ' mat-btn';
-  if (isDisabled) { buttonClassName += ' disabled'; }
-  if (isCircle) { buttonClassName += ' cir'; }
-  if (isRaised) { buttonClassName += ' raised'; }
-  buttonClassName = buttonClassName.trim();
+  className = className ? className + ' mat-btn' : 'mat-btn';
+  if (isDisabled) { className += ' disabled'; }
+  if (isCircle) { className += ' cir'; }
+  if (isRaised) { className += ' raised'; }
 
   // Format wrap class name.
-  wrapClassName = (wrapClassName + ' mat-btn-wrap').trim();
+  wrapClassName = wrapClassName ? wrapClassName + ' mat-btn-wrap' : 'mat-btn-wrap';
 
   // Format icon (uses font awesome icons).
   const $icon = (typeof icon === 'string' && icon.length > 0)
-    ? (<i className={`fa fa-${icon}`}></i>)
+    ? (<i className="material-icons"
+          style={{marginLeft: text ? Grid.GRID : 0}}>
+         {icon}
+       </i>)
     : '';
 
   // Render button w/o wrap or ripple.
   let $button = (
-    <button className={buttonClassName}
+    <button className={className}
             onClick={onClick}
             type={isSubmit ? 'submit' : 'button'}>
       {text}{$icon}
@@ -29,7 +32,7 @@ const MatButton = ({text, icon, isCircle, isRaised, isSubmit,
   );
 
   // If not disabled, wrap button in ripple.
-  if (isDisabled === false) {
+  if (!isDisabled) {
     $button = (
       <MatRipple isCircle={isCircle}>
         {$button}

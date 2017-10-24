@@ -3,12 +3,10 @@ import { isNotEmpty } from '../../../util/empty';
 import FlexTableComponent from './flex_table';
 
 const FlexTableHeaderComponent = ({className, schema}) => {
-  className = isNotEmpty(className) ? className : '';
-  className += ' flex-table-header';
-  className = className.trim();
+  className = className ? className + ' flex-table-header' : 'flex-table-header';
 
   return (
-    <FlexTableComponent tableClassName={className}
+    <FlexTableComponent className={className}
                         rowObjs={[{key: 1}]}
                         keyPath={'key'}
                         schema={schema}

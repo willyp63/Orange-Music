@@ -1,13 +1,13 @@
+@om-list-track-action-btn-size: @grid * 6;
+@om-list-track-action-btn-margin: @grid;
+@om-list-num-track-action-btns: 2;
+
 .om-list {
   .track-actions-cell{
-    @action-btn-size: @grid * 6;
-    @action-btn-margin: @grid;
-    @num-action-btns: 2;
-
     display: flex;
 
     .mat-btn-wrap {
-      margin-left: @action-btn-margin;
+      margin-left: @om-list-track-action-btn-margin;
     }
 
     .mat-btn-wrap:first-of-type {
@@ -15,10 +15,16 @@
     }
 
     .mat-btn {
-      width: @action-btn-size;
-      height: @action-btn-size;
-      font-size: @grid * 2;
+      width: @om-list-track-action-btn-size;
+      height: @om-list-track-action-btn-size;
       color: @white;
+
+      i {
+        position: relative;
+        left: -10px;
+
+        .icon-lg();
+      }
     }
 
     .play-btn {
@@ -33,10 +39,6 @@
 
 .om-list-header {
   .mock-track-actions-cell {
-    @action-btn-size: @grid * 6;
-    @action-btn-margin: @grid;
-    @num-action-btns: 2;
-
-    width: @action-btn-size * @num-action-btns + @action-btn-margin * (@num-action-btns - 1);
+    width: @om-list-track-action-btn-size * @om-list-num-track-action-btns + @om-list-track-action-btn-margin * (@om-list-num-track-action-btns - 1);
   }
 }

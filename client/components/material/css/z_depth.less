@@ -31,6 +31,22 @@
             0 24px 38px  3px rgba(0, 0, 0, .12),
             0 11px 15px -7px rgba(0, 0, 0, .4);
 
+@z-inset-depth-2dp: inset 0 2px 2px 0 rgba(0, 0, 0, .14),
+            inset 0 1px 5px 0 rgba(0, 0, 0, .12),
+            inset 0 3px 1px -2px rgba(0, 0, 0, .2);
+@z-inset-depth-3dp: inset 0 3px 4px 0 rgba(0, 0, 0, .14),
+            inset 0 1px 8px 0 rgba(0, 0, 0, .12),
+            inset 0 3px 3px -2px rgba(0, 0, 0, .4);
+@z-inset-depth-4dp: inset 0 4px 5px 0 rgba(0, 0, 0, .14),
+            inset 0 1px 10px 0 rgba(0, 0, 0, .12),
+            inset 0 2px 4px -1px rgba(0, 0, 0, .4);
+@z-inset-depth-6dp: inset 0 6px 10px 0 rgba(0, 0, 0, .14),
+            inset 0 1px 18px 0 rgba(0, 0, 0, .12),
+            inset 0 3px 5px -1px rgba(0, 0, 0, .4);
+@z-inset-depth-8dp: inset 0 8px 10px 1px rgba(0, 0, 0, .14),
+            inset 0 3px 14px 2px rgba(0, 0, 0, .12),
+            inset 0 5px 5px -3px rgba(0, 0, 0, .4);
+
 // Box shadows
 .z-depth-transition() { transition: @z-depth-transition; }
 
@@ -45,7 +61,18 @@
 .z-depth-16dp() { box-shadow: @z-depth-16dp; }
 .z-depth-24dp() { box-shadow: @z-depth-24dp; }
 
+.z-inset-depth-2dp() { box-shadow: @z-inset-depth-2dp; }
+.z-inset-depth-3dp() { box-shadow: @z-inset-depth-3dp; }
+.z-inset-depth-4dp() { box-shadow: @z-inset-depth-4dp; }
+.z-inset-depth-6dp() { box-shadow: @z-inset-depth-6dp; }
+.z-inset-depth-8dp() { box-shadow: @z-inset-depth-8dp; }
+
 .z-depth(@dp: 2) {
+  & when (@dp = -8) { .z-inset-depth-8dp(); }
+  & when (@dp = -6) { .z-inset-depth-6dp(); }
+  & when (@dp = -4) { .z-inset-depth-4dp(); }
+  & when (@dp = -3) { .z-inset-depth-3dp(); }
+  & when (@dp = -2) { .z-inset-depth-2dp(); }
   & when (@dp = 0) { .z-depth-0(); }
   & when (@dp = 2) { .z-depth-2dp(); }
   & when (@dp = 3) { .z-depth-3dp(); }
@@ -54,27 +81,4 @@
   & when (@dp = 8) { .z-depth-8dp(); }
   & when (@dp = 16) { .z-depth-16dp(); }
   & when (@dp = 24) { .z-depth-24dp(); }
-}
-
-// Text shadows
-.z-txt-depth-focus() { text-shadow: @z-depth-focus; }
-
-.z-txt-depth-0() { text-shadow: none; }
-.z-txt-depth-2dp() { text-shadow: @z-depth-2dp; }
-.z-txt-depth-3dp() { text-shadow: @z-depth-3dp; }
-.z-txt-depth-4dp() { text-shadow: @z-depth-4dp; }
-.z-txt-depth-6dp() { text-shadow: @z-depth-6dp; }
-.z-txt-depth-8dp() { text-shadow: @z-depth-8dp; }
-.z-txt-depth-16dp() { text-shadow: @z-depth-16dp; }
-.z-txt-depth-24dp() { text-shadow: @z-depth-24dp; }
-
-.z-txt-depth(@dp: 2) {
-  & when (@dp = 0) { .z-txt-depth-0(); }
-  & when (@dp = 2) { .z-txt-depth-2dp(); }
-  & when (@dp = 3) { .z-txt-depth-3dp(); }
-  & when (@dp = 4) { .z-txt-depth-4dp(); }
-  & when (@dp = 6) { .z-txt-depth-6dp(); }
-  & when (@dp = 8) { .z-txt-depth-8dp(); }
-  & when (@dp = 16) { .z-txt-depth-16dp(); }
-  & when (@dp = 24) { .z-txt-depth-24dp(); }
 }

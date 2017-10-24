@@ -1449,7 +1449,7 @@ module.exports = invariant;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
+exports.FONT = exports.GRID = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(297);
 
@@ -1475,6 +1475,14 @@ var _mat_tabs = __webpack_require__(301);
 
 var _mat_tabs2 = _interopRequireDefault(_mat_tabs);
 
+var _grid = __webpack_require__(74);
+
+var _grid2 = _interopRequireDefault(_grid);
+
+var _font = __webpack_require__(332);
+
+var _font2 = _interopRequireDefault(_font);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MatButton = exports.MatButton = _mat_button2.default;
@@ -1483,6 +1491,9 @@ var MatRipple = exports.MatRipple = _mat_ripple2.default;
 var MatSlider = exports.MatSlider = _mat_slider2.default;
 var MatSpinner = exports.MatSpinner = _mat_spinner2.default;
 var MatTabs = exports.MatTabs = _mat_tabs2.default;
+
+var GRID = exports.GRID = _grid2.default.GRID;
+var FONT = exports.FONT = _font2.default;
 
 /***/ }),
 /* 16 */
@@ -8043,7 +8054,9 @@ module.exports.coalesce = coalesce;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var GRID = exports.GRID = 8;
+var GRID = 8;
+
+exports.default = { GRID: GRID };
 
 /***/ }),
 /* 75 */
@@ -14289,13 +14302,13 @@ var _last_fm_api = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var IMAGE_IDX = 0;
+var IMAGE_IDX = 1;
 
 var ImageCellComponent = function ImageCellComponent(images) {
   return _react2.default.createElement(
     'div',
     { className: 'image-cell' },
-    _react2.default.createElement('img', { src: (0, _empty.isNotEmpty)(images) ? (0, _last_fm_api.getImageUrl)(images, IMAGE_IDX) : _image.EMPTY_IMG_SRC })
+    _react2.default.createElement('img', { src: (0, _empty.isNotEmpty)(images) ? (0, _last_fm_api.getImageUrl)(images, IMAGE_IDX) : '' })
   );
 };
 
@@ -14501,9 +14514,7 @@ var FlexTableComponent = function FlexTableComponent(_ref) {
       actions = _ref.actions;
 
 
-  className = (0, _empty.isNotEmpty)(className) ? className : '';
-  className += ' flex-table';
-  className = className.trim();
+  className = className ? className + ' flex-table' : 'flex-table';
 
   return _react2.default.createElement(
     'div',
@@ -30430,6 +30441,10 @@ var _mat_ripple = __webpack_require__(136);
 
 var _mat_ripple2 = _interopRequireDefault(_mat_ripple);
 
+var _grid = __webpack_require__(74);
+
+var _grid2 = _interopRequireDefault(_grid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MatButton = function MatButton(_ref) {
@@ -30440,33 +30455,37 @@ var MatButton = function MatButton(_ref) {
       isSubmit = _ref.isSubmit,
       isDisabled = _ref.isDisabled,
       onClick = _ref.onClick,
-      buttonClassName = _ref.buttonClassName,
+      className = _ref.className,
       wrapClassName = _ref.wrapClassName;
 
 
   // Format button class name.
-  buttonClassName = buttonClassName + ' mat-btn';
+  className = className ? className + ' mat-btn' : 'mat-btn';
   if (isDisabled) {
-    buttonClassName += ' disabled';
+    className += ' disabled';
   }
   if (isCircle) {
-    buttonClassName += ' cir';
+    className += ' cir';
   }
   if (isRaised) {
-    buttonClassName += ' raised';
+    className += ' raised';
   }
-  buttonClassName = buttonClassName.trim();
 
   // Format wrap class name.
-  wrapClassName = (wrapClassName + ' mat-btn-wrap').trim();
+  wrapClassName = wrapClassName ? wrapClassName + ' mat-btn-wrap' : 'mat-btn-wrap';
 
   // Format icon (uses font awesome icons).
-  var $icon = typeof icon === 'string' && icon.length > 0 ? _react2.default.createElement('i', { className: 'fa fa-' + icon }) : '';
+  var $icon = typeof icon === 'string' && icon.length > 0 ? _react2.default.createElement(
+    'i',
+    { className: 'material-icons',
+      style: { marginLeft: text ? _grid2.default.GRID : 0 } },
+    icon
+  ) : '';
 
   // Render button w/o wrap or ripple.
   var $button = _react2.default.createElement(
     'button',
-    { className: buttonClassName,
+    { className: className,
       onClick: onClick,
       type: isSubmit ? 'submit' : 'button' },
     text,
@@ -30474,7 +30493,7 @@ var MatButton = function MatButton(_ref) {
   );
 
   // If not disabled, wrap button in ripple.
-  if (isDisabled === false) {
+  if (!isDisabled) {
     $button = _react2.default.createElement(
       _mat_ripple2.default,
       { isCircle: isCircle },
@@ -30514,7 +30533,7 @@ var MatChip = function MatChip(_ref) {
       icon = _ref.icon,
       onClick = _ref.onClick;
 
-  className = (className + ' mat-chip').trim();
+  className = className ? className + ' mat-chip' : 'mat-chip';
 
   var $icon = typeof icon === 'string' && icon.length > 0 ? _react2.default.createElement('i', { className: 'fa fa-' + icon }) : '';
 
@@ -30669,8 +30688,8 @@ var MatMatSlider = function (_React$Component) {
           handleClassName = _props4.handleClassName;
 
 
-      var barClassName_1 = (barClassName + ' mat-slider').trim();
-      var handleClassName_1 = (handleClassName + (' ' + HANDLE_CLASS_NAME)).trim();
+      var barClassName_1 = barClassName ? barClassName + ' mat-slider' : 'mat-slider';
+      var handleClassName_1 = handleClassName ? handleClassName + (' ' + HANDLE_CLASS_NAME) : HANDLE_CLASS_NAME;
 
       var offsetRatio = value / maxValue;
       var $slider = !isDisabled ? _react2.default.createElement('span', { className: handleClassName_1,
@@ -30736,13 +30755,11 @@ var DEFAULT_STROKE_WIDTH = _grid.GRID / 2;
 var DEFAULT_SIZE = _grid.GRID * 10;
 
 var MatSpinner = function MatSpinner(_ref) {
-  var spinnerClassName = _ref.spinnerClassName,
+  var className = _ref.className,
       size = _ref.size,
       strokeWidth = _ref.strokeWidth;
 
-  spinnerClassName = (0, _empty.isNotEmpty)(spinnerClassName) ? spinnerClassName : '';
-  spinnerClassName += ' ' + SPINNER_CLASS_NAME;
-  spinnerClassName = spinnerClassName.trim();
+  className = className ? className + (' ' + SPINNER_CLASS_NAME) : SPINNER_CLASS_NAME;
 
   size = (0, _empty.isNotEmpty)(size) ? size : DEFAULT_SIZE;
   strokeWidth = (0, _empty.isNotEmpty)(strokeWidth) ? strokeWidth : DEFAULT_STROKE_WIDTH;
@@ -30750,7 +30767,7 @@ var MatSpinner = function MatSpinner(_ref) {
   var svgViewBox = size / 4 + ' ' + size / 4 + ' ' + size / 2 + ' ' + size / 2;
   return _react2.default.createElement(
     'div',
-    { className: spinnerClassName,
+    { className: className,
       style: {
         width: size
       } },
@@ -30792,11 +30809,20 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _empty = __webpack_require__(73);
 
+var _mat_ripple = __webpack_require__(136);
+
+var _mat_ripple2 = _interopRequireDefault(_mat_ripple);
+
 var _grid = __webpack_require__(74);
+
+var _grid2 = _interopRequireDefault(_grid);
+
+var _font = __webpack_require__(332);
+
+var _font2 = _interopRequireDefault(_font);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Keep up to date with mat_tabs.less
 //
 // Material Tabs Component
 //
@@ -30810,63 +30836,81 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 // ------------------------------------
 
-var LABEL_WIDTH = _grid.GRID * 25;
-var LABEL_PADDING = _grid.GRID;
-var UNDERLINE_LEFT_UNIT = LABEL_WIDTH + LABEL_PADDING * 2;
+var LABEL_PADDING = _grid2.default.GRID * 2;
 
 var MatTabs = function MatTabs(_ref) {
   var tabs = _ref.tabs,
       selectedTab = _ref.selectedTab,
       onTabSelect = _ref.onTabSelect,
-      className = _ref.className;
+      className = _ref.className,
+      font = _ref.font;
 
-  if ((0, _empty.isEmpty)(tabs) || (0, _empty.isEmpty)(selectedTab) || typeof onTabSelect !== 'function') {
+  if ((0, _empty.isEmpty)(tabs) || (0, _empty.isEmpty)(selectedTab) || (0, _empty.isEmpty)(font) || typeof onTabSelect !== 'function') {
     throw 'MatTabs: all properties are required (See mat_tabs.js)!';
   }
 
-  className = (className + ' mat-tabs').trim();
+  className = className ? className + ' mat-tabs' : 'mat-tabs';
 
   var $labels = Object.keys(tabs).map(function (tabValue) {
-    var className = 'label';
+    var className = 'tab';
     if (tabValue === selectedTab) {
       className += ' selected';
     }
     return _react2.default.createElement(
       'div',
       { className: className,
-        key: tabValue,
-        onClick: function onClick() {
-          if (tabValue !== selectedTab) {
-            onTabSelect(tabValue);
-          };
-        } },
-      tabs[tabValue].label
+        key: tabValue },
+      _react2.default.createElement(
+        _mat_ripple2.default,
+        null,
+        _react2.default.createElement(
+          'span',
+          { onClick: function onClick() {
+              if (tabValue !== selectedTab) {
+                onTabSelect(tabValue);
+              };
+            } },
+          tabs[tabValue].label
+        )
+      )
     );
   });
 
   var underlineLeft = 0;
   var underLineWidth = 0;
-  Object.keys(tabs).map(function (tabValue, i) {
-    if (tabValue === selectedTab) {
-      underlineLeft = UNDERLINE_LEFT_UNIT * i;
+  var tabValues = Object.keys(tabs);
+  for (var i = 0; i < tabValues.length; i++) {
+    if (tabValues[i] === selectedTab) {
+      underLineWidth = getTabWidth(tabs[tabValues[i]].label, font);
+      break;
+    } else {
+      underlineLeft += getTabWidth(tabs[tabValues[i]].label, font);
     }
-  });
+  }
 
   return _react2.default.createElement(
     'div',
     { className: className },
     _react2.default.createElement(
       'div',
-      { className: 'labels-container' },
+      { className: 'tabs-container' },
       $labels
     ),
     _react2.default.createElement(
       'div',
       { className: 'underline-container' },
       _react2.default.createElement('div', { className: 'underline',
-        style: { left: underlineLeft } })
+        style: {
+          left: underlineLeft,
+          width: underLineWidth
+        } })
     )
   );
+};
+
+var getTabWidth = function getTabWidth(tabText, font) {
+  var c = _font2.default.measureText(tabText, font);
+  return _font2.default.measureText(tabText, font) + LABEL_PADDING * 2;
 };
 
 exports.default = MatTabs;
@@ -31730,15 +31774,15 @@ var TrackActionsCellComponent = function TrackActionsCellComponent(_, track, act
   return _react2.default.createElement(
     'div',
     { className: 'track-actions-cell' },
-    _react2.default.createElement(_index.MatButton, { buttonClassName: 'play-btn',
-      icon: 'play',
+    _react2.default.createElement(_index.MatButton, { className: 'play-btn',
+      icon: 'play_arrow',
       isRaised: true,
       isCircle: true,
       onClick: function onClick() {
         return actions.playTrack(track);
       } }),
-    _react2.default.createElement(_index.MatButton, { buttonClassName: 'add-to-queue-btn',
-      icon: 'plus',
+    _react2.default.createElement(_index.MatButton, { className: 'add-to-queue-btn',
+      icon: 'add',
       isRaised: true,
       isCircle: true,
       onClick: function onClick() {
@@ -31791,6 +31835,8 @@ var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var TABS_FONT = _index.FONT.FONT_TYPES.HEADLINE;
+
 var TabsComponent = function TabsComponent(_ref) {
   var tabs = _ref.tabs,
       selectedTab = _ref.selectedTab,
@@ -31799,7 +31845,8 @@ var TabsComponent = function TabsComponent(_ref) {
   return _react2.default.createElement(_index.MatTabs, { className: 'om-tabs',
     tabs: tabs,
     selectedTab: selectedTab,
-    onTabSelect: onTabSelect });
+    onTabSelect: onTabSelect,
+    font: TABS_FONT });
 };
 
 exports.default = TabsComponent;
@@ -31933,15 +31980,15 @@ var DisplayTypePickerComponent = function DisplayTypePickerComponent(_ref) {
   return _react2.default.createElement(
     'div',
     { className: 'display-type-picker' },
-    _react2.default.createElement(_index.MatButton, { buttonClassName: galleryBtnClassName,
-      icon: 'th-large',
+    _react2.default.createElement(_index.MatButton, { className: galleryBtnClassName,
+      icon: 'view_module',
       onClick: function onClick() {
         if (selectedDisplayType !== TABLE_DISPLAY_TYPES.GALLERY) {
           onDisplayTypeSelect(TABLE_DISPLAY_TYPES.GALLERY);
         }
       } }),
-    _react2.default.createElement(_index.MatButton, { buttonClassName: listBtnClassName,
-      icon: 'bars',
+    _react2.default.createElement(_index.MatButton, { className: listBtnClassName,
+      icon: 'list',
       onClick: function onClick() {
         if (selectedDisplayType !== TABLE_DISPLAY_TYPES.LIST) {
           onDisplayTypeSelect(TABLE_DISPLAY_TYPES.LIST);
@@ -32009,11 +32056,9 @@ var FlexTableHeaderComponent = function FlexTableHeaderComponent(_ref) {
   var className = _ref.className,
       schema = _ref.schema;
 
-  className = (0, _empty.isNotEmpty)(className) ? className : '';
-  className += ' flex-table-header';
-  className = className.trim();
+  className = className ? className + ' flex-table-header' : 'flex-table-header';
 
-  return _react2.default.createElement(_flex_table2.default, { tableClassName: className,
+  return _react2.default.createElement(_flex_table2.default, { className: className,
     rowObjs: [{ key: 1 }],
     keyPath: 'key',
     schema: schema,
@@ -32085,9 +32130,7 @@ var FlexGalleryComponent = function FlexGalleryComponent(_ref) {
       maxColumns = _ref.maxColumns;
 
 
-  className = (0, _empty.isNotEmpty)(className) ? className : '';
-  className += ' flex-gallery';
-  className = className.trim();
+  className = className ? className + ' flex-gallery' : 'flex-gallery';
 
   maxColumns = (0, _empty.coalesce)(maxColumns, DEFAULT_MAX_COLUMNS);
 
@@ -32782,6 +32825,100 @@ var receiveVideoForTrack = function receiveVideoForTrack(prevState, action) {
 };
 
 exports.default = queueReducer;
+
+/***/ }),
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FONT_TYPES = {
+  DISPLAY_4: 0,
+  DISPLAY_3: 1,
+  DISPLAY_2: 2,
+  DISPLAY_1: 3,
+  HEADLINE: 4,
+  TITLE: 5,
+  SUBHEAD_2: 6,
+  SUBHEAD_1: 7,
+  BODY_2: 8,
+  BODY_1: 9,
+  CAPTION: 10,
+  LABEL: 11,
+  MENU: 12,
+  BUTTON: 13
+};
+
+var FONTS = {};
+FONTS[FONT_TYPES.DISPLAY_4] = {
+  size: 112,
+  weight: 100
+};
+FONTS[FONT_TYPES.DISPLAY_3] = {
+  size: 56,
+  weight: 300
+};
+FONTS[FONT_TYPES.DISPLAY_2] = {
+  size: 45,
+  weight: 300
+};
+FONTS[FONT_TYPES.DISPLAY_1] = {
+  size: 34,
+  weight: 300
+};
+FONTS[FONT_TYPES.HEADLINE] = {
+  size: 24,
+  weight: 300
+};
+FONTS[FONT_TYPES.TITLE] = {
+  size: 20,
+  weight: 400
+};
+FONTS[FONT_TYPES.SUBHEAD_2] = {
+  size: 15,
+  weight: 400
+};
+FONTS[FONT_TYPES.SUBHEAD_1] = {
+  size: 15,
+  weight: 300
+};
+FONTS[FONT_TYPES.BODY_2] = {
+  size: 13,
+  weight: 400
+};
+FONTS[FONT_TYPES.BODY_1] = {
+  size: 13,
+  weight: 300
+};
+FONTS[FONT_TYPES.CAPTION] = {
+  size: 12,
+  weight: 300
+};
+FONTS[FONT_TYPES.LABEL] = {
+  size: 12,
+  weight: 300
+};
+FONTS[FONT_TYPES.MENU] = {
+  size: 13,
+  weight: 400
+};
+FONTS[FONT_TYPES.BUTTON] = {
+  size: 14,
+  weight: 400
+};
+
+var measureText = function measureText(txt, fontType) {
+  var element = document.createElement('canvas');
+  var context = element.getContext("2d");
+  context.font = FONTS[fontType].size + "px Roboto";
+  return context.measureText(txt).width;
+};
+
+exports.default = { FONT_TYPES: FONT_TYPES, measureText: measureText };
 
 /***/ })
 /******/ ]);

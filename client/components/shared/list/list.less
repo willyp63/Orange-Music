@@ -1,18 +1,25 @@
-@om-table-padding: 0 (@grid * 8);
+@om-table-padding: 0 (@grid * 4);
 
 .om-list {
   padding: @om-table-padding;
 
   .row {
     padding: @grid;
+
+    .subhead-1();
   }
 
   .row:nth-of-type(2n) {
-    background-color: @grey-300;
+    background-color: @grey-100;
   }
 }
 
 .om-list-header {
   padding: @om-table-padding;
-  font-weight: bold;
+
+  .row {
+    padding: 0 @grid;
+
+    .subhead-2();
+  }
 }

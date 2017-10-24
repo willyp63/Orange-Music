@@ -1,7 +1,7 @@
 .om-gallery {
   .track-item {
     position: relative;
-    padding: @grid;
+    padding: @grid / 2;
 
     img {
       width: 100%;
@@ -14,27 +14,27 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      font-size: @grid * 2;
-      max-width: 80%;
       position: absolute;
+      width: 70%;
       right: @grid * 2;
       bottom: @grid * 5 / 2;
 
+      .subhead-1();
+
       .track-name, .artist-name {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 100%;
-        padding: (@grid / 4) (@grid * 3 / 2);
         background-color: @white;
         white-space: nowrap;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
 
         .z-depth(2);
       }
 
       .track-name {
-        font-size: @grid * 2.5;
-        font-weight: bold;
         margin-bottom: @grid;
+
+        .subhead-2();
       }
     }
   }

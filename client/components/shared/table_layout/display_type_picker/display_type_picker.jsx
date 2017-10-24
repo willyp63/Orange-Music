@@ -23,15 +23,15 @@ const DisplayTypePickerComponent = ({ selectedDisplayType, onDisplayTypeSelect }
 
   return (
     <div className='display-type-picker'>
-      <MatButton buttonClassName={galleryBtnClassName}
-                 icon={'th-large'}
+      <MatButton className={galleryBtnClassName}
+                 icon={'view_module'}
                  onClick={() => {
                    if (selectedDisplayType !== TABLE_DISPLAY_TYPES.GALLERY) {
                      onDisplayTypeSelect(TABLE_DISPLAY_TYPES.GALLERY);
                    }
                  }} />
-      <MatButton buttonClassName={listBtnClassName}
-                 icon={'bars'}
+      <MatButton className={listBtnClassName}
+                 icon={'list'}
                  onClick={() => {
                    if (selectedDisplayType !== TABLE_DISPLAY_TYPES.LIST) {
                      onDisplayTypeSelect(TABLE_DISPLAY_TYPES.LIST);

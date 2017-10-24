@@ -60,8 +60,10 @@ class MatMatSlider extends React.Component {
     const { value, maxValue, isDisabled, barClassName, handleClassName } =
       this.props;
 
-    let barClassName_1 = (barClassName + ' mat-slider').trim();
-    let handleClassName_1 = (handleClassName + ` ${HANDLE_CLASS_NAME}`).trim();
+    let barClassName_1 = barClassName ? barClassName + ' mat-slider' : 'mat-slider';
+    let handleClassName_1 = handleClassName
+      ? handleClassName + ` ${HANDLE_CLASS_NAME}`
+      : HANDLE_CLASS_NAME;
 
     const offsetRatio = value / maxValue;
     const $slider = !isDisabled
