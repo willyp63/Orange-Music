@@ -1,8 +1,8 @@
 import React from 'react';
-import { isNotEmpty, isEmpty } from '../../../util/empty';
-import { getNestedFieldValue } from '../../../util/nested_field';
-import { getImageUrl } from '../../../api/last_fm/last_fm_api';
-import { MatChip, MatButton } from '../../material/index';
+import { isNotEmpty, isEmpty } from '../../../../util/empty';
+import { getNestedFieldValue } from '../../../../util/nested_field';
+import { getImageUrl } from '../../../../api/last_fm/last_fm_api';
+import { MatChip, MatButton } from '../../../material/index';
 
 const IMAGE_IDX = 3;
 

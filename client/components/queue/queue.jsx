@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NowPlayingComponent from './now_playing/now_playing';
-import QUEUE_LIST_SCHEMA from '../shared/list/schemas/queue_schema';
-import QUEUE_GALLERY_SCHEMA from '../shared/gallery/schemas/queue_schema';
+import QUEUE_LIST_SCHEMA from '../shared/table/list/schemas/queue_list_schema';
+import QUEUE_GALLERY_SCHEMA from '../shared/table/gallery/schemas/queue_gallery_schema';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
 

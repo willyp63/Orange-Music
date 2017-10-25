@@ -1,6 +1,6 @@
 import React from 'react';
-import { isNotEmpty } from '../../../../util/empty';
-import { getNestedFieldValue } from '../../../../util/nested_field';
+import { isNotEmpty } from '../../../../../util/empty';
+import { getNestedFieldValue } from '../../../../../util/nested_field';
 
 const FlexTableComponent = ({className, rowObjs, keyPath, schema,
     componentPath, actions}) => {

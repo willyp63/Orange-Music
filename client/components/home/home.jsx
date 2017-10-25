@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchTopTracks, fetchTopArtists } from '../../actions/home_actions';
-import TRACK_LIST_SCHEMA from '../shared/list/schemas/track_schema';
-import ARTIST_LIST_SCHEMA from '../shared/list/schemas/artist_schema';
-import TRACK_GALLERY_SCHEMA from '../shared/gallery/schemas/track_schema';
-import ARTIST_GALLERY_SCHEMA from '../shared/gallery/schemas/artist_schema';
+import TRACK_LIST_SCHEMA from '../shared/table/list/schemas/track_list_schema';
+import ARTIST_LIST_SCHEMA from '../shared/table/list/schemas/artist_list_schema';
+import TRACK_GALLERY_SCHEMA from '../shared/table/gallery/schemas/track_gallery_schema';
+import ARTIST_GALLERY_SCHEMA from '../shared/table/gallery/schemas/artist_gallery_schema';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
 

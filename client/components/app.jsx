@@ -24,7 +24,7 @@ const AppComponent = ({children}) => (
         </div>
       </div>
     </div>
-    <div className="player-bar-container">
+    <div className="player-container">
       <PlayerComponent />
     </div>
   </div>

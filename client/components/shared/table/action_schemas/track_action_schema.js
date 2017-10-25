@@ -1,3 +1,7 @@
+//
+// Schema of actions applicable to Tracks.
+//
+
 const ACTION_TYPES = {
   PLAY_TRACK: 0,
   ADD_TRACK_TO_QUEUE: 1,
@@ -18,7 +22,7 @@ TRACK_ACTIONS[ACTION_TYPES.ADD_TRACK_TO_QUEUE] = {
 TRACK_ACTIONS[ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
   buttonClassName: 'add-to-playlist-btn',
   icon: 'playlist_add',
-  actionName: 'TODO', // TODO
+  actionName: 'TODO', // TODO: Add action once we have playlists
 };
 
 export default TRACK_ACTIONS;

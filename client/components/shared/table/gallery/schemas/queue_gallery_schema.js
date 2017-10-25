@@ -1,4 +1,4 @@
-import QUEUE_ACTIONS from '../../table_actions/queue_actions';
+import QUEUE_ACTIONS from '../../action_schemas/queue_action_schema';
 
 const QUEUE_GALLERY_SCHEMA = {
   titlePath: 'name',

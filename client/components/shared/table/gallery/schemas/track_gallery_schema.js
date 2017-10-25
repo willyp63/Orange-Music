@@ -1,4 +1,4 @@
-import TRACK_ACTIONS from '../../table_actions/track_actions';
+import TRACK_ACTIONS from '../../action_schemas/track_action_schema';;
 
 const TRACK_GALLERY_SCHEMA = {
   titlePath: 'name',

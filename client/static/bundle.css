@@ -7,7 +7,7 @@
 .app .content-container {
   flex: 1 0 0;
 }
-.player-bar-container {
+.player-container {
   display: flex;
   justify-content: space-around;
 }
@@ -482,6 +482,9 @@ i {
 }
 .om-table-layout .om-nav-bar .table-controls-container.bordered {
   border-bottom: 1px solid #E0E0E0;
+}
+.om-table-layout .table-container .player-spacer {
+  height: 192px;
 }
 .om-table-layout .display-type-picker {
   display: flex;

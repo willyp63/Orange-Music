@@ -3,9 +3,9 @@ import { isNotEmpty } from '../../../util/empty';
 import { MatTabs } from '../../material/index';
 import NavBarComponent from '../nav_bar/nav_bar';
 import DisplayTypePickerComponent, { TABLE_DISPLAY_TYPES } from './display_type_picker/display_type_picker';
-import ListComponent from '../list/list';
-import ListHeaderComponent from '../list/list_header';
-import GalleryComponent from '../gallery/gallery';
+import ListComponent from '../table/list/list';
+import ListHeaderComponent from '../table/list/list_header';
+import GalleryComponent from '../table/gallery/gallery';
 
 class TableLayoutComponent extends React.Component {
   constructor(props) {
@@ -67,6 +67,7 @@ class TableLayoutComponent extends React.Component {
         </NavBarComponent>
         <div className="table-container">
           {$table}
+          <div className='player-spacer'></div>
         </div>
       </div>
     );

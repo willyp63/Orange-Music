@@ -1,5 +1,5 @@
 import React from 'react';
-import { MatButton } from '../../../../material/index';
+import { MatButton } from '../../../../../material/index';
 
 const ActionsCellComponent = (_, track, actions, schema) => {
   const $buttons = Object.keys(schema.actions).map((actionType) => {

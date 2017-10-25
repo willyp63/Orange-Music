@@ -2,21 +2,25 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { MatButton } from '../material/index';
 
-const NavPanelComponent = ({history}) => {
+const NavPanelComponent = ({history, location}) => {
+  const pushPath = (path) => {
+    if (location.pathname !== path) { history.push(path); }
+  };
+
   return (
     <div className="om-nav-panel">
       <div className="nav-btns">
         <MatButton text={'HOME'}
-                   onClick={() => { history.push('/'); }} />
+                   onClick={() => { pushPath('/'); }} />
         <div className="divider"></div>
         <MatButton text={'SEARCH'}
                    icon={'search'}
-                   onClick={() => { history.push('/search'); }} />
+                   onClick={() => { pushPath('/search'); }} />
         <div className="divider"></div>
         <MatButton text={'QUEUE'}
-                   onClick={() => { history.push('/queue'); }} />
+                   onClick={() => { pushPath('/queue'); }} />
         <MatButton text={'PLAYLISTS'}
-                   onClick={() => { history.push('/playlists'); }} />
+                   onClick={() => { pushPath('/playlists'); }} />
       </div>
     </div>
   );

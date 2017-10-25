@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GalleryTile from './gallery_tile';
-import { playTrack, addTrackToQueue, removeTrackFromQueue } from '../../../actions/queue_actions';
+import { playTrack, addTrackToQueue, removeTrackFromQueue } from '../../../../actions/queue_actions';
 
 const NUM_COLUMNS = 3;
 

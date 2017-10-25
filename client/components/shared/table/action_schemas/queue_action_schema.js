@@ -1,3 +1,7 @@
+//
+// Schema of actions applicable to Tracks in the queue.
+//
+
 const ACTION_TYPES = {
   REMOVE_TRACK_FROM_QUEUE: 0,
 };
