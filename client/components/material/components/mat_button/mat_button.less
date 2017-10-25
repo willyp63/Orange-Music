@@ -53,15 +53,24 @@
 }
 
 // No background; for icon only buttons.
-.mat-icon-btn-colorize(@color; @colorHover; @colorDisabled: @grey-400) {
+.mat-icon-btn-colorize(
+  @color;
+  @colorHover;
+  @colorDisabled: @grey-400) {
+
   .mat-btn-colorize(@color; @colorHover; @colorDisabled);
   .mat-icon-btn();
   .mat-cir-btn();
 }
 
 // Raised with background; for icon only buttons.
-.mat-icon-btn-raised-colorize(@color; @colorHover; @colorDisabled: @grey-400; @bgColor;
-    @bgColorHover; @bgColorDisabled: @grey-400) {
+.mat-icon-btn-raised-colorize(
+  @color;
+  @colorHover;
+  @colorDisabled: @grey-400;
+  @bgColor;
+  @bgColorHover;
+  @bgColorDisabled: @grey-400) {
 
   .mat-btn-raised-colorize(@color; @colorHover; @colorDisabled; @bgColor; @bgColorHover;
     @bgColorDisabled);

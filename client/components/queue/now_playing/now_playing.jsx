@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ListComponent from '../../shared/list/list';
 import ListHeaderComponent from '../../shared/list/list_header';
-import QUEUE_LIST_SCHEMA from '../list_schema';
+import QUEUE_LIST_SCHEMA from '../../shared/list/schemas/queue_schema';
 
 const NowPlayingComponent = ({tracks}) => {
   return (

@@ -31,7 +31,7 @@ class TableLayoutComponent extends React.Component {
     const $table = selectedDisplayType === TABLE_DISPLAY_TYPES.GALLERY
       ? (
         <GalleryComponent entities={selectedTable.entities}
-                          component={selectedTable.galleryComponent} />
+                          schema={selectedTable.gallerySchema} />
       ) : (
         <ListComponent entities={selectedTable.entities}
                        schema={selectedTable.listSchema} />

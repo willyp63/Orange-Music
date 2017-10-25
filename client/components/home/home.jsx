@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchTopTracks, fetchTopArtists } from '../../actions/home_actions';
-import TRACKS_LIST_SCHEMA from '../shared/list/schemas/tracks_schema';
-import ARTIST_LIST_SCHEMA from '../shared/list/schemas/artists_schema';
-import TrackGalleryComponent from '../shared/gallery/components/track_component';
-import ArtistGalleryComponent from '../shared/gallery/components/artist_component';
+import TRACK_LIST_SCHEMA from '../shared/list/schemas/track_schema';
+import ARTIST_LIST_SCHEMA from '../shared/list/schemas/artist_schema';
+import TRACK_GALLERY_SCHEMA from '../shared/gallery/schemas/track_schema';
+import ARTIST_GALLERY_SCHEMA from '../shared/gallery/schemas/artist_schema';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
 
@@ -16,13 +16,13 @@ const TABLE_TYPES = Object.freeze({
 let TABLES1 = {};
 TABLES1[TABLE_TYPES.TOP_TRACKS] = {
   label: 'Top Tracks',
-  listSchema: TRACKS_LIST_SCHEMA,
-  galleryComponent: TrackGalleryComponent,
+  listSchema: TRACK_LIST_SCHEMA,
+  gallerySchema: TRACK_GALLERY_SCHEMA,
 };
 TABLES1[TABLE_TYPES.TOP_ARTISTS] = {
   label: 'Top Artists',
   listSchema: ARTIST_LIST_SCHEMA,
-  galleryComponent: ArtistGalleryComponent,
+  gallerySchema: ARTIST_GALLERY_SCHEMA,
 };
 const TABLES = Object.freeze(TABLES1);
 
