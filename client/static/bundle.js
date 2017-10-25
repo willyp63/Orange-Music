@@ -8385,10 +8385,6 @@ var _actions_cell = __webpack_require__(313);
 
 var _actions_cell2 = _interopRequireDefault(_actions_cell);
 
-var _mock_actions_cell = __webpack_require__(314);
-
-var _mock_actions_cell2 = _interopRequireDefault(_mock_actions_cell);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ACTION_TYPES = {
@@ -8431,7 +8427,7 @@ var TRACKS_LIST_SCHEMA = {
     component: _text_cell2.default
   },
   '@actions': {
-    label: _mock_actions_cell2.default,
+    label: '',
     width: 0,
     component: _actions_cell2.default,
     actions: ACTIONS
@@ -8477,10 +8473,9 @@ var TrackGalleryComponent = function TrackGalleryComponent(track) {
     _react2.default.createElement(
       'div',
       { className: 'track-info' },
-      _react2.default.createElement(_index.MatChip, { className: 'track-name',
-        text: track.name }),
-      _react2.default.createElement(_index.MatChip, { className: 'artist-name',
-        text: track.artist.name })
+      _react2.default.createElement(_index.MatChip, { className: 'track-name', text: track.name }),
+      _react2.default.createElement(_index.MatChip, { className: 'artist-name', text: track.artist.name }),
+      _react2.default.createElement('div', { className: 'actions-drawer' })
     )
   );
 };
@@ -8546,7 +8541,7 @@ var TableLayoutComponent = function (_React$Component) {
 
     _this.state = {
       selectedTableType: Object.keys(_this.props.tables)[0],
-      selectedDisplayType: _display_type_picker.TABLE_DISPLAY_TYPES.LIST
+      selectedDisplayType: _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY
     };
     return _this;
   }
@@ -30521,7 +30516,14 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _grid = __webpack_require__(34);
+
+var _grid2 = _interopRequireDefault(_grid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GRID = _grid2.default.GRID;
+
 
 var MatChip = function MatChip(_ref) {
   var className = _ref.className,
@@ -30531,12 +30533,17 @@ var MatChip = function MatChip(_ref) {
 
   className = className ? className + ' mat-chip' : 'mat-chip';
 
-  var $icon = typeof icon === 'string' && icon.length > 0 ? _react2.default.createElement('i', { className: 'fa fa-' + icon }) : '';
+  // Format icon (https://material.io/icons/).
+  var marginLeft = text ? _grid2.default.GRID : 0; // Separate icon from text.
+  var $icon = typeof icon === 'string' && icon.length > 0 ? _react2.default.createElement(
+    'i',
+    { className: 'material-icons', style: { marginLeft: marginLeft } },
+    icon
+  ) : '';
 
   return _react2.default.createElement(
     'span',
-    { className: className,
-      onClick: onClick },
+    { className: className, onClick: onClick },
     text,
     $icon
   );
@@ -31721,36 +31728,7 @@ var ActionsCellComponent = function ActionsCellComponent(_, track, actions, sche
 exports.default = ActionsCellComponent;
 
 /***/ }),
-/* 314 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(15);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var BUTTON_SIZE = _index.GRID * 8;
-var BUTTON_MARGIN = _index.GRID;
-
-var MockActionsCellComponent = function MockActionsCellComponent(_, __, ___, schema) {
-  var numButtons = Object.keys(schema.actions).length;
-  return _react2.default.createElement('div', { className: 'mock-track-actions-cell',
-    style: { width: numButtons * BUTTON_SIZE + (numButtons - 1) * BUTTON_MARGIN } });
-};
-
-exports.default = MockActionsCellComponent;
-
-/***/ }),
+/* 314 */,
 /* 315 */,
 /* 316 */
 /***/ (function(module, exports, __webpack_require__) {

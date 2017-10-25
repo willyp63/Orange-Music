@@ -12,7 +12,7 @@ class TableLayoutComponent extends React.Component {
     super(props);
     this.state = {
       selectedTableType: Object.keys(this.props.tables)[0],
-      selectedDisplayType: TABLE_DISPLAY_TYPES.LIST,
+      selectedDisplayType: TABLE_DISPLAY_TYPES.GALLERY,
     };
   }
   render() {

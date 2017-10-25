@@ -3,21 +3,24 @@
 
 .om-list {
   .actions-cell{
-    display: flex;
+    position: relative;
 
     .mat-btn {
-      margin-left: @om-list-action-btn-margin;
+      position: absolute;
+      top: 0;
+      right: 0;
+      transition: top @time @timing-fcn, right @time @timing-fcn;
 
       button {
-        width: @om-list-action-btn-size;
-        height: @om-list-action-btn-size;
+        width: 0;
+        height: 0;
+        transition: width @time @timing-fcn, height @time @timing-fcn !important;
       }
 
-      i { .font-icon-lg(); }
-    }
-
-    .mat-btn:first-of-type {
-      margin-left: 0;
+      i {
+        transition: font-size @time @timing-fcn;
+        font-size: 0px;
+      }
     }
 
     .play-btn {
@@ -50,6 +53,39 @@
         @colorHover: @grey-200;
         @bgColor: @orange-600;
         @bgColorHover: @orange);
+    }
+  }
+}
+
+.om-list {
+  .row:hover {
+    .actions-cell{
+      .mat-btn {
+        top: @om-list-action-btn-size / -2;
+
+        button {
+          width: @om-list-action-btn-size;
+          height: @om-list-action-btn-size;
+        }
+
+        i { .font-icon-lg(); }
+      }
+
+      .play-btn {
+        right: (@om-list-action-btn-size + @om-list-action-btn-margin) * 2;
+      }
+
+      .add-to-queue-btn {
+        right: (@om-list-action-btn-size + @om-list-action-btn-margin) * 1;
+      }
+
+      .remove-from-queue-btn {
+        right: 0;
+      }
+
+      .add-to-playlist-btn {
+        right: 0;
+      }
     }
   }
 }

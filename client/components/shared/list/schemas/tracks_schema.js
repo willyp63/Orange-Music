@@ -2,7 +2,6 @@ import TextCellComponent from '../cells/text/text_cell';
 import ImageCellComponent from '../cells/image/image_cell';
 import MockImageCellComponent from '../cells/image/mock_image_cell';
 import ActionsCellComponent from '../cells/actions/actions_cell';
-import MockActionsCellComponent from '../cells/actions/mock_actions_cell';
 
 const ACTION_TYPES = {
   PLAY_TRACK: 0,
@@ -44,7 +43,7 @@ const TRACKS_LIST_SCHEMA = {
     component: TextCellComponent,
   },
   '@actions': {
-    label: MockActionsCellComponent,
+    label: '',
     width: 0,
     component: ActionsCellComponent,
     actions: ACTIONS,
