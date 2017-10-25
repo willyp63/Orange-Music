@@ -12,7 +12,6 @@ class SearchFormComponent extends React.Component {
     super(props)
     this.state = {query: props.query};
 
-    // Incase url contains query.
     this.makeQuery.bind(this)();
   }
   onQueryChange(query) {

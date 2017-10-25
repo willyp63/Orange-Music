@@ -1,22 +1,19 @@
 .om-table-layout {
   .om-nav-bar {
+    padding-top: @grid * 2;
+
     .table-controls-container {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      padding: 0 (@grid * 4);
 
       .mat-tabs {
-        margin-left: @grid * 4;
-
         .mat-tabs-colorize(
           @color: @blue-600;
           @hoverColor: @blue;
           @activeColor: @orange-600;
           @activeHoverColor: @orange);
-      }
-
-      .display-type-picker {
-        margin-right: @grid * 4;
       }
 
       &.bordered {

@@ -11,22 +11,22 @@ class TableLayoutComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTableType: Object.keys(this.props.tables)[0],
+      selectedTableType: Object.keys(this.props.tableSchema)[0],
       selectedDisplayType: TABLE_DISPLAY_TYPES.GALLERY,
     };
   }
   render() {
-    const { tables, children } = this.props;
+    const { tableSchema, children } = this.props;
     const { selectedTableType, selectedDisplayType } = this.state;
 
-    const tabs = Object.keys(tables).map((tableType) => {
+    const tabs = Object.keys(tableSchema).map((tableType) => {
       return {
-        label: tables[tableType].label,
+        label: tableSchema[tableType].label,
         value: tableType,
       };
     });
 
-    const selectedTable = tables[selectedTableType];
+    const selectedTable = tableSchema[selectedTableType];
 
     const $table = selectedDisplayType === TABLE_DISPLAY_TYPES.GALLERY
       ? (

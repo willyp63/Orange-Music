@@ -8148,7 +8148,7 @@ var TableLayoutComponent = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (TableLayoutComponent.__proto__ || Object.getPrototypeOf(TableLayoutComponent)).call(this, props));
 
     _this.state = {
-      selectedTableType: Object.keys(_this.props.tables)[0],
+      selectedTableType: Object.keys(_this.props.tableSchema)[0],
       selectedDisplayType: _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY
     };
     return _this;
@@ -8160,21 +8160,21 @@ var TableLayoutComponent = function (_React$Component) {
       var _this2 = this;
 
       var _props = this.props,
-          tables = _props.tables,
+          tableSchema = _props.tableSchema,
           children = _props.children;
       var _state = this.state,
           selectedTableType = _state.selectedTableType,
           selectedDisplayType = _state.selectedDisplayType;
 
 
-      var tabs = Object.keys(tables).map(function (tableType) {
+      var tabs = Object.keys(tableSchema).map(function (tableType) {
         return {
-          label: tables[tableType].label,
+          label: tableSchema[tableType].label,
           value: tableType
         };
       });
 
-      var selectedTable = tables[selectedTableType];
+      var selectedTable = tableSchema[selectedTableType];
 
       var $table = selectedDisplayType === _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY ? _react2.default.createElement(_gallery2.default, { entities: selectedTable.entities,
         schema: selectedTable.gallerySchema }) : _react2.default.createElement(_list2.default, { entities: selectedTable.entities,
@@ -31184,21 +31184,9 @@ var _reactRedux = __webpack_require__(21);
 
 var _home_actions = __webpack_require__(137);
 
-var _track_list_schema = __webpack_require__(314);
+var _home_table_schema = __webpack_require__(330);
 
-var _track_list_schema2 = _interopRequireDefault(_track_list_schema);
-
-var _artist_list_schema = __webpack_require__(316);
-
-var _artist_list_schema2 = _interopRequireDefault(_artist_list_schema);
-
-var _track_gallery_schema = __webpack_require__(317);
-
-var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
-
-var _artist_gallery_schema = __webpack_require__(318);
-
-var _artist_gallery_schema2 = _interopRequireDefault(_artist_gallery_schema);
+var _home_table_schema2 = _interopRequireDefault(_home_table_schema);
 
 var _table_layout = __webpack_require__(75);
 
@@ -31211,24 +31199,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TABLE_TYPES = Object.freeze({
-  TOP_TRACKS: 0,
-  TOP_ARTISTS: 1
-});
-
-var TABLES1 = {};
-TABLES1[TABLE_TYPES.TOP_TRACKS] = {
-  label: 'Top Tracks',
-  listSchema: _track_list_schema2.default,
-  gallerySchema: _track_gallery_schema2.default
-};
-TABLES1[TABLE_TYPES.TOP_ARTISTS] = {
-  label: 'Top Artists',
-  listSchema: _artist_list_schema2.default,
-  gallerySchema: _artist_gallery_schema2.default
-};
-var TABLES = Object.freeze(TABLES1);
 
 var HomeComponent = function (_React$Component) {
   _inherits(HomeComponent, _React$Component);
@@ -31253,16 +31223,16 @@ var HomeComponent = function (_React$Component) {
           topArtists = _props.topArtists;
 
 
-      var tables = Object.assign({}, TABLES);
-      tables[TABLE_TYPES.TOP_TRACKS].entities = topTracks;
-      tables[TABLE_TYPES.TOP_ARTISTS].entities = topArtists;
+      var tableSchema = Object.assign({}, _home_table_schema2.default);
+      tableSchema[_home_table_schema.HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks;
+      tableSchema[_home_table_schema.HOME_TABLE_TYPES.TOP_ARTISTS].entities = topArtists;
 
       return _react2.default.createElement(
         'div',
         { className: 'home' },
         _react2.default.createElement(
           _table_layout2.default,
-          { tables: tables },
+          { tableSchema: tableSchema },
           _react2.default.createElement(
             'div',
             { className: 'title-container' },
@@ -31469,21 +31439,9 @@ var _search_form = __webpack_require__(305);
 
 var _search_form2 = _interopRequireDefault(_search_form);
 
-var _track_list_schema = __webpack_require__(314);
+var _search_table_schema = __webpack_require__(331);
 
-var _track_list_schema2 = _interopRequireDefault(_track_list_schema);
-
-var _artist_list_schema = __webpack_require__(316);
-
-var _artist_list_schema2 = _interopRequireDefault(_artist_list_schema);
-
-var _track_gallery_schema = __webpack_require__(317);
-
-var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
-
-var _artist_gallery_schema = __webpack_require__(318);
-
-var _artist_gallery_schema2 = _interopRequireDefault(_artist_gallery_schema);
+var _search_table_schema2 = _interopRequireDefault(_search_table_schema);
 
 var _table_layout = __webpack_require__(75);
 
@@ -31496,24 +31454,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TABLE_TYPES = Object.freeze({
-  TRACKS: 0,
-  ARTISTS: 1
-});
-
-var TABLES1 = {};
-TABLES1[TABLE_TYPES.TRACKS] = {
-  label: 'Tracks',
-  listSchema: _track_list_schema2.default,
-  gallerySchema: _track_gallery_schema2.default
-};
-TABLES1[TABLE_TYPES.ARTISTS] = {
-  label: 'Artists',
-  listSchema: _artist_list_schema2.default,
-  gallerySchema: _artist_gallery_schema2.default
-};
-var TABLES = Object.freeze(TABLES1);
 
 var SearchComponent = function (_React$Component) {
   _inherits(SearchComponent, _React$Component);
@@ -31538,16 +31478,16 @@ var SearchComponent = function (_React$Component) {
           isFetching = _props.isFetching;
 
 
-      var tables = Object.assign({}, TABLES);
-      tables[TABLE_TYPES.TRACKS].entities = tracks;
-      tables[TABLE_TYPES.ARTISTS].entities = []; // TODO
+      var tableSchema = Object.assign({}, _search_table_schema2.default);
+      tableSchema[_search_table_schema.SEARCH_TABLE_TYPES.TRACKS].entities = tracks;
+      tableSchema[_search_table_schema.SEARCH_TABLE_TYPES.ARTISTS].entities = []; // TODO: fetch artists from api
 
       return _react2.default.createElement(
         'div',
         { className: 'search' },
         _react2.default.createElement(
           _table_layout2.default,
-          { tables: tables },
+          { tableSchema: tableSchema },
           _react2.default.createElement(
             'div',
             { className: 'search-form-container' },
@@ -31625,7 +31565,6 @@ var SearchFormComponent = function (_React$Component) {
 
     _this.state = { query: props.query };
 
-    // Incase url contains query.
     _this.makeQuery.bind(_this)();
     return _this;
   }
@@ -31734,13 +31673,9 @@ var _now_playing = __webpack_require__(307);
 
 var _now_playing2 = _interopRequireDefault(_now_playing);
 
-var _queue_list_schema = __webpack_require__(319);
+var _queue_table_schema = __webpack_require__(332);
 
-var _queue_list_schema2 = _interopRequireDefault(_queue_list_schema);
-
-var _queue_gallery_schema = __webpack_require__(321);
-
-var _queue_gallery_schema2 = _interopRequireDefault(_queue_gallery_schema);
+var _queue_table_schema2 = _interopRequireDefault(_queue_table_schema);
 
 var _table_layout = __webpack_require__(75);
 
@@ -31754,24 +31689,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var TABLE_TYPES = Object.freeze({
-  QUEUE: 0,
-  HISTORY: 1
-});
-
-var TABLES1 = {};
-TABLES1[TABLE_TYPES.QUEUE] = {
-  label: 'Queue',
-  listSchema: _queue_list_schema2.default,
-  gallerySchema: _queue_gallery_schema2.default
-};
-TABLES1[TABLE_TYPES.HISTORY] = {
-  label: 'History',
-  listSchema: _queue_list_schema2.default,
-  gallerySchema: _queue_gallery_schema2.default
-};
-var TABLES = Object.freeze(TABLES1);
-
 var QueueComponent = function (_React$Component) {
   _inherits(QueueComponent, _React$Component);
 
@@ -31784,16 +31701,16 @@ var QueueComponent = function (_React$Component) {
   _createClass(QueueComponent, [{
     key: 'render',
     value: function render() {
-      var tables = Object.assign({}, TABLES);
-      tables[TABLE_TYPES.QUEUE].entities = this.props.tracks.slice(1);
-      tables[TABLE_TYPES.HISTORY].entities = []; // TODO
+      var tableSchema = Object.assign({}, _queue_table_schema2.default);
+      tableSchema[_queue_table_schema.QUEUE_TABLE_TYPES.QUEUE].entities = this.props.tracks.slice(1);
+      tableSchema[_queue_table_schema.QUEUE_TABLE_TYPES.HISTORY].entities = []; // TODO: track queue histroy
 
       return _react2.default.createElement(
         'div',
         { className: 'queue' },
         _react2.default.createElement(
           _table_layout2.default,
-          { tables: tables },
+          { tableSchema: tableSchema },
           _react2.default.createElement(
             'div',
             { className: 'now-playing-container' },
@@ -32376,32 +32293,7 @@ QUEUE_ACTIONS[ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
 exports.default = QUEUE_ACTIONS;
 
 /***/ }),
-/* 321 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _queue_action_schema = __webpack_require__(320);
-
-var _queue_action_schema2 = _interopRequireDefault(_queue_action_schema);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var QUEUE_GALLERY_SCHEMA = {
-  titlePath: 'name',
-  subtitlePath: 'artist.name',
-  imagePath: 'image',
-  actions: _queue_action_schema2.default
-};
-
-exports.default = QUEUE_GALLERY_SCHEMA;
-
-/***/ }),
+/* 321 */,
 /* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32844,6 +32736,145 @@ var ActionsCellComponent = function ActionsCellComponent(_, track, actions, sche
 };
 
 exports.default = ActionsCellComponent;
+
+/***/ }),
+/* 330 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HOME_TABLE_TYPES = undefined;
+
+var _track_list_schema = __webpack_require__(314);
+
+var _track_list_schema2 = _interopRequireDefault(_track_list_schema);
+
+var _artist_list_schema = __webpack_require__(316);
+
+var _artist_list_schema2 = _interopRequireDefault(_artist_list_schema);
+
+var _track_gallery_schema = __webpack_require__(317);
+
+var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
+
+var _artist_gallery_schema = __webpack_require__(318);
+
+var _artist_gallery_schema2 = _interopRequireDefault(_artist_gallery_schema);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var HOME_TABLE_TYPES = exports.HOME_TABLE_TYPES = {
+  TOP_TRACKS: 0,
+  TOP_ARTISTS: 1
+};
+
+var HOME_TABLE_SCHEMA = {};
+HOME_TABLE_SCHEMA[HOME_TABLE_TYPES.TOP_TRACKS] = {
+  label: 'Top Tracks',
+  listSchema: _track_list_schema2.default,
+  gallerySchema: _track_gallery_schema2.default
+};
+HOME_TABLE_SCHEMA[HOME_TABLE_TYPES.TOP_ARTISTS] = {
+  label: 'Top Artists',
+  listSchema: _artist_list_schema2.default,
+  gallerySchema: _artist_gallery_schema2.default
+};
+
+exports.default = HOME_TABLE_SCHEMA;
+
+/***/ }),
+/* 331 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SEARCH_TABLE_TYPES = undefined;
+
+var _track_list_schema = __webpack_require__(314);
+
+var _track_list_schema2 = _interopRequireDefault(_track_list_schema);
+
+var _artist_list_schema = __webpack_require__(316);
+
+var _artist_list_schema2 = _interopRequireDefault(_artist_list_schema);
+
+var _track_gallery_schema = __webpack_require__(317);
+
+var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
+
+var _artist_gallery_schema = __webpack_require__(318);
+
+var _artist_gallery_schema2 = _interopRequireDefault(_artist_gallery_schema);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SEARCH_TABLE_TYPES = exports.SEARCH_TABLE_TYPES = {
+  TRACKS: 0,
+  ARTISTS: 1
+};
+
+var SEARCH_TABLE_SCHEMA = {};
+SEARCH_TABLE_SCHEMA[SEARCH_TABLE_TYPES.TRACKS] = {
+  label: 'Tracks',
+  listSchema: _track_list_schema2.default,
+  gallerySchema: _track_gallery_schema2.default
+};
+SEARCH_TABLE_SCHEMA[SEARCH_TABLE_TYPES.ARTISTS] = {
+  label: 'Artists',
+  listSchema: _artist_list_schema2.default,
+  gallerySchema: _artist_gallery_schema2.default
+};
+
+exports.default = SEARCH_TABLE_SCHEMA;
+
+/***/ }),
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.QUEUE_TABLE_TYPES = undefined;
+
+var _track_list_schema = __webpack_require__(314);
+
+var _track_list_schema2 = _interopRequireDefault(_track_list_schema);
+
+var _track_gallery_schema = __webpack_require__(317);
+
+var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var QUEUE_TABLE_TYPES = exports.QUEUE_TABLE_TYPES = {
+  QUEUE: 0,
+  HISTORY: 1
+};
+
+var QUEUE_TABLE_SCHEMA = {};
+QUEUE_TABLE_SCHEMA[QUEUE_TABLE_TYPES.QUEUE] = {
+  label: 'Queue',
+  listSchema: _track_list_schema2.default,
+  gallerySchema: _track_gallery_schema2.default
+};
+QUEUE_TABLE_SCHEMA[QUEUE_TABLE_TYPES.HISTORY] = {
+  label: 'History',
+  listSchema: _track_list_schema2.default,
+  gallerySchema: _track_gallery_schema2.default
+};
+
+exports.default = QUEUE_TABLE_SCHEMA;
 
 /***/ })
 /******/ ]);
