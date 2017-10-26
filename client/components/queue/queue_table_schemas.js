@@ -1,5 +1,7 @@
 import QUEUE_LIST_SCHEMA from '../shared/table/list/schemas/queue_list_schema';
+import HISTORY_LIST_SCHEMA from '../shared/table/list/schemas/history_list_schema';
 import QUEUE_GALLERY_SCHEMA from '../shared/table/gallery/schemas/queue_gallery_schema';
+import HISTORY_GALLERY_SCHEMA from '../shared/table/gallery/schemas/history_gallery_schema';
 
 export const QUEUE_TABLE_TYPES = {
   QUEUE: 0,
@@ -14,8 +16,8 @@ QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.QUEUE] = {
 };
 QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.HISTORY] = {
   label: 'History',
-  listSchema: QUEUE_LIST_SCHEMA,
-  gallerySchema: QUEUE_GALLERY_SCHEMA,
+  listSchema: HISTORY_LIST_SCHEMA,
+  gallerySchema: HISTORY_GALLERY_SCHEMA,
 };
 
 export default QUEUE_TABLE_SCHEMAS;

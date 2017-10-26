@@ -7,14 +7,14 @@ import TableLayoutComponent from '../shared/table_layout/table_layout';
 class QueueComponent extends React.Component {
   render() {
     const tableSchemas = Object.assign({}, QUEUE_TABLE_SCHEMAS);
-    tableSchemas[QUEUE_TABLE_TYPES.QUEUE].entities = this.props.tracks.slice(1);
-    tableSchemas[QUEUE_TABLE_TYPES.HISTORY].entities = []; // TODO: track queue histroy
+    tableSchemas[QUEUE_TABLE_TYPES.QUEUE].entities = this.props.queue.slice(1);
+    tableSchemas[QUEUE_TABLE_TYPES.HISTORY].entities = this.props.history;
 
     return (
       <div className="queue">
         <TableLayoutComponent tableSchemas={tableSchemas}>
           <div className="now-playing-container">
-            <NowPlayingComponent />
+            <NowPlayingComponent track={this.props.queue[0]} />
           </div>
         </TableLayoutComponent>
       </div>
@@ -24,7 +24,8 @@ class QueueComponent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    tracks: state.queue.tracks
+    queue: state.queue.queue,
+    history: state.queue.history,
   };
 };
 

@@ -5,6 +5,7 @@
   bottom: @grid * 2;
   z-index: @om-player-z-idx;
   width: @grid * 100;
+  transition: bottom @time @timing-fcn;
 
   padding: @grid;
 
@@ -35,5 +36,9 @@
 
   .bottom-bar {
     margin-top: @grid * 2;
+  }
+
+  &.hidden {
+    bottom: @grid * -15;
   }
 }

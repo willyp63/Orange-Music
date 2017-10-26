@@ -18,7 +18,9 @@ const ActionsCellComponent = (_, track, actions, schema) => {
 
   return (
     <div className="actions-cell">
-      {$buttons}
+      <div className="action-btns-container">
+        {$buttons}
+      </div>
     </div>
   );
 };

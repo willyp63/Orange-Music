@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FlexTableComponent from './flex_table/flex_table';
-import { playTrack, addTrackToQueue, removeTrackFromQueue } from '../../../../actions/queue_actions';
+import { playTrack, addTrackToQueue, removeTrackFromQueue,
+  removeTrackFromHistory } from '../../../../actions/queue_actions';
 
 const ListComponent = ({entities, schema, playTrack, addTrackToQueue,
-    removeTrackFromQueue}) => {
+    removeTrackFromQueue, removeTrackFromHistory}) => {
 
-  const actions = {playTrack, addTrackToQueue, removeTrackFromQueue};
+  const actions = {playTrack, addTrackToQueue, removeTrackFromQueue,
+    removeTrackFromHistory};
 
   return (
     <FlexTableComponent className={'om-list'}
@@ -31,6 +33,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     removeTrackFromQueue: (track) => {
       dispatch(removeTrackFromQueue(track));
+    },
+    removeTrackFromHistory: (track) => {
+      dispatch(removeTrackFromHistory(track));
     },
   };
 };

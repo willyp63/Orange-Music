@@ -1,7 +1,3 @@
-//
-// Schema of actions applicable to Tracks.
-//
-
 const ACTION_TYPES = {
   PLAY_TRACK: 0,
   ADD_TRACK_TO_QUEUE: 1,

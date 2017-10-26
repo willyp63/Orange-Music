@@ -1,65 +1,60 @@
 import { ADD_TRACK_TO_QUEUE, REMOVE_TRACK_FROM_QUEUE, CLEAR_QUEUE,
-  RECEIVE_VIDEO_FOR_TRACK } from '../actions/queue_actions';
+  RECEIVE_VIDEO_FOR_TRACK, ADD_TRACK_TO_HISTORY, REMOVE_TRACK_FROM_HISTORY } from '../actions/queue_actions';
+import { concatEntities, reduce } from './shared';
 
 import { isNotEmpty } from '../util/empty';
 
-const DEFAULT_STATE = Object.freeze({
-  tracks: []
-});
+const DEFAULT_STATE = {
+  queue: [],
+  history: [],
+};
 
 const queueReducer = (prevState = DEFAULT_STATE, action) => {
+  let queue, history, i;
   switch (action.type) {
     case ADD_TRACK_TO_QUEUE:
-      return addTrack(prevState, action);
+      queue = concatEntities(prevState.queue, [Object.assign({}, action.track)]);
+      return reduce(prevState, {queue});
     case REMOVE_TRACK_FROM_QUEUE:
-      return removeTrack(prevState, action);
+      queue = prevState.queue.slice();
+      i = indexOf(queue, action.track);
+      queue.splice(i, 1);
+
+      // Add track to history if it was at the head of the queue.
+      if (i === 0) {
+        history = concatEntities(prevState.history, [action.track], true);
+      } else {
+        history = prevState.history;
+      }
+
+      return reduce(prevState, {queue, history});
     case CLEAR_QUEUE:
-      return Object.assign({}, DEFAULT_STATE);
+      return reduce(prevState, {queue: []});
+    case ADD_TRACK_TO_HISTORY:
+      history = concatEntities([Object.assign({}, action.track)], prevState.history);
+      return reduce(prevState, {history});
+    case REMOVE_TRACK_FROM_HISTORY:
+      history = prevState.history.slice();
+      i = indexOf(history, action.track);
+      history.splice(i, 1);
+      return reduce(prevState, {history});
     case RECEIVE_VIDEO_FOR_TRACK:
-      return receiveVideoForTrack(prevState, action);
+      queue = prevState.queue.slice();
+      i = indexOf(queue, action.track);
+      if (i >= 0) { queue[i].video = action.video; }
+      return reduce(prevState, {queue});
     default:
       return prevState
   }
 };
 
-const addTrack = (prevState, action) => {
-  const tracks = prevState.tracks.slice();
-
-  const takenIds = {};
+const indexOf = (tracks, track) => {
   for (let i = 0; i < tracks.length; i++) {
-    takenIds[tracks[i].mbid] = true;
-  }
-
-  let mbid = action.track.mbid;
-  let i = 0;
-  while (takenIds[mbid]) {
-    mbid = `${action.track.mbid}#${i++}`;
-  }
-
-  tracks.push(Object.assign({}, action.track, {mbid}));
-  return Object.assign({}, prevState, {tracks});
-};
-
-const removeTrack = (prevState, action) => {
-  let tracks = prevState.tracks.slice();
-  for (let i = 0; i < tracks.length; i++) {
-    if (tracks[i].mbid === action.track.mbid) {
-      tracks.splice(i, 1);
-      break;
+    if (tracks[i].mbid === track.mbid) {
+      return i;
     }
   }
-  return Object.assign({}, prevState, {tracks});
-};
-
-const receiveVideoForTrack = (prevState, action) => {
-  let tracks = prevState.tracks.slice();
-  for (let i = 0; i < tracks.length; i++) {
-    if (tracks[i].mbid === action.track.mbid) {
-      tracks[i].video = action.video;
-      break;
-    }
-  }
-  return Object.assign({}, prevState, {tracks});
+  return -1;
 };
 
 export default queueReducer

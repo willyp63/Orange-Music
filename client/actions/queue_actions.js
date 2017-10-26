@@ -1,6 +1,6 @@
 import orangeMusicApi from '../api/orange_music/orange_music_api';
 
-/// Add Track
+/// Add Track to Queue
 export const addTrackToQueue = (track) => {
   return (dispatch) => {
     dispatch(addTrackToQueueMsg(track));
@@ -15,7 +15,7 @@ const addTrackToQueueMsg = (track) => {
 };
 export const ADD_TRACK_TO_QUEUE = 'ADD_TRACK_TO_QUEUE';
 
-/// Remove Track
+/// Remove Track from Queue
 export const removeTrackFromQueue = (track) => {
   return (dispatch) => {
     dispatch(removeTrackFromQueueMsg(track));
@@ -30,7 +30,7 @@ const removeTrackFromQueueMsg = (track) => {
 };
 export const REMOVE_TRACK_FROM_QUEUE = 'REMOVE_TRACK_FROM_QUEUE';
 
-/// Clear
+/// Clear Queue
 export const clearQueue = () => {
   return (dispatch) => {
     dispatch(clearQueueMsg());
@@ -41,6 +41,36 @@ const clearQueueMsg = () => {
   return {type: CLEAR_QUEUE};
 }
 export const CLEAR_QUEUE = 'CLEAR_QUEUE';
+
+/// Add Track to History
+export const addTrackToHistory = (track) => {
+  return (dispatch) => {
+    dispatch(addTrackToHistoryMsg(track));
+  };
+};
+
+const addTrackToHistoryMsg = (track) => {
+  return {
+    type: ADD_TRACK_TO_HISTORY,
+    track
+  };
+};
+export const ADD_TRACK_TO_HISTORY = 'ADD_TRACK_TO_HISTORY';
+
+/// Remove Track from History
+export const removeTrackFromHistory = (track) => {
+  return (dispatch) => {
+    dispatch(removeTrackFromHistoryMsg(track));
+  };
+};
+
+const removeTrackFromHistoryMsg = (track) => {
+  return {
+    type: REMOVE_TRACK_FROM_HISTORY,
+    track
+  };
+};
+export const REMOVE_TRACK_FROM_HISTORY = 'REMOVE_TRACK_FROM_HISTORY';
 
 /// Play Track
 export const playTrack = (track) => {

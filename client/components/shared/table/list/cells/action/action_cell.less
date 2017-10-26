@@ -5,54 +5,61 @@
   .actions-cell{
     position: relative;
 
-    .mat-btn {
+    .action-btns-container{
       position: absolute;
       top: 0;
       right: 0;
-      transition: top @time @timing-fcn, right @time @timing-fcn;
+      height: 100%;
+      display: flex;
+      align-items: center;
 
-      button {
-        width: 0;
-        height: 0;
-        transition: width @time @timing-fcn, height @time @timing-fcn !important;
+      .mat-btn {
+        margin-right: 0;
+        transition: margin-right @time @timing-fcn;
+
+        button {
+          width: 0;
+          height: 0;
+          transition: width @time @timing-fcn, height @time @timing-fcn !important;
+        }
+
+        i {
+          transition: font-size @time @timing-fcn;
+          font-size: 0px;
+        }
       }
 
-      i {
-        transition: font-size @time @timing-fcn;
-        font-size: 0px;
+      .play-btn {
+        .mat-icon-btn-raised-colorize(
+          @color: @white;
+          @colorHover: @grey-200;
+          @bgColor: @blue-600;
+          @bgColorHover: @blue);
       }
-    }
 
-    .play-btn {
-      .mat-icon-btn-raised-colorize(
-        @color: @white;
-        @colorHover: @grey-200;
-        @bgColor: @blue-600;
-        @bgColorHover: @blue);
-    }
+      .add-to-queue-btn {
+        .mat-icon-btn-raised-colorize(
+          @color: @white;
+          @colorHover: @grey-200;
+          @bgColor: @green-600;
+          @bgColorHover: @green);
+      }
 
-    .add-to-queue-btn {
-      .mat-icon-btn-raised-colorize(
-        @color: @white;
-        @colorHover: @grey-200;
-        @bgColor: @green-600;
-        @bgColorHover: @green);
-    }
+      .remove-from-queue-btn, .remove-from-history-btn {
+        .mat-icon-btn-raised-colorize(
+          @color: @white;
+          @colorHover: @grey-200;
+          @bgColor: @red-600;
+          @bgColorHover: @red);
+      }
 
-    .remove-from-queue-btn {
-      .mat-icon-btn-raised-colorize(
-        @color: @white;
-        @colorHover: @grey-200;
-        @bgColor: @red-600;
-        @bgColorHover: @red);
-    }
-
-    .add-to-playlist-btn {
-      .mat-icon-btn-raised-colorize(
-        @color: @white;
-        @colorHover: @grey-200;
-        @bgColor: @orange-600;
-        @bgColorHover: @orange);
+      .add-to-playlist-btn {
+        .mat-icon-btn-raised-colorize(
+          @color: @white;
+          @colorHover: @grey-200;
+          @bgColor: @orange-600;
+          @bgColorHover: @orange);
+      }
     }
   }
 }
@@ -60,31 +67,21 @@
 .om-list {
   .row:hover {
     .actions-cell{
-      .mat-btn {
-        top: @om-list-action-btn-size / -2;
+      .action-btns-container {
+        .mat-btn {
+          margin-right: @grid;
 
-        button {
-          width: @om-list-action-btn-size;
-          height: @om-list-action-btn-size;
+          button {
+            width: @om-list-action-btn-size;
+            height: @om-list-action-btn-size;
+          }
+
+          i { .font-icon-lg(); }
         }
 
-        i { .font-icon-lg(); }
-      }
-
-      .play-btn {
-        right: (@om-list-action-btn-size + @om-list-action-btn-margin) * 2;
-      }
-
-      .add-to-queue-btn {
-        right: (@om-list-action-btn-size + @om-list-action-btn-margin) * 1;
-      }
-
-      .remove-from-queue-btn {
-        right: 0;
-      }
-
-      .add-to-playlist-btn {
-        right: 0;
+        .mat-btn:last-of-type {
+          margin-right: 0;
+        }
       }
     }
   }

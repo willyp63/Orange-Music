@@ -201,6 +201,7 @@ i {
   bottom: 16px;
   z-index: 300;
   width: 800px;
+  transition: bottom 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 8px;
   background-color: #FFB74D;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
@@ -224,6 +225,9 @@ i {
 }
 .om-player .bottom-bar {
   margin-top: 16px;
+}
+.om-player.hidden {
+  bottom: -120px;
 }
 .om-player .track-info {
   display: flex;
@@ -583,7 +587,7 @@ i {
   justify-content: space-between;
   align-items: center;
 }
-.flex-table .row div {
+.flex-table .row .cell {
   margin: 0 8px;
 }
 .om-list .image-cell {
@@ -604,146 +608,149 @@ i {
 .om-list .actions-cell {
   position: relative;
 }
-.om-list .actions-cell .mat-btn {
+.om-list .actions-cell .action-btns-container {
   position: absolute;
   top: 0;
   right: 0;
-  transition: top 0.28s cubic-bezier(0.4, 0, 0.2, 1), right 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
-.om-list .actions-cell .mat-btn button {
+.om-list .actions-cell .action-btns-container .mat-btn {
+  margin-right: 0;
+  transition: margin-right 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.om-list .actions-cell .action-btns-container .mat-btn button {
   width: 0;
   height: 0;
   transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), height 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
-.om-list .actions-cell .mat-btn i {
+.om-list .actions-cell .action-btns-container .mat-btn i {
   transition: font-size 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0px;
 }
-.om-list .actions-cell .play-btn {
+.om-list .actions-cell .action-btns-container .play-btn {
   border-radius: 50%;
 }
-.om-list .actions-cell .play-btn button {
+.om-list .actions-cell .action-btns-container .play-btn button {
   color: #FFFFFF;
   background-color: #1E88E5;
   transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
-.om-list .actions-cell .play-btn button.disabled {
+.om-list .actions-cell .action-btns-container .play-btn button.disabled {
   color: #BDBDBD;
   background-color: #BDBDBD;
   box-shadow: none;
 }
-.om-list .actions-cell .play-btn button:hover:not(.disabled) {
+.om-list .actions-cell .action-btns-container .play-btn button:hover:not(.disabled) {
   color: #EEEEEE;
   background-color: #2196F3;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
-.om-list .actions-cell .play-btn button {
+.om-list .actions-cell .action-btns-container .play-btn button {
   padding: 0;
   justify-content: space-around;
 }
-.om-list .actions-cell .play-btn button {
+.om-list .actions-cell .action-btns-container .play-btn button {
   border-radius: 50%;
 }
-.om-list .actions-cell .add-to-queue-btn {
+.om-list .actions-cell .action-btns-container .add-to-queue-btn {
   border-radius: 50%;
 }
-.om-list .actions-cell .add-to-queue-btn button {
+.om-list .actions-cell .action-btns-container .add-to-queue-btn button {
   color: #FFFFFF;
   background-color: #43A047;
   transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
-.om-list .actions-cell .add-to-queue-btn button.disabled {
+.om-list .actions-cell .action-btns-container .add-to-queue-btn button.disabled {
   color: #BDBDBD;
   background-color: #BDBDBD;
   box-shadow: none;
 }
-.om-list .actions-cell .add-to-queue-btn button:hover:not(.disabled) {
+.om-list .actions-cell .action-btns-container .add-to-queue-btn button:hover:not(.disabled) {
   color: #EEEEEE;
   background-color: #4CAF50;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
-.om-list .actions-cell .add-to-queue-btn button {
+.om-list .actions-cell .action-btns-container .add-to-queue-btn button {
   padding: 0;
   justify-content: space-around;
 }
-.om-list .actions-cell .add-to-queue-btn button {
+.om-list .actions-cell .action-btns-container .add-to-queue-btn button {
   border-radius: 50%;
 }
-.om-list .actions-cell .remove-from-queue-btn {
+.om-list .actions-cell .action-btns-container .remove-from-queue-btn,
+.om-list .actions-cell .action-btns-container .remove-from-history-btn {
   border-radius: 50%;
 }
-.om-list .actions-cell .remove-from-queue-btn button {
+.om-list .actions-cell .action-btns-container .remove-from-queue-btn button,
+.om-list .actions-cell .action-btns-container .remove-from-history-btn button {
   color: #FFFFFF;
   background-color: #E53935;
   transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
-.om-list .actions-cell .remove-from-queue-btn button.disabled {
+.om-list .actions-cell .action-btns-container .remove-from-queue-btn button.disabled,
+.om-list .actions-cell .action-btns-container .remove-from-history-btn button.disabled {
   color: #BDBDBD;
   background-color: #BDBDBD;
   box-shadow: none;
 }
-.om-list .actions-cell .remove-from-queue-btn button:hover:not(.disabled) {
+.om-list .actions-cell .action-btns-container .remove-from-queue-btn button:hover:not(.disabled),
+.om-list .actions-cell .action-btns-container .remove-from-history-btn button:hover:not(.disabled) {
   color: #EEEEEE;
   background-color: #F44336;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
-.om-list .actions-cell .remove-from-queue-btn button {
+.om-list .actions-cell .action-btns-container .remove-from-queue-btn button,
+.om-list .actions-cell .action-btns-container .remove-from-history-btn button {
   padding: 0;
   justify-content: space-around;
 }
-.om-list .actions-cell .remove-from-queue-btn button {
+.om-list .actions-cell .action-btns-container .remove-from-queue-btn button,
+.om-list .actions-cell .action-btns-container .remove-from-history-btn button {
   border-radius: 50%;
 }
-.om-list .actions-cell .add-to-playlist-btn {
+.om-list .actions-cell .action-btns-container .add-to-playlist-btn {
   border-radius: 50%;
 }
-.om-list .actions-cell .add-to-playlist-btn button {
+.om-list .actions-cell .action-btns-container .add-to-playlist-btn button {
   color: #FFFFFF;
   background-color: #FB8C00;
   transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
-.om-list .actions-cell .add-to-playlist-btn button.disabled {
+.om-list .actions-cell .action-btns-container .add-to-playlist-btn button.disabled {
   color: #BDBDBD;
   background-color: #BDBDBD;
   box-shadow: none;
 }
-.om-list .actions-cell .add-to-playlist-btn button:hover:not(.disabled) {
+.om-list .actions-cell .action-btns-container .add-to-playlist-btn button:hover:not(.disabled) {
   color: #EEEEEE;
   background-color: #FF9800;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
-.om-list .actions-cell .add-to-playlist-btn button {
+.om-list .actions-cell .action-btns-container .add-to-playlist-btn button {
   padding: 0;
   justify-content: space-around;
 }
-.om-list .actions-cell .add-to-playlist-btn button {
+.om-list .actions-cell .action-btns-container .add-to-playlist-btn button {
   border-radius: 50%;
 }
-.om-list .row:hover .actions-cell .mat-btn {
-  top: -32px;
+.om-list .row:hover .actions-cell .action-btns-container .mat-btn {
+  margin-right: 8px;
 }
-.om-list .row:hover .actions-cell .mat-btn button {
+.om-list .row:hover .actions-cell .action-btns-container .mat-btn button {
   width: 64px;
   height: 64px;
 }
-.om-list .row:hover .actions-cell .mat-btn i {
+.om-list .row:hover .actions-cell .action-btns-container .mat-btn i {
   font-size: 36px;
 }
-.om-list .row:hover .actions-cell .play-btn {
-  right: 144px;
-}
-.om-list .row:hover .actions-cell .add-to-queue-btn {
-  right: 72px;
-}
-.om-list .row:hover .actions-cell .remove-from-queue-btn {
-  right: 0;
-}
-.om-list .row:hover .actions-cell .add-to-playlist-btn {
-  right: 0;
+.om-list .row:hover .actions-cell .action-btns-container .mat-btn:last-of-type {
+  margin-right: 0;
 }
 .om-gallery {
   display: flex;
@@ -873,24 +880,30 @@ i {
 .om-gallery .tile .actions-drawer .add-to-playlist-btn button {
   border-radius: 50%;
 }
-.om-gallery .tile .actions-drawer .remove-from-queue-btn {
+.om-gallery .tile .actions-drawer .remove-from-queue-btn,
+.om-gallery .tile .actions-drawer .remove-from-history-btn {
   border-radius: 50%;
 }
-.om-gallery .tile .actions-drawer .remove-from-queue-btn button {
+.om-gallery .tile .actions-drawer .remove-from-queue-btn button,
+.om-gallery .tile .actions-drawer .remove-from-history-btn button {
   color: #E53935;
   transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.om-gallery .tile .actions-drawer .remove-from-queue-btn button.disabled {
+.om-gallery .tile .actions-drawer .remove-from-queue-btn button.disabled,
+.om-gallery .tile .actions-drawer .remove-from-history-btn button.disabled {
   color: #BDBDBD;
 }
-.om-gallery .tile .actions-drawer .remove-from-queue-btn button:hover:not(.disabled) {
+.om-gallery .tile .actions-drawer .remove-from-queue-btn button:hover:not(.disabled),
+.om-gallery .tile .actions-drawer .remove-from-history-btn button:hover:not(.disabled) {
   color: #F44336;
 }
-.om-gallery .tile .actions-drawer .remove-from-queue-btn button {
+.om-gallery .tile .actions-drawer .remove-from-queue-btn button,
+.om-gallery .tile .actions-drawer .remove-from-history-btn button {
   padding: 0;
   justify-content: space-around;
 }
-.om-gallery .tile .actions-drawer .remove-from-queue-btn button {
+.om-gallery .tile .actions-drawer .remove-from-queue-btn button,
+.om-gallery .tile .actions-drawer .remove-from-history-btn button {
   border-radius: 50%;
 }
 .om-gallery .tile:hover .actions-drawer {

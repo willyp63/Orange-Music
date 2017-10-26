@@ -108,8 +108,11 @@ class PlayerComponent extends React.Component {
 
     const isDisabled = isEmpty(track) || isLoading;
 
+    let className = 'om-player';
+    if (isEmpty(track)) { className += ' hidden'; }
+
     return (
-      <div className="om-player">
+      <div className={className}>
         <div className="top-bar">
           <TrackInfoComponent trackName={trackName}
                               artistName={artistName}
@@ -143,7 +146,7 @@ const AUDIO_PLAYER_ID = 'audio-player';
 const MAX_VOLUME = 1;
 
 const mapStateToProps = (state) => {
-  const track = state.queue.tracks[0];
+  const track = state.queue.queue[0];
   const video = isNotEmpty(track) ? track.video : null;
 
   const hasTrack = isNotEmpty(track);

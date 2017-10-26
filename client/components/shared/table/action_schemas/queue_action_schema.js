@@ -1,16 +1,14 @@
-//
-// Schema of actions applicable to Tracks in the queue.
-//
+import TRACK_ACTION_SCHEMA from './track_action_schema';
 
 const ACTION_TYPES = {
-  REMOVE_TRACK_FROM_QUEUE: 0,
+  REMOVE_TRACK_FROM_QUEUE: 3, // 3 prior actions
 };
 
-const QUEUE_ACTIONS = {};
-QUEUE_ACTIONS[ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
-  buttonClassName: 'remove-from-queue-btn',
+const QUEUE_ACTION_SCHEMA = Object.assign({}, TRACK_ACTION_SCHEMA);
+QUEUE_ACTION_SCHEMA[ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
+  buttonClassName: 'remove-from-history-btn',
   icon: 'remove',
   actionName: 'removeTrackFromQueue',
 };
 
-export default QUEUE_ACTIONS;
+export default QUEUE_ACTION_SCHEMA;

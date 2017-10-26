@@ -15,7 +15,7 @@ const TrackControlsComponent = ({isPlaying, isDisabled, onPrev, onPlayPause, onN
                  onClick={onPlayPause} />
       <MatButton buttonClassName={'next-btn'}
                  icon={'skip_next'}
-                 isDisabled={isDisabled}
+                 isDisabled={false}
                  onClick={onNext} />
     </div>
   );

@@ -10,7 +10,7 @@ const ImageCellComponent = (images) => {
 
   let className = 'image-cell';
   if (imageSrc === EMPTY_IMG_SRC) { className += ' bordered'; }
-  
+
   return (
     <div className={className}>
       <img src={imageSrc} />

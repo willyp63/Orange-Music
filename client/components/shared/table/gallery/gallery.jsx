@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GalleryTile from './gallery_tile';
-import { playTrack, addTrackToQueue, removeTrackFromQueue } from '../../../../actions/queue_actions';
+import { playTrack, addTrackToQueue, removeTrackFromQueue,
+  removeTrackFromHistory } from '../../../../actions/queue_actions';
 
 const NUM_COLUMNS = 3;
 
 const GalleryComponent = ({entities, schema, playTrack, addTrackToQueue,
-    removeTrackFromQueue}) => {
+    removeTrackFromQueue, removeTrackFromHistory}) => {
 
-  const actions = {playTrack, addTrackToQueue, removeTrackFromQueue};
+  const actions = {playTrack, addTrackToQueue, removeTrackFromQueue,
+    removeTrackFromHistory};
 
   return (
     <div className='om-gallery'>
@@ -41,6 +43,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     removeTrackFromQueue: (track) => {
       dispatch(removeTrackFromQueue(track));
+    },
+    removeTrackFromHistory: (track) => {
+      dispatch(removeTrackFromHistory(track));
     },
   };
 };
