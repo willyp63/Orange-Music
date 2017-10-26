@@ -42,7 +42,7 @@ const getColumn = ({$content, schema, field}) => {
   return (
     <div className="cell"
          key={field}
-         style={{flex: `0 1 ${schema[field].width}%`}}>
+         style={{flex: `0 1 ${schema[field].width}`}}>
       {$content}
     </div>
   );

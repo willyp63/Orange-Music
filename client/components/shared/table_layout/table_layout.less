@@ -22,9 +22,13 @@
     }
   }
 
-  .table-container {
-    .player-spacer {
-      height: @grid * 24; // Extra room so player does not block table
-    }
+  .spinner-container {
+    display: flex;
+    justify-content: space-around;
+    padding: (@grid * 2) 0;
+  }
+
+  .player-spacer {
+    height: @grid * 24; // Extra room so player does not block table
   }
 }

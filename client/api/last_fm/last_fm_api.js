@@ -1,4 +1,5 @@
 import { isEmpty, isNotEmpty } from '../../util/empty';
+import { EMPTY_IMG_SRC } from '../../util/image';
 import { getUrlWithUpdatedParams } from '../../util/url';
 import { makeFakeId } from '../../util/id';
 import { LAST_FM_API_KEY } from '../../secrets/api_keys';
@@ -9,7 +10,7 @@ const LAST_FM_ENTITY_TYPES = {
 };
 module.exports.LAST_FM_ENTITY_TYPES = LAST_FM_ENTITY_TYPES;
 
-const DEFAULT_PAGE_SIZE = 30;
+const DEFAULT_PAGE_SIZE = 15;
 module.exports.DEFAULT_PAGE_SIZE = DEFAULT_PAGE_SIZE;
 
 const LAST_FM_QUERY_TYPES = {
@@ -20,28 +21,20 @@ const LAST_FM_QUERY_TYPES = {
 };
 module.exports.LAST_FM_QUERY_TYPES = LAST_FM_QUERY_TYPES;
 
-module.exports.searchTracks = ({query, page, pageSize}) => {
-  return genericQuery(
-    LAST_FM_QUERY_TYPES.SEARCH_TRACKS,
-    {query, page, pageSize});
+module.exports.searchTracks = (queryParams) => {
+  return genericQuery(LAST_FM_QUERY_TYPES.SEARCH_TRACKS, queryParams || {});
 }
 
-module.exports.searchArtists = ({query, page, pageSize}) => {
-  return genericQuery(
-    LAST_FM_QUERY_TYPES.SEARCH_ARTISTS,
-    {query, page, pageSize});
+module.exports.searchArtists = (queryParams) => {
+  return genericQuery(LAST_FM_QUERY_TYPES.SEARCH_ARTISTS, queryParams || {});
 }
 
-module.exports.topTracks = ({page, pageSize}) => {
-  return genericQuery(
-    LAST_FM_QUERY_TYPES.TOP_TRACKS,
-    {page, pageSize});
+module.exports.topTracks = (queryParams) => {
+  return genericQuery(LAST_FM_QUERY_TYPES.TOP_TRACKS, queryParams || {});
 }
 
-module.exports.topArtists = ({page, pageSize}) => {
-  return genericQuery(
-    LAST_FM_QUERY_TYPES.TOP_ARTISTS,
-    {page, pageSize});
+module.exports.topArtists = (queryParams) => {
+  return genericQuery(LAST_FM_QUERY_TYPES.TOP_ARTISTS, queryParams || {});
 }
 
 module.exports.getImageUrl = (image, preferredIdx) => {
@@ -52,7 +45,7 @@ module.exports.getImageUrl = (image, preferredIdx) => {
     const url = image[i]['#text'];
     if (isNotEmpty(url)) { return url; }
   }
-  return '';
+  return EMPTY_IMG_SRC;
 }
 
 //
@@ -75,11 +68,13 @@ const genericQuery = (queryType, apiParams) => {
     });
 }
 
-const getQueryParams = (queryType, {query, page, pageSize}) => {
+const getQueryParams = (queryType, {query, startIndex, pageSize}) => {
   return new Promise((resolve, reject) => {
 
-    page = isNotEmpty(page) ? page : 1;
     pageSize = isNotEmpty(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
+    let page = isNotEmpty(startIndex) ? Math.floor(startIndex / pageSize) : 0;
+    page += 1; // last fm starts counting pages with 1 ...
+
 
     let queryParams = Object.assign({}, BASE_URL_PARAMS);
     switch (queryType) {

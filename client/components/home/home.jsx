@@ -1,24 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchTopTracks, fetchTopArtists } from '../../actions/home_actions';
-import HOME_TABLE_SCHEMA, { HOME_TABLE_TYPES } from './home_table_schema';
+import HOME_TABLE_SCHEMAS, { HOME_TABLE_TYPES } from './home_table_schemas';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
 class HomeComponent extends React.Component {
-  componentDidMount() {
-    this.props.fetchTopTracks();
-    this.props.fetchTopArtists();
-  }
   render() {
-    const { topTracks, topArtists } = this.props;
+    const { topTracks, topArtists, fetchTopTracks, fetchTopArtists } = this.props;
 
-    const tableSchema = Object.assign({}, HOME_TABLE_SCHEMA);
-    tableSchema[HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks;
-    tableSchema[HOME_TABLE_TYPES.TOP_ARTISTS].entities = topArtists;
+    const tableSchemas = Object.assign({}, HOME_TABLE_SCHEMAS);
+
+    tableSchemas[HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks.tracks;
+    tableSchemas[HOME_TABLE_TYPES.TOP_TRACKS].isFetching = topTracks.isFetching;
+    tableSchemas[HOME_TABLE_TYPES.TOP_TRACKS].fetcher = fetchTopTracks;
+
+    tableSchemas[HOME_TABLE_TYPES.TOP_ARTISTS].entities = topArtists.artists;
+    tableSchemas[HOME_TABLE_TYPES.TOP_ARTISTS].isFetching = topArtists.isFetching;
+    tableSchemas[HOME_TABLE_TYPES.TOP_ARTISTS].fetcher = fetchTopArtists;
 
     return (
       <div className="home">
-        <TableLayoutComponent tableSchema={tableSchema}>
+        <TableLayoutComponent tableSchemas={tableSchemas}>
           <div className="title-container">
             <span>Orange Music</span>
           </div>
@@ -30,15 +32,15 @@ class HomeComponent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    topTracks: state.home.topTracks.tracks,
-    topArtists: state.home.topArtists.artists,
+    topTracks: state.home.topTracks,
+    topArtists: state.home.topArtists,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchTopTracks: () => { dispatch(fetchTopTracks()); },
-    fetchTopArtists: () => { dispatch(fetchTopArtists()); }
+    fetchTopTracks: (queryParams) => { dispatch(fetchTopTracks(queryParams)); },
+    fetchTopArtists: (queryParams) => { dispatch(fetchTopArtists(queryParams)); }
   };
 };
 

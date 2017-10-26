@@ -10,7 +10,7 @@ const ARTIST_LIST_SCHEMA = {
   },
   name: {
     label: 'Name',
-    width: 100,
+    width: '100%',
     component: TextCellComponent
   },
 };

@@ -1,37 +1,45 @@
 import lastFmApi from '../api/last_fm/last_fm_api';
 
-export const fetchTopTracks = () => {
+export const fetchTopTracks = (queryParams) => {
   return (dispatch) => {
-    return lastFmApi.topTracks({}).then(({tracks, page, total}) => {
-      dispatch(receiveTopTracksMsg({tracks, page, total}));
+    dispatch(beginFetchingTopTracksMsg());
+    return lastFmApi.topTracks(queryParams).then(({tracks}) => {
+      dispatch(receiveTopTracksMsg(tracks));
     });
   }
 }
 
-const receiveTopTracksMsg = ({tracks, page, total}) => {
+const beginFetchingTopTracksMsg = () => {
+  return {type: BEGIN_FETCHING_TOP_TRACKS};
+};
+export const BEGIN_FETCHING_TOP_TRACKS = 'BEGIN_FETCHING_TOP_TRACKS';
+
+const receiveTopTracksMsg = (tracks) => {
   return {
     type: RECEIVE_TOP_TRACKS,
     tracks,
-    page,
-    total
   };
 };
 export const RECEIVE_TOP_TRACKS = 'RECEIVE_TOP_TRACKS';
 
-export const fetchTopArtists = () => {
+export const fetchTopArtists = (queryParams) => {
   return (dispatch) => {
-    return lastFmApi.topArtists({}).then(({artists, page, total}) => {
-      dispatch(receiveTopArtistsMsg({artists, page, total}));
+    dispatch(beginFetchingTopArtistsMsg());
+    return lastFmApi.topArtists(queryParams).then(({artists}) => {
+      dispatch(receiveTopArtistsMsg(artists));
     });
   }
 }
 
-const receiveTopArtistsMsg = ({artists, page, total}) => {
+const beginFetchingTopArtistsMsg = () => {
+  return {type: BEGIN_FETCHING_TOP_ARTISTS};
+};
+export const BEGIN_FETCHING_TOP_ARTISTS = 'BEGIN_FETCHING_TOP_ARTISTS';
+
+const receiveTopArtistsMsg = (artists) => {
   return {
     type: RECEIVE_TOP_ARTISTS,
     artists,
-    page,
-    total
   };
 };
 export const RECEIVE_TOP_ARTISTS = 'RECEIVE_TOP_ARTISTS';

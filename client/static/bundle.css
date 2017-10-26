@@ -479,7 +479,12 @@ i {
 .om-table-layout .om-nav-bar .table-controls-container.bordered {
   border-bottom: 1px solid #E0E0E0;
 }
-.om-table-layout .table-container .player-spacer {
+.om-table-layout .spinner-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 16px 0;
+}
+.om-table-layout .player-spacer {
   height: 192px;
 }
 .om-table-layout .display-type-picker {
@@ -556,7 +561,7 @@ i {
   padding: 0 32px;
 }
 .om-list .row {
-  padding: 8px;
+  padding: 8px 0;
   font-size: 15px;
   font-weight: 300;
   text-transform: inherit;
@@ -568,7 +573,7 @@ i {
   padding: 0 32px;
 }
 .om-list-header .row {
-  padding: 2px 8px;
+  padding: 2px 0;
   font-size: 15px;
   font-weight: 400;
   text-transform: inherit;
@@ -578,18 +583,23 @@ i {
   justify-content: space-between;
   align-items: center;
 }
+.flex-table .row div {
+  margin: 0 8px;
+}
 .om-list .image-cell {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-right: 16px;
 }
 .om-list .image-cell img {
   width: 64px;
   height: 64px;
 }
+.om-list .image-cell.bordered {
+  border: 1px solid #E0E0E0;
+}
 .om-list-header .mock-image-cell {
-  width: 80px;
+  width: 64px;
 }
 .om-list .actions-cell {
   position: relative;
@@ -750,6 +760,9 @@ i {
 .om-gallery .tile img {
   width: 100%;
   height: 100%;
+}
+.om-gallery .tile img.bordered {
+  border: 1px solid #E0E0E0;
 }
 .om-gallery .tile .info {
   position: absolute;

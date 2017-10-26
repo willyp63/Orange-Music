@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NowPlayingComponent from './now_playing/now_playing';
-import QUEUE_TABLE_SCHEMA, { QUEUE_TABLE_TYPES } from './queue_table_schema';
+import QUEUE_TABLE_SCHEMAS, { QUEUE_TABLE_TYPES } from './queue_table_schemas';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
 
 class QueueComponent extends React.Component {
   render() {
-    const tableSchema = Object.assign({}, QUEUE_TABLE_SCHEMA);
-    tableSchema[QUEUE_TABLE_TYPES.QUEUE].entities = this.props.tracks.slice(1);
-    tableSchema[QUEUE_TABLE_TYPES.HISTORY].entities = []; // TODO: track queue histroy
+    const tableSchemas = Object.assign({}, QUEUE_TABLE_SCHEMAS);
+    tableSchemas[QUEUE_TABLE_TYPES.QUEUE].entities = this.props.tracks.slice(1);
+    tableSchemas[QUEUE_TABLE_TYPES.HISTORY].entities = []; // TODO: track queue histroy
 
     return (
       <div className="queue">
-        <TableLayoutComponent tableSchema={tableSchema}>
+        <TableLayoutComponent tableSchemas={tableSchemas}>
           <div className="now-playing-container">
             <NowPlayingComponent />
           </div>

@@ -7,14 +7,15 @@
 
 import React from 'react';
 import { isNotEmpty } from '../util/empty';
-import { GRID } from '../../css/grid';
+import Grid from '../../css/grid';
+const GRID = Grid.GRID;
 
 const SPINNER_CLASS_NAME = 'mat-spinner';
 const SVG_CLASS_NAME = 'circular';
 const CIRCLE_CLASS_NAME = 'path';
 
 const DEFAULT_STROKE_WIDTH = GRID / 2;
-const DEFAULT_SIZE = GRID * 10;
+const DEFAULT_SIZE = GRID * 15;
 
 const MatSpinner = ({className, size, strokeWidth}) => {
   className = className ? className + ` ${SPINNER_CLASS_NAME}` :  SPINNER_CLASS_NAME;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { isNotEmpty, isEmpty } from '../../../../util/empty';
+import { EMPTY_IMG_SRC } from '../../../../util/image';
 import { getNestedFieldValue } from '../../../../util/nested_field';
 import { getImageUrl } from '../../../../api/last_fm/last_fm_api';
 import { MatChip, MatButton } from '../../../material/index';
@@ -11,7 +12,9 @@ const GalleryTile = ({entity, schema, actions}) => {
   const title = getNestedFieldValue(entity, schema.titlePath);
   const subtitle = getNestedFieldValue(entity, schema.subtitlePath);
 
-  const imageSrc = image ? getImageUrl(image, IMAGE_IDX) : '';
+  const imageSrc = image ? getImageUrl(image, IMAGE_IDX) : EMPTY_IMG_SRC;
+  const imageClassName = imageSrc === EMPTY_IMG_SRC ? 'bordered' : '';
+
   const $titleChip = title ? (<MatChip className='title' text={title} />) : '';
   const $subtitleChip = subtitle
     ? (<MatChip className='subtitle' text={subtitle} />)
@@ -35,7 +38,7 @@ const GalleryTile = ({entity, schema, actions}) => {
 
   return (
     <div className="tile">
-      <img src={imageSrc} />
+      <img src={imageSrc} className={imageClassName} />
       <div className="info">
         {$titleChip}
         {$subtitleChip}

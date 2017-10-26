@@ -12,17 +12,17 @@ const TRACK_LIST_SCHEMA = {
   },
   name: {
     label: 'Title',
-    width: 50,
+    width: '50%',
     component: TextCellComponent,
   },
   'artist.name': {
     label: 'Artist',
-    width: 50,
+    width: '50%',
     component: TextCellComponent,
   },
   '@actions': {
     label: '',
-    width: 0,
+    width: `${40 * 8}px`, // Experimental
     component: ActionsCellComponent,
     actions: TRACK_ACTIONS,
   },

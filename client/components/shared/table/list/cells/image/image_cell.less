@@ -3,22 +3,23 @@
 
 .om-list {
   .image-cell {
-
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-right: @om-list-margin-right;
 
     img {
       width: @om-list-imgae-size;
       height: @om-list-imgae-size;
+    }
+
+    &.bordered {
+      border: 1px solid @grey-300;
     }
   }
 }
 
 .om-list-header {
   .mock-image-cell {
-    width: @om-list-imgae-size + @om-list-margin-right;
+    width: @om-list-imgae-size;
   }
 }
