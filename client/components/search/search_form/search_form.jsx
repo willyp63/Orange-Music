@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { isNotEmpty, isEmpty } from '../../../util/empty';
 import { getUrlWithUpdatedParams, getUrlParams } from '../../../util/url';
 import lastFmApi from '../../../api/last_fm/last_fm_api';
-import { searchTracks } from '../../../actions/search_actions';
+import { searchTracks, searchArtists } from '../../../actions/search_actions';
 import { MatButton } from '../../material/index';
 
 class SearchFormComponent extends React.Component {
@@ -66,6 +66,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     makeQuery: (query) => {
       dispatch(searchTracks(query));
+      dispatch(searchArtists(query));
     }
   };
 }

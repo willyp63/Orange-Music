@@ -5,9 +5,9 @@
 
 .mat-slider-colorize(
   @color;
-  @colorDisabled: @grey-600;
+  @colorDisabled: rgba(0,0,0,0);
   @bgColor;
-  @bgColorDisabled: @grey-400) {
+  @bgColorDisabled: @mat-icon-light-disabled) {
 
   .bar { background-color: @bgColor; }
   .handle, .fill { background-color: @color; }

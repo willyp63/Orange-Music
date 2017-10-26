@@ -5367,88 +5367,51 @@ var _id = __webpack_require__(292);
 
 var _api_keys = __webpack_require__(293);
 
-var _image = __webpack_require__(135);
-
-var ENTITY_TYPES = Object.freeze({
+var LAST_FM_ENTITY_TYPES = {
   TRACK: 0,
   ARTIST: 1
-});
-module.exports.ENTITY_TYPES = ENTITY_TYPES;
+};
+module.exports.LAST_FM_ENTITY_TYPES = LAST_FM_ENTITY_TYPES;
 
-var DEFAULT_PAGE_SIZE = 50;
+var DEFAULT_PAGE_SIZE = 30;
 module.exports.DEFAULT_PAGE_SIZE = DEFAULT_PAGE_SIZE;
 
-/// Base url and url params for making all requests.
-var BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
-var BASE_URL_PARAMS = {
-  api_key: _api_keys.LAST_FM_API_KEY,
-  format: 'json'
-};
-
-/// Supported Last FM query types.
-///
-/// See (http://www.last.fm/api).
-var QUERY_TYPE = Object.freeze({
-  SEARCH: 0,
-  GET_INFO: 1,
+var LAST_FM_QUERY_TYPES = {
+  SEARCH_TRACKS: 0,
+  SEARCH_ARTISTS: 1,
   TOP_TRACKS: 2,
   TOP_ARTISTS: 3
-});
+};
+module.exports.LAST_FM_QUERY_TYPES = LAST_FM_QUERY_TYPES;
 
-/// Preforms a search query.
-///
-/// Returns a list a search results.
-module.exports.search = function (_ref) {
+module.exports.searchTracks = function (_ref) {
   var query = _ref.query,
       page = _ref.page,
       pageSize = _ref.pageSize;
 
-  return genericQuery({
-    queryType: QUERY_TYPE.SEARCH,
-    query: query,
-    page: page,
-    pageSize: pageSize
-  });
+  return genericQuery(LAST_FM_QUERY_TYPES.SEARCH_TRACKS, { query: query, page: page, pageSize: pageSize });
 };
 
-/// Fetches top tracks from last fm.
-module.exports.topTracks = function (_ref2) {
-  var page = _ref2.page,
+module.exports.searchArtists = function (_ref2) {
+  var query = _ref2.query,
+      page = _ref2.page,
       pageSize = _ref2.pageSize;
 
-  return genericQuery({
-    queryType: QUERY_TYPE.TOP_TRACKS,
-    page: page,
-    pageSize: pageSize
-  });
+  return genericQuery(LAST_FM_QUERY_TYPES.SEARCH_ARTISTS, { query: query, page: page, pageSize: pageSize });
 };
 
-/// Fetches top artists from last fm.
-module.exports.topArtists = function (_ref3) {
+module.exports.topTracks = function (_ref3) {
   var page = _ref3.page,
       pageSize = _ref3.pageSize;
 
-  return genericQuery({
-    queryType: QUERY_TYPE.TOP_ARTISTS,
-    page: page,
-    pageSize: pageSize
-  });
+  return genericQuery(LAST_FM_QUERY_TYPES.TOP_TRACKS, { page: page, pageSize: pageSize });
 };
 
-/// Preforms a getInfo query, which returns more fields than a search query.
-///
-/// Returns a single object with the entities info.
-module.exports.getInfo = function (_ref4) {
-  var mbid = _ref4.mbid,
-      trackName = _ref4.trackName,
-      artistName = _ref4.artistName;
+module.exports.topArtists = function (_ref4) {
+  var page = _ref4.page,
+      pageSize = _ref4.pageSize;
 
-  return genericQuery({
-    queryType: QUERY_TYPE.GET_INFO,
-    mbid: mbid,
-    query: trackName,
-    artistName: artistName
-  });
+  return genericQuery(LAST_FM_QUERY_TYPES.TOP_ARTISTS, { page: page, pageSize: pageSize });
 };
 
 module.exports.getImageUrl = function (image, preferredIdx) {
@@ -5461,97 +5424,109 @@ module.exports.getImageUrl = function (image, preferredIdx) {
       return url;
     }
   }
-  return;
+  return '';
 };
 
-/// Preforms a Last FM query with the given params.
-var genericQuery = function genericQuery(params) {
-  return getQueryParams(params).then(function (queryParams) {
-    return makeQuery(params.queryType, queryParams);
+//
+// Private:
+//
+// ------------------------------------
+
+var BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
+var BASE_URL_PARAMS = {
+  api_key: _api_keys.LAST_FM_API_KEY,
+  format: 'json'
+};
+
+var genericQuery = function genericQuery(queryType, apiParams) {
+  return getQueryParams(queryType, apiParams).then(function (queryParams) {
+    return makeQuery(queryParams);
+  }).then(function (response) {
+    return formatResponse(queryType, response);
   });
 };
 
-var getQueryParams = function getQueryParams(_ref5) {
-  var queryType = _ref5.queryType,
-      query = _ref5.query,
-      artistName = _ref5.artistName,
-      mbid = _ref5.mbid,
+var getQueryParams = function getQueryParams(queryType, _ref5) {
+  var query = _ref5.query,
       page = _ref5.page,
       pageSize = _ref5.pageSize;
 
   return new Promise(function (resolve, reject) {
-    if ((0, _empty.isEmpty)(queryType)) {
-      return reject('QueryType must not be empty.');
-    }
+
+    page = (0, _empty.isNotEmpty)(page) ? page : 1;
+    pageSize = (0, _empty.isNotEmpty)(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
 
     var queryParams = Object.assign({}, BASE_URL_PARAMS);
     switch (queryType) {
-      case QUERY_TYPE.SEARCH:
-        if ((0, _empty.isEmpty)(query)) {
-          return reject('Query must not be empty.');
-        }
-        queryParams.track = query;
-        queryParams.method = 'track.search';
-        queryParams.page = (0, _empty.isNotEmpty)(page) ? page : 1;
-        queryParams.limit = (0, _empty.isNotEmpty)(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
+      case LAST_FM_QUERY_TYPES.SEARCH_TRACKS:
+        queryParams = Object.assign(queryParams, {
+          track: query,
+          method: 'track.search',
+          page: page,
+          limit: pageSize
+        });
         break;
-      case QUERY_TYPE.GET_INFO:
-        if ((0, _empty.isNotEmpty)(mbid)) {
-          queryParams.mbid = mbid;
-        } else {
-          // Must provide mbid or query and artistName.
-          if ((0, _empty.isEmpty)(query) || (0, _empty.isEmpty)(artistName)) {
-            return reject('Missing one of the required params: mbid, query, or artistName.');
-          }
-          queryParams.track = query;
-          queryParams.artist = artistName;
-        }
-        queryParams.method = 'track.getInfo';
+      case LAST_FM_QUERY_TYPES.SEARCH_ARTISTS:
+        queryParams = Object.assign(queryParams, {
+          artist: query,
+          method: 'artist.search',
+          page: page,
+          limit: pageSize
+        });
         break;
-      case QUERY_TYPE.TOP_TRACKS:
-        queryParams.method = 'chart.gettoptracks';
-        queryParams.page = (0, _empty.isNotEmpty)(page) ? page : 1;
-        queryParams.limit = (0, _empty.isNotEmpty)(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
+      case LAST_FM_QUERY_TYPES.TOP_TRACKS:
+        queryParams = Object.assign(queryParams, {
+          method: 'chart.gettoptracks',
+          page: page,
+          limit: pageSize
+        });
         break;
-      case QUERY_TYPE.TOP_ARTISTS:
-        queryParams.method = 'chart.gettopartists';
-        queryParams.page = (0, _empty.isNotEmpty)(page) ? page : 1;
-        queryParams.limit = (0, _empty.isNotEmpty)(pageSize) ? pageSize : DEFAULT_PAGE_SIZE;
+      case LAST_FM_QUERY_TYPES.TOP_ARTISTS:
+        queryParams = Object.assign(queryParams, {
+          method: 'chart.gettopartists',
+          page: page,
+          limit: pageSize
+        });
         break;
     }
     resolve(queryParams);
   });
 };
 
-var makeQuery = function makeQuery(queryType, queryParams) {
+var makeQuery = function makeQuery(queryParams) {
   return new Promise(function (resolve, reject) {
-    $.get((0, _url.getUrlWithUpdatedParams)(BASE_URL, queryParams), function (response) {
-      switch (queryType) {
-        case QUERY_TYPE.SEARCH:
-          return resolve({
-            tracks: formatEntitiesFromApi(response.results.trackmatches.track),
-            total: parseInt(response.results['opensearch:totalResults']),
-            page: response.results['opensearch:startIndex'] / response.results['opensearch:itemsPerPage']
-          });
-        case QUERY_TYPE.GET_INFO:
-          return resolve(response.track);
-        case QUERY_TYPE.TOP_TRACKS:
-          return resolve({
-            tracks: formatEntitiesFromApi(response.tracks.track),
-            total: parseInt(response.tracks['@attr'].total),
-            page: parseInt(response.tracks['@attr'].page)
-          });
-        case QUERY_TYPE.TOP_ARTISTS:
-          return resolve({
-            artists: formatEntitiesFromApi(response.artists.artist),
-            total: parseInt(response.artists['@attr'].total),
-            page: parseInt(response.artists['@attr'].page)
-          });
-      }
-    }).fail(function (err) {
-      reject('Error making last fm api request: ' + err);
-    });
+    var url = (0, _url.getUrlWithUpdatedParams)(BASE_URL, queryParams);
+    $.get(url, resolve).fail(reject);
   });
+};
+
+var formatResponse = function formatResponse(queryType, response) {
+  switch (queryType) {
+    case LAST_FM_QUERY_TYPES.SEARCH_TRACKS:
+      return {
+        tracks: formatEntitiesFromApi(response.results.trackmatches.track),
+        total: parseInt(response.results['opensearch:totalResults']),
+        page: response.results['opensearch:startIndex'] / response.results['opensearch:itemsPerPage']
+      };
+    case LAST_FM_QUERY_TYPES.SEARCH_ARTISTS:
+      return {
+        artists: formatEntitiesFromApi(response.results.artistmatches.artist),
+        total: parseInt(response.results['opensearch:totalResults']),
+        page: response.results['opensearch:startIndex'] / response.results['opensearch:itemsPerPage']
+      };
+    case LAST_FM_QUERY_TYPES.TOP_TRACKS:
+      return {
+        tracks: formatEntitiesFromApi(response.tracks.track),
+        total: parseInt(response.tracks['@attr'].total),
+        page: parseInt(response.tracks['@attr'].page)
+      };
+    case LAST_FM_QUERY_TYPES.TOP_ARTISTS:
+      return {
+        artists: formatEntitiesFromApi(response.artists.artist),
+        total: parseInt(response.artists['@attr'].total),
+        page: parseInt(response.artists['@attr'].page)
+      };
+  }
 };
 
 var formatEntitiesFromApi = function formatEntitiesFromApi(entities) {
@@ -14229,8 +14204,6 @@ var fetchVideoForTrack = exports.fetchVideoForTrack = function fetchVideoForTrac
       artistQuery: track.artist.name
     }).then(function (video) {
       dispatch(receiveVideoForTrackMsg({ track: track, video: video }));
-    }, function (err) {
-      console.log('Error searching tracks: ' + err);
     });
   };
 };
@@ -14273,8 +14246,6 @@ var fetchTopTracks = exports.fetchTopTracks = function fetchTopTracks() {
           total = _ref.total;
 
       dispatch(receiveTopTracksMsg({ tracks: tracks, page: page, total: total }));
-    }, function (err) {
-      console.log('Error fetching top tracks: ' + err);
     });
   };
 };
@@ -14301,8 +14272,6 @@ var fetchTopArtists = exports.fetchTopArtists = function fetchTopArtists() {
           total = _ref3.total;
 
       dispatch(receiveTopArtistsMsg({ artists: artists, page: page, total: total }));
-    }, function (err) {
-      console.log('Error fetching top artists: ' + err);
     });
   };
 };
@@ -14331,7 +14300,7 @@ var RECEIVE_TOP_ARTISTS = exports.RECEIVE_TOP_ARTISTS = 'RECEIVE_TOP_ARTISTS';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RECEIVE_TRACK_RESULTS = exports.BEGIN_FETCHING_TRACKS = exports.searchTracks = undefined;
+exports.RECEIVE_ARTIST_RESULTS = exports.searchArtists = exports.RECEIVE_TRACK_RESULTS = exports.searchTracks = undefined;
 
 var _last_fm_api = __webpack_require__(46);
 
@@ -14341,21 +14310,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var searchTracks = exports.searchTracks = function searchTracks(query) {
   return function (dispatch) {
-    dispatch(beginFetchingTracks());
-    return _last_fm_api2.default.search({ query: query }).then(function (results) {
+    return _last_fm_api2.default.searchTracks({ query: query }).then(function (results) {
       dispatch(receiveTrackResults(results));
-    }, function (err) {
-      console.log('Error searching tracks: ' + err);
     });
   };
 };
-
-var beginFetchingTracks = function beginFetchingTracks() {
-  return {
-    type: BEGIN_FETCHING_TRACKS
-  };
-};
-var BEGIN_FETCHING_TRACKS = exports.BEGIN_FETCHING_TRACKS = 'BEGIN_FETCHING_TRACKS';
 
 var receiveTrackResults = function receiveTrackResults(_ref) {
   var tracks = _ref.tracks,
@@ -14370,6 +14329,28 @@ var receiveTrackResults = function receiveTrackResults(_ref) {
   };
 };
 var RECEIVE_TRACK_RESULTS = exports.RECEIVE_TRACK_RESULTS = 'RECEIVE_TRACK_RESULTS';
+
+var searchArtists = exports.searchArtists = function searchArtists(query) {
+  return function (dispatch) {
+    return _last_fm_api2.default.searchArtists({ query: query }).then(function (results) {
+      dispatch(receiveArtistResults(results));
+    });
+  };
+};
+
+var receiveArtistResults = function receiveArtistResults(_ref2) {
+  var artists = _ref2.artists,
+      page = _ref2.page,
+      total = _ref2.total;
+
+  return {
+    type: RECEIVE_ARTIST_RESULTS,
+    artists: artists,
+    page: page,
+    total: total
+  };
+};
+var RECEIVE_ARTIST_RESULTS = exports.RECEIVE_ARTIST_RESULTS = 'RECEIVE_ARTIST_RESULTS';
 
 /***/ }),
 /* 139 */
@@ -30918,7 +30899,7 @@ var TrackControlsComponent = function TrackControlsComponent(_ref) {
                onPlayPause = _ref.onPlayPause,
                onNext = _ref.onNext;
 
-           var playPauseButtonIcon = isPlaying ? 'pause' : 'play_arrow';
+           var playPauseButtonIcon = isPlaying ? 'pause_circle_outline' : 'play_circle_outline';
            return _react2.default.createElement(
                       'div',
                       { className: 'track-controls' },
@@ -31475,12 +31456,12 @@ var SearchComponent = function (_React$Component) {
     value: function render() {
       var _props = this.props,
           tracks = _props.tracks,
-          isFetching = _props.isFetching;
+          artists = _props.artists;
 
 
       var tableSchema = Object.assign({}, _search_table_schema2.default);
       tableSchema[_search_table_schema.SEARCH_TABLE_TYPES.TRACKS].entities = tracks;
-      tableSchema[_search_table_schema.SEARCH_TABLE_TYPES.ARTISTS].entities = []; // TODO: fetch artists from api
+      tableSchema[_search_table_schema.SEARCH_TABLE_TYPES.ARTISTS].entities = artists;
 
       return _react2.default.createElement(
         'div',
@@ -31504,7 +31485,7 @@ var SearchComponent = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     tracks: state.search.tracks,
-    isFetching: state.search.isFetching
+    artists: state.search.artists
   };
 };
 
@@ -31644,6 +31625,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     makeQuery: function makeQuery(query) {
       dispatch((0, _search_actions.searchTracks)(query));
+      dispatch((0, _search_actions.searchArtists)(query));
     }
   };
 };
@@ -31865,7 +31847,7 @@ var _search_actions = __webpack_require__(138);
 
 var DEFAULT_STATE = Object.freeze({
   tracks: [],
-  isFetching: false
+  artists: []
 });
 
 var searchReducer = function searchReducer() {
@@ -31875,13 +31857,11 @@ var searchReducer = function searchReducer() {
   switch (action.type) {
     case _search_actions.RECEIVE_TRACK_RESULTS:
       return Object.assign({}, prevState, {
-        tracks: action.tracks,
-        isFetching: false
+        tracks: action.tracks
       });
-    case _search_actions.BEGIN_FETCHING_TRACKS:
+    case _search_actions.RECEIVE_ARTIST_RESULTS:
       return Object.assign({}, prevState, {
-        tracks: [],
-        isFetching: true
+        artists: action.artists
       });
     default:
       return prevState;
@@ -32293,7 +32273,32 @@ QUEUE_ACTIONS[ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
 exports.default = QUEUE_ACTIONS;
 
 /***/ }),
-/* 321 */,
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _queue_action_schema = __webpack_require__(320);
+
+var _queue_action_schema2 = _interopRequireDefault(_queue_action_schema);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var QUEUE_GALLERY_SCHEMA = {
+  titlePath: 'name',
+  subtitlePath: 'artist.name',
+  imagePath: 'image',
+  actions: _queue_action_schema2.default
+};
+
+exports.default = QUEUE_GALLERY_SCHEMA;
+
+/***/ }),
 /* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32847,13 +32852,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.QUEUE_TABLE_TYPES = undefined;
 
-var _track_list_schema = __webpack_require__(314);
+var _queue_list_schema = __webpack_require__(319);
 
-var _track_list_schema2 = _interopRequireDefault(_track_list_schema);
+var _queue_list_schema2 = _interopRequireDefault(_queue_list_schema);
 
-var _track_gallery_schema = __webpack_require__(317);
+var _queue_gallery_schema = __webpack_require__(321);
 
-var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
+var _queue_gallery_schema2 = _interopRequireDefault(_queue_gallery_schema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32865,13 +32870,13 @@ var QUEUE_TABLE_TYPES = exports.QUEUE_TABLE_TYPES = {
 var QUEUE_TABLE_SCHEMA = {};
 QUEUE_TABLE_SCHEMA[QUEUE_TABLE_TYPES.QUEUE] = {
   label: 'Queue',
-  listSchema: _track_list_schema2.default,
-  gallerySchema: _track_gallery_schema2.default
+  listSchema: _queue_list_schema2.default,
+  gallerySchema: _queue_gallery_schema2.default
 };
 QUEUE_TABLE_SCHEMA[QUEUE_TABLE_TYPES.HISTORY] = {
   label: 'History',
-  listSchema: _track_list_schema2.default,
-  gallerySchema: _track_gallery_schema2.default
+  listSchema: _queue_list_schema2.default,
+  gallerySchema: _queue_gallery_schema2.default
 };
 
 exports.default = QUEUE_TABLE_SCHEMA;

@@ -4,8 +4,6 @@ export const fetchTopTracks = () => {
   return (dispatch) => {
     return lastFmApi.topTracks({}).then(({tracks, page, total}) => {
       dispatch(receiveTopTracksMsg({tracks, page, total}));
-    }, (err) => {
-      console.log(`Error fetching top tracks: ${err}`);
     });
   }
 }
@@ -24,8 +22,6 @@ export const fetchTopArtists = () => {
   return (dispatch) => {
     return lastFmApi.topArtists({}).then(({artists, page, total}) => {
       dispatch(receiveTopArtistsMsg({artists, page, total}));
-    }, (err) => {
-      console.log(`Error fetching top artists: ${err}`);
     });
   }
 }

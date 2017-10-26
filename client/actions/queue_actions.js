@@ -58,8 +58,6 @@ export const fetchVideoForTrack = (track) => {
       artistQuery: track.artist.name
     }).then((video) => {
       dispatch(receiveVideoForTrackMsg({track, video}));
-    }, (err) => {
-      console.log(`Error searching tracks: ${err}`);
     });
   };
 };

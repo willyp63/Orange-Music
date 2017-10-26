@@ -10,11 +10,11 @@ class SearchComponent extends React.Component {
     $('.search .search-form-container input').focus();
   }
   render() {
-    const { tracks, isFetching } = this.props;
+    const { tracks, artists } = this.props;
 
     const tableSchema = Object.assign({}, SEARCH_TABLE_SCHEMA);
     tableSchema[SEARCH_TABLE_TYPES.TRACKS].entities = tracks;
-    tableSchema[SEARCH_TABLE_TYPES.ARTISTS].entities = []; // TODO: fetch artists from api
+    tableSchema[SEARCH_TABLE_TYPES.ARTISTS].entities = artists;
 
     return (
       <div className="search">
@@ -31,7 +31,7 @@ class SearchComponent extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     tracks: state.search.tracks,
-    isFetching: state.search.isFetching,
+    artists: state.search.artists,
   };
 };
 

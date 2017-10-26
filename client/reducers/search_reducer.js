@@ -1,8 +1,8 @@
-import { RECEIVE_TRACK_RESULTS, BEGIN_FETCHING_TRACKS } from '../actions/search_actions';
+import { RECEIVE_TRACK_RESULTS, RECEIVE_ARTIST_RESULTS } from '../actions/search_actions';
 
 const DEFAULT_STATE = Object.freeze({
   tracks: [],
-  isFetching: false,
+  artists: [],
 })
 
 const searchReducer = (prevState = DEFAULT_STATE, action) => {
@@ -10,12 +10,10 @@ const searchReducer = (prevState = DEFAULT_STATE, action) => {
     case RECEIVE_TRACK_RESULTS:
       return Object.assign({}, prevState, {
         tracks: action.tracks,
-        isFetching: false,
       });
-    case BEGIN_FETCHING_TRACKS:
+    case RECEIVE_ARTIST_RESULTS:
       return Object.assign({}, prevState, {
-        tracks: [],
-        isFetching: true,
+        artists: action.artists,
       });
     default:
       return prevState
