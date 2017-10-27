@@ -2,6 +2,7 @@
   .display-type-picker {
     display: flex;
     align-items: center;
+    margin-bottom: @grid;
 
     .mat-btn {
       button {
@@ -14,6 +15,8 @@
       .mat-icon-btn-colorize(
         @color: @blue-700;
         @colorHover: @blue);
+
+      .mat-ripple s { background-color: rgba(0, 0, 0, 0.12); }
 
       &.active {
         .mat-icon-btn-colorize(

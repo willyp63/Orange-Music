@@ -14217,7 +14217,6 @@ var MatRipple = function (_React$PureComponent) {
 
       var _props = this.props,
           onClick = _props.onClick,
-          color = _props.color,
           duration = _props.duration;
       var pageX = e.pageX,
           pageY = e.pageY,
@@ -14231,8 +14230,7 @@ var MatRipple = function (_React$PureComponent) {
       this.setState({
         rippleStyle: {
           top: top, left: left,
-          opacity: 1,
-          backgroundColor: color
+          opacity: 1
         }
       });
 
@@ -14242,7 +14240,6 @@ var MatRipple = function (_React$PureComponent) {
         _this2.setState({
           rippleStyle: {
             top: top, left: left,
-            backgroundColor: color,
             transition: 'all ' + duration + 'ms',
             transform: RIPPLE_STYLE.transform + ' scale(' + size / 9 + ')',
             opacity: 0
@@ -14285,8 +14282,7 @@ var MatRipple = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 MatRipple.defaultProps = {
-  duration: 600,
-  color: 'rgba(255, 255, 255, .3)'
+  duration: 600
 };
 
 exports.default = MatRipple;

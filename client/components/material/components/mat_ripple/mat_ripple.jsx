@@ -49,7 +49,7 @@ class MatRipple extends React.PureComponent {
   handleClick(e) {
     e.stopPropagation();
 
-    const { onClick, color, duration } = this.props;
+    const { onClick, duration } = this.props;
     const { pageX, pageY, currentTarget } = e;
     const targetClientRect = currentTarget.getBoundingClientRect();
 
@@ -60,7 +60,6 @@ class MatRipple extends React.PureComponent {
       rippleStyle: {
         top, left,
         opacity: 1,
-        backgroundColor: color,
       }
     });
 
@@ -70,7 +69,6 @@ class MatRipple extends React.PureComponent {
       this.setState({
         rippleStyle: {
           top, left,
-          backgroundColor: color,
           transition: `all ${duration}ms`,
           transform: `${RIPPLE_STYLE.transform} scale(${size / 9})`,
           opacity: 0,
@@ -110,7 +108,6 @@ class MatRipple extends React.PureComponent {
 
 MatRipple.defaultProps = {
   duration: 600,
-  color: 'rgba(255, 255, 255, .3)'
 };
 
 export default MatRipple;

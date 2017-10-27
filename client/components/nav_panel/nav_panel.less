@@ -20,13 +20,17 @@
     .mat-btn {
       margin-bottom: @grid;
 
-      .mat-btn-colorize(@color: @grey-800; @colorHover: @grey-600);
+      .mat-btn-colorize(@color: @grey-800; @colorHover: @grey-900);
 
       button {
         .font-headline();
         font-weight: 400; // Make up slightly thicker font.
 
         i { .font-icon-lg(); }
+      }
+
+      &:hover button {
+        background-color: rgba(255, 255, 255, 0.13);
       }
     }
 
