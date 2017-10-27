@@ -49,7 +49,9 @@ const queueReducer = (prevState = DEFAULT_STATE, action) => {
     case POP_TRACK_FROM_HISTORY:
       history = prevState.history.slice();
       queue = prevState.queue.slice();
-      queue.unshift(history.shift());
+      if (history.length > 0) {
+        queue.unshift(history.shift());
+      }
       return reduce(prevState, {history, queue});
     case RECEIVE_VIDEO_FOR_TRACK:
       queue = prevState.queue.slice();

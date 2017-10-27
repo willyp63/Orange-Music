@@ -81,9 +81,9 @@ class PlayerComponent extends React.Component {
       : this.audioApi.play();
   }
   onPrevButtonClick() {
-    const { popTrackFromHistory } = this.props;
+    const { popTrackFromHistory, history } = this.props;
 
-    if (this.audioApi.currentTime() < 5.0) {
+    if (this.audioApi.currentTime() < 5.0 && history.length > 0) {
       popTrackFromHistory();
     } else {
       this.setCurrentTime.bind(this, 0)();
@@ -152,6 +152,7 @@ const AUDIO_PLAYER_ID = 'audio-player';
 const MAX_VOLUME = 1;
 
 const mapStateToProps = (state) => {
+  const history = state.queue.history;
   const track = state.queue.queue[0];
   const video = isNotEmpty(track) ? track.video : null;
 
@@ -164,7 +165,8 @@ const mapStateToProps = (state) => {
     audioSrc: hasVideo ? video.stream.url : null,
     duration: hasVideo ? video.contentDetails.duration : 0,
     track,
-    video
+    video,
+    history,
   };
 };
 

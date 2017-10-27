@@ -31362,10 +31362,12 @@ var PlayerComponent = function (_React$Component) {
   }, {
     key: 'onPrevButtonClick',
     value: function onPrevButtonClick() {
-      var popTrackFromHistory = this.props.popTrackFromHistory;
+      var _props = this.props,
+          popTrackFromHistory = _props.popTrackFromHistory,
+          history = _props.history;
 
 
-      if (this.audioApi.currentTime() < 5.0) {
+      if (this.audioApi.currentTime() < 5.0 && history.length > 0) {
         popTrackFromHistory();
       } else {
         this.setCurrentTime.bind(this, 0)();
@@ -31402,13 +31404,13 @@ var PlayerComponent = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          duration = _props.duration,
-          audioSrc = _props.audioSrc,
-          imageSrc = _props.imageSrc,
-          artistName = _props.artistName,
-          trackName = _props.trackName,
-          track = _props.track;
+      var _props2 = this.props,
+          duration = _props2.duration,
+          audioSrc = _props2.audioSrc,
+          imageSrc = _props2.imageSrc,
+          artistName = _props2.artistName,
+          trackName = _props2.trackName,
+          track = _props2.track;
       var _state = this.state,
           isPlaying = _state.isPlaying,
           currentTime = _state.currentTime,
@@ -31466,6 +31468,7 @@ var AUDIO_PLAYER_ID = 'audio-player';
 var MAX_VOLUME = 1;
 
 var mapStateToProps = function mapStateToProps(state) {
+  var history = state.queue.history;
   var track = state.queue.queue[0];
   var video = (0, _empty.isNotEmpty)(track) ? track.video : null;
 
@@ -31478,7 +31481,8 @@ var mapStateToProps = function mapStateToProps(state) {
     audioSrc: hasVideo ? video.stream.url : null,
     duration: hasVideo ? video.contentDetails.duration : 0,
     track: track,
-    video: video
+    video: video,
+    history: history
   };
 };
 
@@ -32576,11 +32580,11 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    searchTracks: function searchTracks(query) {
-      dispatch((0, _search_actions.searchTracks)(query));
+    searchTracks: function searchTracks(query, queryParams) {
+      dispatch((0, _search_actions.searchTracks)(query, queryParams));
     },
-    searchArtists: function searchArtists(query) {
-      dispatch((0, _search_actions.searchArtists)(query));
+    searchArtists: function searchArtists(query, queryParams) {
+      dispatch((0, _search_actions.searchArtists)(query, queryParams));
     },
     clearTracks: function clearTracks() {
       dispatch((0, _search_actions.clearTracks)());
@@ -32648,7 +32652,7 @@ var SearchFormComponent = function (_React$Component) {
         _react2.default.createElement('input', { type: 'text',
           autoComplete: 'off',
           value: query,
-          placeholder: 'Search...',
+          placeholder: 'Search for tracks or artists...',
           onChange: function onChange(e) {
             _this2.setState({ query: e.target.value });
           } }),
@@ -33291,7 +33295,9 @@ var queueReducer = function queueReducer() {
     case _queue_actions.POP_TRACK_FROM_HISTORY:
       history = prevState.history.slice();
       queue = prevState.queue.slice();
-      queue.unshift(history.shift());
+      if (history.length > 0) {
+        queue.unshift(history.shift());
+      }
       return (0, _shared.reduce)(prevState, { history: history, queue: queue });
     case _queue_actions.RECEIVE_VIDEO_FOR_TRACK:
       queue = prevState.queue.slice();

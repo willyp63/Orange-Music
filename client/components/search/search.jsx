@@ -75,11 +75,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchTracks: (query) => {
-      dispatch(searchTracks(query));
+    searchTracks: (query, queryParams) => {
+      dispatch(searchTracks(query, queryParams));
     },
-    searchArtists: (query) => {
-      dispatch(searchArtists(query));
+    searchArtists: (query, queryParams) => {
+      dispatch(searchArtists(query, queryParams));
     },
     clearTracks: () => {
       dispatch(clearTracks());

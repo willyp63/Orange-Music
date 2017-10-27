@@ -40,7 +40,7 @@ class TableLayoutComponent extends React.Component {
     if (!selectedtableSchema.isFetching &&
         !selectedtableSchema.endOfTable &&
         isEmpty(selectedtableSchema.entities)) {
-          
+
       if (typeof selectedtableSchema.fetcher === 'function') {
         selectedtableSchema.fetcher();
       }

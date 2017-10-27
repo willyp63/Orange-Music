@@ -14,7 +14,7 @@ class SearchFormComponent extends React.Component {
         <input type="text"
                autoComplete="off"
                value={query}
-               placeholder="Search..."
+               placeholder="Search for tracks or artists..."
                onChange={(e) => { this.setState({query: e.target.value}); }}>
         </input>
         <MatButton icon={'search'} isSubmit={true} />
