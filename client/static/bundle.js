@@ -5563,7 +5563,7 @@ var EMPTY_IMG_SRC = exports.EMPTY_IMG_SRC = 'data:image/gif;base64,R0lGODlhAQABA
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RECEIVE_VIDEO_FOR_TRACK = exports.fetchVideoForTrack = exports.playTrack = exports.REMOVE_TRACK_FROM_HISTORY = exports.removeTrackFromHistory = exports.ADD_TRACK_TO_HISTORY = exports.addTrackToHistory = exports.CLEAR_QUEUE = exports.clearQueue = exports.REMOVE_TRACK_FROM_QUEUE = exports.removeTrackFromQueue = exports.ADD_TRACK_TO_QUEUE = exports.addTrackToQueue = undefined;
+exports.RECEIVE_VIDEO_FOR_TRACK = exports.fetchVideoForTrack = exports.playTrack = exports.POP_TRACK_FROM_HISTORY = exports.popTrackFromHistory = exports.REMOVE_TRACK_FROM_HISTORY = exports.removeTrackFromHistory = exports.ADD_TRACK_TO_HISTORY = exports.addTrackToHistory = exports.CLEAR_QUEUE = exports.clearQueue = exports.REMOVE_TRACK_FROM_QUEUE = exports.removeTrackFromQueue = exports.ADD_TRACK_TO_QUEUE = exports.addTrackToQueue = undefined;
 
 var _orange_music_api = __webpack_require__(309);
 
@@ -5642,6 +5642,18 @@ var removeTrackFromHistoryMsg = function removeTrackFromHistoryMsg(track) {
   };
 };
 var REMOVE_TRACK_FROM_HISTORY = exports.REMOVE_TRACK_FROM_HISTORY = 'REMOVE_TRACK_FROM_HISTORY';
+
+/// Pop Track from History
+var popTrackFromHistory = exports.popTrackFromHistory = function popTrackFromHistory() {
+  return function (dispatch) {
+    dispatch(popTrackFromHistoryMsg());
+  };
+};
+
+var popTrackFromHistoryMsg = function popTrackFromHistoryMsg() {
+  return { type: POP_TRACK_FROM_HISTORY };
+};
+var POP_TRACK_FROM_HISTORY = exports.POP_TRACK_FROM_HISTORY = 'POP_TRACK_FROM_HISTORY';
 
 /// Play Track
 var playTrack = exports.playTrack = function playTrack(track) {
@@ -8348,7 +8360,8 @@ var TableLayoutComponent = function (_React$Component) {
 
       var selectedtableSchema = tableSchemas[selectedTableType];
 
-      if (!selectedtableSchema.isFetching && (0, _empty.isEmpty)(selectedtableSchema.entities)) {
+      if (!selectedtableSchema.isFetching && !selectedtableSchema.endOfTable && (0, _empty.isEmpty)(selectedtableSchema.entities)) {
+
         if (typeof selectedtableSchema.fetcher === 'function') {
           selectedtableSchema.fetcher();
         }
@@ -8362,7 +8375,7 @@ var TableLayoutComponent = function (_React$Component) {
 
       var selectedtableSchema = tableSchemas[selectedTableType];
 
-      if (selectedtableSchema.isFetching) {
+      if (selectedtableSchema.isFetching || selectedtableSchema.endOfTable) {
         return;
       }
 
@@ -31353,7 +31366,14 @@ var PlayerComponent = function (_React$Component) {
   }, {
     key: 'onPrevButtonClick',
     value: function onPrevButtonClick() {
-      this.setCurrentTime.bind(this, 0)();
+      var popTrackFromHistory = this.props.popTrackFromHistory;
+
+
+      if (this.audioApi.currentTime() < 5.0) {
+        popTrackFromHistory();
+      } else {
+        this.setCurrentTime.bind(this, 0)();
+      }
     }
   }, {
     key: 'onNextButtonClick',
@@ -31473,6 +31493,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     removeTrackFromQueue: function removeTrackFromQueue(track) {
       dispatch((0, _queue_actions.removeTrackFromQueue)(track));
+    },
+    popTrackFromHistory: function popTrackFromHistory() {
+      dispatch((0, _queue_actions.popTrackFromHistory)());
     }
   };
 };
@@ -31562,7 +31585,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _empty = __webpack_require__(9);
+var _image = __webpack_require__(47);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31571,22 +31594,24 @@ var TrackInfoComponent = function TrackInfoComponent(_ref) {
       artistName = _ref.artistName,
       imageSrc = _ref.imageSrc;
 
+  var $img = imageSrc === _image.EMPTY_IMG_SRC ? _react2.default.createElement('div', { className: 'img-placeholder' }) : _react2.default.createElement('img', { src: imageSrc });
+
   return _react2.default.createElement(
     'div',
     { className: 'track-info' },
-    (0, _empty.isNotEmpty)(imageSrc) ? _react2.default.createElement('img', { src: imageSrc }) : '',
+    $img,
     _react2.default.createElement(
       'div',
       { className: 'info-text' },
       _react2.default.createElement(
         'div',
         { className: 'track-name' },
-        (0, _empty.isNotEmpty)(trackName) ? trackName : '--'
+        trackName
       ),
       _react2.default.createElement(
         'div',
         { className: 'artist-name' },
-        (0, _empty.isNotEmpty)(artistName) ? artistName : '--'
+        artistName
       )
     )
   );
@@ -31626,7 +31651,6 @@ var TrackControlsComponent = function TrackControlsComponent(_ref) {
                       { className: 'track-controls' },
                       _react2.default.createElement(_index.MatButton, { buttonClassName: 'prev-btn',
                                  icon: 'skip_previous',
-                                 isDisabled: isDisabled,
                                  onClick: onPrev }),
                       _react2.default.createElement(_index.MatButton, { buttonClassName: 'play-pause-btn',
                                  icon: playPauseButtonIcon,
@@ -31634,7 +31658,6 @@ var TrackControlsComponent = function TrackControlsComponent(_ref) {
                                  onClick: onPlayPause }),
                       _react2.default.createElement(_index.MatButton, { buttonClassName: 'next-btn',
                                  icon: 'skip_next',
-                                 isDisabled: false,
                                  onClick: onNext })
            );
 };
@@ -32518,10 +32541,12 @@ var SearchComponent = function (_React$Component) {
 
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].entities = trackResults.tracks;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].isFetching = trackResults.isFetching;
+      tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].endOfTable = trackResults.endOfTable;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].fetcher = (0, _empty.isNotEmpty)(query) ? searchTracks.bind(null, query) : function () {};
 
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].entities = artistResults.artists;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].isFetching = artistResults.isFetching;
+      tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].endOfTable = artistResults.endOfTable;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].fetcher = (0, _empty.isNotEmpty)(query) ? searchArtists.bind(null, query) : function () {};
 
       return _react2.default.createElement(
@@ -32990,11 +33015,13 @@ var _shared = __webpack_require__(153);
 var DEFAULT_STATE = {
   trackResults: {
     tracks: [],
-    isFetching: false
+    isFetching: false,
+    endOfTable: false
   },
   artistResults: {
     artists: [],
-    isFetching: false
+    isFetching: false,
+    endOfTable: false
   }
 };
 
@@ -33002,6 +33029,7 @@ var searchReducer = function searchReducer() {
   var prevState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_STATE;
   var action = arguments[1];
 
+  var endOfTable = void 0;
   switch (action.type) {
     case _search_actions.BEGIN_FETCHING_TRACKS:
       return (0, _shared.reduce)(prevState, {
@@ -33012,18 +33040,21 @@ var searchReducer = function searchReducer() {
       });
     case _search_actions.RECEIVE_TRACK_RESULTS:
       var tracks = (0, _shared.concatEntities)(prevState.trackResults.tracks, action.tracks);
+      endOfTable = action.tracks.length === 0;
       return (0, _shared.reduce)(prevState, {
         '#recurse': true,
         trackResults: {
           tracks: tracks,
-          isFetching: false
+          isFetching: false,
+          endOfTable: endOfTable
         }
       });
     case _search_actions.CLEAR_TRACKS:
       return (0, _shared.reduce)(prevState, {
         '#recurse': true,
         trackResults: {
-          tracks: []
+          tracks: [],
+          endOfTable: false
         }
       });
     case _search_actions.BEGIN_FETCHING_ARTISTS:
@@ -33035,18 +33066,21 @@ var searchReducer = function searchReducer() {
       });
     case _search_actions.RECEIVE_ARTIST_RESULTS:
       var artists = (0, _shared.concatEntities)(prevState.artistResults.artists, action.artists);
+      endOfTable = action.artists.length === 0;
       return (0, _shared.reduce)(prevState, {
         '#recurse': true,
         artistResults: {
           artists: artists,
-          isFetching: false
+          isFetching: false,
+          endOfTable: endOfTable
         }
       });
     case _search_actions.CLEAR_ARTISTS:
       return (0, _shared.reduce)(prevState, {
         '#recurse': true,
         artistResults: {
-          artists: []
+          artists: [],
+          endOfTable: false
         }
       });
     default:
@@ -33103,7 +33137,14 @@ var queueReducer = function queueReducer() {
 
       return (0, _shared.reduce)(prevState, { queue: queue, history: history });
     case _queue_actions.CLEAR_QUEUE:
-      return (0, _shared.reduce)(prevState, { queue: [] });
+      // If there are any tracks in the queue add the first to history
+      if (prevState.queue.length > 0) {
+        history = prevState.history.slice();
+        history.unshift(prevState.queue[0]);
+      } else {
+        history = prevState.history;
+      }
+      return (0, _shared.reduce)(prevState, { queue: [], history: history });
     case _queue_actions.ADD_TRACK_TO_HISTORY:
       history = (0, _shared.concatEntities)([Object.assign({}, action.track)], prevState.history);
       return (0, _shared.reduce)(prevState, { history: history });
@@ -33112,6 +33153,11 @@ var queueReducer = function queueReducer() {
       i = indexOf(history, action.track);
       history.splice(i, 1);
       return (0, _shared.reduce)(prevState, { history: history });
+    case _queue_actions.POP_TRACK_FROM_HISTORY:
+      history = prevState.history.slice();
+      queue = prevState.queue.slice();
+      queue.unshift(history.shift());
+      return (0, _shared.reduce)(prevState, { history: history, queue: queue });
     case _queue_actions.RECEIVE_VIDEO_FOR_TRACK:
       queue = prevState.queue.slice();
       i = indexOf(queue, action.track);

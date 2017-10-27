@@ -6,14 +6,17 @@ const DEFAULT_STATE = {
   trackResults: {
     tracks: [],
     isFetching: false,
+    endOfTable: false,
   },
   artistResults: {
     artists: [],
     isFetching: false,
+    endOfTable: false,
   },
 };
 
 const searchReducer = (prevState = DEFAULT_STATE, action) => {
+  let endOfTable;
   switch (action.type) {
     case BEGIN_FETCHING_TRACKS:
       return reduce(prevState, {
@@ -24,11 +27,13 @@ const searchReducer = (prevState = DEFAULT_STATE, action) => {
       });
     case RECEIVE_TRACK_RESULTS:
       const tracks = concatEntities(prevState.trackResults.tracks, action.tracks);
+      endOfTable = action.tracks.length === 0;
       return reduce(prevState, {
         '#recurse': true,
         trackResults: {
           tracks,
           isFetching: false,
+          endOfTable,
         },
       });
     case CLEAR_TRACKS:
@@ -36,6 +41,7 @@ const searchReducer = (prevState = DEFAULT_STATE, action) => {
         '#recurse': true,
         trackResults: {
           tracks: [],
+          endOfTable: false,
         },
       });
     case BEGIN_FETCHING_ARTISTS:
@@ -47,11 +53,13 @@ const searchReducer = (prevState = DEFAULT_STATE, action) => {
       });
     case RECEIVE_ARTIST_RESULTS:
       const artists = concatEntities(prevState.artistResults.artists, action.artists);
+      endOfTable = action.artists.length === 0;
       return reduce(prevState, {
         '#recurse': true,
         artistResults: {
           artists,
           isFetching: false,
+          endOfTable,
         },
       });
     case CLEAR_ARTISTS:
@@ -59,6 +67,7 @@ const searchReducer = (prevState = DEFAULT_STATE, action) => {
         '#recurse': true,
         artistResults: {
           artists: [],
+          endOfTable: false,
         },
       });
     default:

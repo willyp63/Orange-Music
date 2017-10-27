@@ -1,17 +1,17 @@
 import React from 'react';
-import { isNotEmpty } from '../../../util/empty';
+import { EMPTY_IMG_SRC } from '../../../util/image';
 
 const TrackInfoComponent = ({trackName, artistName, imageSrc}) => {
+  const $img = imageSrc === EMPTY_IMG_SRC
+    ? (<div className='img-placeholder'></div>)
+    : (<img src={imageSrc} />);
+
   return (
     <div className="track-info">
-      {isNotEmpty(imageSrc) ? (<img src={imageSrc} />) : ''}
+      {$img}
       <div className="info-text">
-        <div className="track-name">
-          {isNotEmpty(trackName) ? trackName : '--'}
-        </div>
-        <div className="artist-name">
-          {isNotEmpty(artistName) ? artistName : '--'}
-        </div>
+        <div className="track-name">{trackName}</div>
+        <div className="artist-name">{artistName}</div>
       </div>
     </div>
   );

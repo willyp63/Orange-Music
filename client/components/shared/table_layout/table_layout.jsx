@@ -37,7 +37,10 @@ class TableLayoutComponent extends React.Component {
     const { selectedTableType } = this.state;
     const selectedtableSchema = tableSchemas[selectedTableType];
 
-    if (!selectedtableSchema.isFetching && isEmpty(selectedtableSchema.entities)) {
+    if (!selectedtableSchema.isFetching &&
+        !selectedtableSchema.endOfTable &&
+        isEmpty(selectedtableSchema.entities)) {
+          
       if (typeof selectedtableSchema.fetcher === 'function') {
         selectedtableSchema.fetcher();
       }
@@ -48,7 +51,7 @@ class TableLayoutComponent extends React.Component {
     const { selectedTableType } = this.state;
     const selectedtableSchema = tableSchemas[selectedTableType];
 
-    if (selectedtableSchema.isFetching) { return; }
+    if (selectedtableSchema.isFetching || selectedtableSchema.endOfTable) { return; }
 
     if (typeof selectedtableSchema.fetcher === 'function') {
       const tableEntities = selectedtableSchema.entities

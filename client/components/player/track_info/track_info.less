@@ -3,20 +3,26 @@
     display: flex;
     align-items: flex-end;
 
-    img {
-      width: @grid * 8;
+    img, .img-placeholder {
+      flex: 0 0 (@grid * 8);
       height: @grid * 8;
       margin-right: @grid;
 
       .z-depth(2);
     }
 
-    .track-name {
-      .font-subhead-2();
-    }
+    .img-placeholder { background-color: @white; }
 
-    .artist-name {
-      .font-subhead-1();
+    .info-text {
+      flex: 1 1 0;
+
+      .track-name {
+        .font-subhead-2();
+      }
+
+      .artist-name {
+        .font-subhead-1();
+      }
     }
   }
 }

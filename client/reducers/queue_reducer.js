@@ -1,5 +1,6 @@
 import { ADD_TRACK_TO_QUEUE, REMOVE_TRACK_FROM_QUEUE, CLEAR_QUEUE,
-  RECEIVE_VIDEO_FOR_TRACK, ADD_TRACK_TO_HISTORY, REMOVE_TRACK_FROM_HISTORY } from '../actions/queue_actions';
+  RECEIVE_VIDEO_FOR_TRACK, ADD_TRACK_TO_HISTORY, REMOVE_TRACK_FROM_HISTORY,
+  POP_TRACK_FROM_HISTORY } from '../actions/queue_actions';
 import { concatEntities, reduce } from './shared';
 
 import { isNotEmpty } from '../util/empty';
@@ -29,7 +30,14 @@ const queueReducer = (prevState = DEFAULT_STATE, action) => {
 
       return reduce(prevState, {queue, history});
     case CLEAR_QUEUE:
-      return reduce(prevState, {queue: []});
+      // If there are any tracks in the queue add the first to history
+      if (prevState.queue.length > 0) {
+        history = prevState.history.slice();
+        history.unshift(prevState.queue[0]);
+      } else {
+        history = prevState.history;
+      }
+      return reduce(prevState, {queue: [], history});
     case ADD_TRACK_TO_HISTORY:
       history = concatEntities([Object.assign({}, action.track)], prevState.history);
       return reduce(prevState, {history});
@@ -38,6 +46,11 @@ const queueReducer = (prevState = DEFAULT_STATE, action) => {
       i = indexOf(history, action.track);
       history.splice(i, 1);
       return reduce(prevState, {history});
+    case POP_TRACK_FROM_HISTORY:
+      history = prevState.history.slice();
+      queue = prevState.queue.slice();
+      queue.unshift(history.shift());
+      return reduce(prevState, {history, queue});
     case RECEIVE_VIDEO_FOR_TRACK:
       queue = prevState.queue.slice();
       i = indexOf(queue, action.track);

@@ -37,12 +37,14 @@ class SearchComponent extends React.Component {
 
     tableSchemas[SEARCH_TABLE_TYPES.TRACKS].entities = trackResults.tracks;
     tableSchemas[SEARCH_TABLE_TYPES.TRACKS].isFetching = trackResults.isFetching;
+    tableSchemas[SEARCH_TABLE_TYPES.TRACKS].endOfTable = trackResults.endOfTable;
     tableSchemas[SEARCH_TABLE_TYPES.TRACKS].fetcher = isNotEmpty(query)
       ? searchTracks.bind(null, query)
       : () => {};
 
     tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].entities = artistResults.artists;
     tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].isFetching = artistResults.isFetching;
+    tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].endOfTable = artistResults.endOfTable;
     tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].fetcher = isNotEmpty(query)
       ? searchArtists.bind(null, query)
       : () => {};

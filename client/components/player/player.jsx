@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { isNotEmpty, isEmpty } from '../../util/empty';
 import { EMPTY_IMG_SRC } from '../../util/image';
 import { getImageUrl } from '../../api/last_fm/last_fm_api';
-import { fetchVideoForTrack, removeTrackFromQueue } from '../../actions/queue_actions';
+import { fetchVideoForTrack, removeTrackFromQueue, popTrackFromHistory } from '../../actions/queue_actions';
 import TrackInfoComponent from './track_info/track_info';
 import TrackControlsComponent from './track_controls/track_controls';
 import VolumeControlsComponent from './volume_controls/volume_controls';
@@ -81,7 +81,13 @@ class PlayerComponent extends React.Component {
       : this.audioApi.play();
   }
   onPrevButtonClick() {
-    this.setCurrentTime.bind(this, 0)();
+    const { popTrackFromHistory } = this.props;
+
+    if (this.audioApi.currentTime() < 5.0) {
+      popTrackFromHistory();
+    } else {
+      this.setCurrentTime.bind(this, 0)();
+    }
   }
   onNextButtonClick() {
     this.playNextTrack.bind(this)();
@@ -169,7 +175,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     removeTrackFromQueue: (track) => {
       dispatch(removeTrackFromQueue(track));
-    }
+    },
+    popTrackFromHistory: () => {
+      dispatch(popTrackFromHistory());
+    },
   };
 };
 

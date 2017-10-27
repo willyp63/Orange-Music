@@ -72,6 +72,16 @@ const removeTrackFromHistoryMsg = (track) => {
 };
 export const REMOVE_TRACK_FROM_HISTORY = 'REMOVE_TRACK_FROM_HISTORY';
 
+/// Pop Track from History
+export const popTrackFromHistory = () => {
+  return (dispatch) => { dispatch(popTrackFromHistoryMsg()); };
+};
+
+const popTrackFromHistoryMsg = () => {
+  return {type: POP_TRACK_FROM_HISTORY};
+};
+export const POP_TRACK_FROM_HISTORY = 'POP_TRACK_FROM_HISTORY';
+
 /// Play Track
 export const playTrack = (track) => {
   return (dispatch) => {
