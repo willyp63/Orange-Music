@@ -227,6 +227,7 @@ i {
   margin-top: 16px;
 }
 .om-player.hidden {
+  opacity: 0;
   bottom: -120px;
 }
 .om-player .track-info {
