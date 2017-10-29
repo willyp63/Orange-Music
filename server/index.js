@@ -4,7 +4,7 @@ const path = require('path');
 const ytApi = require('./api/yt/yt_api');
 const isEmpty = require('./util/empty').isEmpty;
 
-const STATIC_RESOURCES_PATH = path.resolve(__dirname, '..', 'client', 'static');
+const STATIC_RESOURCES_PATH = path.resolve(__dirname, 'static');
 const INDEX_HTML_PATH = path.resolve(STATIC_RESOURCES_PATH, 'index.html');
 
 const app = Express();

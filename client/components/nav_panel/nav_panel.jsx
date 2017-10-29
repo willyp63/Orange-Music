@@ -10,10 +10,12 @@ const NavPanelComponent = ({history, location}) => {
   return (
     <div className="om-nav-panel">
       <div className="nav-btns">
-        <MatButton text={'HOME'}
+        <MatButton className='home-btn'
+                   icon={'icon-orange-slice'}
                    onClick={() => { pushPath('/'); }} />
         <div className="divider"></div>
-        <MatButton text={'SEARCH'}
+        <MatButton className='search-btn'
+                   text={'SEARCH'}
                    icon={'search'}
                    onClick={() => { pushPath('/search'); }} />
         <div className="divider"></div>

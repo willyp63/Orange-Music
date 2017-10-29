@@ -13,29 +13,58 @@
   .z-depth(16);
 
   .nav-btns {
-    display: flex;
-    flex-direction: column;
-    padding: (@grid * 4) (@grid * 2);
+    padding: @grid * 2;
 
     .mat-btn {
       margin-bottom: @grid;
 
-      .mat-btn-colorize(@color: @grey-800; @colorHover: @grey-900);
+      .mat-btn-colorize(@color: @grey-800; @colorHover: @black);
 
       button {
         .font-headline();
         font-weight: 400; // Make up slightly thicker font.
 
         i { .font-icon-md(); }
-      }
 
-      &:hover button {
-        background-color: rgba(255, 255, 255, 0.13);
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.12);
+        }
       }
     }
 
     .mat-btn:last-of-type {
       margin-bottom: 0;
+    }
+
+    .home-btn {
+      margin-left: @grid * 3 / 2;
+
+      .mat-icon-btn-colorize(@color: @black; @colorHover: @black);
+
+      button {
+        width: @grid * 6;
+        height: @grid * 6;
+
+        i { .font-icon-lg(); }
+
+        &:hover {
+          background-color: @transparent;
+        }
+      }
+    }
+
+    .search-btn {
+      width: 100%;
+
+      .mat-ripple {
+        width: 100%;
+
+        button {
+          width: 100%;
+          display: inline-flex;
+          justify-content: space-between;
+        }
+      }
     }
 
     .divider {

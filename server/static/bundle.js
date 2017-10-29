@@ -2011,7 +2011,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.measureText = exports.FONT_TYPES = exports.GRID = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
+exports.measureText = exports.FONT_TYPES = exports.GRID = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(137);
 
@@ -2037,6 +2037,10 @@ var _mat_tabs = __webpack_require__(305);
 
 var _mat_tabs2 = _interopRequireDefault(_mat_tabs);
 
+var _mat_input = __webpack_require__(339);
+
+var _mat_input2 = _interopRequireDefault(_mat_input);
+
 var _grid = __webpack_require__(27);
 
 var _grid2 = _interopRequireDefault(_grid);
@@ -2053,6 +2057,7 @@ var MatRipple = exports.MatRipple = _mat_ripple2.default;
 var MatSlider = exports.MatSlider = _mat_slider2.default;
 var MatSpinner = exports.MatSpinner = _mat_spinner2.default;
 var MatTabs = exports.MatTabs = _mat_tabs2.default;
+var MatInput = exports.MatInput = _mat_input2.default;
 
 var GRID = exports.GRID = _grid2.default.GRID;
 var FONT_TYPES = exports.FONT_TYPES = _font2.default.FONT_TYPES;
@@ -14178,11 +14183,18 @@ var MatButton = function MatButton(_ref) {
 
   // Format icon (https://material.io/icons/).
   var marginLeft = text ? _grid2.default.GRID : 0; // Separate icon from text.
-  var $icon = typeof icon === 'string' && icon.length > 0 ? _react2.default.createElement(
-    'i',
-    { className: 'material-icons', style: { marginLeft: marginLeft } },
-    icon
-  ) : '';
+  var $icon = '';
+  if (typeof icon === 'string' && icon.length > 0) {
+    if (icon.startsWith('icon-')) {
+      $icon = _react2.default.createElement('i', { className: icon, style: { marginLeft: marginLeft } });
+    } else {
+      $icon = _react2.default.createElement(
+        'i',
+        { className: 'material-icons', style: { marginLeft: marginLeft } },
+        icon
+      );
+    }
+  }
 
   // Render button w/o wrap or ripple.
   var $button = _react2.default.createElement(
@@ -30793,12 +30805,14 @@ var NavPanelComponent = function NavPanelComponent(_ref) {
     _react2.default.createElement(
       'div',
       { className: 'nav-btns' },
-      _react2.default.createElement(_index.MatButton, { text: 'HOME',
+      _react2.default.createElement(_index.MatButton, { className: 'home-btn',
+        icon: 'icon-orange-slice',
         onClick: function onClick() {
           pushPath('/');
         } }),
       _react2.default.createElement('div', { className: 'divider' }),
-      _react2.default.createElement(_index.MatButton, { text: 'SEARCH',
+      _react2.default.createElement(_index.MatButton, { className: 'search-btn',
+        text: 'SEARCH',
         icon: 'search',
         onClick: function onClick() {
           pushPath('/search');
@@ -31139,7 +31153,6 @@ var MatTabs = function MatTabs(_ref) {
       selectedTab = _ref.selectedTab,
       onTabSelect = _ref.onTabSelect,
       className = _ref.className,
-      font = _ref.font,
       tabWidth = _ref.tabWidth;
 
 
@@ -31149,7 +31162,6 @@ var MatTabs = function MatTabs(_ref) {
 
   className = className ? className + ' mat-tabs' : 'mat-tabs';
 
-  font = font || _font2.default.FONT_TYPES.HEADLINE;
   tabWidth = tabWidth || DEFAULT_TAB_WIDTH;
 
   var $labels = Object.keys(tabs).map(function (tabValue) {
@@ -31189,11 +31201,6 @@ var MatTabs = function MatTabs(_ref) {
       _react2.default.createElement('div', { className: 'underline', style: { left: underlineLeft } })
     )
   );
-};
-
-var getTabWidth = function getTabWidth(tabText, font) {
-  var c = _font2.default.measureText(tabText, font);
-  return _font2.default.measureText(tabText, font) + LABEL_PADDING * 2;
 };
 
 exports.default = MatTabs;
@@ -31966,7 +31973,7 @@ var HomeComponent = function (_React$Component) {
             _react2.default.createElement(
               'span',
               null,
-              'Orange Music'
+              'Charts'
             )
           )
         )
@@ -32501,7 +32508,7 @@ var SearchComponent = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       // Focus input when you first visit route.
-      $('.search .search-form-container input').focus();
+      $('.search .search-form input').focus();
     }
   }, {
     key: 'onQueryChange',
@@ -32555,11 +32562,7 @@ var SearchComponent = function (_React$Component) {
         _react2.default.createElement(
           _table_layout2.default,
           { tableSchemas: tableSchemas },
-          _react2.default.createElement(
-            'div',
-            { className: 'search-form-container' },
-            _react2.default.createElement(_search_form2.default, { query: query, onQuery: this.onQueryChange.bind(this) })
-          )
+          _react2.default.createElement(_search_form2.default, { query: query, onQuery: this.onQueryChange.bind(this) })
         )
       );
     }
@@ -32614,6 +32617,10 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = __webpack_require__(39);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _index = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -32623,6 +32630,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DEFAULT_MAT_INPUT_WIDTH = _index.GRID * 50;
 
 var SearchFormComponent = function (_React$Component) {
   _inherits(SearchFormComponent, _React$Component);
@@ -32637,10 +32646,31 @@ var SearchFormComponent = function (_React$Component) {
   }
 
   _createClass(SearchFormComponent, [{
-    key: 'render',
-    value: function render() {
+    key: 'onQueryChange',
+    value: function onQueryChange(query) {
       var _this2 = this;
 
+      this.setState({ query: query }, function () {
+        var queryWidth = (0, _index.measureText)(query, _index.FONT_TYPES.DISPLAY_1);
+        var $searchForm = $(_reactDom2.default.findDOMNode(_this2));
+        var $matInput = $searchForm.find('.mat-input');
+        var $input = $matInput.find('input');
+        var newWidth = $matInput.width() + queryWidth - $input.width();
+        if (newWidth > DEFAULT_MAT_INPUT_WIDTH) {
+          var searchFormWidth = $searchForm.width();
+          if (newWidth < searchFormWidth) {
+            $matInput.width(newWidth);
+          } else {
+            $matInput.width(searchFormWidth);
+          }
+        } else {
+          $matInput.width(DEFAULT_MAT_INPUT_WIDTH);
+        }
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
       var onQuery = this.props.onQuery;
       var query = this.state.query;
 
@@ -32649,14 +32679,13 @@ var SearchFormComponent = function (_React$Component) {
         { className: 'search-form', onSubmit: function onSubmit() {
             onQuery(query);
           } },
-        _react2.default.createElement('input', { type: 'text',
-          autoComplete: 'off',
-          value: query,
-          placeholder: 'Search for tracks or artists...',
-          onChange: function onChange(e) {
-            _this2.setState({ query: e.target.value });
-          } }),
-        _react2.default.createElement(_index.MatButton, { icon: 'search', isSubmit: true })
+        _react2.default.createElement(_index.MatInput, { value: query,
+          buttonIcon: 'search',
+          placeholder: 'Search for tracks or artists',
+          onValueChange: this.onQueryChange.bind(this),
+          onButtonClick: function onButtonClick() {
+            onQuery(query);
+          } })
       );
     }
   }]);
@@ -33321,6 +33350,118 @@ var indexOf = function indexOf(tracks, track) {
 };
 
 exports.default = queueReducer;
+
+/***/ }),
+/* 339 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _mat_button = __webpack_require__(137);
+
+var _mat_button2 = _interopRequireDefault(_mat_button);
+
+var _empty = __webpack_require__(9);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MatInput = function (_React$Component) {
+  _inherits(MatInput, _React$Component);
+
+  function MatInput(props) {
+    _classCallCheck(this, MatInput);
+
+    var _this = _possibleConstructorReturn(this, (MatInput.__proto__ || Object.getPrototypeOf(MatInput)).call(this, props));
+
+    _this.state = { isFocused: false };
+    return _this;
+  }
+
+  _createClass(MatInput, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          value = _props.value,
+          buttonIcon = _props.buttonIcon,
+          placeholder = _props.placeholder,
+          onValueChange = _props.onValueChange,
+          onButtonClick = _props.onButtonClick;
+      var isFocused = this.state.isFocused;
+
+
+      var placeholderClassName = 'placeholder';
+      if (isFocused || (0, _empty.isNotEmpty)(value)) {
+        placeholderClassName += ' lifted';
+      }
+
+      var underlineClassName = 'underline';
+      if (isFocused) {
+        underlineClassName += ' filled';
+      }
+
+      var $iconButton = buttonIcon ? _react2.default.createElement(_mat_button2.default, { icon: buttonIcon, onClick: onButtonClick }) : '';
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'mat-input' },
+        _react2.default.createElement(
+          'div',
+          { className: 'placeholder-container' },
+          _react2.default.createElement(
+            'span',
+            { className: placeholderClassName },
+            placeholder
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'input-container' },
+          _react2.default.createElement('input', { type: 'text',
+            autoComplete: 'off',
+            value: value,
+            onFocus: function onFocus() {
+              _this2.setState({ isFocused: true });
+            },
+            onBlur: function onBlur() {
+              _this2.setState({ isFocused: false });
+            },
+            onChange: function onChange(e) {
+              onValueChange(e.target.value);
+            } }),
+          $iconButton
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: underlineClassName },
+          _react2.default.createElement('div', null)
+        )
+      );
+    }
+  }]);
+
+  return MatInput;
+}(_react2.default.Component);
+
+exports.default = MatInput;
 
 /***/ })
 /******/ ]);

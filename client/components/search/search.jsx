@@ -15,7 +15,7 @@ class SearchComponent extends React.Component {
   }
   componentDidMount() {
     // Focus input when you first visit route.
-    $('.search .search-form-container input').focus();
+    $('.search .search-form input').focus();
   }
   onQueryChange(query) {
     if (query === this.state.query) { return; }
@@ -52,9 +52,7 @@ class SearchComponent extends React.Component {
     return (
       <div className="search">
         <TableLayoutComponent tableSchemas={tableSchemas}>
-          <div className="search-form-container">
-            <SearchFormComponent query={query} onQuery={this.onQueryChange.bind(this)} />
-          </div>
+          <SearchFormComponent query={query} onQuery={this.onQueryChange.bind(this)} />
         </TableLayoutComponent>
       </div>
     );

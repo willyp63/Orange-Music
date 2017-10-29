@@ -22,7 +22,7 @@ class HomeComponent extends React.Component {
       <div className="home">
         <TableLayoutComponent tableSchemas={tableSchemas}>
           <div className="title-container">
-            <span>Orange Music</span>
+            <span>Charts</span>
           </div>
         </TableLayoutComponent>
       </div>

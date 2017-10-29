@@ -9,9 +9,14 @@ const MatButton = ({text, icon, isSubmit, isDisabled, onClick, className}) => {
 
   // Format icon (https://material.io/icons/).
   const marginLeft = text ? Grid.GRID : 0; // Separate icon from text.
-  const $icon = (typeof icon === 'string' && icon.length > 0)
-    ? (<i className="material-icons" style={{marginLeft}}>{icon}</i>)
-    : '';
+  let $icon = '';
+  if (typeof icon === 'string' && icon.length > 0) {
+    if (icon.startsWith('icon-')) {
+      $icon = (<i className={icon} style={{marginLeft}}></i>);
+    } else {
+      $icon = (<i className="material-icons" style={{marginLeft}}>{icon}</i>);
+    }
+  }
 
   // Render button w/o wrap or ripple.
   let $button = (

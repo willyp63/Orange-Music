@@ -21,8 +21,7 @@ import Font from '../../css/font';
 const LABEL_PADDING = Grid.GRID * 2;
 const DEFAULT_TAB_WIDTH = Grid.GRID * 24;
 
-const MatTabs = ({ tabs, selectedTab, onTabSelect, className, font,
-    tabWidth }) => {
+const MatTabs = ({ tabs, selectedTab, onTabSelect, className, tabWidth }) => {
 
   if (isEmpty(tabs) ||
       isEmpty(selectedTab) ||
@@ -32,7 +31,6 @@ const MatTabs = ({ tabs, selectedTab, onTabSelect, className, font,
 
   className = className ? className + ' mat-tabs' : 'mat-tabs';
 
-  font = font || Font.FONT_TYPES.HEADLINE;
   tabWidth = tabWidth || DEFAULT_TAB_WIDTH;
 
   const $labels = Object.keys(tabs).map((tabValue) => {
@@ -68,11 +66,6 @@ const MatTabs = ({ tabs, selectedTab, onTabSelect, className, font,
       </div>
     </div>
   );
-};
-
-const getTabWidth = (tabText, font) => {
-  const c = Font.measureText(tabText, font);
-  return Font.measureText(tabText, font) + LABEL_PADDING * 2;
 };
 
 export default MatTabs;

@@ -1,54 +1,17 @@
 .search {
   .search-form {
-    @search-bar-height: @grid * 6;
+    margin: 0 (@grid * 8);
 
-    display: flex;
-    justify-content: space-around;
-    width: @grid * 80;
 
-    input {
-      flex-grow: 1;
-      height: @search-bar-height - 2 /* account for extra height from border */;
-      padding-left: @grid;
-      border: 1px solid @grey-300;
-      border-right: 0;
-      border-top-left-radius: @grid;
-      border-bottom-left-radius: @grid;
+    .mat-input {
+      width: @grid * 50;
+      max-width: 100%;
 
-      .z-depth(2);
+      input {
 
-      .font-title();
-
-      &:focus {
-        border: 1px solid @blue-300;
-        border-right: 0;
-      }
-    }
-
-    .mat-btn {
-      .mat-icon-btn-raised-colorize(
-        @color: @white;
-        @colorHover: @grey-200;
-        @bgColor: @blue-600;
-        @bgColorHover: @blue);
-
-      .om-search-input-btn-border-radius();
-
-      button {
-        width: @search-bar-height;
-        height: @search-bar-height;
-
-        .om-search-input-btn-border-radius();
       }
 
-      i { .font-icon-lg(); }
+      .font-display-1();
     }
   }
-}
-
-.om-search-input-btn-border-radius() {
-  // Override default button border radius.
-  border-radius: 0;
-  border-top-right-radius: @grid;
-  border-bottom-right-radius: @grid;
 }

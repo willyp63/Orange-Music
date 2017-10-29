@@ -31,7 +31,7 @@
   "scripts": {
     "serve": "node server/index.js",
     "webpack": "webpack --config client/webpack.js --watch --colors",
-    "lessc": "lessc client/index.less client/static/bundle.css"
+    "lessc": "lessc client/index.less server/static/bundle.css"
   },
   "author": "Wil Pirino",
   "license": "ISC"
