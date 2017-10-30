@@ -8,7 +8,7 @@ class MatInput extends React.Component {
     this.state = {isFocused: false};
   }
   render() {
-    const { value, buttonIcon, placeholder, onValueChange, onButtonClick } = this.props;
+    const { value, placeholder, onValueChange, onButtonClick } = this.props;
     const { isFocused } = this.state;
 
     let placeholderClassName = 'placeholder';
@@ -16,12 +16,6 @@ class MatInput extends React.Component {
 
     let underlineClassName = 'underline';
     if (isFocused) { underlineClassName += ' filled'; }
-
-    const $iconButton = buttonIcon
-      ? (
-        <MatButton icon={buttonIcon} onClick={onButtonClick} />
-      )
-      : '';
 
     return (
       <div className='mat-input'>
@@ -35,7 +29,6 @@ class MatInput extends React.Component {
                  onFocus={() => { this.setState({isFocused: true}); }}
                  onBlur={() => { this.setState({isFocused: false}); }}
                  onChange={(e) => { onValueChange(e.target.value); }} />
-          {$iconButton}
         </div>
         <div className={underlineClassName}>
           <div></div>

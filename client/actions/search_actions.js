@@ -6,7 +6,7 @@ export const searchTracks = (query, queryParams) => {
     queryParams = queryParams || {};
     queryParams.query = query;
     return lastFmApi.searchTracks(queryParams).then(({tracks}) => {
-      dispatch(receiveTrackResultsMsg(tracks));
+      dispatch(receiveTrackResultsMsg(tracks, query));
     });
   };
 };
@@ -16,10 +16,11 @@ const beginFetchingTracksMsg = () => {
 };
 export const BEGIN_FETCHING_TRACKS = 'BEGIN_FETCHING_TRACKS';
 
-const receiveTrackResultsMsg = (tracks) => {
+const receiveTrackResultsMsg = (tracks, query) => {
   return {
     type: RECEIVE_TRACK_RESULTS,
     tracks,
+    query,
   };
 };
 export const RECEIVE_TRACK_RESULTS = 'RECEIVE_TRACK_RESULTS';
@@ -31,7 +32,7 @@ export const searchArtists = (query, queryParams) => {
     queryParams = queryParams || {};
     queryParams.query = query;
     return lastFmApi.searchArtists(queryParams).then(({artists}) => {
-      dispatch(receiveArtistResultsMsg(artists));
+      dispatch(receiveArtistResultsMsg(artists, query));
     });
   };
 };
@@ -41,10 +42,11 @@ const beginFetchingArtistsMsg = () => {
 };
 export const BEGIN_FETCHING_ARTISTS = 'BEGIN_FETCHING_ARTISTS';
 
-const receiveArtistResultsMsg = (artists) => {
+const receiveArtistResultsMsg = (artists, query) => {
   return {
     type: RECEIVE_ARTIST_RESULTS,
     artists,
+    query,
   };
 };
 export const RECEIVE_ARTIST_RESULTS = 'RECEIVE_ARTIST_RESULTS';

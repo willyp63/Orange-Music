@@ -32,6 +32,7 @@ const searchReducer = (prevState = DEFAULT_STATE, action) => {
         '#recurse': true,
         trackResults: {
           tracks,
+          query: action.query,
           isFetching: false,
           endOfTable,
         },
@@ -58,6 +59,7 @@ const searchReducer = (prevState = DEFAULT_STATE, action) => {
         '#recurse': true,
         artistResults: {
           artists,
+          query: action.query,
           isFetching: false,
           endOfTable,
         },

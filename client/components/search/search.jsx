@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { isNotEmpty, isEmpty } from '../../util/empty';
+import { equalIgnoreCase, notEqualIgnoreCase } from '../../util/string';
 import { getUrlWithUpdatedParams, getUrlParams } from '../../util/url';
 import { searchTracks, searchArtists, clearTracks, clearArtists } from '../../actions/search_actions';
 import SearchFormComponent from './search_form/search_form';
@@ -11,22 +13,36 @@ import TableLayoutComponent from '../shared/table_layout/table_layout';
 class SearchComponent extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {query: props.query};
+    const { query, trackResults, artistResults } = props;
+    this.state = {query};
+    if (notEqualIgnoreCase(trackResults.query, query)) { props.clearTracks(); }
+    if (notEqualIgnoreCase(artistResults.query, query)) { props.clearArtists(); }
   }
   componentDidMount() {
-    // Focus input when you first visit route.
-    $('.search .search-form input').focus();
+    const $input = $(ReactDOM.findDOMNode(this)).find('.search-form .mat-input input');
+    $input.focus();
+    // We do the following so that focus ends up at the end of the input, not the beginning.
+    const inputVal = $input.val();
+    $input.val('');
+    $input.val(inputVal);
   }
-  onQueryChange(query) {
-    if (query === this.state.query) { return; }
+  componentWillReceiveProps(newProps) {
+    if (equalIgnoreCase(newProps.query, this.state.query)) { return; }
+    this.setState({query: newProps.query});
     this.props.clearTracks();
     this.props.clearArtists();
-    this.setState({query});
   }
-  updateUrl() {
+  onQueryChange(query) {
+    if (equalIgnoreCase(query, this.state.query)) { return; }
+    this.setState({query});
+    this.props.clearTracks();
+    this.props.clearArtists();
+    this.updateUrl.bind(this)(query);
+  }
+  updateUrl(query) {
     const { pathname, search } = this.props.location;
     const currentUrl = pathname + search;
-    const newUrl = getUrlWithUpdatedParams(pathname, {q: this.state.query});
+    const newUrl = getUrlWithUpdatedParams(currentUrl, {q: query});
     if (currentUrl !== newUrl) { this.props.history.push(newUrl); }
   }
   render() {

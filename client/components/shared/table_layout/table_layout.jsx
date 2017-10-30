@@ -1,4 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import { getUrlWithUpdatedParams, getUrlParams } from '../../../util/url';
 import { isNotEmpty, isEmpty } from '../../../util/empty';
 import { MatTabs, MatSpinner } from '../../material/index';
 import NavBarComponent from '../nav_bar/nav_bar';
@@ -11,10 +14,18 @@ class TableLayoutComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTableType: Object.keys(this.props.tableSchemas)[0],
-      selectedDisplayType: TABLE_DISPLAY_TYPES.GALLERY,
+      selectedTableType: this.getTableType.bind(this)(),
+      selectedDisplayType: props.tableDisplayType,
     };
     this.fetchInitialEntities.bind(this)();
+  }
+  getTableType(props) {
+    const { tableSchemas, location } = props || this.props;
+    let k = 0, tableTypes = Object.keys(tableSchemas);
+    for (let i = 0; i < tableTypes.length; i++) {
+      if (tableSchemas[i].pathname === location.pathname) { k = i; break; }
+    }
+    return tableTypes[k];
   }
   componentDidMount() {
     this.onScroll = () => {
@@ -30,6 +41,13 @@ class TableLayoutComponent extends React.Component {
     $(document).off('scroll', this.onScroll);
   }
   componentWillReceiveProps(newProps) {
+    if (newProps.tableDisplayType !== this.state.selectedDisplayType) {
+      this.setState({selectedDisplayType: newProps.tableDisplayType});
+    }
+    const selectedTableType = this.getTableType.bind(this)(newProps);
+    if (selectedTableType !== this.state.selectedTableType) {
+      this.setState({selectedTableType});
+    }
     this.fetchInitialEntities.bind(this)(newProps);
   }
   fetchInitialEntities(props) {
@@ -63,6 +81,23 @@ class TableLayoutComponent extends React.Component {
     this.setState({selectedTableType}, () => {
       this.fetchInitialEntities.bind(this)();
     });
+
+    // Update url
+    const { location, tableSchemas } = this.props;
+    const { pathname, search } = location;
+    const newPathname = tableSchemas[selectedTableType].pathname || pathname;
+    const newUrl = newPathname + search;
+    const currentUrl = pathname + search;
+    if (currentUrl !== newUrl) { this.props.history.push(newUrl); }
+  }
+  onDisplayTypeChange(selectedDisplayType) {
+    this.setState({selectedDisplayType});
+
+    // Update url param
+    const { pathname, search } = this.props.location;
+    const currentUrl = pathname + search;
+    const newUrl = getUrlWithUpdatedParams(currentUrl, {tdt: selectedDisplayType});
+    if (currentUrl !== newUrl) { this.props.history.push(newUrl); }
   }
   render() {
     const { tableSchemas, children } = this.props;
@@ -107,9 +142,7 @@ class TableLayoutComponent extends React.Component {
                      selectedTab={selectedTableType}
                      onTabSelect={this.onTableTypeChange.bind(this)} />
             <DisplayTypePickerComponent selectedDisplayType={selectedDisplayType}
-                                        onDisplayTypeSelect={(displayType) => {
-                                          this.setState({selectedDisplayType: displayType});
-                                        }} />
+                                        onDisplayTypeSelect={this.onDisplayTypeChange.bind(this)} />
           </div>
           <div className="list-header-container">
             {$listHeader}
@@ -127,4 +160,19 @@ class TableLayoutComponent extends React.Component {
   }
 }
 
-export default TableLayoutComponent;
+const mapStateToProps = (state, ownProps) => {
+  const urlParams = getUrlParams(ownProps.location.search);
+  const tableDisplayType = isNotEmpty(urlParams.tdt)
+    ? parseInt(urlParams.tdt)
+    : TABLE_DISPLAY_TYPES.GALLERY;
+  return {tableDisplayType};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TableLayoutComponent));

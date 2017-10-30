@@ -11,11 +11,13 @@ export const SEARCH_TABLE_TYPES = {
 let SEARCH_TABLE_SCHEMAS = {};
 SEARCH_TABLE_SCHEMAS[SEARCH_TABLE_TYPES.TRACKS] = {
   label: 'Tracks',
+  pathname: '/search/tracks',
   listSchema: TRACK_LIST_SCHEMA,
   gallerySchema: TRACK_GALLERY_SCHEMA,
 };
 SEARCH_TABLE_SCHEMAS[SEARCH_TABLE_TYPES.ARTISTS] = {
   label: 'Artists',
+  pathname: '/search/artists',
   listSchema: ARTIST_LIST_SCHEMA,
   gallerySchema: ARTIST_GALLERY_SCHEMA,
 };

@@ -1,4 +1,5 @@
 import TextCellComponent from '../cells/text/text_cell';
+import ArtistLinkCellComponent from '../cells/artist_link/artist_link_cell';
 import ImageCellComponent from '../cells/image/image_cell';
 import MockImageCellComponent from '../cells/image/mock_image_cell';
 import ActionsCellComponent from '../cells/action/action_cell';
@@ -18,7 +19,7 @@ const TRACK_LIST_SCHEMA = {
   'artist.name': {
     label: 'Artist',
     width: '50%',
-    component: TextCellComponent,
+    component: ArtistLinkCellComponent,
   },
   '@actions': {
     label: '',

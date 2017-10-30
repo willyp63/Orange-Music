@@ -21,12 +21,15 @@ export const getUrlParams = (url) => {
 /// Updates [url]'s params by merging them with [params], and returns the
 /// resulting URL.
 export const getUrlWithUpdatedParams = (url, params) => {
-  const baseUrlMatches = url.match(/^(.+)(?:\?|$)/)
-  const baseUrl = isNotEmpty(baseUrlMatches) ? baseUrlMatches[1] : ''
-  const updatedParams = Object.assign(getUrlParams(url), params)
+  const baseUrlMatches = url.match(/^(.+?)(?:\?|$)/);
+  const baseUrl = isNotEmpty(baseUrlMatches) ? baseUrlMatches[1] : '';
+  const updatedParams = getUrlParams(url);
+  Object.keys(params).forEach((key) => {
+    updatedParams[key] = encodeURIComponent(params[key]);
+  });
   const paramsStr = Object.keys(updatedParams)
       .filter((key) => isNotEmpty(key) && isNotEmpty(updatedParams[key]))
-      .map((key) => key + '=' + encodeURIComponent(updatedParams[key]))
-      .join('&')
-  return isNotEmpty(paramsStr) ? (baseUrl + '?' + paramsStr) : baseUrl
+      .map((key) => key + '=' + updatedParams[key])
+      .join('&');
+  return isNotEmpty(paramsStr) ? (baseUrl + '?' + paramsStr) : baseUrl;
 }

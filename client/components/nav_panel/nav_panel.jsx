@@ -4,7 +4,8 @@ import { MatButton } from '../material/index';
 
 const NavPanelComponent = ({history, location}) => {
   const pushPath = (path) => {
-    if (location.pathname !== path) { history.push(path); }
+    const { pathname, search } = location;
+    if (pathname !== path) { history.push(path + search); }
   };
 
   return (

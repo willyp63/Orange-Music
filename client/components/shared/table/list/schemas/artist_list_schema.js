@@ -1,4 +1,4 @@
-import TextCellComponent from '../cells/text/text_cell';
+import ArtistLinkCellComponent from '../cells/artist_link/artist_link_cell';
 import ImageCellComponent from '../cells/image/image_cell';
 import MockImageCellComponent from '../cells/image/mock_image_cell';
 
@@ -11,7 +11,7 @@ const ARTIST_LIST_SCHEMA = {
   name: {
     label: 'Name',
     width: '100%',
-    component: TextCellComponent
+    component: ArtistLinkCellComponent
   },
 };
 

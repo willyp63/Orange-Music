@@ -10,12 +10,14 @@ export const QUEUE_TABLE_TYPES = {
 
 let QUEUE_TABLE_SCHEMAS = {};
 QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.QUEUE] = {
-  label: 'Queue',
+  label: 'Up Next',
+  pathname: '/queue/up_next',
   listSchema: QUEUE_LIST_SCHEMA,
   gallerySchema: QUEUE_GALLERY_SCHEMA,
 };
 QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.HISTORY] = {
   label: 'History',
+  pathname: '/queue/history',
   listSchema: HISTORY_LIST_SCHEMA,
   gallerySchema: HISTORY_GALLERY_SCHEMA,
 };

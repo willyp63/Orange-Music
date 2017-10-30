@@ -10,12 +10,23 @@ class QueueComponent extends React.Component {
     tableSchemas[QUEUE_TABLE_TYPES.QUEUE].entities = this.props.queue.slice(1);
     tableSchemas[QUEUE_TABLE_TYPES.HISTORY].entities = this.props.history;
 
+    const $nowPlaying = this.props.queue.length > 0
+      ? (
+        <div className="now-playing-container">
+          <NowPlayingComponent track={this.props.queue[0]} />
+        </div>
+      ) : (
+        <div className="info-msg">
+          Add tracks to your queue by clicking the green plus icon
+          <i className='material-icons'>add</i>
+          .
+        </div>
+      );
+
     return (
       <div className="queue">
         <TableLayoutComponent tableSchemas={tableSchemas}>
-          <div className="now-playing-container">
-            <NowPlayingComponent track={this.props.queue[0]} />
-          </div>
+          {$nowPlaying}
         </TableLayoutComponent>
       </div>
     );

@@ -73,11 +73,17 @@ FONTS[FONT_TYPES.BUTTON] = {
   weight: 400,
 };
 
-const measureText = (txt, fontType) => {
-  const element = document.createElement('canvas');
-  const context = element.getContext("2d");
-  context.font = `${FONTS[fontType].size}px Roboto`;
-  return context.measureText(txt).width;
-}
+const measureText = (text, fontType) => {
+  fontType = fontType || FONT_TYPES.TITLE;
+  const f = `normal normal ${FONTS[fontType].weight} ${FONTS[fontType].size}px Roboto`,
+        o = $('<span>' + text + '</span>')
+              .css({'font': f, 'white-space': 'nowrap'})
+              .appendTo($('body')),
+        r = document.createRange();
+ r.selectNode(o[0]);
+ const w = r.getBoundingClientRect().width;
+ o.remove();
+ return w;
+};
 
 export default { FONT_TYPES, measureText };

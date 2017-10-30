@@ -4120,6 +4120,10 @@ var _text_cell = __webpack_require__(141);
 
 var _text_cell2 = _interopRequireDefault(_text_cell);
 
+var _artist_link_cell = __webpack_require__(342);
+
+var _artist_link_cell2 = _interopRequireDefault(_artist_link_cell);
+
 var _image_cell = __webpack_require__(142);
 
 var _image_cell2 = _interopRequireDefault(_image_cell);
@@ -4152,7 +4156,7 @@ var TRACK_LIST_SCHEMA = {
   'artist.name': {
     label: 'Artist',
     width: '50%',
-    component: _text_cell2.default
+    component: _artist_link_cell2.default
   },
   '@actions': {
     label: '',
@@ -8290,13 +8294,16 @@ var getUrlParams = exports.getUrlParams = function getUrlParams(url) {
 /// Updates [url]'s params by merging them with [params], and returns the
 /// resulting URL.
 var getUrlWithUpdatedParams = exports.getUrlWithUpdatedParams = function getUrlWithUpdatedParams(url, params) {
-  var baseUrlMatches = url.match(/^(.+)(?:\?|$)/);
+  var baseUrlMatches = url.match(/^(.+?)(?:\?|$)/);
   var baseUrl = (0, _empty.isNotEmpty)(baseUrlMatches) ? baseUrlMatches[1] : '';
-  var updatedParams = Object.assign(getUrlParams(url), params);
+  var updatedParams = getUrlParams(url);
+  Object.keys(params).forEach(function (key) {
+    updatedParams[key] = encodeURIComponent(params[key]);
+  });
   var paramsStr = Object.keys(updatedParams).filter(function (key) {
     return (0, _empty.isNotEmpty)(key) && (0, _empty.isNotEmpty)(updatedParams[key]);
   }).map(function (key) {
-    return key + '=' + encodeURIComponent(updatedParams[key]);
+    return key + '=' + updatedParams[key];
   }).join('&');
   return (0, _empty.isNotEmpty)(paramsStr) ? baseUrl + '?' + paramsStr : baseUrl;
 };
@@ -8317,6 +8324,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(136);
+
+var _reactRedux = __webpack_require__(22);
+
+var _url = __webpack_require__(78);
 
 var _empty = __webpack_require__(9);
 
@@ -8359,14 +8372,30 @@ var TableLayoutComponent = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (TableLayoutComponent.__proto__ || Object.getPrototypeOf(TableLayoutComponent)).call(this, props));
 
     _this.state = {
-      selectedTableType: Object.keys(_this.props.tableSchemas)[0],
-      selectedDisplayType: _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY
+      selectedTableType: _this.getTableType.bind(_this)(),
+      selectedDisplayType: props.tableDisplayType
     };
     _this.fetchInitialEntities.bind(_this)();
     return _this;
   }
 
   _createClass(TableLayoutComponent, [{
+    key: 'getTableType',
+    value: function getTableType(props) {
+      var _ref = props || this.props,
+          tableSchemas = _ref.tableSchemas,
+          location = _ref.location;
+
+      var k = 0,
+          tableTypes = Object.keys(tableSchemas);
+      for (var i = 0; i < tableTypes.length; i++) {
+        if (tableSchemas[i].pathname === location.pathname) {
+          k = i;break;
+        }
+      }
+      return tableTypes[k];
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _this2 = this;
@@ -8388,13 +8417,20 @@ var TableLayoutComponent = function (_React$Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
+      if (newProps.tableDisplayType !== this.state.selectedDisplayType) {
+        this.setState({ selectedDisplayType: newProps.tableDisplayType });
+      }
+      var selectedTableType = this.getTableType.bind(this)(newProps);
+      if (selectedTableType !== this.state.selectedTableType) {
+        this.setState({ selectedTableType: selectedTableType });
+      }
       this.fetchInitialEntities.bind(this)(newProps);
     }
   }, {
     key: 'fetchInitialEntities',
     value: function fetchInitialEntities(props) {
-      var _ref = props || this.props,
-          tableSchemas = _ref.tableSchemas;
+      var _ref2 = props || this.props,
+          tableSchemas = _ref2.tableSchemas;
 
       var selectedTableType = this.state.selectedTableType;
 
@@ -8433,15 +8469,43 @@ var TableLayoutComponent = function (_React$Component) {
       this.setState({ selectedTableType: selectedTableType }, function () {
         _this3.fetchInitialEntities.bind(_this3)();
       });
+
+      // Update url
+      var _props = this.props,
+          location = _props.location,
+          tableSchemas = _props.tableSchemas;
+      var pathname = location.pathname,
+          search = location.search;
+
+      var newPathname = tableSchemas[selectedTableType].pathname || pathname;
+      var newUrl = newPathname + search;
+      var currentUrl = pathname + search;
+      if (currentUrl !== newUrl) {
+        this.props.history.push(newUrl);
+      }
+    }
+  }, {
+    key: 'onDisplayTypeChange',
+    value: function onDisplayTypeChange(selectedDisplayType) {
+      this.setState({ selectedDisplayType: selectedDisplayType });
+
+      // Update url param
+      var _props$location = this.props.location,
+          pathname = _props$location.pathname,
+          search = _props$location.search;
+
+      var currentUrl = pathname + search;
+      var newUrl = (0, _url.getUrlWithUpdatedParams)(currentUrl, { tdt: selectedDisplayType });
+      if (currentUrl !== newUrl) {
+        this.props.history.push(newUrl);
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
-
-      var _props = this.props,
-          tableSchemas = _props.tableSchemas,
-          children = _props.children;
+      var _props2 = this.props,
+          tableSchemas = _props2.tableSchemas,
+          children = _props2.children;
       var _state = this.state,
           selectedTableType = _state.selectedTableType,
           selectedDisplayType = _state.selectedDisplayType;
@@ -8483,9 +8547,7 @@ var TableLayoutComponent = function (_React$Component) {
               selectedTab: selectedTableType,
               onTabSelect: this.onTableTypeChange.bind(this) }),
             _react2.default.createElement(_display_type_picker2.default, { selectedDisplayType: selectedDisplayType,
-              onDisplayTypeSelect: function onDisplayTypeSelect(displayType) {
-                _this4.setState({ selectedDisplayType: displayType });
-              } })
+              onDisplayTypeSelect: this.onDisplayTypeChange.bind(this) })
           ),
           _react2.default.createElement(
             'div',
@@ -8511,7 +8573,17 @@ var TableLayoutComponent = function (_React$Component) {
   return TableLayoutComponent;
 }(_react2.default.Component);
 
-exports.default = TableLayoutComponent;
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  var urlParams = (0, _url.getUrlParams)(ownProps.location.search);
+  var tableDisplayType = (0, _empty.isNotEmpty)(urlParams.tdt) ? parseInt(urlParams.tdt) : _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY;
+  return { tableDisplayType: tableDisplayType };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {};
+};
+
+exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TableLayoutComponent));
 
 /***/ }),
 /* 80 */
@@ -14466,11 +14538,15 @@ FONTS[FONT_TYPES.BUTTON] = {
   weight: 400
 };
 
-var measureText = function measureText(txt, fontType) {
-  var element = document.createElement('canvas');
-  var context = element.getContext("2d");
-  context.font = FONTS[fontType].size + "px Roboto";
-  return context.measureText(txt).width;
+var measureText = function measureText(text, fontType) {
+  fontType = fontType || FONT_TYPES.TITLE;
+  var f = 'normal normal ' + FONTS[fontType].weight + ' ' + FONTS[fontType].size + 'px Roboto',
+      o = $('<span>' + text + '</span>').css({ 'font': f, 'white-space': 'nowrap' }).appendTo($('body')),
+      r = document.createRange();
+  r.selectNode(o[0]);
+  var w = r.getBoundingClientRect().width;
+  o.remove();
+  return w;
 };
 
 exports.default = { FONT_TYPES: FONT_TYPES, measureText: measureText };
@@ -14642,9 +14718,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _text_cell = __webpack_require__(141);
+var _artist_link_cell = __webpack_require__(342);
 
-var _text_cell2 = _interopRequireDefault(_text_cell);
+var _artist_link_cell2 = _interopRequireDefault(_artist_link_cell);
 
 var _image_cell = __webpack_require__(142);
 
@@ -14665,7 +14741,7 @@ var ARTIST_LIST_SCHEMA = {
   name: {
     label: 'Name',
     width: '100%',
-    component: _text_cell2.default
+    component: _artist_link_cell2.default
   }
 };
 
@@ -14682,6 +14758,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _artist_link_chip = __webpack_require__(340);
+
+var _artist_link_chip2 = _interopRequireDefault(_artist_link_chip);
+
 var _track_action_schema = __webpack_require__(50);
 
 var _track_action_schema2 = _interopRequireDefault(_track_action_schema);
@@ -14693,6 +14773,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var TRACK_GALLERY_SCHEMA = {
   titlePath: 'name',
   subtitlePath: 'artist.name',
+  subtitleChipComponent: _artist_link_chip2.default,
   imagePath: 'image',
   actions: _track_action_schema2.default
 };
@@ -14709,8 +14790,16 @@ exports.default = TRACK_GALLERY_SCHEMA;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _artist_link_chip = __webpack_require__(340);
+
+var _artist_link_chip2 = _interopRequireDefault(_artist_link_chip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var ARTIST_GALLERY_SCHEMA = {
   titlePath: 'name',
+  titleChipComponent: _artist_link_chip2.default,
   subtitlePath: '@NA',
   imagePath: 'image',
   actions: {}
@@ -14733,7 +14822,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = __webpack_require__(136);
+
 var _reactRedux = __webpack_require__(22);
+
+var _url = __webpack_require__(78);
 
 var _flex_table = __webpack_require__(148);
 
@@ -14749,11 +14842,21 @@ var ListComponent = function ListComponent(_ref) {
       playTrack = _ref.playTrack,
       addTrackToQueue = _ref.addTrackToQueue,
       removeTrackFromQueue = _ref.removeTrackFromQueue,
-      removeTrackFromHistory = _ref.removeTrackFromHistory;
+      removeTrackFromHistory = _ref.removeTrackFromHistory,
+      history = _ref.history,
+      location = _ref.location;
 
+
+  var pushUrl = function pushUrl(pathname, queryParams) {
+    var newUrl = (0, _url.getUrlWithUpdatedParams)(pathname + location.search, queryParams);
+    var oldUrl = location.pathname + location.search;
+    if (newUrl !== oldUrl) {
+      history.push(newUrl);
+    }
+  };
 
   var actions = { playTrack: playTrack, addTrackToQueue: addTrackToQueue, removeTrackFromQueue: removeTrackFromQueue,
-    removeTrackFromHistory: removeTrackFromHistory };
+    removeTrackFromHistory: removeTrackFromHistory, pushUrl: pushUrl };
 
   return _react2.default.createElement(_flex_table2.default, { className: 'om-list',
     rowObjs: entities,
@@ -14783,7 +14886,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ListComponent);
+exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ListComponent));
 
 /***/ }),
 /* 148 */
@@ -14960,7 +15063,7 @@ var searchTracks = exports.searchTracks = function searchTracks(query, queryPara
     return _last_fm_api2.default.searchTracks(queryParams).then(function (_ref) {
       var tracks = _ref.tracks;
 
-      dispatch(receiveTrackResultsMsg(tracks));
+      dispatch(receiveTrackResultsMsg(tracks, query));
     });
   };
 };
@@ -14970,10 +15073,11 @@ var beginFetchingTracksMsg = function beginFetchingTracksMsg() {
 };
 var BEGIN_FETCHING_TRACKS = exports.BEGIN_FETCHING_TRACKS = 'BEGIN_FETCHING_TRACKS';
 
-var receiveTrackResultsMsg = function receiveTrackResultsMsg(tracks) {
+var receiveTrackResultsMsg = function receiveTrackResultsMsg(tracks, query) {
   return {
     type: RECEIVE_TRACK_RESULTS,
-    tracks: tracks
+    tracks: tracks,
+    query: query
   };
 };
 var RECEIVE_TRACK_RESULTS = exports.RECEIVE_TRACK_RESULTS = 'RECEIVE_TRACK_RESULTS';
@@ -14986,7 +15090,7 @@ var searchArtists = exports.searchArtists = function searchArtists(query, queryP
     return _last_fm_api2.default.searchArtists(queryParams).then(function (_ref2) {
       var artists = _ref2.artists;
 
-      dispatch(receiveArtistResultsMsg(artists));
+      dispatch(receiveArtistResultsMsg(artists, query));
     });
   };
 };
@@ -14996,10 +15100,11 @@ var beginFetchingArtistsMsg = function beginFetchingArtistsMsg() {
 };
 var BEGIN_FETCHING_ARTISTS = exports.BEGIN_FETCHING_ARTISTS = 'BEGIN_FETCHING_ARTISTS';
 
-var receiveArtistResultsMsg = function receiveArtistResultsMsg(artists) {
+var receiveArtistResultsMsg = function receiveArtistResultsMsg(artists, query) {
   return {
     type: RECEIVE_ARTIST_RESULTS,
-    artists: artists
+    artists: artists,
+    query: query
   };
 };
 var RECEIVE_ARTIST_RESULTS = exports.RECEIVE_ARTIST_RESULTS = 'RECEIVE_ARTIST_RESULTS';
@@ -30750,7 +30855,8 @@ var AppComponent = function AppComponent(_ref) {
           { className: 'route-container' },
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _search2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/home', component: _home2.default })
         )
       )
     ),
@@ -30794,8 +30900,11 @@ var NavPanelComponent = function NavPanelComponent(_ref) {
       location = _ref.location;
 
   var pushPath = function pushPath(path) {
-    if (location.pathname !== path) {
-      history.push(path);
+    var pathname = location.pathname,
+        search = location.search;
+
+    if (pathname !== path) {
+      history.push(path + search);
     }
   };
 
@@ -32042,11 +32151,13 @@ var HOME_TABLE_TYPES = exports.HOME_TABLE_TYPES = {
 var HOME_TABLE_SCHEMAS = {};
 HOME_TABLE_SCHEMAS[HOME_TABLE_TYPES.TOP_TRACKS] = {
   label: 'Top Tracks',
+  pathname: '/home/top_tracks',
   listSchema: _track_list_schema2.default,
   gallerySchema: _track_gallery_schema2.default
 };
 HOME_TABLE_SCHEMAS[HOME_TABLE_TYPES.TOP_ARTISTS] = {
   label: 'Top Artists',
+  pathname: '/home/top_artists',
   listSchema: _artist_list_schema2.default,
   gallerySchema: _artist_gallery_schema2.default
 };
@@ -32408,8 +32519,10 @@ var GalleryTile = function GalleryTile(_ref) {
   var imageSrc = image ? (0, _last_fm_api.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
   var imageClassName = imageSrc === _image.EMPTY_IMG_SRC ? 'bordered' : '';
 
-  var $titleChip = title ? _react2.default.createElement(_index.MatChip, { className: 'title', text: title }) : '';
-  var $subtitleChip = subtitle ? _react2.default.createElement(_index.MatChip, { className: 'subtitle', text: subtitle }) : '';
+  var TitleChipComponent = schema.titleChipComponent || _index.MatChip;
+  var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title }) : '';
+  var SubtitleChipComponent = schema.subtitleChipComponent || _index.MatChip;
+  var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle }) : '';
 
   var $buttons = Object.keys(schema.actions).map(function (actionType) {
     var action = schema.actions[actionType];
@@ -32462,11 +32575,17 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = __webpack_require__(39);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _reactRedux = __webpack_require__(22);
 
 var _reactRouter = __webpack_require__(136);
 
 var _empty = __webpack_require__(9);
+
+var _string = __webpack_require__(341);
 
 var _url = __webpack_require__(78);
 
@@ -32500,35 +32619,60 @@ var SearchComponent = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SearchComponent.__proto__ || Object.getPrototypeOf(SearchComponent)).call(this, props));
 
-    _this.state = { query: props.query };
+    var query = props.query,
+        trackResults = props.trackResults,
+        artistResults = props.artistResults;
+
+    _this.state = { query: query };
+    if ((0, _string.notEqualIgnoreCase)(trackResults.query, query)) {
+      props.clearTracks();
+    }
+    if ((0, _string.notEqualIgnoreCase)(artistResults.query, query)) {
+      props.clearArtists();
+    }
     return _this;
   }
 
   _createClass(SearchComponent, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      // Focus input when you first visit route.
-      $('.search .search-form input').focus();
+      var $input = $(_reactDom2.default.findDOMNode(this)).find('.search-form .mat-input input');
+      $input.focus();
+      // We do the following so that focus ends up at the end of the input, not the beginning.
+      var inputVal = $input.val();
+      $input.val('');
+      $input.val(inputVal);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      if ((0, _string.equalIgnoreCase)(newProps.query, this.state.query)) {
+        return;
+      }
+      this.setState({ query: newProps.query });
+      this.props.clearTracks();
+      this.props.clearArtists();
     }
   }, {
     key: 'onQueryChange',
     value: function onQueryChange(query) {
-      if (query === this.state.query) {
+      if ((0, _string.equalIgnoreCase)(query, this.state.query)) {
         return;
       }
+      this.setState({ query: query });
       this.props.clearTracks();
       this.props.clearArtists();
-      this.setState({ query: query });
+      this.updateUrl.bind(this)(query);
     }
   }, {
     key: 'updateUrl',
-    value: function updateUrl() {
+    value: function updateUrl(query) {
       var _props$location = this.props.location,
           pathname = _props$location.pathname,
           search = _props$location.search;
 
       var currentUrl = pathname + search;
-      var newUrl = (0, _url.getUrlWithUpdatedParams)(pathname, { q: this.state.query });
+      var newUrl = (0, _url.getUrlWithUpdatedParams)(currentUrl, { q: query });
       if (currentUrl !== newUrl) {
         this.props.history.push(newUrl);
       }
@@ -32631,7 +32775,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DEFAULT_MAT_INPUT_WIDTH = _index.GRID * 50;
+var DEFAULT_MAT_INPUT_WIDTH = _index.GRID * 60;
 
 var SearchFormComponent = function (_React$Component) {
   _inherits(SearchFormComponent, _React$Component);
@@ -32646,27 +32790,30 @@ var SearchFormComponent = function (_React$Component) {
   }
 
   _createClass(SearchFormComponent, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      if (newProps.query === this.state.query) {
+        return;
+      }
+      this.setState({ query: newProps.query });
+    }
+  }, {
     key: 'onQueryChange',
     value: function onQueryChange(query) {
-      var _this2 = this;
-
-      this.setState({ query: query }, function () {
-        var queryWidth = (0, _index.measureText)(query, _index.FONT_TYPES.DISPLAY_1);
-        var $searchForm = $(_reactDom2.default.findDOMNode(_this2));
-        var $matInput = $searchForm.find('.mat-input');
-        var $input = $matInput.find('input');
-        var newWidth = $matInput.width() + queryWidth - $input.width();
-        if (newWidth > DEFAULT_MAT_INPUT_WIDTH) {
-          var searchFormWidth = $searchForm.width();
-          if (newWidth < searchFormWidth) {
-            $matInput.width(newWidth);
-          } else {
-            $matInput.width(searchFormWidth);
-          }
+      this.setState({ query: query });
+      var queryWidth = (0, _index.measureText)(query, _index.FONT_TYPES.DISPLAY_1);
+      var $searchForm = $(_reactDom2.default.findDOMNode(this));
+      var $matInput = $searchForm.find('.mat-input');
+      if (queryWidth > DEFAULT_MAT_INPUT_WIDTH) {
+        var searchFormWidth = $searchForm.width();
+        if (queryWidth < searchFormWidth) {
+          $matInput.width(queryWidth);
         } else {
-          $matInput.width(DEFAULT_MAT_INPUT_WIDTH);
+          $matInput.width(searchFormWidth);
         }
-      });
+      } else {
+        $matInput.width(DEFAULT_MAT_INPUT_WIDTH);
+      }
     }
   }, {
     key: 'render',
@@ -32680,7 +32827,6 @@ var SearchFormComponent = function (_React$Component) {
             onQuery(query);
           } },
         _react2.default.createElement(_index.MatInput, { value: query,
-          buttonIcon: 'search',
           placeholder: 'Search for tracks or artists',
           onValueChange: this.onQueryChange.bind(this),
           onButtonClick: function onButtonClick() {
@@ -32733,11 +32879,13 @@ var SEARCH_TABLE_TYPES = exports.SEARCH_TABLE_TYPES = {
 var SEARCH_TABLE_SCHEMAS = {};
 SEARCH_TABLE_SCHEMAS[SEARCH_TABLE_TYPES.TRACKS] = {
   label: 'Tracks',
+  pathname: '/search/tracks',
   listSchema: _track_list_schema2.default,
   gallerySchema: _track_gallery_schema2.default
 };
 SEARCH_TABLE_SCHEMAS[SEARCH_TABLE_TYPES.ARTISTS] = {
   label: 'Artists',
+  pathname: '/search/artists',
   listSchema: _artist_list_schema2.default,
   gallerySchema: _artist_gallery_schema2.default
 };
@@ -32799,17 +32947,29 @@ var QueueComponent = function (_React$Component) {
       tableSchemas[_queue_table_schemas.QUEUE_TABLE_TYPES.QUEUE].entities = this.props.queue.slice(1);
       tableSchemas[_queue_table_schemas.QUEUE_TABLE_TYPES.HISTORY].entities = this.props.history;
 
+      var $nowPlaying = this.props.queue.length > 0 ? _react2.default.createElement(
+        'div',
+        { className: 'now-playing-container' },
+        _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] })
+      ) : _react2.default.createElement(
+        'div',
+        { className: 'info-msg' },
+        'Add tracks to your queue by clicking the green plus icon',
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'add'
+        ),
+        '.'
+      );
+
       return _react2.default.createElement(
         'div',
         { className: 'queue' },
         _react2.default.createElement(
           _table_layout2.default,
           { tableSchemas: tableSchemas },
-          _react2.default.createElement(
-            'div',
-            { className: 'now-playing-container' },
-            _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] })
-          )
+          $nowPlaying
         )
       );
     }
@@ -32971,12 +33131,14 @@ var QUEUE_TABLE_TYPES = exports.QUEUE_TABLE_TYPES = {
 
 var QUEUE_TABLE_SCHEMAS = {};
 QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.QUEUE] = {
-  label: 'Queue',
+  label: 'Up Next',
+  pathname: '/queue/up_next',
   listSchema: _queue_list_schema2.default,
   gallerySchema: _queue_gallery_schema2.default
 };
 QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.HISTORY] = {
   label: 'History',
+  pathname: '/queue/history',
   listSchema: _history_list_schema2.default,
   gallerySchema: _history_gallery_schema2.default
 };
@@ -33054,18 +33216,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _track_gallery_schema = __webpack_require__(145);
+
+var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
+
 var _queue_action_schema = __webpack_require__(152);
 
 var _queue_action_schema2 = _interopRequireDefault(_queue_action_schema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var QUEUE_GALLERY_SCHEMA = {
-  titlePath: 'name',
-  subtitlePath: 'artist.name',
-  imagePath: 'image',
+var QUEUE_GALLERY_SCHEMA = Object.assign(_track_gallery_schema2.default, {
   actions: _queue_action_schema2.default
-};
+});
 
 exports.default = QUEUE_GALLERY_SCHEMA;
 
@@ -33080,18 +33243,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _track_gallery_schema = __webpack_require__(145);
+
+var _track_gallery_schema2 = _interopRequireDefault(_track_gallery_schema);
+
 var _history_action_schema = __webpack_require__(153);
 
 var _history_action_schema2 = _interopRequireDefault(_history_action_schema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var HISTORY_GALLERY_SCHEMA = {
-  titlePath: 'name',
-  subtitlePath: 'artist.name',
-  imagePath: 'image',
+var HISTORY_GALLERY_SCHEMA = Object.assign(_track_gallery_schema2.default, {
   actions: _history_action_schema2.default
-};
+});
 
 exports.default = HISTORY_GALLERY_SCHEMA;
 
@@ -33213,6 +33377,7 @@ var searchReducer = function searchReducer() {
         '#recurse': true,
         trackResults: {
           tracks: tracks,
+          query: action.query,
           isFetching: false,
           endOfTable: endOfTable
         }
@@ -33239,6 +33404,7 @@ var searchReducer = function searchReducer() {
         '#recurse': true,
         artistResults: {
           artists: artists,
+          query: action.query,
           isFetching: false,
           endOfTable: endOfTable
         }
@@ -33401,7 +33567,6 @@ var MatInput = function (_React$Component) {
 
       var _props = this.props,
           value = _props.value,
-          buttonIcon = _props.buttonIcon,
           placeholder = _props.placeholder,
           onValueChange = _props.onValueChange,
           onButtonClick = _props.onButtonClick;
@@ -33417,8 +33582,6 @@ var MatInput = function (_React$Component) {
       if (isFocused) {
         underlineClassName += ' filled';
       }
-
-      var $iconButton = buttonIcon ? _react2.default.createElement(_mat_button2.default, { icon: buttonIcon, onClick: onButtonClick }) : '';
 
       return _react2.default.createElement(
         'div',
@@ -33446,8 +33609,7 @@ var MatInput = function (_React$Component) {
             },
             onChange: function onChange(e) {
               onValueChange(e.target.value);
-            } }),
-          $iconButton
+            } })
         ),
         _react2.default.createElement(
           'div',
@@ -33462,6 +33624,105 @@ var MatInput = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = MatInput;
+
+/***/ }),
+/* 340 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(136);
+
+var _url = __webpack_require__(78);
+
+var _index = __webpack_require__(18);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ArtistLinkChip = function ArtistLinkChip(_ref) {
+  var text = _ref.text,
+      className = _ref.className,
+      history = _ref.history,
+      location = _ref.location;
+
+  className += ' artist-link-chip';
+  className.trim();
+
+  var onClick = function onClick() {
+    var pathname = location.pathname,
+        search = location.search;
+
+    var newUrl = (0, _url.getUrlWithUpdatedParams)('/search/tracks' + search, { q: text });
+    var oldUrl = pathname + search;
+    if (newUrl !== oldUrl) {
+      history.push(newUrl);
+    }
+  };
+
+  return _react2.default.createElement(_index.MatChip, { className: className, text: text, onClick: onClick });
+};
+
+exports.default = (0, _reactRouter.withRouter)(ArtistLinkChip);
+
+/***/ }),
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var equalIgnoreCase = function equalIgnoreCase(str1, str2) {
+       return typeof str1 === 'string' && typeof str2 === 'string' && str1.toUpperCase() === str2.toUpperCase();
+};
+
+module.exports.equalIgnoreCase = equalIgnoreCase;
+
+var notEqualIgnoreCase = function notEqualIgnoreCase(str1, str2) {
+       return !equalIgnoreCase(str1, str2);
+};
+
+module.exports.notEqualIgnoreCase = notEqualIgnoreCase;
+
+/***/ }),
+/* 342 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(9);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ArtistLinkCellComponent = function ArtistLinkCellComponent(text, _, actions) {
+  return _react2.default.createElement(
+    'span',
+    { className: 'artist-link-cell',
+      onClick: function onClick() {
+        actions.pushUrl('/search/tracks', { q: text });
+      } },
+    (0, _empty.isNotEmpty)(text) ? text.toString() : ''
+  );
+};
+
+exports.default = ArtistLinkCellComponent;
 
 /***/ })
 /******/ ]);

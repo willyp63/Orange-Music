@@ -15,9 +15,13 @@ const GalleryTile = ({entity, schema, actions}) => {
   const imageSrc = image ? getImageUrl(image, IMAGE_IDX) : EMPTY_IMG_SRC;
   const imageClassName = imageSrc === EMPTY_IMG_SRC ? 'bordered' : '';
 
-  const $titleChip = title ? (<MatChip className='title' text={title} />) : '';
+  const TitleChipComponent = schema.titleChipComponent || MatChip;
+  const $titleChip = title
+    ? (<TitleChipComponent className='title' text={title} />)
+    : '';
+  const SubtitleChipComponent = schema.subtitleChipComponent || MatChip;
   const $subtitleChip = subtitle
-    ? (<MatChip className='subtitle' text={subtitle} />)
+    ? (<SubtitleChipComponent className='subtitle' text={subtitle} />)
     : '';
 
   const $buttons = Object.keys(schema.actions).map((actionType) => {

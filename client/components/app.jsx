@@ -21,6 +21,7 @@ const AppComponent = ({children}) => (
           <Route exact path="/" component={HomeComponent} />
           <Route path="/search" component={SearchComponent} />
           <Route path="/queue" component={QueueComponent} />
+          <Route path="/home" component={HomeComponent} />
         </div>
       </div>
     </div>
