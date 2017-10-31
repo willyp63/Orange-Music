@@ -2011,7 +2011,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.measureText = exports.FONT_TYPES = exports.GRID = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
+exports.measureText = exports.FONT_TYPES = exports.TIME = exports.GRID = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(137);
 
@@ -2045,6 +2045,10 @@ var _grid = __webpack_require__(27);
 
 var _grid2 = _interopRequireDefault(_grid);
 
+var _transition = __webpack_require__(344);
+
+var _transition2 = _interopRequireDefault(_transition);
+
 var _font = __webpack_require__(139);
 
 var _font2 = _interopRequireDefault(_font);
@@ -2060,6 +2064,7 @@ var MatTabs = exports.MatTabs = _mat_tabs2.default;
 var MatInput = exports.MatInput = _mat_input2.default;
 
 var GRID = exports.GRID = _grid2.default.GRID;
+var TIME = exports.TIME = _transition2.default.TIME;
 var FONT_TYPES = exports.FONT_TYPES = _font2.default.FONT_TYPES;
 var measureText = exports.measureText = _font2.default.measureText;
 
@@ -5775,16 +5780,19 @@ var TRACK_ACTIONS = {};
 TRACK_ACTIONS[ACTION_TYPES.PLAY_TRACK] = {
   buttonClassName: 'play-btn',
   icon: 'play_arrow',
+  tooltipText: 'play',
   actionName: 'playTrack'
 };
 TRACK_ACTIONS[ACTION_TYPES.ADD_TRACK_TO_QUEUE] = {
   buttonClassName: 'add-to-queue-btn',
   icon: 'add',
+  tooltipText: 'add to queue',
   actionName: 'addTrackToQueue'
 };
 TRACK_ACTIONS[ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
   buttonClassName: 'add-to-playlist-btn',
   icon: 'playlist_add',
+  tooltipText: 'add to playlist',
   actionName: 'TODO' // TODO: Add action once we have playlists
 };
 
@@ -14238,6 +14246,10 @@ var _mat_ripple = __webpack_require__(138);
 
 var _mat_ripple2 = _interopRequireDefault(_mat_ripple);
 
+var _mat_tooltip = __webpack_require__(343);
+
+var _mat_tooltip2 = _interopRequireDefault(_mat_tooltip);
+
 var _grid = __webpack_require__(27);
 
 var _grid2 = _interopRequireDefault(_grid);
@@ -14250,6 +14262,7 @@ var GRID = _grid2.default.GRID;
 var MatButton = function MatButton(_ref) {
   var text = _ref.text,
       icon = _ref.icon,
+      tooltipText = _ref.tooltipText,
       isSubmit = _ref.isSubmit,
       isDisabled = _ref.isDisabled,
       onClick = _ref.onClick,
@@ -14282,6 +14295,14 @@ var MatButton = function MatButton(_ref) {
     text,
     $icon
   );
+
+  if (tooltipText) {
+    $button = _react2.default.createElement(
+      _mat_tooltip2.default,
+      { text: tooltipText },
+      $button
+    );
+  }
 
   // If not disabled, wrap button in ripple.
   if (!isDisabled) {
@@ -15161,6 +15182,7 @@ var QUEUE_ACTION_SCHEMA = Object.assign({}, _track_action_schema2.default);
 QUEUE_ACTION_SCHEMA[ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
   buttonClassName: 'remove-from-history-btn',
   icon: 'remove',
+  tooltipText: 'remove from queue',
   actionName: 'removeTrackFromQueue'
 };
 
@@ -15191,6 +15213,7 @@ var HISTORY_ACTIONS = Object.assign({}, _track_action_schema2.default);
 HISTORY_ACTIONS[ACTION_TYPES.REMOVE_TRACK_FROM_HISTORY] = {
   buttonClassName: 'remove-from-history-btn',
   icon: 'remove',
+  tooltipText: 'remove from history',
   actionName: 'removeTrackFromHistory'
 };
 
@@ -32193,6 +32216,7 @@ var ActionsCellComponent = function ActionsCellComponent(_, track, actions, sche
     var action = schema.actions[actionType];
     return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
       icon: action.icon,
+      tooltipText: action.tooltipText,
       key: actionType,
       onClick: function onClick() {
         if (typeof actions[action.actionName] === 'function') {
@@ -32347,11 +32371,13 @@ var DisplayTypePickerComponent = function DisplayTypePickerComponent(_ref) {
     { className: 'display-type-picker' },
     _react2.default.createElement(_index.MatButton, { className: getClassName(TABLE_DISPLAY_TYPES.GALLERY),
       icon: 'view_module',
+      tooltipText: 'gallery display',
       onClick: function onClick() {
         onButtonClick(TABLE_DISPLAY_TYPES.GALLERY);
       } }),
     _react2.default.createElement(_index.MatButton, { className: getClassName(TABLE_DISPLAY_TYPES.LIST),
       icon: 'view_list',
+      tooltipText: 'list display',
       onClick: function onClick() {
         onButtonClick(TABLE_DISPLAY_TYPES.LIST);
       } })
@@ -32494,9 +32520,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(39);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _empty = __webpack_require__(9);
 
@@ -32510,56 +32542,80 @@ var _index = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var IMAGE_IDX = 3;
 
-var GalleryTile = function GalleryTile(_ref) {
-  var entity = _ref.entity,
-      schema = _ref.schema,
-      actions = _ref.actions;
+var GalleryTile = function (_React$Component) {
+  _inherits(GalleryTile, _React$Component);
 
-  var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
-  var title = (0, _nested_field.getNestedFieldValue)(entity, schema.titlePath);
-  var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
+  function GalleryTile() {
+    _classCallCheck(this, GalleryTile);
 
-  var imageSrc = image ? (0, _last_fm_api.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
-  var imageClassName = imageSrc === _image.EMPTY_IMG_SRC ? 'bordered' : '';
+    return _possibleConstructorReturn(this, (GalleryTile.__proto__ || Object.getPrototypeOf(GalleryTile)).apply(this, arguments));
+  }
 
-  var TitleChipComponent = schema.titleChipComponent || _index.MatChip;
-  var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title }) : '';
-  var SubtitleChipComponent = schema.subtitleChipComponent || _index.MatChip;
-  var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle }) : '';
+  _createClass(GalleryTile, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          entity = _props.entity,
+          schema = _props.schema,
+          actions = _props.actions;
 
-  var $buttons = Object.keys(schema.actions).map(function (actionType) {
-    var action = schema.actions[actionType];
-    return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
-      icon: action.icon,
-      key: actionType,
-      onClick: function onClick() {
-        if (typeof actions[action.actionName] === 'function') {
-          actions[action.actionName](entity);
-        }
-      } });
-  });
 
-  var actionsDrawerStyle = (0, _empty.isEmpty)($buttons) ? { height: 0 } : {};
+      var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
+      var title = (0, _nested_field.getNestedFieldValue)(entity, schema.titlePath);
+      var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
 
-  return _react2.default.createElement(
-    'div',
-    { className: 'tile' },
-    _react2.default.createElement('img', { src: imageSrc, className: imageClassName }),
-    _react2.default.createElement(
-      'div',
-      { className: 'info' },
-      $titleChip,
-      $subtitleChip
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'actions-drawer', style: actionsDrawerStyle },
-      $buttons
-    )
-  );
-};
+      var imageSrc = image ? (0, _last_fm_api.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
+      var imageClassName = imageSrc === _image.EMPTY_IMG_SRC ? 'bordered' : '';
+
+      var TitleChipComponent = schema.titleChipComponent || _index.MatChip;
+      var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title }) : '';
+      var SubtitleChipComponent = schema.subtitleChipComponent || _index.MatChip;
+      var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle }) : '';
+
+      var $buttons = Object.keys(schema.actions).map(function (actionType) {
+        var action = schema.actions[actionType];
+        return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
+          icon: action.icon,
+          tooltipText: action.tooltipText,
+          key: actionType,
+          onClick: function onClick() {
+            if (typeof actions[action.actionName] === 'function') {
+              actions[action.actionName](entity);
+            }
+          } });
+      });
+
+      var actionsDrawerStyle = (0, _empty.isEmpty)($buttons) ? { height: 0 } : {};
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'tile' },
+        _react2.default.createElement('img', { src: imageSrc, className: imageClassName }),
+        _react2.default.createElement(
+          'div',
+          { className: 'info' },
+          $titleChip,
+          $subtitleChip
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'actions-drawer', style: actionsDrawerStyle },
+          $buttons
+        )
+      );
+    }
+  }]);
+
+  return GalleryTile;
+}(_react2.default.Component);
 
 exports.default = GalleryTile;
 
@@ -33135,6 +33191,7 @@ var NOW_PLAYING_ACTION_SCHEMA = {};
 NOW_PLAYING_ACTION_SCHEMA[ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
   buttonClassName: 'remove-from-history-btn',
   icon: 'remove',
+  tooltipText: 'remove from queue',
   actionName: 'removeTrackFromQueue'
 };
 
@@ -33771,6 +33828,59 @@ var ArtistLinkCellComponent = function ArtistLinkCellComponent(text, _, actions)
 };
 
 exports.default = ArtistLinkCellComponent;
+
+/***/ }),
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MatTooltip = function MatTooltip(_ref) {
+  var text = _ref.text,
+      children = _ref.children;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'mat-tooltip' },
+    children,
+    _react2.default.createElement(
+      'div',
+      { className: 'tooltip' },
+      _react2.default.createElement(
+        'div',
+        null,
+        text
+      )
+    )
+  );
+};
+
+exports.default = MatTooltip;
+
+/***/ }),
+/* 344 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var TIME = 280 /* ms */;
+
+exports.default = { TIME: TIME };
 
 /***/ })
 /******/ ]);

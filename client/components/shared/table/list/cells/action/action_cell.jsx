@@ -7,6 +7,7 @@ const ActionsCellComponent = (_, track, actions, schema) => {
     return (
       <MatButton className={action.buttonClassName}
                  icon={action.icon}
+                 tooltipText={action.tooltipText}
                  key={actionType}
                  onClick={() => {
                    if (typeof actions[action.actionName] === 'function') {

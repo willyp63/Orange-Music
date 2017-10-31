@@ -59,17 +59,21 @@
 
       display: flex;
       justify-content: space-around;
-      overflow: hidden;
 
       .mat-btn {
         margin: @om-gallery-action-btn-padding-v 0;
+        opacity: 0;
+        transition: opacity @time @timing-fcn;
 
         button {
           width: @om-gallery-action-btn-size;
           height: @om-gallery-action-btn-size;
         }
 
-        i { .font-icon-lg(); }
+        i {
+          font-size: 0;
+          transition: font-size @time @timing-fcn;
+        }
       }
 
       .play-btn {
@@ -103,6 +107,10 @@
   .tile:hover {
     .actions-drawer {
       height: @om-gallery-action-btn-size + @om-gallery-action-btn-padding-v * 2;
+      .mat-btn {
+        opacity: 1;
+        i { .font-icon-lg(); }
+      }
     }
   }
 }

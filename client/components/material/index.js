@@ -7,6 +7,7 @@ import MatTabs_1 from './components/mat_tabs/mat_tabs';
 import MatInput_1 from './components/mat_input/mat_input';
 
 import Grid from './css/grid';
+import Transition from './css/transition';
 import Font from './css/font';
 
 export const MatButton = MatButton_1;
@@ -18,5 +19,6 @@ export const MatTabs = MatTabs_1;
 export const MatInput = MatInput_1;
 
 export const GRID = Grid.GRID;
+export const TIME = Transition.TIME;
 export const FONT_TYPES = Font.FONT_TYPES;
 export const measureText = Font.measureText;

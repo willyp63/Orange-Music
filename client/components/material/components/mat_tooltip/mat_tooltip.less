@@ -1,0 +1,47 @@
+.mat-tooltip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .tooltip {
+    z-index: 999;
+    position: absolute;
+    bottom: -14px;
+    height: 0;
+    font-size: 0;
+    padding: 0;
+    line-height: 22px;
+
+    background-color: @grey-600;
+    opacity: 0;
+    color: @white;
+    border-radius: @grid / 4;
+    white-space: nowrap;
+    transition: height @time @timing-fcn,
+                font-size @time @timing-fcn,
+                padding @time @timing-fcn,
+                bottom @time @timing-fcn,
+                opacity @time @timing-fcn;
+
+    div {
+      margin-top: -11px;
+      transition: margin-top @time @timing-fcn;
+    }
+  }
+
+  &:hover {
+    .tooltip {
+      bottom: -36px;
+      padding: 0 @grid;
+      height: 22px;
+      opacity: 1;
+
+      .font-body-1();
+
+      div {
+        margin-top: 0;
+      }
+    }
+  }
+}

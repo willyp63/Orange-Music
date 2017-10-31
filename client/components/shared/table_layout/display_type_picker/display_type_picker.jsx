@@ -27,9 +27,11 @@ const DisplayTypePickerComponent = ({ selectedDisplayType, onDisplayTypeSelect }
     <div className='display-type-picker'>
       <MatButton className={getClassName(TABLE_DISPLAY_TYPES.GALLERY)}
                  icon={'view_module'}
+                 tooltipText='gallery display'
                  onClick={() => { onButtonClick(TABLE_DISPLAY_TYPES.GALLERY); }} />
       <MatButton className={getClassName(TABLE_DISPLAY_TYPES.LIST)}
                  icon={'view_list'}
+                 tooltipText='list display'
                  onClick={() => { onButtonClick(TABLE_DISPLAY_TYPES.LIST); }} />
     </div>
   );

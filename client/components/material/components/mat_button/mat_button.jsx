@@ -1,9 +1,10 @@
 import React from 'react';
 import MatRipple from '../mat_ripple/mat_ripple';
+import MatTooltip from '../mat_tooltip/mat_tooltip';
 import Grid from '../../css/grid';
 const { GRID } = Grid;
 
-const MatButton = ({text, icon, isSubmit, isDisabled, onClick, className}) => {
+const MatButton = ({text, icon, tooltipText, isSubmit, isDisabled, onClick, className}) => {
   className = className ? className + ' mat-btn' : 'mat-btn';
   const buttonClassName = isDisabled ? 'disabled' : '';
 
@@ -26,6 +27,10 @@ const MatButton = ({text, icon, isSubmit, isDisabled, onClick, className}) => {
       {text}{$icon}
     </button>
   );
+
+  if (tooltipText) {
+    $button = (<MatTooltip text={tooltipText}>{$button}</MatTooltip>);
+  }
 
   // If not disabled, wrap button in ripple.
   if (!isDisabled) { $button = (<MatRipple>{$button}</MatRipple>); }

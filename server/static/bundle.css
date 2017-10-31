@@ -130,7 +130,7 @@ body {
   top: 0;
   height: 100%;
   width: 192px;
-  transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: left 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .mat-ripple s {
   background-color: rgba(255, 255, 255, 0.3);
@@ -153,7 +153,7 @@ body {
   left: 0;
   color: #9E9E9E;
   pointer-events: none;
-  transition: top 0.28s cubic-bezier(0.4, 0, 0.2, 1), font-size 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: top 280ms cubic-bezier(0.4, 0, 0.2, 1), font-size 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .mat-input .placeholder-container .placeholder.lifted {
   top: 0;
@@ -177,7 +177,7 @@ body {
   left: 50%;
   width: 0;
   height: 1px;
-  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 280ms cubic-bezier(0.4, 0, 0.2, 1), left 280ms cubic-bezier(0.4, 0, 0.2, 1);
   background-color: #212121;
 }
 .mat-input .underline.filled div {
@@ -185,6 +185,43 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
+}
+.mat-tooltip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mat-tooltip .tooltip {
+  z-index: 999;
+  position: absolute;
+  bottom: -14px;
+  height: 0;
+  font-size: 0;
+  padding: 0;
+  line-height: 22px;
+  background-color: #757575;
+  opacity: 0;
+  color: #FFFFFF;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1), font-size 280ms cubic-bezier(0.4, 0, 0.2, 1), padding 280ms cubic-bezier(0.4, 0, 0.2, 1), bottom 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mat-tooltip .tooltip div {
+  margin-top: -11px;
+  transition: margin-top 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mat-tooltip:hover .tooltip {
+  bottom: -36px;
+  padding: 0 8px;
+  height: 22px;
+  opacity: 1;
+  font-size: 13px;
+  font-weight: 300;
+  text-transform: inherit;
+}
+.mat-tooltip:hover .tooltip div {
+  margin-top: 0;
 }
 html,
 body,
@@ -222,7 +259,7 @@ i {
 }
 .om-nav-panel .nav-btns .mat-btn button {
   color: rgba(255, 255, 255, 0.75);
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-nav-panel .nav-btns .mat-btn button.disabled {
   color: #BDBDBD;
@@ -248,7 +285,7 @@ i {
 }
 .om-nav-panel .nav-btns .home-btn button {
   color: #FFFFFF;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-nav-panel .nav-btns .home-btn button.disabled {
   color: #BDBDBD;
@@ -293,7 +330,7 @@ i {
   z-index: 300;
   width: 800px;
   border-radius: 2px;
-  transition: bottom 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: bottom 280ms cubic-bezier(0.4, 0, 0.2, 1);
   padding: 8px;
   background-color: #FFB74D;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
@@ -359,7 +396,7 @@ i {
 }
 .om-player .track-controls .mat-btn button {
   color: #FFFFFF;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-player .track-controls .mat-btn button.disabled {
   color: rgba(255, 255, 255, 0.3);
@@ -391,7 +428,7 @@ i {
 }
 .om-player .volume-controls .controls-container .mat-btn button {
   color: #FFFFFF;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-player .volume-controls .controls-container .mat-btn button.disabled {
   color: #BDBDBD;
@@ -545,7 +582,7 @@ i {
 }
 .om-table-layout .om-nav-bar .table-controls-container .mat-tabs .tab button {
   color: #1E88E5;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-table-layout .om-nav-bar .table-controls-container .mat-tabs .tab button.disabled {
   color: #BDBDBD;
@@ -555,7 +592,7 @@ i {
 }
 .om-table-layout .om-nav-bar .table-controls-container .mat-tabs .tab.selected button {
   color: #FB8C00;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-table-layout .om-nav-bar .table-controls-container .mat-tabs .tab.selected button.disabled {
   color: #BDBDBD;
@@ -600,7 +637,7 @@ i {
 }
 .om-table-layout .display-type-picker .mat-btn button {
   color: #1976D2;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-table-layout .display-type-picker .mat-btn button.disabled {
   color: #BDBDBD;
@@ -623,7 +660,7 @@ i {
 }
 .om-table-layout .display-type-picker .mat-btn.active button {
   color: #F57C00;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-table-layout .display-type-picker .mat-btn.active button.disabled {
   color: #BDBDBD;
@@ -651,7 +688,7 @@ i {
   background-color: #FFFFFF;
   border-bottom: 1px solid #E0E0E0;
   box-shadow: none;
-  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-nav-bar.scrolled {
   border-bottom: 0;
@@ -715,15 +752,15 @@ i {
 }
 .om-list .actions-cell .action-btns-container .mat-btn {
   margin-right: 0;
-  transition: margin-right 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: margin-right 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-list .actions-cell .action-btns-container .mat-btn button {
   width: 0;
   height: 0;
-  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), height 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: width 280ms cubic-bezier(0.4, 0, 0.2, 1), height 280ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .om-list .actions-cell .action-btns-container .mat-btn i {
-  transition: font-size 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: font-size 280ms cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0px;
 }
 .om-list .actions-cell .action-btns-container .play-btn {
@@ -732,7 +769,7 @@ i {
 .om-list .actions-cell .action-btns-container .play-btn button {
   color: #FFFFFF;
   background-color: #1E88E5;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 .om-list .actions-cell .action-btns-container .play-btn button.disabled {
@@ -758,7 +795,7 @@ i {
 .om-list .actions-cell .action-btns-container .add-to-queue-btn button {
   color: #FFFFFF;
   background-color: #43A047;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 .om-list .actions-cell .action-btns-container .add-to-queue-btn button.disabled {
@@ -786,7 +823,7 @@ i {
 .om-list .actions-cell .action-btns-container .remove-from-history-btn button {
   color: #FFFFFF;
   background-color: #E53935;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn button.disabled,
@@ -816,7 +853,7 @@ i {
 .om-list .actions-cell .action-btns-container .add-to-playlist-btn button {
   color: #FFFFFF;
   background-color: #FB8C00;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 .om-list .actions-cell .action-btns-container .add-to-playlist-btn button.disabled {
@@ -911,27 +948,29 @@ i {
   width: 100%;
   height: 0;
   background-color: rgba(0, 0, 0, 0.63);
-  transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   justify-content: space-around;
-  overflow: hidden;
 }
 .om-gallery .tile .actions-drawer .mat-btn {
   margin: 8px 0;
+  opacity: 0;
+  transition: opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-gallery .tile .actions-drawer .mat-btn button {
   width: 64px;
   height: 64px;
 }
 .om-gallery .tile .actions-drawer .mat-btn i {
-  font-size: 36px;
+  font-size: 0;
+  transition: font-size 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-gallery .tile .actions-drawer .play-btn {
   border-radius: 50%;
 }
 .om-gallery .tile .actions-drawer .play-btn button {
   color: #1E88E5;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-gallery .tile .actions-drawer .play-btn button.disabled {
   color: #BDBDBD;
@@ -951,7 +990,7 @@ i {
 }
 .om-gallery .tile .actions-drawer .add-to-queue-btn button {
   color: #43A047;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-gallery .tile .actions-drawer .add-to-queue-btn button.disabled {
   color: #BDBDBD;
@@ -971,7 +1010,7 @@ i {
 }
 .om-gallery .tile .actions-drawer .add-to-playlist-btn button {
   color: #FB8C00;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-gallery .tile .actions-drawer .add-to-playlist-btn button.disabled {
   color: #BDBDBD;
@@ -993,7 +1032,7 @@ i {
 .om-gallery .tile .actions-drawer .remove-from-queue-btn button,
 .om-gallery .tile .actions-drawer .remove-from-history-btn button {
   color: #E53935;
-  transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn button.disabled,
 .om-gallery .tile .actions-drawer .remove-from-history-btn button.disabled {
@@ -1014,6 +1053,12 @@ i {
 }
 .om-gallery .tile:hover .actions-drawer {
   height: 80px;
+}
+.om-gallery .tile:hover .actions-drawer .mat-btn {
+  opacity: 1;
+}
+.om-gallery .tile:hover .actions-drawer .mat-btn i {
+  font-size: 36px;
 }
 .om-gallery .artist-link-chip {
   color: #1976D2;
