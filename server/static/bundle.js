@@ -8440,8 +8440,7 @@ var TableLayoutComponent = function (_React$Component) {
       var _ref2 = props || this.props,
           tableSchemas = _ref2.tableSchemas;
 
-      var selectedTableType = this.state.selectedTableType;
-
+      var selectedTableType = this.getTableType.bind(this)(props);
       var selectedtableSchema = tableSchemas[selectedTableType];
 
       if (!selectedtableSchema.isFetching && !selectedtableSchema.endOfTable && (0, _empty.isEmpty)(selectedtableSchema.entities)) {

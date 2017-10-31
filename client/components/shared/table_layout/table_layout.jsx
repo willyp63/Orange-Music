@@ -52,7 +52,7 @@ class TableLayoutComponent extends React.Component {
   }
   fetchInitialEntities(props) {
     const { tableSchemas } = props || this.props;
-    const { selectedTableType } = this.state;
+    const selectedTableType = this.getTableType.bind(this)(props);
     const selectedtableSchema = tableSchemas[selectedTableType];
 
     if (!selectedtableSchema.isFetching &&
