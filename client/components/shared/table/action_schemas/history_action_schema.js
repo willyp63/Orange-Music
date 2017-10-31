@@ -8,7 +8,7 @@ const HISTORY_ACTIONS = Object.assign({}, TRACK_ACTION_SCHEMA);
 HISTORY_ACTIONS[ACTION_TYPES.REMOVE_TRACK_FROM_HISTORY] = {
   buttonClassName: 'remove-from-history-btn',
   icon: 'remove',
-  tooltipText: 'remove from history',
+  tooltipText: 'Remove from history',
   actionName: 'removeTrackFromHistory',
 };
 
