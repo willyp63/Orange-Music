@@ -8406,19 +8406,19 @@ var MatButton = function MatButton(_ref) {
     $icon
   );
 
-  if (tooltipText) {
-    $button = _react2.default.createElement(
-      _mat_tooltip2.default,
-      { text: tooltipText },
-      $button
-    );
-  }
-
   // If not disabled, wrap button in ripple.
   if (!isDisabled) {
     $button = _react2.default.createElement(
       _mat_ripple2.default,
       null,
+      $button
+    );
+  }
+
+  if (tooltipText) {
+    $button = _react2.default.createElement(
+      _mat_tooltip2.default,
+      { text: tooltipText },
       $button
     );
   }
@@ -33153,6 +33153,11 @@ var SearchFormComponent = function (_React$Component) {
   }
 
   _createClass(SearchFormComponent, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.updateInputWidth.bind(this)(this.state.query);
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       if (newProps.query === this.state.query) {
@@ -33164,6 +33169,11 @@ var SearchFormComponent = function (_React$Component) {
     key: 'onQueryChange',
     value: function onQueryChange(query) {
       this.setState({ query: query });
+      this.updateInputWidth.bind(this)(query);
+    }
+  }, {
+    key: 'updateInputWidth',
+    value: function updateInputWidth(query) {
       var queryWidth = (0, _index.measureText)(query, _index.FONT_TYPES.DISPLAY_1);
       var $searchForm = $(_reactDom2.default.findDOMNode(this));
       var $matInput = $searchForm.find('.mat-input');

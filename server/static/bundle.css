@@ -297,6 +297,9 @@ i {
   padding: 0;
   justify-content: space-around;
 }
+.om-nav-panel .nav-btns .home-btn .mat-tooltip {
+  border-radius: 50%;
+}
 .om-nav-panel .nav-btns .home-btn button {
   border-radius: 50%;
 }
@@ -408,6 +411,9 @@ i {
   padding: 0;
   justify-content: space-around;
 }
+.om-player .track-controls .mat-btn .mat-tooltip {
+  border-radius: 50%;
+}
 .om-player .track-controls .mat-btn button {
   border-radius: 50%;
 }
@@ -439,6 +445,9 @@ i {
 .om-player .volume-controls .controls-container .mat-btn button {
   padding: 0;
   justify-content: space-around;
+}
+.om-player .volume-controls .controls-container .mat-btn .mat-tooltip {
+  border-radius: 50%;
 }
 .om-player .volume-controls .controls-container .mat-btn button {
   border-radius: 50%;
@@ -649,6 +658,9 @@ i {
   padding: 0;
   justify-content: space-around;
 }
+.om-table-layout .display-type-picker .mat-btn .mat-tooltip {
+  border-radius: 50%;
+}
 .om-table-layout .display-type-picker .mat-btn button {
   border-radius: 50%;
 }
@@ -671,6 +683,9 @@ i {
 .om-table-layout .display-type-picker .mat-btn.active button {
   padding: 0;
   justify-content: space-around;
+}
+.om-table-layout .display-type-picker .mat-btn.active .mat-tooltip {
+  border-radius: 50%;
 }
 .om-table-layout .display-type-picker .mat-btn.active button {
   border-radius: 50%;
@@ -786,6 +801,9 @@ i {
   padding: 0;
   justify-content: space-around;
 }
+.om-list .actions-cell .action-btns-container .play-btn .mat-tooltip {
+  border-radius: 50%;
+}
 .om-list .actions-cell .action-btns-container .play-btn button {
   border-radius: 50%;
 }
@@ -811,6 +829,9 @@ i {
 .om-list .actions-cell .action-btns-container .add-to-queue-btn button {
   padding: 0;
   justify-content: space-around;
+}
+.om-list .actions-cell .action-btns-container .add-to-queue-btn .mat-tooltip {
+  border-radius: 50%;
 }
 .om-list .actions-cell .action-btns-container .add-to-queue-btn button {
   border-radius: 50%;
@@ -843,6 +864,10 @@ i {
   padding: 0;
   justify-content: space-around;
 }
+.om-list .actions-cell .action-btns-container .remove-from-queue-btn .mat-tooltip,
+.om-list .actions-cell .action-btns-container .remove-from-history-btn .mat-tooltip {
+  border-radius: 50%;
+}
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn button,
 .om-list .actions-cell .action-btns-container .remove-from-history-btn button {
   border-radius: 50%;
@@ -869,6 +894,9 @@ i {
 .om-list .actions-cell .action-btns-container .add-to-playlist-btn button {
   padding: 0;
   justify-content: space-around;
+}
+.om-list .actions-cell .action-btns-container .add-to-playlist-btn .mat-tooltip {
+  border-radius: 50%;
 }
 .om-list .actions-cell .action-btns-container .add-to-playlist-btn button {
   border-radius: 50%;
@@ -982,6 +1010,9 @@ i {
   padding: 0;
   justify-content: space-around;
 }
+.om-gallery .tile .actions-drawer .play-btn .mat-tooltip {
+  border-radius: 50%;
+}
 .om-gallery .tile .actions-drawer .play-btn button {
   border-radius: 50%;
 }
@@ -1002,6 +1033,9 @@ i {
   padding: 0;
   justify-content: space-around;
 }
+.om-gallery .tile .actions-drawer .add-to-queue-btn .mat-tooltip {
+  border-radius: 50%;
+}
 .om-gallery .tile .actions-drawer .add-to-queue-btn button {
   border-radius: 50%;
 }
@@ -1021,6 +1055,9 @@ i {
 .om-gallery .tile .actions-drawer .add-to-playlist-btn button {
   padding: 0;
   justify-content: space-around;
+}
+.om-gallery .tile .actions-drawer .add-to-playlist-btn .mat-tooltip {
+  border-radius: 50%;
 }
 .om-gallery .tile .actions-drawer .add-to-playlist-btn button {
   border-radius: 50%;
@@ -1046,6 +1083,10 @@ i {
 .om-gallery .tile .actions-drawer .remove-from-history-btn button {
   padding: 0;
   justify-content: space-around;
+}
+.om-gallery .tile .actions-drawer .remove-from-queue-btn .mat-tooltip,
+.om-gallery .tile .actions-drawer .remove-from-history-btn .mat-tooltip {
+  border-radius: 50%;
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn button,
 .om-gallery .tile .actions-drawer .remove-from-history-btn button {

@@ -9,12 +9,18 @@ class SearchFormComponent extends React.Component {
     super(props);
     this.state = {query: props.query};
   }
+  componentDidMount() {
+    this.updateInputWidth.bind(this)(this.state.query);
+  }
   componentWillReceiveProps(newProps) {
     if (newProps.query === this.state.query) { return; }
     this.setState({query: newProps.query});
   }
   onQueryChange(query) {
     this.setState({query});
+    this.updateInputWidth.bind(this)(query);
+  }
+  updateInputWidth(query) {
     const queryWidth = measureText(query, FONT_TYPES.DISPLAY_1);
     const $searchForm = $(ReactDOM.findDOMNode(this));
     const $matInput = $searchForm.find('.mat-input');

@@ -28,12 +28,12 @@ const MatButton = ({text, icon, tooltipText, isSubmit, isDisabled, onClick, clas
     </button>
   );
 
+  // If not disabled, wrap button in ripple.
+  if (!isDisabled) { $button = (<MatRipple>{$button}</MatRipple>); }
+
   if (tooltipText) {
     $button = (<MatTooltip text={tooltipText}>{$button}</MatTooltip>);
   }
-
-  // If not disabled, wrap button in ripple.
-  if (!isDisabled) { $button = (<MatRipple>{$button}</MatRipple>); }
 
   return (
     <span className={className}>{$button}</span>
