@@ -8520,9 +8520,14 @@ var TableLayoutComponent = function (_React$Component) {
 
       var tableSchema = tableSchemas[selectedTableType];
 
-      var $table = selectedDisplayType === _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY ? _react2.default.createElement(_gallery2.default, { entities: tableSchema.entities,
-        schema: tableSchema.gallerySchema }) : _react2.default.createElement(_list2.default, { entities: tableSchema.entities,
-        schema: tableSchema.listSchema });
+      var $table = '';
+      if (tableSchema.entities.length > 0) {
+        $table = selectedDisplayType === _display_type_picker.TABLE_DISPLAY_TYPES.GALLERY ? _react2.default.createElement(_gallery2.default, { entities: tableSchema.entities,
+          schema: tableSchema.gallerySchema }) : _react2.default.createElement(_list2.default, { entities: tableSchema.entities,
+          schema: tableSchema.listSchema });
+      } else if (tableSchema.endOfTable) {
+        $table = tableSchema.emptyTable || '';
+      }
 
       var $listHeader = selectedDisplayType === _display_type_picker.TABLE_DISPLAY_TYPES.LIST ? _react2.default.createElement(_list_header2.default, { schema: tableSchema.listSchema }) : '';
 
@@ -32691,11 +32696,21 @@ var SearchComponent = function (_React$Component) {
       var tableSchemas = Object.assign({}, _search_table_schemas2.default);
 
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].entities = trackResults.tracks;
+      tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].emptyTable = _react2.default.createElement(
+        'div',
+        { className: 'empty-table' },
+        'No results'
+      );
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].isFetching = trackResults.isFetching;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].endOfTable = trackResults.endOfTable;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.TRACKS].fetcher = (0, _empty.isNotEmpty)(query) ? searchTracks.bind(null, query) : function () {};
 
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].entities = artistResults.artists;
+      tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].emptyTable = _react2.default.createElement(
+        'div',
+        { className: 'empty-table' },
+        'No results'
+      );
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].isFetching = artistResults.isFetching;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].endOfTable = artistResults.endOfTable;
       tableSchemas[_search_table_schemas.SEARCH_TABLE_TYPES.ARTISTS].fetcher = (0, _empty.isNotEmpty)(query) ? searchArtists.bind(null, query) : function () {};
@@ -32945,22 +32960,30 @@ var QueueComponent = function (_React$Component) {
     value: function render() {
       var tableSchemas = Object.assign({}, _queue_table_schemas2.default);
       tableSchemas[_queue_table_schemas.QUEUE_TABLE_TYPES.QUEUE].entities = this.props.queue.slice(1);
-      tableSchemas[_queue_table_schemas.QUEUE_TABLE_TYPES.HISTORY].entities = this.props.history;
-
-      var $nowPlaying = this.props.queue.length > 0 ? _react2.default.createElement(
+      tableSchemas[_queue_table_schemas.QUEUE_TABLE_TYPES.QUEUE].emptyTable = _react2.default.createElement(
         'div',
-        { className: 'now-playing-container' },
-        _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] })
-      ) : _react2.default.createElement(
-        'div',
-        { className: 'info-msg' },
-        'Add tracks to your queue by clicking the green plus icon',
+        { className: 'empty-table-msg' },
+        _react2.default.createElement(
+          'span',
+          null,
+          'To add a track to your queue, click the green plus icon ('
+        ),
         _react2.default.createElement(
           'i',
           { className: 'material-icons' },
           'add'
         ),
-        '.'
+        _react2.default.createElement(
+          'span',
+          null,
+          ').'
+        )
+      );
+      tableSchemas[_queue_table_schemas.QUEUE_TABLE_TYPES.HISTORY].entities = this.props.history;
+      tableSchemas[_queue_table_schemas.QUEUE_TABLE_TYPES.HISTORY].emptyTable = _react2.default.createElement(
+        'div',
+        { className: 'empty-table-msg' },
+        'After you listen to a track, it will show up here.'
       );
 
       return _react2.default.createElement(
@@ -32969,7 +32992,7 @@ var QueueComponent = function (_React$Component) {
         _react2.default.createElement(
           _table_layout2.default,
           { tableSchemas: tableSchemas },
-          $nowPlaying
+          _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] })
         )
       );
     }
@@ -33025,6 +33048,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var NowPlayingComponent = function NowPlayingComponent(_ref) {
   var track = _ref.track;
 
+  var $content = (0, _empty.isNotEmpty)(track) ? _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(_list_header2.default, { schema: _now_playing_list_schema2.default }),
+    _react2.default.createElement(_list2.default, { entities: (0, _empty.isNotEmpty)(track) ? [track] : [],
+      schema: _now_playing_list_schema2.default })
+  ) : _react2.default.createElement(
+    'div',
+    { className: 'empty-msg' },
+    _react2.default.createElement(
+      'span',
+      null,
+      'To play a track, click the blue play icon ('
+    ),
+    _react2.default.createElement(
+      'i',
+      { className: 'material-icons' },
+      'play_arrow'
+    ),
+    _react2.default.createElement(
+      'span',
+      null,
+      ').'
+    )
+  );
   return _react2.default.createElement(
     'div',
     { className: 'now-playing' },
@@ -33033,9 +33081,7 @@ var NowPlayingComponent = function NowPlayingComponent(_ref) {
       { className: 'label' },
       'Now Playing'
     ),
-    _react2.default.createElement(_list_header2.default, { schema: _now_playing_list_schema2.default }),
-    _react2.default.createElement(_list2.default, { entities: (0, _empty.isNotEmpty)(track) ? [track] : [],
-      schema: _now_playing_list_schema2.default })
+    $content
   );
 };
 
@@ -33134,13 +33180,15 @@ QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.QUEUE] = {
   label: 'Up Next',
   pathname: '/queue/up_next',
   listSchema: _queue_list_schema2.default,
-  gallerySchema: _queue_gallery_schema2.default
+  gallerySchema: _queue_gallery_schema2.default,
+  endOfTable: true /* Entire queue is always loaded on component load */
 };
 QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.HISTORY] = {
   label: 'History',
   pathname: '/queue/history',
   listSchema: _history_list_schema2.default,
-  gallerySchema: _history_gallery_schema2.default
+  gallerySchema: _history_gallery_schema2.default,
+  endOfTable: true /* Entire history is always loaded on component load */
 };
 
 exports.default = QUEUE_TABLE_SCHEMAS;
@@ -33226,7 +33274,7 @@ var _queue_action_schema2 = _interopRequireDefault(_queue_action_schema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var QUEUE_GALLERY_SCHEMA = Object.assign(_track_gallery_schema2.default, {
+var QUEUE_GALLERY_SCHEMA = Object.assign({}, _track_gallery_schema2.default, {
   actions: _queue_action_schema2.default
 });
 
@@ -33253,7 +33301,7 @@ var _history_action_schema2 = _interopRequireDefault(_history_action_schema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var HISTORY_GALLERY_SCHEMA = Object.assign(_track_gallery_schema2.default, {
+var HISTORY_GALLERY_SCHEMA = Object.assign({}, _track_gallery_schema2.default, {
   actions: _history_action_schema2.default
 });
 

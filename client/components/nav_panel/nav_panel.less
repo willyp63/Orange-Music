@@ -18,17 +18,13 @@
     .mat-btn {
       margin-bottom: @grid;
 
-      .mat-btn-colorize(@color: @grey-800; @colorHover: @black);
+      .mat-btn-colorize(@color: rgba(255, 255, 255, 0.75); @colorHover: @white);
 
       button {
         .font-headline();
         font-weight: 400; // Make up slightly thicker font.
 
         i { .font-icon-md(); }
-
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.12);
-        }
       }
     }
 
@@ -39,17 +35,13 @@
     .home-btn {
       margin-left: @grid * 3 / 2;
 
-      .mat-icon-btn-colorize(@color: @black; @colorHover: @black);
+      .mat-icon-btn-colorize(@color: @white; @colorHover: @white);
 
       button {
         width: @grid * 6;
         height: @grid * 6;
 
         i { .font-icon-lg(); }
-
-        &:hover {
-          background-color: @transparent;
-        }
       }
     }
 
@@ -70,7 +62,7 @@
     .divider {
       height: 1px;
       width: 100%;
-      background-color: @grey-800;
+      background-color: rgba(255, 255, 255, 0.75);
       margin-bottom: @grid;
     }
   }

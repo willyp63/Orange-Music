@@ -1,6 +1,6 @@
 .queue {
   .now-playing {
-    padding-bottom: @grid * 2;
+    padding-bottom: @grid;
 
     .label {
       margin-left: @grid * 8;
@@ -11,6 +11,23 @@
 
     .om-list-header {
       border-bottom: 1px solid @grey-300;
+    }
+
+    .empty-msg {
+      display: flex;
+      align-items: center;
+
+      padding-left: @grid * 4;
+      color: @grey-600;
+
+      .font-title();
+      font-weight: 300;
+
+      i {
+        color: @blue;
+
+        .font-icon-lg();
+      }
     }
   }
 }

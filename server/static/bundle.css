@@ -221,14 +221,14 @@ i {
   margin-bottom: 8px;
 }
 .om-nav-panel .nav-btns .mat-btn button {
-  color: #424242;
+  color: rgba(255, 255, 255, 0.75);
   transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-nav-panel .nav-btns .mat-btn button.disabled {
   color: #BDBDBD;
 }
 .om-nav-panel .nav-btns .mat-btn button:hover:not(.disabled) {
-  color: #000000;
+  color: #FFFFFF;
 }
 .om-nav-panel .nav-btns .mat-btn button {
   font-size: 24px;
@@ -239,9 +239,6 @@ i {
 .om-nav-panel .nav-btns .mat-btn button i {
   font-size: 24px;
 }
-.om-nav-panel .nav-btns .mat-btn button:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-}
 .om-nav-panel .nav-btns .mat-btn:last-of-type {
   margin-bottom: 0;
 }
@@ -250,14 +247,14 @@ i {
   border-radius: 50%;
 }
 .om-nav-panel .nav-btns .home-btn button {
-  color: #000000;
+  color: #FFFFFF;
   transition: color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-nav-panel .nav-btns .home-btn button.disabled {
   color: #BDBDBD;
 }
 .om-nav-panel .nav-btns .home-btn button:hover:not(.disabled) {
-  color: #000000;
+  color: #FFFFFF;
 }
 .om-nav-panel .nav-btns .home-btn button {
   padding: 0;
@@ -273,9 +270,6 @@ i {
 .om-nav-panel .nav-btns .home-btn button i {
   font-size: 36px;
 }
-.om-nav-panel .nav-btns .home-btn button:hover {
-  background-color: rgba(0, 0, 0, 0);
-}
 .om-nav-panel .nav-btns .search-btn {
   width: 100%;
 }
@@ -290,7 +284,7 @@ i {
 .om-nav-panel .nav-btns .divider {
   height: 1px;
   width: 100%;
-  background-color: #424242;
+  background-color: rgba(255, 255, 255, 0.75);
   margin-bottom: 8px;
 }
 .om-player {
@@ -476,6 +470,15 @@ i {
   font-weight: 300;
   text-transform: inherit;
 }
+.search .empty-table {
+  padding-top: 16px;
+  padding-left: 64px;
+  color: #757575;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: inherit;
+  font-weight: 300;
+}
 .search .search-form {
   margin: 0 64px;
 }
@@ -486,7 +489,12 @@ i {
   font-weight: 300;
   text-transform: inherit;
 }
-.queue .info-msg {
+.queue .empty-table-msg,
+.queue .empty-now-playing-msg {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding-top: 16px;
   padding-left: 32px;
   color: #757575;
   font-size: 20px;
@@ -494,12 +502,13 @@ i {
   text-transform: inherit;
   font-weight: 300;
 }
-.queue .info-msg i {
+.queue .empty-table-msg i,
+.queue .empty-now-playing-msg i {
   color: #4CAF50;
   font-size: 36px;
 }
 .queue .now-playing {
-  padding-bottom: 16px;
+  padding-bottom: 8px;
 }
 .queue .now-playing .label {
   margin-left: 64px;
@@ -510,6 +519,20 @@ i {
 }
 .queue .now-playing .om-list-header {
   border-bottom: 1px solid #E0E0E0;
+}
+.queue .now-playing .empty-msg {
+  display: flex;
+  align-items: center;
+  padding-left: 32px;
+  color: #757575;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: inherit;
+  font-weight: 300;
+}
+.queue .now-playing .empty-msg i {
+  color: #2196F3;
+  font-size: 36px;
 }
 .om-table-layout .om-nav-bar {
   padding-top: 16px;

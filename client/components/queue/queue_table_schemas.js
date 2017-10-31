@@ -14,12 +14,14 @@ QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.QUEUE] = {
   pathname: '/queue/up_next',
   listSchema: QUEUE_LIST_SCHEMA,
   gallerySchema: QUEUE_GALLERY_SCHEMA,
+  endOfTable: true, /* Entire queue is always loaded on component load */
 };
 QUEUE_TABLE_SCHEMAS[QUEUE_TABLE_TYPES.HISTORY] = {
   label: 'History',
   pathname: '/queue/history',
   listSchema: HISTORY_LIST_SCHEMA,
   gallerySchema: HISTORY_GALLERY_SCHEMA,
+  endOfTable: true, /* Entire history is always loaded on component load */
 };
 
 export default QUEUE_TABLE_SCHEMAS;

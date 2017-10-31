@@ -112,14 +112,19 @@ class TableLayoutComponent extends React.Component {
 
     const tableSchema = tableSchemas[selectedTableType];
 
-    const $table = selectedDisplayType === TABLE_DISPLAY_TYPES.GALLERY
-      ? (
-        <GalleryComponent entities={tableSchema.entities}
-                          schema={tableSchema.gallerySchema} />
-      ) : (
-        <ListComponent entities={tableSchema.entities}
-                       schema={tableSchema.listSchema} />
-      );
+    let $table = '';
+    if (tableSchema.entities.length > 0) {
+      $table = selectedDisplayType === TABLE_DISPLAY_TYPES.GALLERY
+        ? (
+          <GalleryComponent entities={tableSchema.entities}
+                            schema={tableSchema.gallerySchema} />
+        ) : (
+          <ListComponent entities={tableSchema.entities}
+                         schema={tableSchema.listSchema} />
+        );
+    } else if (tableSchema.endOfTable) {
+      $table = tableSchema.emptyTable || '';
+    }
 
     let $listHeader = selectedDisplayType === TABLE_DISPLAY_TYPES.LIST
       ? (<ListHeaderComponent schema={tableSchema.listSchema} />)
