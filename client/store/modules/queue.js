@@ -146,7 +146,11 @@ export const removeFromQueue = track => (dispatch, getState) => {
   }
 };
 
-export const clearQueue = () => ({type: CLEAR_QUEUE});
+export const clearQueue = () => (dispatch, getState) => {
+  const { queue } = getState().queue;
+  if (queue.length > 0) { dispatch(addToHistory(queue[0])); }
+  dispatch({type: CLEAR_QUEUE});
+};
 
 export const addToHistory = track => ({
   type: ADD_TO_HISTORY,

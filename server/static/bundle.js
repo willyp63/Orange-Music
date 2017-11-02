@@ -4214,7 +4214,14 @@ var removeFromQueue = exports.removeFromQueue = function removeFromQueue(track) 
 };
 
 var clearQueue = exports.clearQueue = function clearQueue() {
-  return { type: CLEAR_QUEUE };
+  return function (dispatch, getState) {
+    var queue = getState().queue.queue;
+
+    if (queue.length > 0) {
+      dispatch(addToHistory(queue[0]));
+    }
+    dispatch({ type: CLEAR_QUEUE });
+  };
 };
 
 var addToHistory = exports.addToHistory = function addToHistory(track) {
