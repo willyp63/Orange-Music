@@ -82,9 +82,8 @@ export default function reducer(state = initialState, action = {}) {
 export const setHomeTableType = tableType => (dispatch, getState) => {
   dispatch({type: SET_TABLE_TYPE, tableType});
 
-  const { topTracks, topArtists } = getState().home;
-
   // Fetch entities for the table we are about to visit if there are none.
+  const { topTracks, topArtists } = getState().home;
   if (tableType === HOME_TABLE_TYPES.TOP_TRACKS) {
     if (topTracks.tracks.length === 0) {
       dispatch(fetchTopTracks());
@@ -101,7 +100,10 @@ export const setHomeDisplayType = displayType => ({
   displayType,
 });
 
-export const fetchTopTracks = (startIdx = 0) => dispatch => {
+const fetchTopTracks = (startIdx = 0) => (dispatch, getState) => {
+  const { topTracks } = getState().home;
+  if (topTracks.isFetching) { return; }
+
   dispatch({type: FETCH_TOP_TRACKS});
   lastFmApi.topTracks({startIdx}).then(({tracks}) => {
     dispatch({
@@ -111,12 +113,10 @@ export const fetchTopTracks = (startIdx = 0) => dispatch => {
   });
 };
 
-export const fetchMoreTopTracks = () => (dispatch, getState) => {
-  const { topTracks } = getState().home;
-  dispatch(fetchTopTracks(topTracks.tracks.length /* startIdx */));
-};
+const fetchTopArtists = (startIdx = 0) => (dispatch, getState) => {
+  const { topArtists } = getState().home;
+  if (topArtists.isFetching) { return; }
 
-export const fetchTopArtists = (startIdx = 0) => dispatch => {
   dispatch({type: FETCH_TOP_ARTISTS});
   lastFmApi.topArtists({startIdx}).then(({artists}) => {
     dispatch({
@@ -126,7 +126,16 @@ export const fetchTopArtists = (startIdx = 0) => dispatch => {
   });
 };
 
-export const fetchMoreTopArtists = () => (dispatch, getState) => {
-  const { topArtists } = getState().home;
-  dispatch(fetchTopArtists(topArtists.artists.length /* startIdx */));
+export const fetchEntities = () => (dispatch, getState) => {
+  const { tableType } = getState().home;
+  dispatch(setHomeTableType(tableType));
+};
+
+export const fetchMoreEntities = () => (dispatch, getState) => {
+  const { tableType, topTracks, topArtists } = getState().home;
+  if (tableType === HOME_TABLE_TYPES.TOP_TRACKS) {
+    dispatch(fetchTopTracks(topTracks.tracks.length /* startIdx */));
+  } else if (tableType === HOME_TABLE_TYPES.TOP_ARTISTS) {
+    dispatch(fetchTopArtists(topArtists.artists.length /* startIdx */));
+  }
 };

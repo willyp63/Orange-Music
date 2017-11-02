@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce';
 import lastFmApi from '../api/last_fm';
 import { SEARCH_TABLE_TYPES } from '../../schemas/table/search';
 import { DISPLAY_TYPES } from '../../schemas/display';
@@ -5,7 +6,7 @@ import { concat } from './shared';
 
 const SET_TABLE_TYPE = 'orange-music/search/SET_TABLE_TYPE';
 const SET_DISPLAY_TYPE = 'orange-music/search/SET_DISPLAY_TYPE';
-export const SET_QUERY = 'orange-music/search/SET_QUERY';
+const SET_QUERY = 'orange-music/search/SET_QUERY';
 
 const FETCH_TRACKS = 'orange-music/search/FETCH_TRACKS';
 const RECEIVE_TRACKS = 'orange-music/search/RECEIVE_TRACKS';
@@ -144,14 +145,20 @@ export const setSearchDisplayType = displayType => ({
   displayType,
 });
 
-export const setQuery = query => ({
-  type: SET_QUERY,
-  query,
-});
+let debouncedFetch = dispatch => dispatch(fetchEntities());
+debouncedFetch = debounce(debouncedFetch, 500, {maxWait: 1500});
 
-export const fetchTracks = (startIdx = 0) => (dispatch, getState) => {
-  const query = getState().search.query;
-  if (query.length > 0) {
+export const setQuery = query => dispatch => {
+  dispatch({
+    type: SET_QUERY,
+    query,
+  });
+  debouncedFetch(dispatch);
+};
+
+const fetchTracks = (startIdx = 0) => (dispatch, getState) => {
+  const { query, tracks } = getState().search;
+  if (!tracks.isFetching && query.length > 0) {
     if (startIdx === 0) { dispatch(clearTracks()); }
 
     dispatch({type: FETCH_TRACKS});
@@ -166,14 +173,9 @@ export const fetchTracks = (startIdx = 0) => (dispatch, getState) => {
   }
 };
 
-export const fetchMoreTracks = () => (dispatch, getState) => {
-  const { tracks } = getState().search;
-  dispatch(fetchTracks(tracks.tracks.length /* startIdx */));
-};
-
-export const fetchArtists = (startIdx = 0) => (dispatch, getState) => {
-  const query = getState().search.query;
-  if (query.length > 0) {
+const fetchArtists = (startIdx = 0) => (dispatch, getState) => {
+  const { query, artists } = getState().search;
+  if (!artists.isFetching && query.length > 0) {
     if (startIdx === 0) { dispatch(clearArtists()); }
 
     dispatch({type: FETCH_ARTISTS});
@@ -188,11 +190,20 @@ export const fetchArtists = (startIdx = 0) => (dispatch, getState) => {
   }
 };
 
-export const fetchMoreArtists = () => (dispatch, getState) => {
-  const { artists } = getState().search;
-  dispatch(fetchArtists(artists.artists.length /* startIdx */));
+const clearTracks = () => ({type: CLEAR_TRACKS});
+
+const clearArtists = () => ({type: CLEAR_ARTISTS});
+
+export const fetchEntities = () => (dispatch, getState) => {
+  const { tableType } = getState().search;
+  dispatch(setSearchTableType(tableType));
 };
 
-export const clearTracks = () => ({type: CLEAR_TRACKS});
-
-export const clearArtists = () => ({type: CLEAR_ARTISTS});
+export const fetchMoreEntities = () => (dispatch, getState) => {
+  const { tableType, tracks, artists } = getState().search;
+  if (tableType === SEARCH_TABLE_TYPES.TRACKS) {
+    dispatch(fetchTracks(tracks.tracks.length /* startIdx */));
+  } else if (tableType === SEARCH_TABLE_TYPES.ARTISTS) {
+    dispatch(fetchArtists(artists.artists.length /* startIdx */));
+  }
+};

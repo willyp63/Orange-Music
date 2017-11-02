@@ -1,12 +1,15 @@
 import ReduxQuerySync from './redux_query_sync';
 import { setHomeTableType, setHomeDisplayType } from '../modules/home';
-import { setQuery, setSearchTableType, setSearchDisplayType } from '../modules/search';
+import { setQuery, fetchEntities, setSearchTableType, setSearchDisplayType } from '../modules/search';
 import { setQueueTableType, setQueueDisplayType } from '../modules/queue';
 
 // Search Query
 const q = {
   selector: state => state.search.query,
-  action: query => setQuery(query),
+  action: query => dispatch => {
+    dispatch(setQuery(query));
+    dispatch(fetchEntities());
+  },
   defaultValue: '',
 };
 
