@@ -32391,8 +32391,7 @@ var _queue2 = _interopRequireDefault(_queue);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = function App(_ref) {
-  var children = _ref.children;
+var App = function App() {
   return _react2.default.createElement(
     'div',
     null,
@@ -32412,8 +32411,7 @@ var App = function App(_ref) {
           { className: 'route-container' },
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _search2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/home', component: _home2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default })
         )
       )
     ),
@@ -32425,10 +32423,6 @@ var App = function App(_ref) {
   );
 };
 
-// Route components
-
-
-// Static components
 exports.default = App;
 
 /***/ }),
