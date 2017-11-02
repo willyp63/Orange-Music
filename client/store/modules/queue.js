@@ -105,22 +105,36 @@ export const setQueueDisplayType = displayType => ({
   displayType,
 });
 
-export const addToQueue = track => ({
-  type: ADD_TO_QUEUE,
-  track,
-});
+export const addToQueue = track => dispatch => {
+  dispatch({
+    type: ADD_TO_QUEUE,
+    track,
+  });
+  dispatch(fetchVideoForPlayingTrack());
+}
 
-export const addToHeadOfQueue = track => ({
-  type: ADD_TO_HEAD_OF_QUEUE,
-  track,
-});
+export const addToHeadOfQueue = track => dispatch => {
+  dispatch({
+    type: ADD_TO_HEAD_OF_QUEUE,
+    track,
+  });
+  dispatch(fetchVideoForPlayingTrack());
+}
+
+export const fetchVideoForPlayingTrack = () => (dispatch, getState) => {
+  const { queue } = getState().queue;
+
+  if (queue.length > 0 && !queue[0].video) {
+    dispatch(fetchVideo(queue[0]));
+  }
+};
 
 export const removeFromQueue = track => (dispatch, getState) => {
-  const { queue } = getState();
+  const { queue } = getState().queue;
 
-  if (queue.queue.length > 0) {
+  if (queue.length > 0) {
     // If this is the current playing song, add it to history.
-    if (queue.queue[0].mbid === track.mbid) {
+    if (queue[0].mbid === track.mbid) {
       dispatch(addToHistory(track));
     }
 
@@ -128,6 +142,7 @@ export const removeFromQueue = track => (dispatch, getState) => {
       type: REMOVE_FROM_QUEUE,
       track,
     });
+    dispatch(fetchVideoForPlayingTrack());
   }
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { EMPTY_IMG_SRC } from '../../../util/image';
 
-const TrackInfoComponent = ({trackName, artistName, imageSrc}) => {
+const TrackInfo = ({trackName, artistName, imageSrc}) => {
   const $img = imageSrc === EMPTY_IMG_SRC
     ? (<div className='img-placeholder'></div>)
     : (<img src={imageSrc} />);
@@ -17,4 +17,4 @@ const TrackInfoComponent = ({trackName, artistName, imageSrc}) => {
   );
 };
 
-export default TrackInfoComponent;
+export default TrackInfo;

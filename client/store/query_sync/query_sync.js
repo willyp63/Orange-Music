@@ -14,20 +14,20 @@ const q = {
 // Table Type
 const tt = {
   selector: (state, location) => {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return state.search.tableType;
-      case '#/queue':
+      case '/queue':
         return state.queue.tableType;
       default:
         return state.home.tableType;
     }
   },
   action: (tableType, location) => {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return setSearchTableType(tableType);
-      case '#/queue':
+      case '/queue':
         return setQueueTableType(tableType);
       default:
         return setHomeTableType(tableType);
@@ -40,20 +40,20 @@ const tt = {
 // Display Type
 const dt = {
   selector: (state, location) => {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return state.search.displayType;
-      case '#/queue':
+      case '/queue':
         return state.queue.displayType;
       default:
         return state.home.displayType;
     }
   },
   action: (displayType, location) => {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return setSearchDisplayType(displayType);
-      case '#/queue':
+      case '/queue':
         return setQueueDisplayType(displayType);
       default:
         return setHomeDisplayType(displayType);
@@ -63,9 +63,10 @@ const dt = {
 };
 
 
-const querySync = store => {
+const querySync = (store, history) => {
   ReduxQuerySync({
     store,
+    history,
     params: {
       q,
       tt,
@@ -73,8 +74,7 @@ const querySync = store => {
     },
     initialTruth: 'location',
     replaceState: true,
-  })
-  return store;
+  });
 };
 
 export default querySync;

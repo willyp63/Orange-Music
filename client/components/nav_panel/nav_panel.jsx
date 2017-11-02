@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { MatButton } from '../material/index';
 
-const NavPanelComponent = ({history, location}) => {
+const NavPanel = ({history, location}) => {
   const pushPath = (path) => {
     const { pathname, search } = location;
     if (pathname !== path) { history.push(path + search); }
@@ -29,4 +29,4 @@ const NavPanelComponent = ({history, location}) => {
   );
 };
 
-export default withRouter(NavPanelComponent);
+export default withRouter(NavPanel);

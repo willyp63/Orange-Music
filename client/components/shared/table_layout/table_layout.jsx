@@ -1,7 +1,7 @@
 import React from 'react';
 import { isNotEmpty, isEmpty } from '../../../util/empty';
 import { MatTabs, MatSpinner } from '../../material/index';
-import NavBarComponent from '../nav_bar/nav_bar';
+import NavBar from '../nav_bar/nav_bar';
 import DisplayTypePicker from './display_type_picker';
 import { DISPLAY_TYPES } from '../../../schemas/display';
 import List from '../table/list/list';
@@ -67,7 +67,7 @@ class TableLayout extends React.Component {
 
     return (
       <div className="om-table-layout">
-        <NavBarComponent>
+        <NavBar>
           {children}
           <div className={tableControlsContainerClassName}>
             <MatTabs tabs={tabs}
@@ -79,7 +79,7 @@ class TableLayout extends React.Component {
           <div className="list-header-container">
             {$listHeader}
           </div>
-        </NavBarComponent>
+        </NavBar>
         <div className="table-container">
           {$table}
         </div>

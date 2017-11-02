@@ -1,16 +1,15 @@
 import React from 'react';
 import { isNotEmpty } from '../../../util/empty';
-import ListComponent from '../../shared/table/list/list';
-import ListHeaderComponent from '../../shared/table/list/list_header';
+import List from '../../shared/table/list/list';
+import ListHeader from '../../shared/table/list/list_header';
 import LIST_SCHEMA from '../../../schemas/list/now_playing';
 
-const NowPlayingComponent = ({track}) => {
+const NowPlaying = ({ track }) => {
   const $content = isNotEmpty(track)
     ? (
       <div>
-        <ListHeaderComponent schema={LIST_SCHEMA} />
-        <ListComponent entities={isNotEmpty(track) ? [track] : []}
-                       schema={LIST_SCHEMA} />
+        <ListHeader schema={LIST_SCHEMA} />
+        <List entities={[track]} schema={LIST_SCHEMA} />
       </div>
     ) : (
       <div className="empty-msg">
@@ -19,6 +18,7 @@ const NowPlayingComponent = ({track}) => {
         <span>).</span>
       </div>
     );
+
   return (
     <div className='now-playing'>
       <div className='label'>
@@ -29,4 +29,4 @@ const NowPlayingComponent = ({track}) => {
   );
 };
 
-export default NowPlayingComponent;
+export default NowPlaying;

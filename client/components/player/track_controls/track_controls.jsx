@@ -1,7 +1,7 @@
 import React from 'react';
 import { MatButton } from '../../material/index';
 
-const TrackControlsComponent = ({isPlaying, isDisabled, onPrev, onPlayPause, onNext}) => {
+const TrackControls = ({isPlaying, isDisabled, onPrev, onPlayPause, onNext}) => {
   const playPauseButtonIcon = isPlaying ? 'pause_circle_outline' : 'play_circle_outline';
   return (
     <div className="track-controls">
@@ -19,4 +19,4 @@ const TrackControlsComponent = ({isPlaying, isDisabled, onPrev, onPlayPause, onN
   );
 }
 
-export default TrackControlsComponent;
+export default TrackControls;

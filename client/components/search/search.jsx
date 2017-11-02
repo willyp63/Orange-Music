@@ -1,30 +1,55 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { MatInput } from '../material/index';
 import TABLE_SCHEMA, { SEARCH_TABLE_TYPES } from '../../schemas/table/search';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
+import { MatInput, measureText, FONT_TYPES, GRID } from '../material/index';
 import { fetchTracks, fetchArtists, fetchMoreTracks, fetchMoreArtists, setQuery,
   setSearchDisplayType, setSearchTableType, clearTracks, clearArtists } from '../../store/modules/search';
 
-class SearchComponent extends React.Component {
+const DEFAULT_MAT_INPUT_WIDTH = GRID * 60;
+
+class Search extends React.Component {
   constructor(props) {
     super(props);
     this._focusInput = this._focusInput.bind(this);
     this._fetch = this._fetch.bind(this);
     this._fetchMore = this._fetchMore.bind(this);
+    this._updateInputWidth = this._updateInputWidth.bind(this);
+
+    if (props.query.length > 0) { this._fetch(); }
   }
   componentDidMount() {
     this._focusInput();
+    this._updateInputWidth();
+  }
+  componentDidUpdate() {
+    this._updateInputWidth();
   }
   _focusInput() {
     const $input = $(ReactDOM.findDOMNode(this)).find('.search-form .mat-input input');
     $input.focus();
 
-    // We do the following so that focus ends up at the end of the input, not the beginning.
+    // So that focus ends up at the end of the input, not the beginning.
     const inputVal = $input.val();
     $input.val('');
     $input.val(inputVal);
+  }
+  _updateInputWidth() {
+    // Resize input to fit query.
+    const queryWidth = measureText(this.props.query, FONT_TYPES.DISPLAY_1);
+    const $searchForm = $(ReactDOM.findDOMNode(this)).find('.search-form');
+    const $matInput = $searchForm.find('.mat-input');
+    if (queryWidth > DEFAULT_MAT_INPUT_WIDTH) {
+      const searchFormWidth = $searchForm.width();
+      if (queryWidth < searchFormWidth) {
+        $matInput.width(queryWidth);
+      } else {
+        $matInput.width(searchFormWidth);
+      }
+    } else {
+      $matInput.width(DEFAULT_MAT_INPUT_WIDTH);
+    }
   }
   _fetch() {
     const { fetchTracks, fetchArtists, tableType } = this.props;
@@ -109,4 +134,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SearchComponent);
+)(Search);

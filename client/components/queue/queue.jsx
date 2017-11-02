@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import NowPlayingComponent from './now_playing/now_playing';
+import NowPlaying from './now_playing/now_playing';
 import TABLE_SCHEMA, { QUEUE_TABLE_TYPES } from '../../schemas/table/queue';
-import TableLayoutComponent from '../shared/table_layout/table_layout';
+import TableLayout from '../shared/table_layout/table_layout';
 import { setQueueTableType, setQueueDisplayType } from '../../store/modules/queue';
 
-class QueueComponent extends React.Component {
+class Queue extends React.Component {
   render() {
     const { queue, history, tableType, displayType, setTableType,
       setDisplayType } = this.props;
@@ -30,13 +30,13 @@ class QueueComponent extends React.Component {
 
     return (
       <div className="queue">
-        <TableLayoutComponent schema={schema}
-                              tableType={tableType}
-                              onTableTypeChange={setTableType}
-                              displayType={displayType}
-                              onDisplayTypeChange={setDisplayType}>
-          <NowPlayingComponent track={this.props.queue[0]} />
-        </TableLayoutComponent>
+        <TableLayout schema={schema}
+                     tableType={tableType}
+                     onTableTypeChange={setTableType}
+                     displayType={displayType}
+                     onDisplayTypeChange={setDisplayType}>
+          <NowPlaying track={this.props.queue[0]} />
+        </TableLayout>
       </div>
     );
   }
@@ -61,4 +61,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(QueueComponent);
+)(Queue);

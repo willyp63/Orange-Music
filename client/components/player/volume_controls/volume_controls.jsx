@@ -1,13 +1,7 @@
 import React from 'react';
-
 import { MatButton, MatSlider } from '../../material/index';
 
-// <MatSliderComponent value={volume}
-//                     maxValue={maxVolume}
-//                     isDisabled={isDisabled}
-//                     onValueChange={onVolumeChange} />
-
-const VolumeControlsComponent = ({volume, maxVolume, onVolumeButtonClick,
+const VolumeControls = ({volume, maxVolume, onVolumeButtonClick,
     onVolumeChange, isDisabled}) => {
   const volumeButtonIcon = volume === 0 ? 'volume_off' : 'volume_up';
   return (
@@ -25,4 +19,4 @@ const VolumeControlsComponent = ({volume, maxVolume, onVolumeButtonClick,
   );
 };
 
-export default VolumeControlsComponent;
+export default VolumeControls;

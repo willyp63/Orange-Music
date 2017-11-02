@@ -4037,7 +4037,7 @@ var DISPLAY_TYPES = exports.DISPLAY_TYPES = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchVideo = exports.popFromHistory = exports.play = exports.removeFromHistory = exports.addToHistory = exports.clearQueue = exports.removeFromQueue = exports.addToHeadOfQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
+exports.fetchVideo = exports.popFromHistory = exports.play = exports.removeFromHistory = exports.addToHistory = exports.clearQueue = exports.removeFromQueue = exports.fetchVideoForPlayingTrack = exports.addToHeadOfQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -4163,27 +4163,44 @@ var setQueueDisplayType = exports.setQueueDisplayType = function setQueueDisplay
 };
 
 var addToQueue = exports.addToQueue = function addToQueue(track) {
-  return {
-    type: ADD_TO_QUEUE,
-    track: track
+  return function (dispatch) {
+    dispatch({
+      type: ADD_TO_QUEUE,
+      track: track
+    });
+    dispatch(fetchVideoForPlayingTrack());
   };
 };
 
 var addToHeadOfQueue = exports.addToHeadOfQueue = function addToHeadOfQueue(track) {
-  return {
-    type: ADD_TO_HEAD_OF_QUEUE,
-    track: track
+  return function (dispatch) {
+    dispatch({
+      type: ADD_TO_HEAD_OF_QUEUE,
+      track: track
+    });
+    dispatch(fetchVideoForPlayingTrack());
+  };
+};
+
+var fetchVideoForPlayingTrack = exports.fetchVideoForPlayingTrack = function fetchVideoForPlayingTrack() {
+  return function (dispatch, getState) {
+    var queue = getState().queue.queue;
+
+
+    if (queue.length > 0 && !queue[0].video) {
+      dispatch(fetchVideo(queue[0]));
+    }
   };
 };
 
 var removeFromQueue = exports.removeFromQueue = function removeFromQueue(track) {
   return function (dispatch, getState) {
-    var _getState = getState(),
-        queue = _getState.queue;
+    var queue = getState().queue.queue;
 
-    if (queue.queue.length > 0) {
+
+    if (queue.length > 0) {
       // If this is the current playing song, add it to history.
-      if (queue.queue[0].mbid === track.mbid) {
+      if (queue[0].mbid === track.mbid) {
         dispatch(addToHistory(track));
       }
 
@@ -4191,6 +4208,7 @@ var removeFromQueue = exports.removeFromQueue = function removeFromQueue(track) 
         type: REMOVE_FROM_QUEUE,
         track: track
       });
+      dispatch(fetchVideoForPlayingTrack());
     }
   };
 };
@@ -4222,8 +4240,8 @@ var play = exports.play = function play(track) {
 
 var popFromHistory = exports.popFromHistory = function popFromHistory() {
   return function (dispatch, getState) {
-    var _getState2 = getState(),
-        queue = _getState2.queue;
+    var _getState = getState(),
+        queue = _getState.queue;
 
     if (queue.history.length > 0) {
       var poppedTrack = queue.history[0];
@@ -14925,7 +14943,7 @@ var ArtistLinkCell = function ArtistLinkCell(text, _, actions) {
     'span',
     { className: 'artist-link-cell',
       onClick: function onClick() {
-        actions.pushUrl('/search/tracks', { q: text });
+        actions.goToArtist(text);
       } },
     (0, _empty.isNotEmpty)(text) ? text.toString() : ''
   );
@@ -15306,10 +15324,6 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(82);
-
-var _url = __webpack_require__(51);
-
 var _index = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -15317,27 +15331,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ArtistLinkChip = function ArtistLinkChip(_ref) {
   var text = _ref.text,
       className = _ref.className,
-      history = _ref.history,
-      location = _ref.location;
+      actions = _ref.actions;
 
   className += ' artist-link-chip';
   className.trim();
 
-  var onClick = function onClick() {
-    var pathname = location.pathname,
-        search = location.search;
-
-    var newUrl = (0, _url.getUrlWithUpdatedParams)('/search/tracks' + search, { q: text });
-    var oldUrl = pathname + search;
-    if (newUrl !== oldUrl) {
-      history.push(newUrl);
-    }
-  };
-
-  return _react2.default.createElement(_index.MatChip, { className: className, text: text, onClick: onClick });
+  return _react2.default.createElement(_index.MatChip, { className: className,
+    text: text,
+    onClick: function onClick() {
+      actions.goToArtist(text);
+    } });
 };
 
-exports.default = (0, _reactRouter.withRouter)(ArtistLinkChip);
+exports.default = ArtistLinkChip;
 
 /***/ }),
 /* 151 */
@@ -15753,70 +15759,31 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(82);
-
-var _reactRedux = __webpack_require__(22);
-
-var _url = __webpack_require__(51);
-
 var _flex_table = __webpack_require__(157);
 
 var _flex_table2 = _interopRequireDefault(_flex_table);
 
-var _queue = __webpack_require__(38);
+var _action_provider = __webpack_require__(347);
+
+var _action_provider2 = _interopRequireDefault(_action_provider);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var List = function List(_ref) {
   var entities = _ref.entities,
-      schema = _ref.schema,
-      play = _ref.play,
-      addToQueue = _ref.addToQueue,
-      removeFromQueue = _ref.removeFromQueue,
-      removeFromHistory = _ref.removeFromHistory,
-      history = _ref.history,
-      location = _ref.location;
+      schema = _ref.schema;
 
-
-  var pushUrl = function pushUrl(pathname, queryParams) {
-    var newUrl = (0, _url.getUrlWithUpdatedParams)(pathname + location.search, queryParams);
-    var oldUrl = location.pathname + location.search;
-    if (newUrl !== oldUrl) {
-      history.push(newUrl);
-    }
-  };
-
-  var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory, pushUrl: pushUrl };
-
-  return _react2.default.createElement(_flex_table2.default, { className: 'om-list',
-    rowObjs: entities,
-    keyPath: 'mbid',
-    schema: schema,
-    actions: actions });
+  return _react2.default.createElement(
+    _action_provider2.default,
+    null,
+    _react2.default.createElement(_flex_table2.default, { className: 'om-list',
+      rowObjs: entities,
+      keyPath: 'mbid',
+      schema: schema })
+  );
 };
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {};
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    play: function play(track) {
-      dispatch((0, _queue.play)(track));
-    },
-    addToQueue: function addToQueue(track) {
-      dispatch((0, _queue.addToQueue)(track));
-    },
-    removeFromQueue: function removeFromQueue(track) {
-      dispatch((0, _queue.removeFromQueue)(track));
-    },
-    removeFromHistory: function removeFromHistory(track) {
-      dispatch((0, _queue.removeFromHistory)(track));
-    }
-  };
-};
-
-exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(List));
+exports.default = List;
 
 /***/ }),
 /* 157 */
@@ -16012,25 +15979,32 @@ var _query_sync = __webpack_require__(345);
 
 var _query_sync2 = _interopRequireDefault(_query_sync);
 
+var _history = __webpack_require__(348);
+
+var _history2 = _interopRequireDefault(_history);
+
 var _app = __webpack_require__(325);
 
 var _app2 = _interopRequireDefault(_app);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _query_sync2.default)((0, _redux.createStore)((0, _redux.combineReducers)({
+var store = (0, _redux.createStore)((0, _redux.combineReducers)({
   home: _home2.default,
   search: _search2.default,
   queue: _queue2.default
-}), {}, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default)));
+}), {}, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
+
+// Sync store with url query params
+(0, _query_sync2.default)(store, _history2.default);
 
 document.addEventListener('DOMContentLoaded', function () {
   _reactDom2.default.render(_react2.default.createElement(
     _reactRedux.Provider,
     { store: store },
     _react2.default.createElement(
-      _reactRouterDom.HashRouter,
-      null,
+      _reactRouterDom.Router,
+      { history: _history2.default },
       _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _app2.default })
     )
   ), document.getElementById('root'));
@@ -32417,7 +32391,7 @@ var _queue2 = _interopRequireDefault(_queue);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var AppComponent = function AppComponent(_ref) {
+var App = function App(_ref) {
   var children = _ref.children;
   return _react2.default.createElement(
     'div',
@@ -32455,7 +32429,7 @@ var AppComponent = function AppComponent(_ref) {
 
 
 // Static components
-exports.default = AppComponent;
+exports.default = App;
 
 /***/ }),
 /* 326 */
@@ -32478,7 +32452,7 @@ var _index = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NavPanelComponent = function NavPanelComponent(_ref) {
+var NavPanel = function NavPanel(_ref) {
   var history = _ref.history,
       location = _ref.location;
 
@@ -32522,7 +32496,7 @@ var NavPanelComponent = function NavPanelComponent(_ref) {
   );
 };
 
-exports.default = (0, _reactRouter.withRouter)(NavPanelComponent);
+exports.default = (0, _reactRouter.withRouter)(NavPanel);
 
 /***/ }),
 /* 327 */
@@ -32580,13 +32554,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AUTO_PLAY = true;
 var IMAGE_IDX = 2;
 
-var PlayerComponent = function (_React$Component) {
-  _inherits(PlayerComponent, _React$Component);
+var Player = function (_React$Component) {
+  _inherits(Player, _React$Component);
 
-  function PlayerComponent(props) {
-    _classCallCheck(this, PlayerComponent);
+  function Player(props) {
+    _classCallCheck(this, Player);
 
-    var _this = _possibleConstructorReturn(this, (PlayerComponent.__proto__ || Object.getPrototypeOf(PlayerComponent)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
+
+    _this._loadTrack = _this._loadTrack.bind(_this);
+    _this._killTrack = _this._killTrack.bind(_this);
+    _this._playNextTrack = _this._playNextTrack.bind(_this);
+    _this._setCurrentTime = _this._setCurrentTime.bind(_this);
+    _this._setVolume = _this._setVolume.bind(_this);
+    _this._onPlayPauseButtonClick = _this._onPlayPauseButtonClick.bind(_this);
+    _this._onPrevButtonClick = _this._onPrevButtonClick.bind(_this);
+    _this._onNextButtonClick = _this._onNextButtonClick.bind(_this);
+    _this._onVolumeButtonClick = _this._onVolumeButtonClick.bind(_this);
 
     _this.state = {
       isPlaying: false,
@@ -32608,32 +32592,15 @@ var PlayerComponent = function (_React$Component) {
       onCanPlay: function onCanPlay() {
         _this.setState({ isLoading: false });
       },
-      onEnded: function onEnded() {
-        _this.playNextTrack.bind(_this)();
-      }
+      onEnded: _this._playNextTrack
     });
     return _this;
   }
 
-  _createClass(PlayerComponent, [{
+  _createClass(Player, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
-      var _this2 = this;
-
-      if ((0, _empty.isEmpty)(newProps.track)) {
-        this.killTrack.bind(this)();
-      } else {
-        if ((0, _empty.isEmpty)(newProps.video)) {
-          // If we have a track but no video, then fetch the video.
-          this.killTrack.bind(this, function () {
-            _this2.setState({ isLoading: true }, function () {
-              newProps.fetchVideo(newProps.track);
-            });
-          })();
-        } else {
-          this.loadTrack.bind(this)();
-        }
-      }
+      (0, _empty.isEmpty)(newProps.track) || (0, _empty.isEmpty)(newProps.video) ? this._killTrack() : this._loadTrack();
     }
   }, {
     key: 'componentWillUnmount',
@@ -32641,100 +32608,87 @@ var PlayerComponent = function (_React$Component) {
       this.audioApi.dispose();
     }
   }, {
-    key: 'loadTrack',
-    value: function loadTrack() {
-      var _this3 = this;
-
+    key: '_loadTrack',
+    value: function _loadTrack() {
       this.setState({
         isPlaying: false,
         isLoading: true,
         currentTime: 0
-      }, function () {
-        _this3.audioApi.load();
       });
+      this.audioApi.load();
     }
   }, {
-    key: 'killTrack',
-    value: function killTrack(onStateSet) {
-      var _this4 = this;
-
+    key: '_killTrack',
+    value: function _killTrack() {
       this.setState({
         isPlaying: false,
         isLoading: false,
         currentTime: 0
-      }, function () {
-        _this4.audioApi.pause();
-        if (typeof onStateSet === 'function') {
-          onStateSet();
-        }
       });
+      this.audioApi.pause();
     }
   }, {
-    key: 'playNextTrack',
-    value: function playNextTrack() {
-      var _this5 = this;
+    key: '_playNextTrack',
+    value: function _playNextTrack() {
+      var _props = this.props,
+          removeFromQueue = _props.removeFromQueue,
+          track = _props.track;
 
-      this.killTrack.bind(this, function () {
-        _this5.props.removeFromQueue(_this5.props.track);
-      })();
+
+      this._killTrack();
+      removeFromQueue(track);
     }
   }, {
-    key: 'onPlayPauseButtonClick',
-    value: function onPlayPauseButtonClick() {
+    key: '_setCurrentTime',
+    value: function _setCurrentTime(currentTime) {
+      this.setState({ currentTime: currentTime });
+      this.audioApi.setCurrentTime(currentTime);
+    }
+  }, {
+    key: '_setVolume',
+    value: function _setVolume(volume) {
+      this.setState({ volume: volume });
+      this.audioApi.setVolume(volume);
+    }
+  }, {
+    key: '_onPlayPauseButtonClick',
+    value: function _onPlayPauseButtonClick() {
       this.state.isPlaying ? this.audioApi.pause() : this.audioApi.play();
     }
   }, {
-    key: 'onPrevButtonClick',
-    value: function onPrevButtonClick() {
-      var _props = this.props,
-          popFromHistory = _props.popFromHistory,
-          history = _props.history;
+    key: '_onPrevButtonClick',
+    value: function _onPrevButtonClick() {
+      var _props2 = this.props,
+          popFromHistory = _props2.popFromHistory,
+          history = _props2.history;
 
 
       if (this.audioApi.currentTime() < 5.0 && history.length > 0) {
         popFromHistory();
       } else {
-        this.setCurrentTime.bind(this, 0)();
+        this._setCurrentTime(0);
       }
     }
   }, {
-    key: 'onNextButtonClick',
-    value: function onNextButtonClick() {
-      this.playNextTrack.bind(this)();
+    key: '_onNextButtonClick',
+    value: function _onNextButtonClick() {
+      this._playNextTrack();
     }
   }, {
-    key: 'setCurrentTime',
-    value: function setCurrentTime(currentTime) {
-      var _this6 = this;
-
-      this.setState({ currentTime: currentTime }, function () {
-        _this6.audioApi.setCurrentTime(currentTime);
-      });
-    }
-  }, {
-    key: 'onVolumeButtonClick',
-    value: function onVolumeButtonClick() {
-      this.state.volume === 0 ? this.setVolume.bind(this, MAX_VOLUME)() : this.setVolume.bind(this, 0)();
-    }
-  }, {
-    key: 'setVolume',
-    value: function setVolume(volume) {
-      var _this7 = this;
-
-      this.setState({ volume: volume }, function () {
-        _this7.audioApi.setVolume(volume);
-      });
+    key: '_onVolumeButtonClick',
+    value: function _onVolumeButtonClick() {
+      this.state.volume === 0 ? this._setVolume(MAX_VOLUME) : this._setVolume(0);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props2 = this.props,
-          duration = _props2.duration,
-          audioSrc = _props2.audioSrc,
-          imageSrc = _props2.imageSrc,
-          artistName = _props2.artistName,
-          trackName = _props2.trackName,
-          track = _props2.track;
+      var _props3 = this.props,
+          duration = _props3.duration,
+          audioSrc = _props3.audioSrc,
+          imageSrc = _props3.imageSrc,
+          artistName = _props3.artistName,
+          trackName = _props3.trackName,
+          track = _props3.track;
       var _state = this.state,
           isPlaying = _state.isPlaying,
           currentTime = _state.currentTime,
@@ -32760,13 +32714,13 @@ var PlayerComponent = function (_React$Component) {
             imageSrc: imageSrc }),
           _react2.default.createElement(_track_controls2.default, { isPlaying: isPlaying,
             isDisabled: isDisabled,
-            onPrev: this.onPrevButtonClick.bind(this),
-            onPlayPause: this.onPlayPauseButtonClick.bind(this),
-            onNext: this.onNextButtonClick.bind(this) }),
+            onPrev: this._onPrevButtonClick,
+            onPlayPause: this._onPlayPauseButtonClick,
+            onNext: this._onNextButtonClick }),
           _react2.default.createElement(_volume_controls2.default, { volume: volume,
             maxVolume: MAX_VOLUME,
-            onVolumeChange: this.setVolume.bind(this),
-            onVolumeButtonClick: this.onVolumeButtonClick.bind(this) })
+            onVolumeChange: this._setVolume,
+            onVolumeButtonClick: this._onVolumeButtonClick })
         ),
         _react2.default.createElement(
           'div',
@@ -32774,7 +32728,7 @@ var PlayerComponent = function (_React$Component) {
           _react2.default.createElement(_progress_bar2.default, { currentTime: currentTime,
             duration: duration,
             isDisabled: isDisabled,
-            onCurrentTimeChange: this.setCurrentTime.bind(this) })
+            onCurrentTimeChange: this._setCurrentTime })
         ),
         _react2.default.createElement(
           'audio',
@@ -32785,7 +32739,7 @@ var PlayerComponent = function (_React$Component) {
     }
   }]);
 
-  return PlayerComponent;
+  return Player;
 }(_react2.default.Component);
 
 var AUDIO_PLAYER_ID = 'audio-player';
@@ -32812,9 +32766,19 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchVideo: function fetchVideo(track) {
-      dispatch((0, _queue.fetchVideo)(track));
-    },
+    fetchVideo: function (_fetchVideo) {
+      function fetchVideo(_x) {
+        return _fetchVideo.apply(this, arguments);
+      }
+
+      fetchVideo.toString = function () {
+        return _fetchVideo.toString();
+      };
+
+      return fetchVideo;
+    }(function (track) {
+      dispatch(fetchVideo(track));
+    }),
     removeFromQueue: function removeFromQueue(track) {
       dispatch((0, _queue.removeFromQueue)(track));
     },
@@ -32824,7 +32788,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PlayerComponent);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Player);
 
 /***/ }),
 /* 328 */
@@ -32845,7 +32809,7 @@ var _image = __webpack_require__(35);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TrackInfoComponent = function TrackInfoComponent(_ref) {
+var TrackInfo = function TrackInfo(_ref) {
   var trackName = _ref.trackName,
       artistName = _ref.artistName,
       imageSrc = _ref.imageSrc;
@@ -32873,7 +32837,7 @@ var TrackInfoComponent = function TrackInfoComponent(_ref) {
   );
 };
 
-exports.default = TrackInfoComponent;
+exports.default = TrackInfo;
 
 /***/ }),
 /* 329 */
@@ -32894,7 +32858,7 @@ var _index = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TrackControlsComponent = function TrackControlsComponent(_ref) {
+var TrackControls = function TrackControls(_ref) {
            var isPlaying = _ref.isPlaying,
                isDisabled = _ref.isDisabled,
                onPrev = _ref.onPrev,
@@ -32918,7 +32882,7 @@ var TrackControlsComponent = function TrackControlsComponent(_ref) {
            );
 };
 
-exports.default = TrackControlsComponent;
+exports.default = TrackControls;
 
 /***/ }),
 /* 330 */
@@ -32939,12 +32903,7 @@ var _index = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// <MatSliderComponent value={volume}
-//                     maxValue={maxVolume}
-//                     isDisabled={isDisabled}
-//                     onValueChange={onVolumeChange} />
-
-var VolumeControlsComponent = function VolumeControlsComponent(_ref) {
+var VolumeControls = function VolumeControls(_ref) {
   var volume = _ref.volume,
       maxVolume = _ref.maxVolume,
       onVolumeButtonClick = _ref.onVolumeButtonClick,
@@ -32969,7 +32928,7 @@ var VolumeControlsComponent = function VolumeControlsComponent(_ref) {
   );
 };
 
-exports.default = VolumeControlsComponent;
+exports.default = VolumeControls;
 
 /***/ }),
 /* 331 */
@@ -32992,7 +32951,7 @@ var _index = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ProgressBarComponent = function ProgressBarComponent(_ref) {
+var ProgressBar = function ProgressBar(_ref) {
   var currentTime = _ref.currentTime,
       duration = _ref.duration,
       onCurrentTimeChange = _ref.onCurrentTimeChange,
@@ -33019,7 +32978,7 @@ var ProgressBarComponent = function ProgressBarComponent(_ref) {
   );
 };
 
-exports.default = ProgressBarComponent;
+exports.default = ProgressBar;
 
 /***/ }),
 /* 332 */
@@ -33184,20 +33143,20 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var HomeComponent = function (_React$Component) {
-  _inherits(HomeComponent, _React$Component);
+var Home = function (_React$Component) {
+  _inherits(Home, _React$Component);
 
-  function HomeComponent(props) {
-    _classCallCheck(this, HomeComponent);
+  function Home(props) {
+    _classCallCheck(this, Home);
 
-    var _this = _possibleConstructorReturn(this, (HomeComponent.__proto__ || Object.getPrototypeOf(HomeComponent)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 
     _this._fetch = _this._fetch.bind(_this);
     _this._fetchMore = _this._fetchMore.bind(_this);
     return _this;
   }
 
-  _createClass(HomeComponent, [{
+  _createClass(Home, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       this._fetch();
@@ -33275,7 +33234,7 @@ var HomeComponent = function (_React$Component) {
     }
   }]);
 
-  return HomeComponent;
+  return Home;
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
@@ -33310,7 +33269,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(HomeComponent);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Home);
 
 /***/ }),
 /* 335 */
@@ -33341,13 +33300,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var NavBarComponent = function (_React$Component) {
-  _inherits(NavBarComponent, _React$Component);
+var NavBar = function (_React$Component) {
+  _inherits(NavBar, _React$Component);
 
-  function NavBarComponent(props) {
-    _classCallCheck(this, NavBarComponent);
+  function NavBar(props) {
+    _classCallCheck(this, NavBar);
 
-    var _this = _possibleConstructorReturn(this, (NavBarComponent.__proto__ || Object.getPrototypeOf(NavBarComponent)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
 
     _this.state = {
       isScrolled: false
@@ -33355,7 +33314,7 @@ var NavBarComponent = function (_React$Component) {
     return _this;
   }
 
-  _createClass(NavBarComponent, [{
+  _createClass(NavBar, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _this2 = this;
@@ -33386,14 +33345,14 @@ var NavBarComponent = function (_React$Component) {
     }
   }]);
 
-  return NavBarComponent;
+  return NavBar;
 }(_react2.default.Component);
 
 var isWindowScrolled = function isWindowScrolled() {
   return $(window).scrollTop() !== 0;
 };
 
-exports.default = NavBarComponent;
+exports.default = NavBar;
 
 /***/ }),
 /* 336 */
@@ -33505,13 +33464,13 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(22);
-
 var _gallery_tile = __webpack_require__(339);
 
 var _gallery_tile2 = _interopRequireDefault(_gallery_tile);
 
-var _queue = __webpack_require__(38);
+var _action_provider = __webpack_require__(347);
+
+var _action_provider2 = _interopRequireDefault(_action_provider);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33520,59 +33479,34 @@ var NUM_COLUMNS = 3;
 var Gallery = function Gallery(_ref) {
   var entities = _ref.entities,
       schema = _ref.schema,
-      play = _ref.play,
-      addToQueue = _ref.addToQueue,
-      removeFromQueue = _ref.removeFromQueue,
-      removeFromHistory = _ref.removeFromHistory;
+      actions = _ref.actions;
 
-
-  var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory };
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'om-gallery' },
-    getItems({ entities: entities, schema: schema, actions: actions })
-  );
-};
-
-var getItems = function getItems(_ref2) {
-  var entities = _ref2.entities,
-      schema = _ref2.schema,
-      actions = _ref2.actions;
-
-  return entities.map(function (entity) {
+  var $items = entities.map(function (entity) {
     return _react2.default.createElement(
       'div',
       { className: 'gallery-item',
-        key: entity['mbid'],
+        key: entity.mbid,
         style: { flex: '0 0 ' + 100 / NUM_COLUMNS + '%' } },
       _react2.default.createElement(_gallery_tile2.default, { entity: entity, schema: schema, actions: actions })
     );
   });
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'om-gallery' },
+    $items
+  );
 };
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {};
+var GalleryWithActions = function GalleryWithActions(props) {
+  return _react2.default.createElement(
+    _action_provider2.default,
+    null,
+    _react2.default.createElement(Gallery, props)
+  );
 };
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    play: function play(track) {
-      dispatch((0, _queue.play)(track));
-    },
-    addToQueue: function addToQueue(track) {
-      dispatch((0, _queue.addToQueue)(track));
-    },
-    removeFromQueue: function removeFromQueue(track) {
-      dispatch((0, _queue.removeFromQueue)(track));
-    },
-    removeFromHistory: function removeFromHistory(track) {
-      dispatch((0, _queue.removeFromHistory)(track));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gallery);
+exports.default = GalleryWithActions;
 
 /***/ }),
 /* 339 */
@@ -33639,9 +33573,9 @@ var GalleryTile = function (_React$Component) {
       var imageClassName = imageSrc === _image.EMPTY_IMG_SRC ? 'bordered' : '';
 
       var TitleChipComponent = schema.titleChipComponent || _index.MatChip;
-      var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title }) : '';
+      var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title, actions: actions }) : '';
       var SubtitleChipComponent = schema.subtitleChipComponent || _index.MatChip;
-      var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle }) : '';
+      var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle, actions: actions }) : '';
 
       var $buttons = Object.keys(schema.actions).map(function (actionType) {
         var action = schema.actions[actionType];
@@ -33705,8 +33639,6 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRedux = __webpack_require__(22);
 
-var _index = __webpack_require__(17);
-
 var _search = __webpack_require__(153);
 
 var _search2 = _interopRequireDefault(_search);
@@ -33714,6 +33646,8 @@ var _search2 = _interopRequireDefault(_search);
 var _table_layout = __webpack_require__(85);
 
 var _table_layout2 = _interopRequireDefault(_table_layout);
+
+var _index = __webpack_require__(17);
 
 var _search3 = __webpack_require__(152);
 
@@ -33725,24 +33659,37 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SearchComponent = function (_React$Component) {
-  _inherits(SearchComponent, _React$Component);
+var DEFAULT_MAT_INPUT_WIDTH = _index.GRID * 60;
 
-  function SearchComponent(props) {
-    _classCallCheck(this, SearchComponent);
+var Search = function (_React$Component) {
+  _inherits(Search, _React$Component);
 
-    var _this = _possibleConstructorReturn(this, (SearchComponent.__proto__ || Object.getPrototypeOf(SearchComponent)).call(this, props));
+  function Search(props) {
+    _classCallCheck(this, Search);
+
+    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
     _this._focusInput = _this._focusInput.bind(_this);
     _this._fetch = _this._fetch.bind(_this);
     _this._fetchMore = _this._fetchMore.bind(_this);
+    _this._updateInputWidth = _this._updateInputWidth.bind(_this);
+
+    if (props.query.length > 0) {
+      _this._fetch();
+    }
     return _this;
   }
 
-  _createClass(SearchComponent, [{
+  _createClass(Search, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       this._focusInput();
+      this._updateInputWidth();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this._updateInputWidth();
     }
   }, {
     key: '_focusInput',
@@ -33750,10 +33697,28 @@ var SearchComponent = function (_React$Component) {
       var $input = $(_reactDom2.default.findDOMNode(this)).find('.search-form .mat-input input');
       $input.focus();
 
-      // We do the following so that focus ends up at the end of the input, not the beginning.
+      // So that focus ends up at the end of the input, not the beginning.
       var inputVal = $input.val();
       $input.val('');
       $input.val(inputVal);
+    }
+  }, {
+    key: '_updateInputWidth',
+    value: function _updateInputWidth() {
+      // Resize input to fit query.
+      var queryWidth = (0, _index.measureText)(this.props.query, _index.FONT_TYPES.DISPLAY_1);
+      var $searchForm = $(_reactDom2.default.findDOMNode(this)).find('.search-form');
+      var $matInput = $searchForm.find('.mat-input');
+      if (queryWidth > DEFAULT_MAT_INPUT_WIDTH) {
+        var searchFormWidth = $searchForm.width();
+        if (queryWidth < searchFormWidth) {
+          $matInput.width(queryWidth);
+        } else {
+          $matInput.width(searchFormWidth);
+        }
+      } else {
+        $matInput.width(DEFAULT_MAT_INPUT_WIDTH);
+      }
     }
   }, {
     key: '_fetch',
@@ -33845,7 +33810,7 @@ var SearchComponent = function (_React$Component) {
     }
   }]);
 
-  return SearchComponent;
+  return Search;
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
@@ -33884,7 +33849,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchComponent);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Search);
 
 /***/ }),
 /* 341 */
@@ -33927,16 +33892,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var QueueComponent = function (_React$Component) {
-  _inherits(QueueComponent, _React$Component);
+var Queue = function (_React$Component) {
+  _inherits(Queue, _React$Component);
 
-  function QueueComponent() {
-    _classCallCheck(this, QueueComponent);
+  function Queue() {
+    _classCallCheck(this, Queue);
 
-    return _possibleConstructorReturn(this, (QueueComponent.__proto__ || Object.getPrototypeOf(QueueComponent)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Queue.__proto__ || Object.getPrototypeOf(Queue)).apply(this, arguments));
   }
 
-  _createClass(QueueComponent, [{
+  _createClass(Queue, [{
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -33994,7 +33959,7 @@ var QueueComponent = function (_React$Component) {
     }
   }]);
 
-  return QueueComponent;
+  return Queue;
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
@@ -34017,7 +33982,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(QueueComponent);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Queue);
 
 /***/ }),
 /* 342 */
@@ -34050,15 +34015,14 @@ var _now_playing2 = _interopRequireDefault(_now_playing);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NowPlayingComponent = function NowPlayingComponent(_ref) {
+var NowPlaying = function NowPlaying(_ref) {
   var track = _ref.track;
 
   var $content = (0, _empty.isNotEmpty)(track) ? _react2.default.createElement(
     'div',
     null,
     _react2.default.createElement(_list_header2.default, { schema: _now_playing2.default }),
-    _react2.default.createElement(_list2.default, { entities: (0, _empty.isNotEmpty)(track) ? [track] : [],
-      schema: _now_playing2.default })
+    _react2.default.createElement(_list2.default, { entities: [track], schema: _now_playing2.default })
   ) : _react2.default.createElement(
     'div',
     { className: 'empty-msg' },
@@ -34078,6 +34042,7 @@ var NowPlayingComponent = function NowPlayingComponent(_ref) {
       ').'
     )
   );
+
   return _react2.default.createElement(
     'div',
     { className: 'now-playing' },
@@ -34090,7 +34055,7 @@ var NowPlayingComponent = function NowPlayingComponent(_ref) {
   );
 };
 
-exports.default = NowPlayingComponent;
+exports.default = NowPlaying;
 
 /***/ }),
 /* 343 */
@@ -34182,20 +34147,20 @@ var q = {
 // Table Type
 var tt = {
   selector: function selector(state, location) {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return state.search.tableType;
-      case '#/queue':
+      case '/queue':
         return state.queue.tableType;
       default:
         return state.home.tableType;
     }
   },
   action: function action(tableType, location) {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return (0, _search.setSearchTableType)(tableType);
-      case '#/queue':
+      case '/queue':
         return (0, _queue.setQueueTableType)(tableType);
       default:
         return (0, _home.setHomeTableType)(tableType);
@@ -34207,20 +34172,20 @@ var tt = {
 // Display Type
 var dt = {
   selector: function selector(state, location) {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return state.search.displayType;
-      case '#/queue':
+      case '/queue':
         return state.queue.displayType;
       default:
         return state.home.displayType;
     }
   },
   action: function action(displayType, location) {
-    switch (location.hash) {
-      case '#/search':
+    switch (location.pathname) {
+      case '/search':
         return (0, _search.setSearchDisplayType)(displayType);
-      case '#/queue':
+      case '/queue':
         return (0, _queue.setQueueDisplayType)(displayType);
       default:
         return (0, _home.setHomeDisplayType)(displayType);
@@ -34229,9 +34194,10 @@ var dt = {
   defaultValue: '0'
 };
 
-var querySync = function querySync(store) {
+var querySync = function querySync(store, history) {
   (0, _redux_query_sync2.default)({
     store: store,
+    history: history,
     params: {
       q: q,
       tt: tt,
@@ -34240,7 +34206,6 @@ var querySync = function querySync(store) {
     initialTruth: 'location',
     replaceState: true
   });
-  return store;
 };
 
 exports.default = querySync;
@@ -34475,6 +34440,122 @@ ReduxQuerySync.enhancer = function makeStoreEnhancer(config) {
 };
 
 exports.default = ReduxQuerySync;
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(82);
+
+var _reactRedux = __webpack_require__(22);
+
+var _queue = __webpack_require__(38);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ActionProvider = function ActionProvider(_ref) {
+  var play = _ref.play,
+      addToQueue = _ref.addToQueue,
+      removeFromQueue = _ref.removeFromQueue,
+      removeFromHistory = _ref.removeFromHistory,
+      history = _ref.history,
+      children = _ref.children;
+
+
+  var goToArtist = function goToArtist(artistName) {
+    history.pushLocation('/search', { q: artistName, tt: '0' });
+  };
+
+  var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
+    goToArtist: goToArtist };
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.cloneElement(children, { actions: actions })
+  );
+};
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {};
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    play: function play(track) {
+      dispatch((0, _queue.play)(track));
+    },
+    addToQueue: function addToQueue(track) {
+      dispatch((0, _queue.addToQueue)(track));
+    },
+    removeFromQueue: function removeFromQueue(track) {
+      dispatch((0, _queue.removeFromQueue)(track));
+    },
+    removeFromHistory: function removeFromHistory(track) {
+      dispatch((0, _queue.removeFromHistory)(track));
+    }
+  };
+};
+
+exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ActionProvider));
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createBrowserHistory = __webpack_require__(128);
+
+var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+
+var _urlSearchParams = __webpack_require__(307);
+
+var _urlSearchParams2 = _interopRequireDefault(_urlSearchParams);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var history = (0, _createBrowserHistory2.default)();
+
+history.pushLocation = function (pathname, search) {
+  var location = history.location;
+  var locationParams = new _urlSearchParams2.default(location.search);
+
+  Object.keys(search).forEach(function (param) {
+    locationParams.set(param, search[param]);
+  });
+
+  search = '?' + locationParams;
+  var oldSearch = location.search || '?';
+
+  if (search !== oldSearch || pathname !== location.pathname) {
+    var newLocation = {
+      pathname: pathname,
+      search: search,
+      hash: location.hash,
+      state: location.state
+    };
+    history.push(newLocation);
+  }
+};
+
+exports.default = history;
 
 /***/ })
 /******/ ]);

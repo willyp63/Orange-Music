@@ -530,13 +530,23 @@ i {
 .progress-bar .mat-slider.disabled .fill {
   background-color: rgba(0, 0, 0, 0);
 }
-.home .title-container {
+.om-home .title-container {
   display: flex;
   justify-content: space-around;
 }
-.home .title-container span {
+.om-home .title-container span {
   color: #FB8C00;
   font-size: 56px;
+  font-weight: 300;
+  text-transform: inherit;
+}
+.search .search-form {
+  margin: 0 64px;
+}
+.search .search-form .mat-input {
+  width: 480px;
+  max-width: 100%;
+  font-size: 34px;
   font-weight: 300;
   text-transform: inherit;
 }
@@ -548,16 +558,6 @@ i {
   font-weight: 400;
   text-transform: inherit;
   font-weight: 300;
-}
-.search .search-form {
-  margin: 0 64px;
-}
-.search .search-form .mat-input {
-  width: 480px;
-  max-width: 100%;
-  font-size: 34px;
-  font-weight: 300;
-  text-transform: inherit;
 }
 .queue .empty-table-msg,
 .queue .empty-now-playing-msg {

@@ -2,7 +2,7 @@ import React from 'react';
 import { formatTimeMinutesSeconds } from '../../../util/time';
 import { MatSlider } from '../../material/index';
 
-const ProgressBarComponent = ({currentTime, duration, onCurrentTimeChange,
+const ProgressBar = ({currentTime, duration, onCurrentTimeChange,
     isDisabled}) => {
 
   return (
@@ -21,4 +21,4 @@ const ProgressBarComponent = ({currentTime, duration, onCurrentTimeChange,
   );
 };
 
-export default ProgressBarComponent;
+export default ProgressBar;

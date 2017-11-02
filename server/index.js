@@ -9,10 +9,6 @@ const INDEX_HTML_PATH = path.resolve(STATIC_RESOURCES_PATH, 'index.html');
 
 const app = Express();
 
-/// Serve static resources.
-app.get('/', (_, res) => res.sendFile(INDEX_HTML_PATH));
-app.use('/static', Express.static(STATIC_RESOURCES_PATH));
-
 /// Stream audio for a given YT video id.
 ///
 /// Params: {
@@ -50,6 +46,12 @@ app.get('/video', (req, res) => {
     return res.end(JSON.stringify({err}));
   });
 });
+
+/// Serve static resources.
+app.use('/static', Express.static(STATIC_RESOURCES_PATH));
+
+/// Serve app.
+app.get('/*', (_, res) => res.sendFile(INDEX_HTML_PATH));
 
 /// Start the server.
 const port = process.env.PORT || 8080;

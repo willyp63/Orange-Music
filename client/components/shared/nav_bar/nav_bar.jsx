@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class NavBarComponent extends React.Component {
+class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,4 +31,4 @@ const isWindowScrolled = () => {
   return $(window).scrollTop() !== 0;
 };
 
-export default NavBarComponent;
+export default NavBar;

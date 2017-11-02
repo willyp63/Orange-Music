@@ -4,7 +4,7 @@ import { isNotEmpty } from '../../../../../../util/empty';
 const ArtistLinkCell = (text, _, actions) => {
   return (
     <span className='artist-link-cell'
-         onClick={() => { actions.pushUrl('/search/tracks', {q: text}); }}>
+         onClick={() => { actions.goToArtist(text); }}>
       {isNotEmpty(text) ? text.toString() : ''}
     </span>
   );

@@ -5,7 +5,7 @@ import TableLayoutComponent from '../shared/table_layout/table_layout';
 import { fetchTopTracks, fetchTopArtists, fetchMoreTopTracks,
   fetchMoreTopArtists, setHomeTableType, setHomeDisplayType } from '../../store/modules/home';
 
-class HomeComponent extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this._fetch = this._fetch.bind(this);
@@ -82,4 +82,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeComponent);
+)(Home);
