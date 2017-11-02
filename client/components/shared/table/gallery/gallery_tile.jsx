@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { isNotEmpty, isEmpty } from '../../../../util/empty';
-import { EMPTY_IMG_SRC } from '../../../../util/image';
+import { EMPTY_IMG_SRC, getImageUrl } from '../../../../util/image';
 import { getNestedFieldValue } from '../../../../util/nested_field';
-import { getImageUrl } from '../../../../api/last_fm/last_fm_api';
 import { MatChip, MatButton } from '../../../material/index';
 
 const IMAGE_IDX = 3;

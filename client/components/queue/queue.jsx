@@ -1,22 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NowPlayingComponent from './now_playing/now_playing';
-import QUEUE_TABLE_SCHEMAS, { QUEUE_TABLE_TYPES } from './queue_table_schemas';
+import TABLE_SCHEMA, { QUEUE_TABLE_TYPES } from '../../schemas/table/queue';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
+import { setQueueTableType, setQueueDisplayType } from '../../store/modules/queue';
 
 class QueueComponent extends React.Component {
   render() {
-    const tableSchemas = Object.assign({}, QUEUE_TABLE_SCHEMAS);
-    tableSchemas[QUEUE_TABLE_TYPES.QUEUE].entities = this.props.queue.slice(1);
-    tableSchemas[QUEUE_TABLE_TYPES.QUEUE].emptyTable = (
+    const { queue, history, tableType, displayType, setTableType,
+      setDisplayType } = this.props;
+
+    const schema = Object.assign({}, TABLE_SCHEMA);
+
+    schema[QUEUE_TABLE_TYPES.QUEUE].entities = queue.slice(1);
+    schema[QUEUE_TABLE_TYPES.QUEUE].emptyTable = (
       <div className="empty-table-msg">
         <span>To add a track to your queue, click the green plus icon (</span>
         <i className='material-icons'>add</i>
         <span>).</span>
       </div>
     );
-    tableSchemas[QUEUE_TABLE_TYPES.HISTORY].entities = this.props.history;
-    tableSchemas[QUEUE_TABLE_TYPES.HISTORY].emptyTable = (
+
+    schema[QUEUE_TABLE_TYPES.HISTORY].entities = history;
+    schema[QUEUE_TABLE_TYPES.HISTORY].emptyTable = (
       <div className='empty-table-msg'>
         After you listen to a track, it will show up here.
       </div>
@@ -24,7 +30,11 @@ class QueueComponent extends React.Component {
 
     return (
       <div className="queue">
-        <TableLayoutComponent tableSchemas={tableSchemas}>
+        <TableLayoutComponent schema={schema}
+                              tableType={tableType}
+                              onTableTypeChange={setTableType}
+                              displayType={displayType}
+                              onDisplayTypeChange={setDisplayType}>
           <NowPlayingComponent track={this.props.queue[0]} />
         </TableLayoutComponent>
       </div>
@@ -34,13 +44,18 @@ class QueueComponent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    tableType: state.queue.tableType,
+    displayType: state.queue.displayType,
     queue: state.queue.queue,
     history: state.queue.history,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    setTableType: (tableType) => { dispatch(setQueueTableType(tableType)); },
+    setDisplayType: (displayType) => { dispatch(setQueueDisplayType(displayType)); },
+  };
 };
 
 export default connect(

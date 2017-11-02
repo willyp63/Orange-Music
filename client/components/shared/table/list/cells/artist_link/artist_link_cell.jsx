@@ -1,7 +1,7 @@
 import React from 'react';
 import { isNotEmpty } from '../../../../../../util/empty';
 
-const ArtistLinkCellComponent = (text, _, actions) => {
+const ArtistLinkCell = (text, _, actions) => {
   return (
     <span className='artist-link-cell'
          onClick={() => { actions.pushUrl('/search/tracks', {q: text}); }}>
@@ -10,4 +10,4 @@ const ArtistLinkCellComponent = (text, _, actions) => {
   );
 };
 
-export default ArtistLinkCellComponent;
+export default ArtistLinkCell;

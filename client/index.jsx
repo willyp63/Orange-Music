@@ -2,34 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
+import home from './store/modules/home';
+import search from './store/modules/search';
+import queue from './store/modules/queue';
+import querySync from './store/query_sync/query_sync';
+
 import AppComponent from './components/app';
 
-import homeReducer from './reducers/home_reducer';
-import searchReducer from './reducers/search_reducer';
-import queueReducer from './reducers/queue_reducer';
-
-const appStore = createStore(
+const store = querySync(createStore(
   combineReducers({
-    home: homeReducer,
-    search: searchReducer,
-    queue: queueReducer
+    home,
+    search,
+    queue,
   }),
   {},
   applyMiddleware(thunk, logger)
-);
+));
 
-document.addEventListener('DOMContentLoaded', (_) => {
+document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Provider store={appStore}>
+    <Provider store={store}>
       <HashRouter>
-        <Switch>
-          <Route path="/" component={AppComponent} />
-        </Switch>
+        <Route path="/" component={AppComponent} />
       </HashRouter>
     </Provider>,
     document.getElementById('root'));

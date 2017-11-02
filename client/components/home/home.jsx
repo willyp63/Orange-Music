@@ -1,26 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchTopTracks, fetchTopArtists } from '../../actions/home_actions';
-import HOME_TABLE_SCHEMAS, { HOME_TABLE_TYPES } from './home_table_schemas';
+import TABLE_SCHEMA, { HOME_TABLE_TYPES } from '../../schemas/table/home';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
+import { fetchTopTracks, fetchTopArtists, fetchMoreTopTracks,
+  fetchMoreTopArtists, setHomeTableType, setHomeDisplayType } from '../../store/modules/home';
 
 class HomeComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this._fetch = this._fetch.bind(this);
+    this._fetchMore = this._fetchMore.bind(this);
+  }
+  componentWillMount() {
+    this._fetch();
+  }
+  _fetch() {
+    const { fetchTopTracks, fetchTopArtists, tableType } = this.props;
+    if (tableType === HOME_TABLE_TYPES.TOP_TRACKS) {
+      fetchTopTracks();
+    } else if (tableType === HOME_TABLE_TYPES.TOP_ARTISTS) {
+      fetchTopArtists();
+    }
+  }
+  _fetchMore() {
+    const { fetchMoreTopTracks, fetchMoreTopArtists, tableType } = this.props;
+    if (tableType === HOME_TABLE_TYPES.TOP_TRACKS) {
+      fetchMoreTopTracks();
+    } else if (tableType === HOME_TABLE_TYPES.TOP_ARTISTS) {
+      fetchMoreTopArtists();
+    }
+  }
   render() {
-    const { topTracks, topArtists, fetchTopTracks, fetchTopArtists } = this.props;
+    const { topTracks, topArtists, tableType, displayType, setTableType,
+      setDisplayType } = this.props;
 
-    const tableSchemas = Object.assign({}, HOME_TABLE_SCHEMAS);
+    const schema = Object.assign({}, TABLE_SCHEMA);
 
-    tableSchemas[HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks.tracks;
-    tableSchemas[HOME_TABLE_TYPES.TOP_TRACKS].isFetching = topTracks.isFetching;
-    tableSchemas[HOME_TABLE_TYPES.TOP_TRACKS].fetcher = fetchTopTracks;
+    schema[HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks.tracks;
+    schema[HOME_TABLE_TYPES.TOP_TRACKS].isFetching = topTracks.isFetching;
 
-    tableSchemas[HOME_TABLE_TYPES.TOP_ARTISTS].entities = topArtists.artists;
-    tableSchemas[HOME_TABLE_TYPES.TOP_ARTISTS].isFetching = topArtists.isFetching;
-    tableSchemas[HOME_TABLE_TYPES.TOP_ARTISTS].fetcher = fetchTopArtists;
+    schema[HOME_TABLE_TYPES.TOP_ARTISTS].entities = topArtists.artists;
+    schema[HOME_TABLE_TYPES.TOP_ARTISTS].isFetching = topArtists.isFetching;
 
     return (
-      <div className="home">
-        <TableLayoutComponent tableSchemas={tableSchemas}>
+      <div className="om-home">
+        <TableLayoutComponent schema={schema}
+                              tableType={tableType}
+                              onTableTypeChange={setTableType}
+                              displayType={displayType}
+                              onDisplayTypeChange={setDisplayType}
+                              onScrollBottom={this._fetchMore}>
           <div className="title-container">
             <span>Charts</span>
           </div>
@@ -32,6 +61,8 @@ class HomeComponent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    tableType: state.home.tableType,
+    displayType: state.home.displayType,
     topTracks: state.home.topTracks,
     topArtists: state.home.topArtists,
   };
@@ -39,8 +70,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchTopTracks: (queryParams) => { dispatch(fetchTopTracks(queryParams)); },
-    fetchTopArtists: (queryParams) => { dispatch(fetchTopArtists(queryParams)); }
+    fetchTopTracks: (startIdx) => { dispatch(fetchTopTracks(startIdx)); },
+    fetchTopArtists: (startIdx) => { dispatch(fetchTopArtists(startIdx)); },
+    fetchMoreTopTracks: (startIdx) => { dispatch(fetchMoreTopTracks(startIdx)); },
+    fetchMoreTopArtists: (startIdx) => { dispatch(fetchMoreTopArtists(startIdx)); },
+    setTableType: (tableType) => { dispatch(setHomeTableType(tableType)); },
+    setDisplayType: (displayType) => { dispatch(setHomeDisplayType(displayType)); },
   };
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { isNotEmpty } from '../../../../../util/empty';
 import { getNestedFieldValue } from '../../../../../util/nested_field';
 
-const FlexTableComponent = ({className, rowObjs, keyPath, schema,
+const FlexTable = ({className, rowObjs, keyPath, schema,
     componentPath, actions}) => {
 
   className = className ? className + ' flex-table' : 'flex-table';
@@ -27,11 +27,11 @@ const getColumns = ({rowObj, schema, componentPath, actions}) => {
   return Object.keys(schema).map((field) => {
     componentPath = isNotEmpty(componentPath) ? componentPath : 'component';
     const component = schema[field][componentPath];
-    const $renderedComponent = typeof component === 'function'
+    const $rendered = typeof component === 'function'
       ? component(getNestedFieldValue(rowObj, field), rowObj, actions, schema[field])
       : component;
     return getColumn({
-      $content: $renderedComponent,
+      $content: $rendered,
       schema,
       field
     });
@@ -48,4 +48,4 @@ const getColumn = ({$content, schema, field}) => {
   );
 };
 
-export default FlexTableComponent;
+export default FlexTable;

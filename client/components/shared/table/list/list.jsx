@@ -2,12 +2,11 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { getUrlWithUpdatedParams } from '../../../../util/url';
-import FlexTableComponent from './flex_table/flex_table';
-import { playTrack, addTrackToQueue, removeTrackFromQueue,
-  removeTrackFromHistory } from '../../../../actions/queue_actions';
+import FlexTable from './flex_table/flex_table';
+import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../store/modules/queue';
 
-const ListComponent = ({entities, schema, playTrack, addTrackToQueue,
-    removeTrackFromQueue, removeTrackFromHistory, history, location}) => {
+const List = ({entities, schema, play, addToQueue, removeFromQueue,
+    removeFromHistory, history, location}) => {
 
   const pushUrl = (pathname, queryParams) => {
     const newUrl = getUrlWithUpdatedParams(pathname + location.search, queryParams);
@@ -15,15 +14,14 @@ const ListComponent = ({entities, schema, playTrack, addTrackToQueue,
     if (newUrl !== oldUrl) { history.push(newUrl); }
   };
 
-  const actions = {playTrack, addTrackToQueue, removeTrackFromQueue,
-    removeTrackFromHistory, pushUrl};
+  const actions = {play, addToQueue, removeFromQueue, removeFromHistory, pushUrl};
 
   return (
-    <FlexTableComponent className={'om-list'}
-                        rowObjs={entities}
-                        keyPath={'mbid'}
-                        schema={schema}
-                        actions={actions} />
+    <FlexTable className={'om-list'}
+               rowObjs={entities}
+               keyPath={'mbid'}
+               schema={schema}
+               actions={actions} />
   )
 };
 
@@ -33,17 +31,17 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    playTrack: (track) => {
-      dispatch(playTrack(track));
+    play: (track) => {
+      dispatch(play(track));
     },
-    addTrackToQueue: (track) => {
-      dispatch(addTrackToQueue(track));
+    addToQueue: (track) => {
+      dispatch(addToQueue(track));
     },
-    removeTrackFromQueue: (track) => {
-      dispatch(removeTrackFromQueue(track));
+    removeFromQueue: (track) => {
+      dispatch(removeFromQueue(track));
     },
-    removeTrackFromHistory: (track) => {
-      dispatch(removeTrackFromHistory(track));
+    removeFromHistory: (track) => {
+      dispatch(removeFromHistory(track));
     },
   };
 };
@@ -51,4 +49,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListComponent));
+)(List));

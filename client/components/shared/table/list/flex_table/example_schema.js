@@ -1,22 +1,22 @@
 const SCHEMA = Object.freeze({
   image: {
-    label: MockImageCellComponent,
+    label: MockImageCell,
     width: 0,
-    component: ImageCellComponent
+    component: ImageCell
   },
   name: {
     label: 'Title',
     width: 50,
-    component: TextCellComponent
+    component: TextCell
   },
   'artist.name': {
     label: 'Artist',
     width: 50,
-    component: TextCellComponent
+    component: TextCell
   },
   '@actions': {
-    label: MockActionsCellComponent,
+    label: MockActionsCell,
     width: 0,
-    component: ActionsCellComponent
+    component: ActionsCell
   }
 });

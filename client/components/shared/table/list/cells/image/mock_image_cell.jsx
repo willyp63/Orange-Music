@@ -1,7 +1,7 @@
 import React from 'react';
 
-const MockImageCellComponent = (images) => (
+const MockImageCell = (images) => (
   <div className="mock-image-cell"></div>
 );
 
-export default MockImageCellComponent;
+export default MockImageCell;

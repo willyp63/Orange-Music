@@ -1,80 +1,83 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { isNotEmpty, isEmpty } from '../../util/empty';
-import { equalIgnoreCase, notEqualIgnoreCase } from '../../util/string';
-import { getUrlWithUpdatedParams, getUrlParams } from '../../util/url';
-import { searchTracks, searchArtists, clearTracks, clearArtists } from '../../actions/search_actions';
-import SearchFormComponent from './search_form/search_form';
-import SEARCH_TABLE_SCHEMAS, { SEARCH_TABLE_TYPES } from './search_table_schemas';
+import { MatInput } from '../material/index';
+import TABLE_SCHEMA, { SEARCH_TABLE_TYPES } from '../../schemas/table/search';
 import TableLayoutComponent from '../shared/table_layout/table_layout';
+import { fetchTracks, fetchArtists, fetchMoreTracks, fetchMoreArtists, setQuery,
+  setSearchDisplayType, setSearchTableType, clearTracks, clearArtists } from '../../store/modules/search';
 
 class SearchComponent extends React.Component {
   constructor(props) {
-    super(props)
-    const { query, trackResults, artistResults } = props;
-    this.state = {query};
-    if (notEqualIgnoreCase(trackResults.query, query)) { props.clearTracks(); }
-    if (notEqualIgnoreCase(artistResults.query, query)) { props.clearArtists(); }
+    super(props);
+    this._focusInput = this._focusInput.bind(this);
+    this._fetch = this._fetch.bind(this);
+    this._fetchMore = this._fetchMore.bind(this);
   }
   componentDidMount() {
+    this._focusInput();
+  }
+  _focusInput() {
     const $input = $(ReactDOM.findDOMNode(this)).find('.search-form .mat-input input');
     $input.focus();
+
     // We do the following so that focus ends up at the end of the input, not the beginning.
     const inputVal = $input.val();
     $input.val('');
     $input.val(inputVal);
   }
-  componentWillReceiveProps(newProps) {
-    if (equalIgnoreCase(newProps.query, this.state.query)) { return; }
-    this.setState({query: newProps.query});
-    this.props.clearTracks();
-    this.props.clearArtists();
+  _fetch() {
+    const { fetchTracks, fetchArtists, tableType } = this.props;
+    if (tableType === SEARCH_TABLE_TYPES.TRACKS) {
+      fetchTracks();
+    } else if (tableType === SEARCH_TABLE_TYPES.ARTISTS) {
+      fetchArtists();
+    }
   }
-  onQueryChange(query) {
-    if (equalIgnoreCase(query, this.state.query)) { return; }
-    this.setState({query});
-    this.props.clearTracks();
-    this.props.clearArtists();
-    this.updateUrl.bind(this)(query);
-  }
-  updateUrl(query) {
-    const { pathname, search } = this.props.location;
-    const currentUrl = pathname + search;
-    const newUrl = getUrlWithUpdatedParams(currentUrl, {q: query});
-    if (currentUrl !== newUrl) { this.props.history.push(newUrl); }
+  _fetchMore() {
+    const { fetchMoreTracks, fetchMoreArtists, tableType } = this.props;
+    if (tableType === SEARCH_TABLE_TYPES.TRACKS) {
+      fetchMoreTracks();
+    } else if (tableType === SEARCH_TABLE_TYPES.ARTISTS) {
+      fetchMoreArtists();
+    }
   }
   render() {
-    const { trackResults, artistResults, searchTracks, searchArtists } = this.props;
-    const { query } = this.state;
+    const { tracks, artists, query, setQuery, tableType, displayType,
+      setDisplayType, setTableType } = this.props;
 
-    const tableSchemas = Object.assign({}, SEARCH_TABLE_SCHEMAS);
+    const schema = Object.assign({}, TABLE_SCHEMA);
 
-    tableSchemas[SEARCH_TABLE_TYPES.TRACKS].entities = trackResults.tracks;
-    tableSchemas[SEARCH_TABLE_TYPES.TRACKS].emptyTable = (
-      <div className='empty-table'>No results</div>
-    );
-    tableSchemas[SEARCH_TABLE_TYPES.TRACKS].isFetching = trackResults.isFetching;
-    tableSchemas[SEARCH_TABLE_TYPES.TRACKS].endOfTable = trackResults.endOfTable;
-    tableSchemas[SEARCH_TABLE_TYPES.TRACKS].fetcher = isNotEmpty(query)
-      ? searchTracks.bind(null, query)
-      : () => {};
+    const $emptyTable = (<div className='empty-table'>No results</div>);
 
-    tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].entities = artistResults.artists;
-    tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].emptyTable = (
-      <div className='empty-table'>No results</div>
-    );
-    tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].isFetching = artistResults.isFetching;
-    tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].endOfTable = artistResults.endOfTable;
-    tableSchemas[SEARCH_TABLE_TYPES.ARTISTS].fetcher = isNotEmpty(query)
-      ? searchArtists.bind(null, query)
-      : () => {};
+    schema[SEARCH_TABLE_TYPES.TRACKS].entities = tracks.tracks;
+    schema[SEARCH_TABLE_TYPES.TRACKS].isFetching = tracks.isFetching;
+    schema[SEARCH_TABLE_TYPES.TRACKS].endOfTable = tracks.endOfTable;
+    schema[SEARCH_TABLE_TYPES.TRACKS].emptyTable = $emptyTable;
+
+    schema[SEARCH_TABLE_TYPES.ARTISTS].entities = artists.artists;
+    schema[SEARCH_TABLE_TYPES.ARTISTS].isFetching = artists.isFetching;
+    schema[SEARCH_TABLE_TYPES.ARTISTS].endOfTable = artists.endOfTable;
+    schema[SEARCH_TABLE_TYPES.ARTISTS].emptyTable = $emptyTable;
+
+    const onSubmit = (e) => {
+      e.preventDefault();
+      this._fetch();
+    };
 
     return (
       <div className="search">
-        <TableLayoutComponent tableSchemas={tableSchemas}>
-          <SearchFormComponent query={query} onQuery={this.onQueryChange.bind(this)} />
+        <TableLayoutComponent schema={schema}
+                              tableType={tableType}
+                              onTableTypeChange={setTableType}
+                              displayType={displayType}
+                              onDisplayTypeChange={setDisplayType}
+                              onScrollBottom={this._fetchMore}>
+          <form className="search-form" onSubmit={onSubmit}>
+            <MatInput value={query}
+                      placeholder="Search for tracks or artists"
+                      onValueChange={setQuery} />
+          </form>
         </TableLayoutComponent>
       </div>
     );
@@ -82,35 +85,28 @@ class SearchComponent extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const urlParams = getUrlParams(ownProps.location.search);
-  const query = isNotEmpty(urlParams.q)
-    ? decodeURIComponent(urlParams.q)
-    : '';
   return {
-    query,
-    trackResults: state.search.trackResults,
-    artistResults: state.search.artistResults,
+    query: state.search.query,
+    tracks: state.search.tracks,
+    artists: state.search.artists,
+    tableType: state.search.tableType,
+    displayType: state.search.displayType,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchTracks: (query, queryParams) => {
-      dispatch(searchTracks(query, queryParams));
-    },
-    searchArtists: (query, queryParams) => {
-      dispatch(searchArtists(query, queryParams));
-    },
-    clearTracks: () => {
-      dispatch(clearTracks());
-    },
-    clearArtists: () => {
-      dispatch(clearArtists());
-    },
+    fetchTracks: (startIdx) => { dispatch(fetchTracks(startIdx)); },
+    fetchArtists: (startIdx) => { dispatch(fetchArtists(startIdx)); },
+    fetchMoreTracks: (startIdx) => { dispatch(fetchMoreTracks(startIdx)); },
+    fetchMoreArtists: (startIdx) => { dispatch(fetchMoreArtists(startIdx)); },
+    setQuery: (query) => { dispatch(setQuery(query)); },
+    setTableType: (tableType) => { dispatch(setSearchTableType(tableType)); },
+    setDisplayType: (displayType) => { dispatch(setSearchDisplayType(displayType)); },
   };
 };
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SearchComponent));
+)(SearchComponent);

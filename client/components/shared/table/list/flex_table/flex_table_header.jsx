@@ -1,18 +1,18 @@
 import React from 'react';
 import { isNotEmpty } from '../../../../../util/empty';
-import FlexTableComponent from './flex_table';
+import FlexTable from './flex_table';
 
-const FlexTableHeaderComponent = ({className, schema}) => {
+const FlexTableHeader = ({className, schema}) => {
   className = className ? className + ' flex-table-header' : 'flex-table-header';
 
   return (
-    <FlexTableComponent className={className}
-                        rowObjs={[{key: 1}]}
-                        keyPath={'key'}
-                        schema={schema}
-                        componentPath={'label'}>
-    </FlexTableComponent>
+    <FlexTable className={className}
+               rowObjs={[{key: 1}]}
+               keyPath={'key'}
+               schema={schema}
+               componentPath={'label'}>
+    </FlexTable>
   );
 }
 
-export default FlexTableHeaderComponent;
+export default FlexTableHeader;

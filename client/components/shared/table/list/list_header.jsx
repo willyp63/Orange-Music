@@ -1,10 +1,10 @@
 import React from 'react';
-import FlexTableHeaderComponent from './flex_table/flex_table_header';
+import FlexTableHeader from './flex_table/flex_table_header';
 
-const ListHeaderComponent = ({schema}) => {
+const ListHeader = ({schema}) => {
   return (
-    <FlexTableHeaderComponent className={'om-list-header'} schema={schema} />
+    <FlexTableHeader className={'om-list-header'} schema={schema} />
   )
 };
 
-export default ListHeaderComponent;
+export default ListHeader;

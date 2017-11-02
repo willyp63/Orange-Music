@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { isNotEmpty, isEmpty } from '../../util/empty';
-import { EMPTY_IMG_SRC } from '../../util/image';
-import { getImageUrl } from '../../api/last_fm/last_fm_api';
-import { fetchVideoForTrack, removeTrackFromQueue, popTrackFromHistory } from '../../actions/queue_actions';
+import { EMPTY_IMG_SRC, getImageUrl } from '../../util/image';
+import { fetchVideo, removeFromQueue, popFromHistory } from '../../store/modules/queue';
 import TrackInfoComponent from './track_info/track_info';
 import TrackControlsComponent from './track_controls/track_controls';
 import VolumeControlsComponent from './volume_controls/volume_controls';
@@ -40,7 +39,7 @@ class PlayerComponent extends React.Component {
         // If we have a track but no video, then fetch the video.
         this.killTrack.bind(this, () => {
           this.setState({isLoading: true}, () => {
-            newProps.fetchVideoForTrack(newProps.track);
+            newProps.fetchVideo(newProps.track);
           });
         })();
       } else {
@@ -72,7 +71,7 @@ class PlayerComponent extends React.Component {
   }
   playNextTrack() {
     this.killTrack.bind(this, () => {
-      this.props.removeTrackFromQueue(this.props.track);
+      this.props.removeFromQueue(this.props.track);
     })();
   }
   onPlayPauseButtonClick() {
@@ -81,10 +80,10 @@ class PlayerComponent extends React.Component {
       : this.audioApi.play();
   }
   onPrevButtonClick() {
-    const { popTrackFromHistory, history } = this.props;
+    const { popFromHistory, history } = this.props;
 
     if (this.audioApi.currentTime() < 5.0 && history.length > 0) {
-      popTrackFromHistory();
+      popFromHistory();
     } else {
       this.setCurrentTime.bind(this, 0)();
     }
@@ -172,14 +171,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchVideoForTrack: (track) => {
-      dispatch(fetchVideoForTrack(track));
+    fetchVideo: (track) => {
+      dispatch(fetchVideo(track));
     },
-    removeTrackFromQueue: (track) => {
-      dispatch(removeTrackFromQueue(track));
+    removeFromQueue: (track) => {
+      dispatch(removeFromQueue(track));
     },
-    popTrackFromHistory: () => {
-      dispatch(popTrackFromHistory());
+    popFromHistory: () => {
+      dispatch(popFromHistory());
     },
   };
 };

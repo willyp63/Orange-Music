@@ -1,7 +1,7 @@
 import React from 'react';
 import { MatButton } from '../../../../../material/index';
 
-const ActionsCellComponent = (_, track, actions, schema) => {
+const ActionsCell = (_, track, actions, schema) => {
   const $buttons = Object.keys(schema.actions).map((actionType) => {
     const action = schema.actions[actionType];
     return (
@@ -26,4 +26,4 @@ const ActionsCellComponent = (_, track, actions, schema) => {
   );
 };
 
-export default ActionsCellComponent;
+export default ActionsCell;

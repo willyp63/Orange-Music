@@ -19,6 +19,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+@font-face {
+  font-family: 'icomoon';
+  src: url('fonts/icomoon.eot?a0v6sz');
+  src: url('fonts/icomoon.eot?a0v6sz#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?a0v6sz') format('truetype'), url('fonts/icomoon.woff?a0v6sz') format('woff'), url('fonts/icomoon.svg?a0v6sz#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-orange-slice:before {
+  content: "\e900";
+}
 .mat-btn {
   display: inline-flex;
   border-radius: 2px;
@@ -1108,28 +1132,4 @@ i {
 .om-gallery .artist-link-chip:hover {
   color: #2196F3;
   text-decoration: underline;
-}
-@font-face {
-  font-family: 'icomoon';
-  src: url('fonts/icomoon.eot?a0v6sz');
-  src: url('fonts/icomoon.eot?a0v6sz#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?a0v6sz') format('truetype'), url('fonts/icomoon.woff?a0v6sz') format('woff'), url('fonts/icomoon.svg?a0v6sz#icomoon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-[class^="icon-"],
-[class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.icon-orange-slice:before {
-  content: "\e900";
 }

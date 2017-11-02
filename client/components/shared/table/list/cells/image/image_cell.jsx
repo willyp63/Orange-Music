@@ -1,11 +1,10 @@
 import React from 'react';
 import { isNotEmpty } from '../../../../../../util/empty';
-import { EMPTY_IMG_SRC } from '../../../../../../util/image';
-import { getImageUrl } from '../../../../../../api/last_fm/last_fm_api';
+import { EMPTY_IMG_SRC, getImageUrl } from '../../../../../../util/image';
 
 const IMAGE_IDX = 1;
 
-const ImageCellComponent = (images) => {
+const ImageCell = (images) => {
   const imageSrc = isNotEmpty(images) ? getImageUrl(images, IMAGE_IDX) : EMPTY_IMG_SRC;
 
   let className = 'image-cell';
@@ -18,4 +17,4 @@ const ImageCellComponent = (images) => {
   );
 };
 
-export default ImageCellComponent;
+export default ImageCell;
