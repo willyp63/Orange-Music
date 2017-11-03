@@ -87,105 +87,70 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-const indexOf = (tracks, track) => {
-  for (let i = 0; i < tracks.length; i++) {
-    if (tracks[i].mbid === track.mbid) { return i; }
-  }
-  return -1;
-};
 
-
-export const setQueueTableType = tableType => ({
-  type: SET_TABLE_TYPE,
-  tableType
-});
-
-export const setQueueDisplayType = displayType => ({
-  type: SET_DISPLAY_TYPE,
-  displayType,
-});
+export const setQueueTableType = tableType => ({type: SET_TABLE_TYPE, tableType});
+export const setQueueDisplayType = displayType => ({type: SET_DISPLAY_TYPE, displayType});
 
 export const addToQueue = track => dispatch => {
-  dispatch({
-    type: ADD_TO_QUEUE,
-    track,
-  });
+  dispatch({type: ADD_TO_QUEUE, track});
   dispatch(fetchVideoForPlayingTrack());
 }
 
-export const addToHeadOfQueue = track => dispatch => {
-  dispatch({
-    type: ADD_TO_HEAD_OF_QUEUE,
-    track,
-  });
+const addToHeadOfQueue = track => dispatch => {
+  dispatch({type: ADD_TO_HEAD_OF_QUEUE, track});
   dispatch(fetchVideoForPlayingTrack());
 }
-
-export const fetchVideoForPlayingTrack = () => (dispatch, getState) => {
-  const { queue } = getState().queue;
-
-  if (queue.length > 0 && !queue[0].video) {
-    dispatch(fetchVideo(queue[0]));
-  }
-};
 
 export const removeFromQueue = track => (dispatch, getState) => {
+  // If this is the current playing song, add it to history.
   const { queue } = getState().queue;
-
-  if (queue.length > 0) {
-    // If this is the current playing song, add it to history.
-    if (queue[0].mbid === track.mbid) {
-      dispatch(addToHistory(track));
-    }
-
-    dispatch({
-      type: REMOVE_FROM_QUEUE,
-      track,
-    });
-    dispatch(fetchVideoForPlayingTrack());
+  if (queue.length > 0 && queue[0].mbid === track.mbid) {
+    dispatch(addToHistory(track));
   }
+
+  dispatch({type: REMOVE_FROM_QUEUE, track});
+  dispatch(fetchVideoForPlayingTrack());
 };
 
-export const clearQueue = () => (dispatch, getState) => {
+const clearQueue = () => (dispatch, getState) => {
   const { queue } = getState().queue;
   if (queue.length > 0) { dispatch(addToHistory(queue[0])); }
   dispatch({type: CLEAR_QUEUE});
 };
-
-export const addToHistory = track => ({
-  type: ADD_TO_HISTORY,
-  track,
-});
-
-export const removeFromHistory = track => ({
-  type: REMOVE_FROM_HISTORY,
-  track,
-});
 
 export const play = track => dispatch => {
   dispatch(clearQueue());
   dispatch(addToQueue(track));
 };
 
+const fetchVideoForPlayingTrack = () => (dispatch, getState) => {
+  const { queue } = getState().queue;
+  if (queue.length > 0 && !queue[0].video) { dispatch(fetchVideo(queue[0])); }
+};
+
+const addToHistory = track => ({type: ADD_TO_HISTORY, track});
+export const removeFromHistory = track => ({type: REMOVE_FROM_HISTORY, track});
+
 export const popFromHistory = () => (dispatch, getState) => {
   const { queue } = getState();
-
   if (queue.history.length > 0) {
-    const poppedTrack = queue.history[0];
-    dispatch(removeFromHistory(poppedTrack));
-    dispatch(addToHeadOfQueue(poppedTrack));
+    dispatch(addToHeadOfQueue(queue.history[0]));
+    dispatch(removeFromHistory(queue.history[0]));
   }
 };
 
-export const fetchVideo = track => dispatch => {
+const fetchVideo = track => dispatch => {
   orangeMusicApi.getVideo({
     query: track.name,
     artistQuery: track.artist.name
   }).then(video => {
-    dispatch({
-      type: RECEIVE_VIDEO,
-      track,
-      video,
-    });
+    dispatch({type: RECEIVE_VIDEO, track, video});
   });
+};
+
+const indexOf = (tracks, track) => {
+  for (let i = 0; i < tracks.length; i++) {
+    if (tracks[i].mbid === track.mbid) { return i; }
+  }
+  return -1;
 };

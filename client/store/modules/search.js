@@ -121,38 +121,16 @@ export default function reducer(state = initialState, action = {}) {
 
 export const setSearchTableType = tableType => (dispatch, getState) => {
   dispatch({type: SET_TABLE_TYPE, tableType});
-
-  const { tracks, artists, query } = getState().search;
-
-  // Fetch entities for the table we are about to visit if there are none.
-  if (tableType === SEARCH_TABLE_TYPES.TRACKS) {
-    if (tracks.query !== query ||
-        (!tracks.endOfTable && tracks.tracks.length === 0)) {
-
-      dispatch(fetchTracks());
-    }
-  } else if (tableType === SEARCH_TABLE_TYPES.ARTISTS) {
-    if (artists.query !== query ||
-        (!artists.endOfTable && artists.artists.length === 0)) {
-
-      dispatch(fetchArtists());
-    }
-  }
+  dispatch(fetchEntities());
 };
 
-export const setSearchDisplayType = displayType => ({
-  type: SET_DISPLAY_TYPE,
-  displayType,
-});
+export const setSearchDisplayType = displayType => ({type: SET_DISPLAY_TYPE, displayType});
 
 let debouncedFetch = dispatch => dispatch(fetchEntities());
 debouncedFetch = debounce(debouncedFetch, 500, {maxWait: 1500});
 
 export const setQuery = query => dispatch => {
-  dispatch({
-    type: SET_QUERY,
-    query,
-  });
+  dispatch({type: SET_QUERY, query});
   debouncedFetch(dispatch);
 };
 
@@ -162,13 +140,8 @@ const fetchTracks = (startIdx = 0) => (dispatch, getState) => {
     if (startIdx === 0) { dispatch(clearTracks()); }
 
     dispatch({type: FETCH_TRACKS});
-
     lastFmApi.searchTracks({query, startIdx}).then(({tracks}) => {
-      dispatch({
-        type: RECEIVE_TRACKS,
-        tracks,
-        query,
-      });
+      dispatch({type: RECEIVE_TRACKS, tracks, query});
     });
   }
 };
@@ -179,24 +152,26 @@ const fetchArtists = (startIdx = 0) => (dispatch, getState) => {
     if (startIdx === 0) { dispatch(clearArtists()); }
 
     dispatch({type: FETCH_ARTISTS});
-
     lastFmApi.searchArtists({query, startIdx}).then(({artists}) => {
-      dispatch({
-        type: RECEIVE_ARTISTS,
-        artists,
-        query,
-      });
+      dispatch({type: RECEIVE_ARTISTS, artists, query});
     });
   }
 };
 
 const clearTracks = () => ({type: CLEAR_TRACKS});
-
 const clearArtists = () => ({type: CLEAR_ARTISTS});
 
 export const fetchEntities = () => (dispatch, getState) => {
-  const { tableType } = getState().search;
-  dispatch(setSearchTableType(tableType));
+  const { tableType, tracks, artists, query } = getState().search;
+  if (tableType === SEARCH_TABLE_TYPES.TRACKS) {
+    if (tracks.query !== query || (!tracks.endOfTable && tracks.tracks.length === 0)) {
+      dispatch(fetchTracks());
+    }
+  } else if (tableType === SEARCH_TABLE_TYPES.ARTISTS) {
+    if (artists.query !== query || (!artists.endOfTable && artists.artists.length === 0)) {
+      dispatch(fetchArtists());
+    }
+  }
 };
 
 export const fetchMoreEntities = () => (dispatch, getState) => {

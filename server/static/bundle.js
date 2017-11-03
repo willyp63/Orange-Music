@@ -1493,7 +1493,7 @@ var CallbackQueue = __webpack_require__(97);
 var PooledClass = __webpack_require__(21);
 var ReactFeatureFlags = __webpack_require__(98);
 var ReactReconciler = __webpack_require__(25);
-var Transaction = __webpack_require__(42);
+var Transaction = __webpack_require__(43);
 
 var invariant = __webpack_require__(2);
 
@@ -2301,7 +2301,7 @@ var _assign = __webpack_require__(5);
 var ReactCurrentOwner = __webpack_require__(15);
 
 var warning = __webpack_require__(3);
-var canDefineProperty = __webpack_require__(39);
+var canDefineProperty = __webpack_require__(40);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(88);
@@ -2775,7 +2775,7 @@ var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(53);
-  var canDefineProperty = __webpack_require__(39);
+  var canDefineProperty = __webpack_require__(40);
   var ReactElementValidator = __webpack_require__(90);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -3116,7 +3116,7 @@ module.exports = ReactReconciler;
 
 
 var DOMNamespaces = __webpack_require__(61);
-var setInnerHTML = __webpack_require__(44);
+var setInnerHTML = __webpack_require__(45);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(62);
 var setTextContent = __webpack_require__(102);
@@ -3409,7 +3409,7 @@ module.exports = EventPropagators;
 
 var _prodInvariant = __webpack_require__(4);
 
-var EventPluginRegistry = __webpack_require__(41);
+var EventPluginRegistry = __webpack_require__(42);
 var EventPluginUtils = __webpack_require__(55);
 var ReactErrorUtils = __webpack_require__(56);
 
@@ -3783,6 +3783,33 @@ module.exports = ReactInstanceMap;
 
 /***/ }),
 /* 33 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3849,7 +3876,7 @@ var createPath = exports.createPath = function createPath(location) {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3920,7 +3947,7 @@ var createPath = function createPath(location) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3950,7 +3977,7 @@ var getImageUrl = exports.getImageUrl = function getImageUrl(images, preferredId
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4013,7 +4040,7 @@ var SCHEMA = {
 exports.default = SCHEMA;
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4028,7 +4055,7 @@ var DISPLAY_TYPES = exports.DISPLAY_TYPES = {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4037,19 +4064,19 @@ var DISPLAY_TYPES = exports.DISPLAY_TYPES = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchVideo = exports.popFromHistory = exports.play = exports.removeFromHistory = exports.addToHistory = exports.clearQueue = exports.removeFromQueue = exports.fetchVideoForPlayingTrack = exports.addToHeadOfQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
+exports.popFromHistory = exports.removeFromHistory = exports.play = exports.removeFromQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = reducer;
 
-var _orange_music = __webpack_require__(319);
+var _orange_music = __webpack_require__(320);
 
 var _orange_music2 = _interopRequireDefault(_orange_music);
 
 var _queue = __webpack_require__(153);
 
-var _display = __webpack_require__(37);
+var _display = __webpack_require__(38);
 
 var _shared = __webpack_require__(82);
 
@@ -4139,81 +4166,42 @@ function reducer() {
   }
 }
 
-var indexOf = function indexOf(tracks, track) {
-  for (var i = 0; i < tracks.length; i++) {
-    if (tracks[i].mbid === track.mbid) {
-      return i;
-    }
-  }
-  return -1;
-};
-
 var setQueueTableType = exports.setQueueTableType = function setQueueTableType(tableType) {
-  return {
-    type: SET_TABLE_TYPE,
-    tableType: tableType
-  };
+  return { type: SET_TABLE_TYPE, tableType: tableType };
 };
-
 var setQueueDisplayType = exports.setQueueDisplayType = function setQueueDisplayType(displayType) {
-  return {
-    type: SET_DISPLAY_TYPE,
-    displayType: displayType
-  };
+  return { type: SET_DISPLAY_TYPE, displayType: displayType };
 };
 
 var addToQueue = exports.addToQueue = function addToQueue(track) {
   return function (dispatch) {
-    dispatch({
-      type: ADD_TO_QUEUE,
-      track: track
-    });
+    dispatch({ type: ADD_TO_QUEUE, track: track });
     dispatch(fetchVideoForPlayingTrack());
   };
 };
 
-var addToHeadOfQueue = exports.addToHeadOfQueue = function addToHeadOfQueue(track) {
+var addToHeadOfQueue = function addToHeadOfQueue(track) {
   return function (dispatch) {
-    dispatch({
-      type: ADD_TO_HEAD_OF_QUEUE,
-      track: track
-    });
+    dispatch({ type: ADD_TO_HEAD_OF_QUEUE, track: track });
     dispatch(fetchVideoForPlayingTrack());
-  };
-};
-
-var fetchVideoForPlayingTrack = exports.fetchVideoForPlayingTrack = function fetchVideoForPlayingTrack() {
-  return function (dispatch, getState) {
-    var queue = getState().queue.queue;
-
-
-    if (queue.length > 0 && !queue[0].video) {
-      dispatch(fetchVideo(queue[0]));
-    }
   };
 };
 
 var removeFromQueue = exports.removeFromQueue = function removeFromQueue(track) {
   return function (dispatch, getState) {
+    // If this is the current playing song, add it to history.
     var queue = getState().queue.queue;
 
-
-    if (queue.length > 0) {
-      // If this is the current playing song, add it to history.
-      if (queue[0].mbid === track.mbid) {
-        dispatch(addToHistory(track));
-      }
-
-      dispatch({
-        type: REMOVE_FROM_QUEUE,
-        track: track
-      });
-      dispatch(fetchVideoForPlayingTrack());
+    if (queue.length > 0 && queue[0].mbid === track.mbid) {
+      dispatch(addToHistory(track));
     }
+
+    dispatch({ type: REMOVE_FROM_QUEUE, track: track });
+    dispatch(fetchVideoForPlayingTrack());
   };
 };
 
-var clearQueue = exports.clearQueue = function clearQueue() {
+var clearQueue = function clearQueue() {
   return function (dispatch, getState) {
     var queue = getState().queue.queue;
 
@@ -4224,25 +4212,28 @@ var clearQueue = exports.clearQueue = function clearQueue() {
   };
 };
 
-var addToHistory = exports.addToHistory = function addToHistory(track) {
-  return {
-    type: ADD_TO_HISTORY,
-    track: track
-  };
-};
-
-var removeFromHistory = exports.removeFromHistory = function removeFromHistory(track) {
-  return {
-    type: REMOVE_FROM_HISTORY,
-    track: track
-  };
-};
-
 var play = exports.play = function play(track) {
   return function (dispatch) {
     dispatch(clearQueue());
     dispatch(addToQueue(track));
   };
+};
+
+var fetchVideoForPlayingTrack = function fetchVideoForPlayingTrack() {
+  return function (dispatch, getState) {
+    var queue = getState().queue.queue;
+
+    if (queue.length > 0 && !queue[0].video) {
+      dispatch(fetchVideo(queue[0]));
+    }
+  };
+};
+
+var addToHistory = function addToHistory(track) {
+  return { type: ADD_TO_HISTORY, track: track };
+};
+var removeFromHistory = exports.removeFromHistory = function removeFromHistory(track) {
+  return { type: REMOVE_FROM_HISTORY, track: track };
 };
 
 var popFromHistory = exports.popFromHistory = function popFromHistory() {
@@ -4251,30 +4242,34 @@ var popFromHistory = exports.popFromHistory = function popFromHistory() {
         queue = _getState.queue;
 
     if (queue.history.length > 0) {
-      var poppedTrack = queue.history[0];
-      dispatch(removeFromHistory(poppedTrack));
-      dispatch(addToHeadOfQueue(poppedTrack));
+      dispatch(addToHeadOfQueue(queue.history[0]));
+      dispatch(removeFromHistory(queue.history[0]));
     }
   };
 };
 
-var fetchVideo = exports.fetchVideo = function fetchVideo(track) {
+var fetchVideo = function fetchVideo(track) {
   return function (dispatch) {
     _orange_music2.default.getVideo({
       query: track.name,
       artistQuery: track.artist.name
     }).then(function (video) {
-      dispatch({
-        type: RECEIVE_VIDEO,
-        track: track,
-        video: video
-      });
+      dispatch({ type: RECEIVE_VIDEO, track: track, video: video });
     });
   };
 };
 
+var indexOf = function indexOf(tracks, track) {
+  for (var i = 0; i < tracks.length; i++) {
+    if (tracks[i].mbid === track.mbid) {
+      return i;
+    }
+  }
+  return -1;
+};
+
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4304,7 +4299,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4328,7 +4323,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4585,7 +4580,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4817,7 +4812,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4892,7 +4887,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4993,7 +4988,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5118,7 +5113,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5134,7 +5129,7 @@ module.exports = escapeTextContentForBrowser;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(41);
+var EventPluginRegistry = __webpack_require__(42);
 var ReactEventEmitterMixin = __webpack_require__(211);
 var ViewportMetrics = __webpack_require__(101);
 
@@ -5445,33 +5440,6 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 47 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
 /* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5676,7 +5644,7 @@ var matchPath = function matchPath(pathname) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return locationsAreEqual; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_value_equal__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(35);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -6380,7 +6348,7 @@ var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(13);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(62);
-var setInnerHTML = __webpack_require__(44);
+var setInnerHTML = __webpack_require__(45);
 var setTextContent = __webpack_require__(102);
 
 function getNodeAfter(parentNode, node) {
@@ -7804,7 +7772,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(74);
 
-var _PathUtils = __webpack_require__(33);
+var _PathUtils = __webpack_require__(34);
 
 var _createTransitionManager = __webpack_require__(75);
 
@@ -8114,7 +8082,7 @@ var _valueEqual = __webpack_require__(130);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
-var _PathUtils = __webpack_require__(33);
+var _PathUtils = __webpack_require__(34);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8524,7 +8492,7 @@ var createTransitionManager = function createTransitionManager() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchMoreEntities = exports.fetchEntities = exports.setHomeDisplayType = exports.setHomeTableType = undefined;
+exports.fetchMoreEntities = exports.fetchEntities = exports.setHomeTableType = exports.setHomeDisplayType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -8536,7 +8504,7 @@ var _last_fm2 = _interopRequireDefault(_last_fm);
 
 var _home = __webpack_require__(143);
 
-var _display = __webpack_require__(37);
+var _display = __webpack_require__(38);
 
 var _shared = __webpack_require__(82);
 
@@ -8608,31 +8576,13 @@ function reducer() {
   }
 }
 
+var setHomeDisplayType = exports.setHomeDisplayType = function setHomeDisplayType(displayType) {
+  return { type: SET_DISPLAY_TYPE, displayType: displayType };
+};
 var setHomeTableType = exports.setHomeTableType = function setHomeTableType(tableType) {
   return function (dispatch, getState) {
     dispatch({ type: SET_TABLE_TYPE, tableType: tableType });
-
-    // Fetch entities for the table we are about to visit if there are none.
-    var _getState$home = getState().home,
-        topTracks = _getState$home.topTracks,
-        topArtists = _getState$home.topArtists;
-
-    if (tableType === _home.HOME_TABLE_TYPES.TOP_TRACKS) {
-      if (topTracks.tracks.length === 0) {
-        dispatch(fetchTopTracks());
-      }
-    } else if (tableType === _home.HOME_TABLE_TYPES.TOP_ARTISTS) {
-      if (topArtists.artists.length === 0) {
-        dispatch(fetchTopArtists());
-      }
-    }
-  };
-};
-
-var setHomeDisplayType = exports.setHomeDisplayType = function setHomeDisplayType(displayType) {
-  return {
-    type: SET_DISPLAY_TYPE,
-    displayType: displayType
+    dispatch(fetchEntities());
   };
 };
 
@@ -8649,10 +8599,7 @@ var fetchTopTracks = function fetchTopTracks() {
     _last_fm2.default.topTracks({ startIdx: startIdx }).then(function (_ref) {
       var tracks = _ref.tracks;
 
-      dispatch({
-        type: RECEIVE_TOP_TRACKS,
-        tracks: tracks
-      });
+      dispatch({ type: RECEIVE_TOP_TRACKS, tracks: tracks });
     });
   };
 };
@@ -8670,19 +8617,27 @@ var fetchTopArtists = function fetchTopArtists() {
     _last_fm2.default.topArtists({ startIdx: startIdx }).then(function (_ref2) {
       var artists = _ref2.artists;
 
-      dispatch({
-        type: RECEIVE_TOP_ARTISTS,
-        artists: artists
-      });
+      dispatch({ type: RECEIVE_TOP_ARTISTS, artists: artists });
     });
   };
 };
 
 var fetchEntities = exports.fetchEntities = function fetchEntities() {
   return function (dispatch, getState) {
-    var tableType = getState().home.tableType;
+    var _getState$home = getState().home,
+        tableType = _getState$home.tableType,
+        topTracks = _getState$home.topTracks,
+        topArtists = _getState$home.topArtists;
 
-    dispatch(setHomeTableType(tableType));
+    if (tableType === _home.HOME_TABLE_TYPES.TOP_TRACKS) {
+      if (topTracks.tracks.length === 0) {
+        dispatch(fetchTopTracks());
+      }
+    } else if (tableType === _home.HOME_TABLE_TYPES.TOP_ARTISTS) {
+      if (topArtists.artists.length === 0) {
+        dispatch(fetchTopArtists());
+      }
+    }
   };
 };
 
@@ -8908,7 +8863,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.default = reducer;
 
-var _lodash = __webpack_require__(347);
+var _lodash = __webpack_require__(319);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -8918,7 +8873,7 @@ var _last_fm2 = _interopRequireDefault(_last_fm);
 
 var _search = __webpack_require__(152);
 
-var _display = __webpack_require__(37);
+var _display = __webpack_require__(38);
 
 var _shared = __webpack_require__(82);
 
@@ -9028,33 +8983,12 @@ function reducer() {
 var setSearchTableType = exports.setSearchTableType = function setSearchTableType(tableType) {
   return function (dispatch, getState) {
     dispatch({ type: SET_TABLE_TYPE, tableType: tableType });
-
-    var _getState$search = getState().search,
-        tracks = _getState$search.tracks,
-        artists = _getState$search.artists,
-        query = _getState$search.query;
-
-    // Fetch entities for the table we are about to visit if there are none.
-
-    if (tableType === _search.SEARCH_TABLE_TYPES.TRACKS) {
-      if (tracks.query !== query || !tracks.endOfTable && tracks.tracks.length === 0) {
-
-        dispatch(fetchTracks());
-      }
-    } else if (tableType === _search.SEARCH_TABLE_TYPES.ARTISTS) {
-      if (artists.query !== query || !artists.endOfTable && artists.artists.length === 0) {
-
-        dispatch(fetchArtists());
-      }
-    }
+    dispatch(fetchEntities());
   };
 };
 
 var setSearchDisplayType = exports.setSearchDisplayType = function setSearchDisplayType(displayType) {
-  return {
-    type: SET_DISPLAY_TYPE,
-    displayType: displayType
-  };
+  return { type: SET_DISPLAY_TYPE, displayType: displayType };
 };
 
 var debouncedFetch = function debouncedFetch(dispatch) {
@@ -9064,10 +8998,7 @@ debouncedFetch = (0, _lodash2.default)(debouncedFetch, 500, { maxWait: 1500 });
 
 var setQuery = exports.setQuery = function setQuery(query) {
   return function (dispatch) {
-    dispatch({
-      type: SET_QUERY,
-      query: query
-    });
+    dispatch({ type: SET_QUERY, query: query });
     debouncedFetch(dispatch);
   };
 };
@@ -9075,9 +9006,9 @@ var setQuery = exports.setQuery = function setQuery(query) {
 var fetchTracks = function fetchTracks() {
   var startIdx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   return function (dispatch, getState) {
-    var _getState$search2 = getState().search,
-        query = _getState$search2.query,
-        tracks = _getState$search2.tracks;
+    var _getState$search = getState().search,
+        query = _getState$search.query,
+        tracks = _getState$search.tracks;
 
     if (!tracks.isFetching && query.length > 0) {
       if (startIdx === 0) {
@@ -9085,15 +9016,10 @@ var fetchTracks = function fetchTracks() {
       }
 
       dispatch({ type: FETCH_TRACKS });
-
       _last_fm2.default.searchTracks({ query: query, startIdx: startIdx }).then(function (_ref) {
         var tracks = _ref.tracks;
 
-        dispatch({
-          type: RECEIVE_TRACKS,
-          tracks: tracks,
-          query: query
-        });
+        dispatch({ type: RECEIVE_TRACKS, tracks: tracks, query: query });
       });
     }
   };
@@ -9102,9 +9028,9 @@ var fetchTracks = function fetchTracks() {
 var fetchArtists = function fetchArtists() {
   var startIdx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   return function (dispatch, getState) {
-    var _getState$search3 = getState().search,
-        query = _getState$search3.query,
-        artists = _getState$search3.artists;
+    var _getState$search2 = getState().search,
+        query = _getState$search2.query,
+        artists = _getState$search2.artists;
 
     if (!artists.isFetching && query.length > 0) {
       if (startIdx === 0) {
@@ -9112,15 +9038,10 @@ var fetchArtists = function fetchArtists() {
       }
 
       dispatch({ type: FETCH_ARTISTS });
-
       _last_fm2.default.searchArtists({ query: query, startIdx: startIdx }).then(function (_ref2) {
         var artists = _ref2.artists;
 
-        dispatch({
-          type: RECEIVE_ARTISTS,
-          artists: artists,
-          query: query
-        });
+        dispatch({ type: RECEIVE_ARTISTS, artists: artists, query: query });
       });
     }
   };
@@ -9129,16 +9050,27 @@ var fetchArtists = function fetchArtists() {
 var clearTracks = function clearTracks() {
   return { type: CLEAR_TRACKS };
 };
-
 var clearArtists = function clearArtists() {
   return { type: CLEAR_ARTISTS };
 };
 
 var fetchEntities = exports.fetchEntities = function fetchEntities() {
   return function (dispatch, getState) {
-    var tableType = getState().search.tableType;
+    var _getState$search3 = getState().search,
+        tableType = _getState$search3.tableType,
+        tracks = _getState$search3.tracks,
+        artists = _getState$search3.artists,
+        query = _getState$search3.query;
 
-    dispatch(setSearchTableType(tableType));
+    if (tableType === _search.SEARCH_TABLE_TYPES.TRACKS) {
+      if (tracks.query !== query || !tracks.endOfTable && tracks.tracks.length === 0) {
+        dispatch(fetchTracks());
+      }
+    } else if (tableType === _search.SEARCH_TABLE_TYPES.ARTISTS) {
+      if (artists.query !== query || !artists.endOfTable && artists.artists.length === 0) {
+        dispatch(fetchArtists());
+      }
+    }
   };
 };
 
@@ -9212,15 +9144,15 @@ var _empty = __webpack_require__(8);
 
 var _index = __webpack_require__(17);
 
-var _nav_bar = __webpack_require__(337);
+var _nav_bar = __webpack_require__(338);
 
 var _nav_bar2 = _interopRequireDefault(_nav_bar);
 
-var _display_type_picker = __webpack_require__(338);
+var _display_type_picker = __webpack_require__(339);
 
 var _display_type_picker2 = _interopRequireDefault(_display_type_picker);
 
-var _display = __webpack_require__(37);
+var _display = __webpack_require__(38);
 
 var _list = __webpack_require__(157);
 
@@ -9230,7 +9162,7 @@ var _list_header = __webpack_require__(161);
 
 var _list_header2 = _interopRequireDefault(_list_header);
 
-var _gallery = __webpack_require__(340);
+var _gallery = __webpack_require__(341);
 
 var _gallery2 = _interopRequireDefault(_gallery);
 
@@ -9376,8 +9308,8 @@ var _prodInvariant = __webpack_require__(23),
 
 var ReactNoopUpdateQueue = __webpack_require__(87);
 
-var canDefineProperty = __webpack_require__(39);
-var emptyObject = __webpack_require__(40);
+var canDefineProperty = __webpack_require__(40);
+var emptyObject = __webpack_require__(41);
 var invariant = __webpack_require__(2);
 var lowPriorityWarning = __webpack_require__(53);
 
@@ -9697,7 +9629,7 @@ var ReactElement = __webpack_require__(20);
 
 var checkReactTypeSpec = __webpack_require__(168);
 
-var canDefineProperty = __webpack_require__(39);
+var canDefineProperty = __webpack_require__(40);
 var getIteratorFn = __webpack_require__(89);
 var warning = __webpack_require__(3);
 var lowPriorityWarning = __webpack_require__(53);
@@ -11029,8 +10961,8 @@ module.exports = ViewportMetrics;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var escapeTextContentForBrowser = __webpack_require__(45);
-var setInnerHTML = __webpack_require__(44);
+var escapeTextContentForBrowser = __webpack_require__(46);
+var setInnerHTML = __webpack_require__(45);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -12450,7 +12382,7 @@ var _prodInvariant = __webpack_require__(4);
 var DOMLazyTree = __webpack_require__(26);
 var DOMProperty = __webpack_require__(19);
 var React = __webpack_require__(22);
-var ReactBrowserEventEmitter = __webpack_require__(46);
+var ReactBrowserEventEmitter = __webpack_require__(47);
 var ReactCurrentOwner = __webpack_require__(15);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMContainerInfo = __webpack_require__(252);
@@ -12463,10 +12395,10 @@ var ReactReconciler = __webpack_require__(25);
 var ReactUpdateQueue = __webpack_require__(68);
 var ReactUpdates = __webpack_require__(16);
 
-var emptyObject = __webpack_require__(40);
+var emptyObject = __webpack_require__(41);
 var instantiateReactComponent = __webpack_require__(108);
 var invariant = __webpack_require__(2);
-var setInnerHTML = __webpack_require__(44);
+var setInnerHTML = __webpack_require__(45);
 var shouldUpdateReactComponent = __webpack_require__(66);
 var warning = __webpack_require__(3);
 
@@ -14586,7 +14518,7 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Router__ = __webpack_require__(48);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -14904,7 +14836,7 @@ var withRouter = function withRouter(Component) {
 
 var _empty = __webpack_require__(8);
 
-var _image = __webpack_require__(35);
+var _image = __webpack_require__(36);
 
 var _url = __webpack_require__(142);
 
@@ -15129,7 +15061,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HOME_TABLE_TYPES = undefined;
 
-var _track = __webpack_require__(36);
+var _track = __webpack_require__(37);
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -15215,7 +15147,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _empty = __webpack_require__(8);
 
-var _image = __webpack_require__(35);
+var _image = __webpack_require__(36);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15631,7 +15563,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SEARCH_TABLE_TYPES = undefined;
 
-var _track = __webpack_require__(36);
+var _track = __webpack_require__(37);
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -15680,19 +15612,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.QUEUE_TABLE_TYPES = undefined;
 
-var _queue = __webpack_require__(320);
+var _queue = __webpack_require__(321);
 
 var _queue2 = _interopRequireDefault(_queue);
 
-var _history = __webpack_require__(321);
+var _history = __webpack_require__(322);
 
 var _history2 = _interopRequireDefault(_history);
 
-var _queue3 = __webpack_require__(322);
+var _queue3 = __webpack_require__(323);
 
 var _queue4 = _interopRequireDefault(_queue3);
 
-var _history3 = __webpack_require__(323);
+var _history3 = __webpack_require__(324);
 
 var _history4 = _interopRequireDefault(_history3);
 
@@ -16060,7 +15992,7 @@ URLSearchParams = (module.exports = global.URLSearchParams || URLSearchParams);
 
 }(URLSearchParams.prototype));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
 
 /***/ }),
 /* 156 */
@@ -16285,7 +16217,7 @@ var _reactRouter = __webpack_require__(156);
 
 var _reactRedux = __webpack_require__(27);
 
-var _queue = __webpack_require__(38);
+var _queue = __webpack_require__(39);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16350,7 +16282,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _flex_table_header = __webpack_require__(339);
+var _flex_table_header = __webpack_require__(340);
 
 var _flex_table_header2 = _interopRequireDefault(_flex_table_header);
 
@@ -16401,19 +16333,19 @@ var _search = __webpack_require__(83);
 
 var _search2 = _interopRequireDefault(_search);
 
-var _queue = __webpack_require__(38);
+var _queue = __webpack_require__(39);
 
 var _queue2 = _interopRequireDefault(_queue);
 
-var _query_sync = __webpack_require__(324);
+var _query_sync = __webpack_require__(325);
 
 var _query_sync2 = _interopRequireDefault(_query_sync);
 
-var _history = __webpack_require__(326);
+var _history = __webpack_require__(327);
 
 var _history2 = _interopRequireDefault(_history);
 
-var _app = __webpack_require__(327);
+var _app = __webpack_require__(328);
 
 var _app2 = _interopRequireDefault(_app);
 
@@ -17454,7 +17386,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(5);
 
-var emptyObject = __webpack_require__(40);
+var emptyObject = __webpack_require__(41);
 var _invariant = __webpack_require__(2);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -20258,7 +20190,7 @@ module.exports = DefaultEventPluginOrder;
 
 var EventPropagators = __webpack_require__(29);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticMouseEvent = __webpack_require__(43);
+var SyntheticMouseEvent = __webpack_require__(44);
 
 var eventTypes = {
   mouseEnter: {
@@ -21044,8 +20976,8 @@ var DOMNamespaces = __webpack_require__(61);
 var DOMProperty = __webpack_require__(19);
 var DOMPropertyOperations = __webpack_require__(105);
 var EventPluginHub = __webpack_require__(30);
-var EventPluginRegistry = __webpack_require__(41);
-var ReactBrowserEventEmitter = __webpack_require__(46);
+var EventPluginRegistry = __webpack_require__(42);
+var ReactBrowserEventEmitter = __webpack_require__(47);
 var ReactDOMComponentFlags = __webpack_require__(93);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMInput = __webpack_require__(213);
@@ -21057,7 +20989,7 @@ var ReactMultiChild = __webpack_require__(216);
 var ReactServerRenderingTransaction = __webpack_require__(225);
 
 var emptyFunction = __webpack_require__(12);
-var escapeTextContentForBrowser = __webpack_require__(45);
+var escapeTextContentForBrowser = __webpack_require__(46);
 var invariant = __webpack_require__(2);
 var isEventSupported = __webpack_require__(58);
 var shallowEqual = __webpack_require__(65);
@@ -22568,7 +22500,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(45);
+var escapeTextContentForBrowser = __webpack_require__(46);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -23940,7 +23872,7 @@ if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(219);
 }
 
-var emptyObject = __webpack_require__(40);
+var emptyObject = __webpack_require__(41);
 var invariant = __webpack_require__(2);
 var shallowEqual = __webpack_require__(65);
 var shouldUpdateReactComponent = __webpack_require__(66);
@@ -25122,7 +25054,7 @@ module.exports = flattenChildren;
 var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(21);
-var Transaction = __webpack_require__(42);
+var Transaction = __webpack_require__(43);
 var ReactInstrumentation = __webpack_require__(13);
 var ReactServerUpdateQueue = __webpack_require__(226);
 
@@ -25566,7 +25498,7 @@ var DOMChildrenOperations = __webpack_require__(60);
 var DOMLazyTree = __webpack_require__(26);
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var escapeTextContentForBrowser = __webpack_require__(45);
+var escapeTextContentForBrowser = __webpack_require__(46);
 var invariant = __webpack_require__(2);
 var validateDOMNesting = __webpack_require__(69);
 
@@ -25728,7 +25660,7 @@ module.exports = ReactDOMTextComponent;
 var _assign = __webpack_require__(5);
 
 var ReactUpdates = __webpack_require__(16);
-var Transaction = __webpack_require__(42);
+var Transaction = __webpack_require__(43);
 
 var emptyFunction = __webpack_require__(12);
 
@@ -26001,7 +25933,7 @@ var EventPluginHub = __webpack_require__(30);
 var EventPluginUtils = __webpack_require__(55);
 var ReactComponentEnvironment = __webpack_require__(64);
 var ReactEmptyComponent = __webpack_require__(110);
-var ReactBrowserEventEmitter = __webpack_require__(46);
+var ReactBrowserEventEmitter = __webpack_require__(47);
 var ReactHostComponent = __webpack_require__(111);
 var ReactUpdates = __webpack_require__(16);
 
@@ -26037,10 +25969,10 @@ var _assign = __webpack_require__(5);
 
 var CallbackQueue = __webpack_require__(97);
 var PooledClass = __webpack_require__(21);
-var ReactBrowserEventEmitter = __webpack_require__(46);
+var ReactBrowserEventEmitter = __webpack_require__(47);
 var ReactInputSelection = __webpack_require__(114);
 var ReactInstrumentation = __webpack_require__(13);
-var Transaction = __webpack_require__(42);
+var Transaction = __webpack_require__(43);
 var ReactUpdateQueue = __webpack_require__(68);
 
 /**
@@ -27113,7 +27045,7 @@ var SyntheticClipboardEvent = __webpack_require__(244);
 var SyntheticEvent = __webpack_require__(18);
 var SyntheticFocusEvent = __webpack_require__(245);
 var SyntheticKeyboardEvent = __webpack_require__(246);
-var SyntheticMouseEvent = __webpack_require__(43);
+var SyntheticMouseEvent = __webpack_require__(44);
 var SyntheticDragEvent = __webpack_require__(248);
 var SyntheticTouchEvent = __webpack_require__(249);
 var SyntheticTransitionEvent = __webpack_require__(250);
@@ -27656,7 +27588,7 @@ module.exports = getEventKey;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(43);
+var SyntheticMouseEvent = __webpack_require__(44);
 
 /**
  * @interface DragEvent
@@ -27785,7 +27717,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(43);
+var SyntheticMouseEvent = __webpack_require__(44);
 
 /**
  * @interface WheelEvent
@@ -28099,7 +28031,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 var DOMProperty = __webpack_require__(19);
-var EventPluginRegistry = __webpack_require__(41);
+var EventPluginRegistry = __webpack_require__(42);
 var ReactComponentTreeHook = __webpack_require__(11);
 
 var warning = __webpack_require__(3);
@@ -28842,7 +28774,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 /* harmony default export */ __webpack_exports__["a"] = (freeGlobal);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(47)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(33)))
 
 /***/ }),
 /* 271 */
@@ -29040,7 +28972,7 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47), __webpack_require__(278)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33), __webpack_require__(278)(module)))
 
 /***/ }),
 /* 278 */
@@ -29721,7 +29653,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(74);
 
-var _PathUtils = __webpack_require__(33);
+var _PathUtils = __webpack_require__(34);
 
 var _createTransitionManager = __webpack_require__(75);
 
@@ -30058,7 +29990,7 @@ var _warning = __webpack_require__(9);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _PathUtils = __webpack_require__(33);
+var _PathUtils = __webpack_require__(34);
 
 var _LocationUtils = __webpack_require__(74);
 
@@ -30775,7 +30707,7 @@ module.exports = Array.isArray || function (arr) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(50);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PathUtils__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PathUtils__ = __webpack_require__(35);
 /* unused harmony reexport parsePath */
 /* unused harmony reexport createPath */
 
@@ -30798,7 +30730,7 @@ module.exports = Array.isArray || function (arr) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(137);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -31102,7 +31034,7 @@ var createBrowserHistory = function createBrowserHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(137);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -31420,7 +31352,7 @@ var createHashHistory = function createHashHistory() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__createTransitionManager__ = __webpack_require__(78);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -31660,7 +31592,7 @@ exports['default'] = thunk;
 
 /* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t(e.reduxLogger=e.reduxLogger||{})}(this,function(e){"use strict";function t(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}function r(e,t){Object.defineProperty(this,"kind",{value:e,enumerable:!0}),t&&t.length&&Object.defineProperty(this,"path",{value:t,enumerable:!0})}function n(e,t,r){n.super_.call(this,"E",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0}),Object.defineProperty(this,"rhs",{value:r,enumerable:!0})}function o(e,t){o.super_.call(this,"N",e),Object.defineProperty(this,"rhs",{value:t,enumerable:!0})}function i(e,t){i.super_.call(this,"D",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0})}function a(e,t,r){a.super_.call(this,"A",e),Object.defineProperty(this,"index",{value:t,enumerable:!0}),Object.defineProperty(this,"item",{value:r,enumerable:!0})}function f(e,t,r){var n=e.slice((r||t)+1||e.length);return e.length=t<0?e.length+t:t,e.push.apply(e,n),e}function u(e){var t="undefined"==typeof e?"undefined":N(e);return"object"!==t?t:e===Math?"math":null===e?"null":Array.isArray(e)?"array":"[object Date]"===Object.prototype.toString.call(e)?"date":"function"==typeof e.toString&&/^\/.*\//.test(e.toString())?"regexp":"object"}function l(e,t,r,c,s,d,p){s=s||[],p=p||[];var g=s.slice(0);if("undefined"!=typeof d){if(c){if("function"==typeof c&&c(g,d))return;if("object"===("undefined"==typeof c?"undefined":N(c))){if(c.prefilter&&c.prefilter(g,d))return;if(c.normalize){var h=c.normalize(g,d,e,t);h&&(e=h[0],t=h[1])}}}g.push(d)}"regexp"===u(e)&&"regexp"===u(t)&&(e=e.toString(),t=t.toString());var y="undefined"==typeof e?"undefined":N(e),v="undefined"==typeof t?"undefined":N(t),b="undefined"!==y||p&&p[p.length-1].lhs&&p[p.length-1].lhs.hasOwnProperty(d),m="undefined"!==v||p&&p[p.length-1].rhs&&p[p.length-1].rhs.hasOwnProperty(d);if(!b&&m)r(new o(g,t));else if(!m&&b)r(new i(g,e));else if(u(e)!==u(t))r(new n(g,e,t));else if("date"===u(e)&&e-t!==0)r(new n(g,e,t));else if("object"===y&&null!==e&&null!==t)if(p.filter(function(t){return t.lhs===e}).length)e!==t&&r(new n(g,e,t));else{if(p.push({lhs:e,rhs:t}),Array.isArray(e)){var w;e.length;for(w=0;w<e.length;w++)w>=t.length?r(new a(g,w,new i(void 0,e[w]))):l(e[w],t[w],r,c,g,w,p);for(;w<t.length;)r(new a(g,w,new o(void 0,t[w++])))}else{var x=Object.keys(e),S=Object.keys(t);x.forEach(function(n,o){var i=S.indexOf(n);i>=0?(l(e[n],t[n],r,c,g,n,p),S=f(S,i)):l(e[n],void 0,r,c,g,n,p)}),S.forEach(function(e){l(void 0,t[e],r,c,g,e,p)})}p.length=p.length-1}else e!==t&&("number"===y&&isNaN(e)&&isNaN(t)||r(new n(g,e,t)))}function c(e,t,r,n){return n=n||[],l(e,t,function(e){e&&n.push(e)},r),n.length?n:void 0}function s(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":s(o[r.path[n]],r.index,r.item);break;case"D":delete o[r.path[n]];break;case"E":case"N":o[r.path[n]]=r.rhs}}else switch(r.kind){case"A":s(e[t],r.index,r.item);break;case"D":e=f(e,t);break;case"E":case"N":e[t]=r.rhs}return e}function d(e,t,r){if(e&&t&&r&&r.kind){for(var n=e,o=-1,i=r.path?r.path.length-1:0;++o<i;)"undefined"==typeof n[r.path[o]]&&(n[r.path[o]]="number"==typeof r.path[o]?[]:{}),n=n[r.path[o]];switch(r.kind){case"A":s(r.path?n[r.path[o]]:n,r.index,r.item);break;case"D":delete n[r.path[o]];break;case"E":case"N":n[r.path[o]]=r.rhs}}}function p(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":p(o[r.path[n]],r.index,r.item);break;case"D":o[r.path[n]]=r.lhs;break;case"E":o[r.path[n]]=r.lhs;break;case"N":delete o[r.path[n]]}}else switch(r.kind){case"A":p(e[t],r.index,r.item);break;case"D":e[t]=r.lhs;break;case"E":e[t]=r.lhs;break;case"N":e=f(e,t)}return e}function g(e,t,r){if(e&&t&&r&&r.kind){var n,o,i=e;for(o=r.path.length-1,n=0;n<o;n++)"undefined"==typeof i[r.path[n]]&&(i[r.path[n]]={}),i=i[r.path[n]];switch(r.kind){case"A":p(i[r.path[n]],r.index,r.item);break;case"D":i[r.path[n]]=r.lhs;break;case"E":i[r.path[n]]=r.lhs;break;case"N":delete i[r.path[n]]}}}function h(e,t,r){if(e&&t){var n=function(n){r&&!r(e,t,n)||d(e,t,n)};l(e,t,n)}}function y(e){return"color: "+F[e].color+"; font-weight: bold"}function v(e){var t=e.kind,r=e.path,n=e.lhs,o=e.rhs,i=e.index,a=e.item;switch(t){case"E":return[r.join("."),n,"→",o];case"N":return[r.join("."),o];case"D":return[r.join(".")];case"A":return[r.join(".")+"["+i+"]",a];default:return[]}}function b(e,t,r,n){var o=c(e,t);try{n?r.groupCollapsed("diff"):r.group("diff")}catch(e){r.log("diff")}o?o.forEach(function(e){var t=e.kind,n=v(e);r.log.apply(r,["%c "+F[t].text,y(t)].concat(P(n)))}):r.log("—— no diff ——");try{r.groupEnd()}catch(e){r.log("—— diff end —— ")}}function m(e,t,r,n){switch("undefined"==typeof e?"undefined":N(e)){case"object":return"function"==typeof e[n]?e[n].apply(e,P(r)):e[n];case"function":return e(t);default:return e}}function w(e){var t=e.timestamp,r=e.duration;return function(e,n,o){var i=["action"];return i.push("%c"+String(e.type)),t&&i.push("%c@ "+n),r&&i.push("%c(in "+o.toFixed(2)+" ms)"),i.join(" ")}}function x(e,t){var r=t.logger,n=t.actionTransformer,o=t.titleFormatter,i=void 0===o?w(t):o,a=t.collapsed,f=t.colors,u=t.level,l=t.diff,c="undefined"==typeof t.titleFormatter;e.forEach(function(o,s){var d=o.started,p=o.startedTime,g=o.action,h=o.prevState,y=o.error,v=o.took,w=o.nextState,x=e[s+1];x&&(w=x.prevState,v=x.started-d);var S=n(g),k="function"==typeof a?a(function(){return w},g,o):a,j=D(p),E=f.title?"color: "+f.title(S)+";":"",A=["color: gray; font-weight: lighter;"];A.push(E),t.timestamp&&A.push("color: gray; font-weight: lighter;"),t.duration&&A.push("color: gray; font-weight: lighter;");var O=i(S,j,v);try{k?f.title&&c?r.groupCollapsed.apply(r,["%c "+O].concat(A)):r.groupCollapsed(O):f.title&&c?r.group.apply(r,["%c "+O].concat(A)):r.group(O)}catch(e){r.log(O)}var N=m(u,S,[h],"prevState"),P=m(u,S,[S],"action"),C=m(u,S,[y,h],"error"),F=m(u,S,[w],"nextState");if(N)if(f.prevState){var L="color: "+f.prevState(h)+"; font-weight: bold";r[N]("%c prev state",L,h)}else r[N]("prev state",h);if(P)if(f.action){var T="color: "+f.action(S)+"; font-weight: bold";r[P]("%c action    ",T,S)}else r[P]("action    ",S);if(y&&C)if(f.error){var M="color: "+f.error(y,h)+"; font-weight: bold;";r[C]("%c error     ",M,y)}else r[C]("error     ",y);if(F)if(f.nextState){var _="color: "+f.nextState(w)+"; font-weight: bold";r[F]("%c next state",_,w)}else r[F]("next state",w);l&&b(h,w,r,k);try{r.groupEnd()}catch(e){r.log("—— log end ——")}})}function S(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=Object.assign({},L,e),r=t.logger,n=t.stateTransformer,o=t.errorTransformer,i=t.predicate,a=t.logErrors,f=t.diffPredicate;if("undefined"==typeof r)return function(){return function(e){return function(t){return e(t)}}};if(e.getState&&e.dispatch)return console.error("[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:\n// Logger with default options\nimport { logger } from 'redux-logger'\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n// Or you can create your own logger with custom options http://bit.ly/redux-logger-options\nimport createLogger from 'redux-logger'\nconst logger = createLogger({\n  // ...options\n});\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n"),function(){return function(e){return function(t){return e(t)}}};var u=[];return function(e){var r=e.getState;return function(e){return function(l){if("function"==typeof i&&!i(r,l))return e(l);var c={};u.push(c),c.started=O.now(),c.startedTime=new Date,c.prevState=n(r()),c.action=l;var s=void 0;if(a)try{s=e(l)}catch(e){c.error=o(e)}else s=e(l);c.took=O.now()-c.started,c.nextState=n(r());var d=t.diff&&"function"==typeof f?f(r,l):t.diff;if(x(u,Object.assign({},t,{diff:d})),u.length=0,c.error)throw c.error;return s}}}}var k,j,E=function(e,t){return new Array(t+1).join(e)},A=function(e,t){return E("0",t-e.toString().length)+e},D=function(e){return A(e.getHours(),2)+":"+A(e.getMinutes(),2)+":"+A(e.getSeconds(),2)+"."+A(e.getMilliseconds(),3)},O="undefined"!=typeof performance&&null!==performance&&"function"==typeof performance.now?performance:Date,N="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},P=function(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)},C=[];k="object"===("undefined"==typeof global?"undefined":N(global))&&global?global:"undefined"!=typeof window?window:{},j=k.DeepDiff,j&&C.push(function(){"undefined"!=typeof j&&k.DeepDiff===c&&(k.DeepDiff=j,j=void 0)}),t(n,r),t(o,r),t(i,r),t(a,r),Object.defineProperties(c,{diff:{value:c,enumerable:!0},observableDiff:{value:l,enumerable:!0},applyDiff:{value:h,enumerable:!0},applyChange:{value:d,enumerable:!0},revertChange:{value:g,enumerable:!0},isConflict:{value:function(){return"undefined"!=typeof j},enumerable:!0},noConflict:{value:function(){return C&&(C.forEach(function(e){e()}),C=null),c},enumerable:!0}});var F={E:{color:"#2196F3",text:"CHANGED:"},N:{color:"#4CAF50",text:"ADDED:"},D:{color:"#F44336",text:"DELETED:"},A:{color:"#2196F3",text:"ARRAY:"}},L={level:"log",logger:console,logErrors:!0,collapsed:void 0,predicate:void 0,duration:!1,timestamp:!0,stateTransformer:function(e){return e},actionTransformer:function(e){return e},errorTransformer:function(e){return e},colors:{title:function(){return"inherit"},prevState:function(){return"#9E9E9E"},action:function(){return"#03A9F4"},nextState:function(){return"#4CAF50"},error:function(){return"#F20404"}},diff:!1,diffPredicate:void 0,transformer:void 0},T=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=e.dispatch,r=e.getState;return"function"==typeof t||"function"==typeof r?S()({dispatch:t,getState:r}):void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n")};e.defaults=L,e.createLogger=S,e.logger=T,e.default=T,Object.defineProperty(e,"__esModule",{value:!0})});
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
 
 /***/ }),
 /* 307 */
@@ -32335,2215 +32267,6 @@ exports.default = { TIME: TIME };
 /* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var _url = __webpack_require__(142);
-
-module.exports.getVideo = function (_ref) {
-  var query = _ref.query,
-      artistQuery = _ref.artistQuery,
-      duration = _ref.duration;
-
-  return new Promise(function (resolve, reject) {
-    var url = (0, _url.getUrlWithUpdatedParams)('/video', {
-      q: query,
-      aq: artistQuery,
-      dur: duration
-    });
-    $.get(url, resolve).fail(reject);
-  });
-};
-
-/***/ }),
-/* 320 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _track = __webpack_require__(36);
-
-var _track2 = _interopRequireDefault(_track);
-
-var _queue = __webpack_require__(84);
-
-var _queue2 = _interopRequireDefault(_queue);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Track list schema w/ Queue actions
-var SCHEMA = Object.assign({}, _track2.default, {
-  '@actions': Object.assign({}, _track2.default['@actions'], {
-    actions: _queue2.default
-  })
-});
-
-exports.default = SCHEMA;
-
-/***/ }),
-/* 321 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _track = __webpack_require__(36);
-
-var _track2 = _interopRequireDefault(_track);
-
-var _history = __webpack_require__(154);
-
-var _history2 = _interopRequireDefault(_history);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Track list schema w/ History actions
-var SCHEMA = Object.assign({}, _track2.default, {
-  '@actions': Object.assign({}, _track2.default['@actions'], {
-    actions: _history2.default
-  })
-});
-
-exports.default = SCHEMA;
-
-/***/ }),
-/* 322 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _track = __webpack_require__(52);
-
-var _track2 = _interopRequireDefault(_track);
-
-var _queue = __webpack_require__(84);
-
-var _queue2 = _interopRequireDefault(_queue);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SCHEMA = Object.assign({}, _track2.default, {
-  actions: _queue2.default
-});
-
-exports.default = SCHEMA;
-
-/***/ }),
-/* 323 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _track = __webpack_require__(52);
-
-var _track2 = _interopRequireDefault(_track);
-
-var _history = __webpack_require__(154);
-
-var _history2 = _interopRequireDefault(_history);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SCHEMA = Object.assign({}, _track2.default, {
-  actions: _history2.default
-});
-
-exports.default = SCHEMA;
-
-/***/ }),
-/* 324 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _redux_query_sync = __webpack_require__(325);
-
-var _redux_query_sync2 = _interopRequireDefault(_redux_query_sync);
-
-var _home = __webpack_require__(79);
-
-var _search = __webpack_require__(83);
-
-var _queue = __webpack_require__(38);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Search Query
-var q = {
-  selector: function selector(state) {
-    return state.search.query;
-  },
-  action: function action(query) {
-    return function (dispatch) {
-      dispatch((0, _search.setQuery)(query));
-      dispatch((0, _search.fetchEntities)());
-    };
-  },
-  defaultValue: ''
-};
-
-// Table Type
-var tt = {
-  selector: function selector(state, location) {
-    switch (location.pathname) {
-      case '/search':
-        return state.search.tableType;
-      case '/queue':
-        return state.queue.tableType;
-      default:
-        return state.home.tableType;
-    }
-  },
-  action: function action(tableType, location) {
-    switch (location.pathname) {
-      case '/search':
-        return (0, _search.setSearchTableType)(tableType);
-      case '/queue':
-        return (0, _queue.setQueueTableType)(tableType);
-      default:
-        return (0, _home.setHomeTableType)(tableType);
-    }
-  },
-  defaultValue: '0'
-};
-
-// Display Type
-var dt = {
-  selector: function selector(state, location) {
-    switch (location.pathname) {
-      case '/search':
-        return state.search.displayType;
-      case '/queue':
-        return state.queue.displayType;
-      default:
-        return state.home.displayType;
-    }
-  },
-  action: function action(displayType, location) {
-    switch (location.pathname) {
-      case '/search':
-        return (0, _search.setSearchDisplayType)(displayType);
-      case '/queue':
-        return (0, _queue.setQueueDisplayType)(displayType);
-      default:
-        return (0, _home.setHomeDisplayType)(displayType);
-    }
-  },
-  defaultValue: '0'
-};
-
-var querySync = function querySync(store, history) {
-  (0, _redux_query_sync2.default)({
-    store: store,
-    history: history,
-    params: {
-      q: q,
-      tt: tt,
-      dt: dt
-    },
-    initialTruth: 'location',
-    replaceState: true
-  });
-};
-
-exports.default = querySync;
-
-/***/ }),
-/* 325 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createBrowserHistory = __webpack_require__(73);
-
-var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
-
-var _urlSearchParams = __webpack_require__(155);
-
-var _urlSearchParams2 = _interopRequireDefault(_urlSearchParams);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Sets up bidirectional synchronisation between a Redux store and window
- * location query parameters.
- *
- * @param {Object} options.store - The redux store object (= an object `{dispatch, getState}`).
- * @param {Object} options.params - The query parameters in the location to keep in sync.
- * @param {function value => action} options.params[].action - The action creator to be invoked with
- *     the parameter value. Should return an action that sets this value in the store.
- * @param {function state => value} options.params[].selector - The function that gets the value
- *     given the state.
- * @param {*} [options.params[].defaultValue] - The value corresponding to absence of the parameter.
- *     You may want this to equal the state's default/initial value. Default: `undefined`.
- * @param {function} [options.params[].valueToString] - The inverse of stringToValue. Specifies how
- *     to cast the value to a string, to be used in the URL. Defaults to javascript's automatic
- *     string conversion.
- * @param {function} [options.params[].stringToValue] - The inverse of valueToString. Specifies how
- *     to parse the parameter's string value to your desired value type. Defaults to the identity
- *     function (i.e. you get the string as it is).
- * @param {string} options.initialTruth - If set, indicates whose values to sync to the other,
- *     initially. Can be either `'location'` or `'store'`. If not set, the first of them that
- *     changes will set the other, which is not recommended. Usually you will want to use
- *     `location`.
- * @param {boolean} [options.replaceState] - If truthy, update location using
- *     history.replaceState instead of history.pushState, to not fill the browser history.
- * @param {Object} [options.history] - If you use the 'history' module, e.g. when using a router,
- *     pass your history object here in order to ensure all code uses the same instance.
- */
-function ReduxQuerySync(_ref) {
-    var store = _ref.store,
-        params = _ref.params,
-        replaceState = _ref.replaceState,
-        initialTruth = _ref.initialTruth,
-        _ref$history = _ref.history,
-        history = _ref$history === undefined ? (0, _createBrowserHistory2.default)() : _ref$history;
-    var dispatch = store.dispatch;
-
-    // Two bits of state used to not respond to self-induced updates.
-
-    var ignoreLocationUpdate = false;
-    var ignoreStateUpdate = false;
-
-    // Keeps the last seen values for comparing what has changed.
-    var lastQueryValues = void 0;
-
-    // Helper function to support history module v3 as well as v4.
-    function getLocation(history) {
-        if (Object.hasOwnProperty.call(history, 'location')) {
-            return history.location;
-        } else if (Object.hasOwnProperty.call(history, 'getCurrentLocation')) {
-            return history.getCurrentLocation();
-        }
-    }
-
-    function getQueryValues(location) {
-        var locationParams = new _urlSearchParams2.default(location.search);
-        var queryValues = {};
-        Object.keys(params).forEach(function (param) {
-            var _params$param = params[param],
-                defaultValue = _params$param.defaultValue,
-                _params$param$stringT = _params$param.stringToValue,
-                stringToValue = _params$param$stringT === undefined ? function (s) {
-                return s;
-            } : _params$param$stringT;
-
-            var valueString = locationParams.get(param);
-            var value = valueString === null ? defaultValue : stringToValue(valueString);
-            queryValues[param] = value;
-        });
-        return queryValues;
-    }
-
-    function handleLocationUpdate(location) {
-        // Ignore the event if the location update was induced by ourselves.
-        if (ignoreLocationUpdate) return;
-
-        var state = store.getState();
-
-        // Read the values of the watched parameters
-        var queryValues = getQueryValues(location);
-
-        // For each parameter value that changed, we dispatch the corresponding action.
-        var actionsToDispatch = [];
-        Object.keys(queryValues).forEach(function (param) {
-            var value = queryValues[param];
-            // Process the parameter both on initialisation and if it has changed since last time.
-            // (should we just do this unconditionally?)
-            if (lastQueryValues === undefined || lastQueryValues[param] !== value) {
-                var _params$param2 = params[param],
-                    selector = _params$param2.selector,
-                    action = _params$param2.action;
-
-                // Dispatch the action to update the state if needed.
-                // (except on initialisation, this should always be needed)
-
-                if (selector(state, location) !== value) {
-                    actionsToDispatch.push(action(value, location));
-                }
-            }
-        });
-
-        lastQueryValues = queryValues;
-
-        ignoreStateUpdate = true;
-        actionsToDispatch.forEach(function (action) {
-            dispatch(action);
-        });
-        ignoreStateUpdate = false;
-
-        // Update the location the again: reducers may have e.g. corrected invalid values.
-        handleStateUpdate({ replaceState: true });
-    }
-
-    function handleStateUpdate(_ref2) {
-        var replaceState = _ref2.replaceState;
-
-        if (ignoreStateUpdate) return;
-
-        var state = store.getState();
-        var location = getLocation(history);
-
-        // Parse the current location's query string.
-        var locationParams = new _urlSearchParams2.default(location.search);
-
-        // Replace each configured parameter with its value in the state.
-        Object.keys(params).forEach(function (param) {
-            var _params$param3 = params[param],
-                selector = _params$param3.selector,
-                defaultValue = _params$param3.defaultValue,
-                _params$param3$valueT = _params$param3.valueToString,
-                valueToString = _params$param3$valueT === undefined ? function (v) {
-                return '' + v;
-            } : _params$param3$valueT;
-
-            var value = selector(state, location);
-            if (value === defaultValue) {
-                locationParams.delete(param);
-            } else {
-                locationParams.set(param, valueToString(value));
-            }
-            lastQueryValues[param] = value;
-        });
-        var newLocationSearchString = '?' + locationParams;
-        var oldLocationSearchString = location.search || '?';
-
-        // Only update location if anything changed.
-        if (newLocationSearchString !== oldLocationSearchString) {
-            // Update location (but prevent triggering a state update).
-            ignoreLocationUpdate = true;
-            var newLocation = {
-                pathname: location.pathname,
-                search: newLocationSearchString,
-                hash: location.hash,
-                state: location.state
-            };
-            replaceState ? history.replace(newLocation) : history.push(newLocation);
-            ignoreLocationUpdate = false;
-        }
-    }
-
-    // Sync location to store on every location change, and vice versa.
-    var unsubscribeFromLocation = history.listen(handleLocationUpdate);
-    var unsubscribeFromStore = store.subscribe(function () {
-        return handleStateUpdate({ replaceState: replaceState });
-    });
-
-    // Sync location to store now, or vice versa, or neither.
-    if (initialTruth === 'location') {
-        handleLocationUpdate(getLocation(history));
-    } else {
-        // Just set the last seen values to later compare what changed.
-        lastQueryValues = getQueryValues(getLocation(history));
-    }
-    if (initialTruth === 'store') {
-        handleStateUpdate({ replaceState: true });
-    }
-
-    return function unsubscribe() {
-        unsubscribeFromLocation();
-        unsubscribeFromStore();
-    };
-}
-
-/**
- * For convenience, one can set up the synchronisation by passing this enhancer to createStore.
- *
- * @example
- *
- *     const storeEnhancer = ReduxQuerySync.enhancer({params, initialTruth: 'location'})
- *     const store = createStore(reducer, initialState, storeEnhancer)
- *
- * Arguments are equal to those of ReduxQuerySync itself, except that `store` can now be omitted.
- */
-ReduxQuerySync.enhancer = function makeStoreEnhancer(config) {
-    return function (storeCreator) {
-        return function (reducer, initialState, enhancer) {
-            // Create the store as usual.
-            var store = storeCreator(reducer, initialState, enhancer);
-
-            // Hook up our listeners.
-            ReduxQuerySync(_extends({ store: store }, config));
-
-            return store;
-        };
-    };
-};
-
-exports.default = ReduxQuerySync;
-
-/***/ }),
-/* 326 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createBrowserHistory = __webpack_require__(73);
-
-var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
-
-var _urlSearchParams = __webpack_require__(155);
-
-var _urlSearchParams2 = _interopRequireDefault(_urlSearchParams);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var history = (0, _createBrowserHistory2.default)();
-
-history.pushLocation = function (pathname, search) {
-  var location = history.location;
-  var locationParams = new _urlSearchParams2.default(location.search);
-
-  Object.keys(search).forEach(function (param) {
-    locationParams.set(param, search[param]);
-  });
-
-  search = '?' + locationParams;
-  var oldSearch = location.search || '?';
-
-  if (search !== oldSearch || pathname !== location.pathname) {
-    var newLocation = {
-      pathname: pathname,
-      search: search,
-      hash: location.hash,
-      state: location.state
-    };
-    history.push(newLocation);
-  }
-};
-
-exports.default = history;
-
-/***/ }),
-/* 327 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(128);
-
-var _nav_panel = __webpack_require__(328);
-
-var _nav_panel2 = _interopRequireDefault(_nav_panel);
-
-var _player = __webpack_require__(329);
-
-var _player2 = _interopRequireDefault(_player);
-
-var _home = __webpack_require__(336);
-
-var _home2 = _interopRequireDefault(_home);
-
-var _search = __webpack_require__(342);
-
-var _search2 = _interopRequireDefault(_search);
-
-var _queue = __webpack_require__(343);
-
-var _queue2 = _interopRequireDefault(_queue);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var App = function App() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'div',
-      { className: 'app' },
-      _react2.default.createElement(
-        'div',
-        { className: 'nav-panel-container' },
-        _react2.default.createElement(_nav_panel2.default, null)
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'content-container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'route-container' },
-          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _search2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default })
-        )
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'player-container' },
-      _react2.default.createElement(_player2.default, null)
-    )
-  );
-};
-
-exports.default = App;
-
-/***/ }),
-/* 328 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouter = __webpack_require__(156);
-
-var _index = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NavPanel = function NavPanel(_ref) {
-  var history = _ref.history,
-      location = _ref.location;
-
-  var pushPath = function pushPath(path) {
-    var pathname = location.pathname,
-        search = location.search;
-
-    if (pathname !== path) {
-      history.push(path + search);
-    }
-  };
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'om-nav-panel' },
-    _react2.default.createElement(
-      'div',
-      { className: 'nav-btns' },
-      _react2.default.createElement(_index.MatButton, { className: 'home-btn',
-        icon: 'icon-orange-slice',
-        onClick: function onClick() {
-          pushPath('/');
-        } }),
-      _react2.default.createElement('div', { className: 'divider' }),
-      _react2.default.createElement(_index.MatButton, { className: 'search-btn',
-        text: 'SEARCH',
-        icon: 'search',
-        onClick: function onClick() {
-          pushPath('/search');
-        } }),
-      _react2.default.createElement('div', { className: 'divider' }),
-      _react2.default.createElement(_index.MatButton, { text: 'QUEUE',
-        onClick: function onClick() {
-          pushPath('/queue');
-        } }),
-      _react2.default.createElement(_index.MatButton, { text: 'PLAYLISTS',
-        onClick: function onClick() {
-          pushPath('/playlists');
-        } })
-    )
-  );
-};
-
-exports.default = (0, _reactRouter.withRouter)(NavPanel);
-
-/***/ }),
-/* 329 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(27);
-
-var _empty = __webpack_require__(8);
-
-var _image = __webpack_require__(35);
-
-var _queue = __webpack_require__(38);
-
-var _track_info = __webpack_require__(330);
-
-var _track_info2 = _interopRequireDefault(_track_info);
-
-var _track_controls = __webpack_require__(331);
-
-var _track_controls2 = _interopRequireDefault(_track_controls);
-
-var _volume_controls = __webpack_require__(332);
-
-var _volume_controls2 = _interopRequireDefault(_volume_controls);
-
-var _progress_bar = __webpack_require__(333);
-
-var _progress_bar2 = _interopRequireDefault(_progress_bar);
-
-var _audio_api = __webpack_require__(335);
-
-var _audio_api2 = _interopRequireDefault(_audio_api);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var AUTO_PLAY = true;
-var IMAGE_IDX = 2;
-
-var Player = function (_React$Component) {
-  _inherits(Player, _React$Component);
-
-  function Player(props) {
-    _classCallCheck(this, Player);
-
-    var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
-
-    _this._loadTrack = _this._loadTrack.bind(_this);
-    _this._killTrack = _this._killTrack.bind(_this);
-    _this._playNextTrack = _this._playNextTrack.bind(_this);
-    _this._setCurrentTime = _this._setCurrentTime.bind(_this);
-    _this._setVolume = _this._setVolume.bind(_this);
-    _this._onPlayPauseButtonClick = _this._onPlayPauseButtonClick.bind(_this);
-    _this._onPrevButtonClick = _this._onPrevButtonClick.bind(_this);
-    _this._onNextButtonClick = _this._onNextButtonClick.bind(_this);
-    _this._onVolumeButtonClick = _this._onVolumeButtonClick.bind(_this);
-
-    _this.state = {
-      isPlaying: false,
-      isLoading: false,
-      currentTime: 0,
-      volume: MAX_VOLUME
-    };
-
-    _this.audioApi = new _audio_api2.default(AUDIO_PLAYER_ID, {
-      onPlay: function onPlay() {
-        _this.setState({ isPlaying: true });
-      },
-      onPause: function onPause() {
-        _this.setState({ isPlaying: false });
-      },
-      onTimeUpdate: function onTimeUpdate(currentTime) {
-        _this.setState({ currentTime: currentTime });
-      },
-      onCanPlay: function onCanPlay() {
-        _this.setState({ isLoading: false });
-      },
-      onEnded: _this._playNextTrack
-    });
-    return _this;
-  }
-
-  _createClass(Player, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      (0, _empty.isEmpty)(newProps.track) || (0, _empty.isEmpty)(newProps.video) ? this._killTrack() : this._loadTrack();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.audioApi.dispose();
-    }
-  }, {
-    key: '_loadTrack',
-    value: function _loadTrack() {
-      this.setState({
-        isPlaying: false,
-        isLoading: true,
-        currentTime: 0
-      });
-      this.audioApi.load();
-    }
-  }, {
-    key: '_killTrack',
-    value: function _killTrack() {
-      this.setState({
-        isPlaying: false,
-        isLoading: false,
-        currentTime: 0
-      });
-      this.audioApi.pause();
-    }
-  }, {
-    key: '_playNextTrack',
-    value: function _playNextTrack() {
-      var _props = this.props,
-          removeFromQueue = _props.removeFromQueue,
-          track = _props.track;
-
-
-      this._killTrack();
-      removeFromQueue(track);
-    }
-  }, {
-    key: '_setCurrentTime',
-    value: function _setCurrentTime(currentTime) {
-      this.setState({ currentTime: currentTime });
-      this.audioApi.setCurrentTime(currentTime);
-    }
-  }, {
-    key: '_setVolume',
-    value: function _setVolume(volume) {
-      this.setState({ volume: volume });
-      this.audioApi.setVolume(volume);
-    }
-  }, {
-    key: '_onPlayPauseButtonClick',
-    value: function _onPlayPauseButtonClick() {
-      this.state.isPlaying ? this.audioApi.pause() : this.audioApi.play();
-    }
-  }, {
-    key: '_onPrevButtonClick',
-    value: function _onPrevButtonClick() {
-      var _props2 = this.props,
-          popFromHistory = _props2.popFromHistory,
-          history = _props2.history;
-
-
-      if (this.audioApi.currentTime() < 5.0 && history.length > 0) {
-        popFromHistory();
-      } else {
-        this._setCurrentTime(0);
-      }
-    }
-  }, {
-    key: '_onNextButtonClick',
-    value: function _onNextButtonClick() {
-      this._playNextTrack();
-    }
-  }, {
-    key: '_onVolumeButtonClick',
-    value: function _onVolumeButtonClick() {
-      this.state.volume === 0 ? this._setVolume(MAX_VOLUME) : this._setVolume(0);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props3 = this.props,
-          duration = _props3.duration,
-          audioSrc = _props3.audioSrc,
-          imageSrc = _props3.imageSrc,
-          artistName = _props3.artistName,
-          trackName = _props3.trackName,
-          track = _props3.track;
-      var _state = this.state,
-          isPlaying = _state.isPlaying,
-          currentTime = _state.currentTime,
-          volume = _state.volume,
-          isLoading = _state.isLoading;
-
-
-      var isDisabled = (0, _empty.isEmpty)(track) || isLoading;
-
-      var className = 'om-player';
-      if ((0, _empty.isEmpty)(track)) {
-        className += ' hidden';
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        _react2.default.createElement(
-          'div',
-          { className: 'top-bar' },
-          _react2.default.createElement(_track_info2.default, { trackName: trackName,
-            artistName: artistName,
-            imageSrc: imageSrc }),
-          _react2.default.createElement(_track_controls2.default, { isPlaying: isPlaying,
-            isDisabled: isDisabled,
-            onPrev: this._onPrevButtonClick,
-            onPlayPause: this._onPlayPauseButtonClick,
-            onNext: this._onNextButtonClick }),
-          _react2.default.createElement(_volume_controls2.default, { volume: volume,
-            maxVolume: MAX_VOLUME,
-            onVolumeChange: this._setVolume,
-            onVolumeButtonClick: this._onVolumeButtonClick })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'bottom-bar' },
-          _react2.default.createElement(_progress_bar2.default, { currentTime: currentTime,
-            duration: duration,
-            isDisabled: isDisabled,
-            onCurrentTimeChange: this._setCurrentTime })
-        ),
-        _react2.default.createElement(
-          'audio',
-          { id: AUDIO_PLAYER_ID, autoPlay: AUTO_PLAY },
-          _react2.default.createElement('source', { src: audioSrc })
-        )
-      );
-    }
-  }]);
-
-  return Player;
-}(_react2.default.Component);
-
-var AUDIO_PLAYER_ID = 'audio-player';
-var MAX_VOLUME = 1;
-
-var mapStateToProps = function mapStateToProps(state) {
-  var history = state.queue.history;
-  var track = state.queue.queue[0];
-  var video = (0, _empty.isNotEmpty)(track) ? track.video : null;
-
-  var hasTrack = (0, _empty.isNotEmpty)(track);
-  var hasVideo = (0, _empty.isNotEmpty)(video);
-  return {
-    trackName: hasTrack ? track.name : '',
-    artistName: hasTrack ? track.artist.name : '',
-    imageSrc: hasTrack ? (0, _image.getImageUrl)(track.image, IMAGE_IDX) : _image.EMPTY_IMG_SRC,
-    audioSrc: hasVideo ? video.stream.url : null,
-    duration: hasVideo ? video.contentDetails.duration : 0,
-    track: track,
-    video: video,
-    history: history
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    fetchVideo: function (_fetchVideo) {
-      function fetchVideo(_x) {
-        return _fetchVideo.apply(this, arguments);
-      }
-
-      fetchVideo.toString = function () {
-        return _fetchVideo.toString();
-      };
-
-      return fetchVideo;
-    }(function (track) {
-      dispatch(fetchVideo(track));
-    }),
-    removeFromQueue: function removeFromQueue(track) {
-      dispatch((0, _queue.removeFromQueue)(track));
-    },
-    popFromHistory: function popFromHistory() {
-      dispatch((0, _queue.popFromHistory)());
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Player);
-
-/***/ }),
-/* 330 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _image = __webpack_require__(35);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var TrackInfo = function TrackInfo(_ref) {
-  var trackName = _ref.trackName,
-      artistName = _ref.artistName,
-      imageSrc = _ref.imageSrc;
-
-  var $img = imageSrc === _image.EMPTY_IMG_SRC ? _react2.default.createElement('div', { className: 'img-placeholder' }) : _react2.default.createElement('img', { src: imageSrc });
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'track-info' },
-    $img,
-    _react2.default.createElement(
-      'div',
-      { className: 'info-text' },
-      _react2.default.createElement(
-        'div',
-        { className: 'track-name' },
-        trackName
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'artist-name' },
-        artistName
-      )
-    )
-  );
-};
-
-exports.default = TrackInfo;
-
-/***/ }),
-/* 331 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-           value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var TrackControls = function TrackControls(_ref) {
-           var isPlaying = _ref.isPlaying,
-               isDisabled = _ref.isDisabled,
-               onPrev = _ref.onPrev,
-               onPlayPause = _ref.onPlayPause,
-               onNext = _ref.onNext;
-
-           var playPauseButtonIcon = isPlaying ? 'pause_circle_outline' : 'play_circle_outline';
-           return _react2.default.createElement(
-                      'div',
-                      { className: 'track-controls' },
-                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'prev-btn',
-                                 icon: 'skip_previous',
-                                 onClick: onPrev }),
-                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'play-pause-btn',
-                                 icon: playPauseButtonIcon,
-                                 isDisabled: isDisabled,
-                                 onClick: onPlayPause }),
-                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'next-btn',
-                                 icon: 'skip_next',
-                                 onClick: onNext })
-           );
-};
-
-exports.default = TrackControls;
-
-/***/ }),
-/* 332 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var VolumeControls = function VolumeControls(_ref) {
-  var volume = _ref.volume,
-      maxVolume = _ref.maxVolume,
-      onVolumeButtonClick = _ref.onVolumeButtonClick,
-      onVolumeChange = _ref.onVolumeChange,
-      isDisabled = _ref.isDisabled;
-
-  var volumeButtonIcon = volume === 0 ? 'volume_off' : 'volume_up';
-  return _react2.default.createElement(
-    'div',
-    { className: 'volume-controls' },
-    _react2.default.createElement(
-      'div',
-      { className: 'controls-container' },
-      _react2.default.createElement(_index.MatButton, { icon: volumeButtonIcon,
-        isDisabled: isDisabled,
-        onClick: onVolumeButtonClick }),
-      _react2.default.createElement(_index.MatSlider, { value: volume,
-        maxValue: maxVolume,
-        isDisabled: isDisabled,
-        onValueChange: onVolumeChange })
-    )
-  );
-};
-
-exports.default = VolumeControls;
-
-/***/ }),
-/* 333 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _time = __webpack_require__(334);
-
-var _index = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ProgressBar = function ProgressBar(_ref) {
-  var currentTime = _ref.currentTime,
-      duration = _ref.duration,
-      onCurrentTimeChange = _ref.onCurrentTimeChange,
-      isDisabled = _ref.isDisabled;
-
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'progress-bar' },
-    _react2.default.createElement(
-      'div',
-      { className: 'time-label' },
-      (0, _time.formatTimeMinutesSeconds)(currentTime)
-    ),
-    _react2.default.createElement(_index.MatSlider, { value: currentTime,
-      maxValue: duration,
-      isDisabled: isDisabled,
-      onValueChange: onCurrentTimeChange }),
-    _react2.default.createElement(
-      'div',
-      { className: 'time-label' },
-      (0, _time.formatTimeMinutesSeconds)(duration)
-    )
-  );
-};
-
-exports.default = ProgressBar;
-
-/***/ }),
-/* 334 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.formatTimeMinutesSeconds = undefined;
-
-var _empty = __webpack_require__(8);
-
-/// Returnsed when [numOfSeconds] is empty.
-var EMPTY_RENDER_VALUE = '-:--';
-
-/// Returns a string in the format 'MM:SS' for the given # of seconds.
-var formatTimeMinutesSeconds = exports.formatTimeMinutesSeconds = function formatTimeMinutesSeconds(numOfSeconds) {
-  if ((0, _empty.isEmpty)(numOfSeconds)) {
-    return EMPTY_RENDER_VALUE;
-  }
-
-  var secondsStr = Math.floor(numOfSeconds % 60).toString();
-  if (secondsStr.length < 2) secondsStr = '0' + secondsStr;
-  return Math.floor(numOfSeconds / 60) + ':' + secondsStr;
-};
-
-/***/ }),
-/* 335 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _empty = __webpack_require__(8);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var AudioApi = function () {
-  function AudioApi(eleId, _ref) {
-    var onPlay = _ref.onPlay,
-        onPause = _ref.onPause,
-        onTimeUpdate = _ref.onTimeUpdate,
-        onEnded = _ref.onEnded,
-        onCanPlay = _ref.onCanPlay;
-
-    _classCallCheck(this, AudioApi);
-
-    this.eleId = eleId;
-    this.onPlay = onPlay;
-    this.onPause = onPause;
-    this.onTimeUpdate = onTimeUpdate;
-    this.onEnded = onEnded;
-    this.onCanPlay = onCanPlay;
-  }
-
-  _createClass(AudioApi, [{
-    key: 'load',
-    value: function load() {
-      var _this = this;
-
-      var player = this._audioPlayer();
-      if ((0, _empty.isEmpty)(player)) throw 'MyAudioPlayer failed to find audio element!!';
-
-      player.load();
-      player.addEventListener('play', this.onPlay);
-      player.addEventListener('pause', this.onPause);
-      player.addEventListener('ended', this.onEnded);
-      player.addEventListener('canplay', this.onCanPlay);
-      player.addEventListener('timeupdate', function () {
-        _this.onTimeUpdate(_this.currentTime());
-      });
-    }
-  }, {
-    key: 'play',
-    value: function play() {
-      this._audioPlayer().play();
-    }
-  }, {
-    key: 'pause',
-    value: function pause() {
-      this._audioPlayer().pause();
-    }
-  }, {
-    key: 'setCurrentTime',
-    value: function setCurrentTime(newCurrentTime) {
-      this._audioPlayer().currentTime = newCurrentTime;
-    }
-  }, {
-    key: 'setVolume',
-    value: function setVolume(newVolume) {
-      this._audioPlayer().volume = newVolume;
-    }
-  }, {
-    key: 'currentTime',
-    value: function currentTime() {
-      return this._audioPlayer().currentTime;
-    }
-  }, {
-    key: 'dispose',
-    value: function dispose() {
-      player.removeEventListener('play', this.onPlay);
-      player.removeEventListener('pause', this.onPause);
-      player.removeEventListener('timeupdate', this.onTimeUpdate);
-      player.removeEventListener('ended', this.onEnded);
-      player.removeEventListener('canplay', this.onCanPlay);
-    }
-  }, {
-    key: '_audioPlayer',
-    value: function _audioPlayer() {
-      return $('#' + this.eleId)[0];
-    }
-  }]);
-
-  return AudioApi;
-}();
-
-exports.default = AudioApi;
-
-/***/ }),
-/* 336 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(27);
-
-var _home = __webpack_require__(143);
-
-var _home2 = _interopRequireDefault(_home);
-
-var _table_layout = __webpack_require__(85);
-
-var _table_layout2 = _interopRequireDefault(_table_layout);
-
-var _home3 = __webpack_require__(79);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Home = function (_React$Component) {
-  _inherits(Home, _React$Component);
-
-  function Home(props) {
-    _classCallCheck(this, Home);
-
-    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-
-    props.fetchEntities();
-    return _this;
-  }
-
-  _createClass(Home, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          topTracks = _props.topTracks,
-          topArtists = _props.topArtists,
-          tableType = _props.tableType,
-          displayType = _props.displayType,
-          setTableType = _props.setTableType,
-          setDisplayType = _props.setDisplayType,
-          fetchMoreEntities = _props.fetchMoreEntities;
-
-
-      var schema = Object.assign({}, _home2.default);
-
-      schema[_home.HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks.tracks;
-      schema[_home.HOME_TABLE_TYPES.TOP_TRACKS].isFetching = topTracks.isFetching;
-
-      schema[_home.HOME_TABLE_TYPES.TOP_ARTISTS].entities = topArtists.artists;
-      schema[_home.HOME_TABLE_TYPES.TOP_ARTISTS].isFetching = topArtists.isFetching;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'om-home' },
-        _react2.default.createElement(
-          _table_layout2.default,
-          { schema: schema,
-            tableType: tableType,
-            onTableTypeChange: setTableType,
-            displayType: displayType,
-            onDisplayTypeChange: setDisplayType,
-            onScrollBottom: fetchMoreEntities },
-          _react2.default.createElement(
-            'div',
-            { className: 'title-container' },
-            _react2.default.createElement(
-              'span',
-              null,
-              'Charts'
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Home;
-}(_react2.default.Component);
-
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {
-    tableType: state.home.tableType,
-    displayType: state.home.displayType,
-    topTracks: state.home.topTracks,
-    topArtists: state.home.topArtists
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    fetchEntities: function fetchEntities(startIdx) {
-      dispatch((0, _home3.fetchEntities)(startIdx));
-    },
-    fetchMoreEntities: function fetchMoreEntities(startIdx) {
-      dispatch((0, _home3.fetchMoreEntities)(startIdx));
-    },
-    setTableType: function setTableType(tableType) {
-      dispatch((0, _home3.setHomeTableType)(tableType));
-    },
-    setDisplayType: function setDisplayType(displayType) {
-      dispatch((0, _home3.setHomeDisplayType)(displayType));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Home);
-
-/***/ }),
-/* 337 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(24);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var NavBar = function (_React$Component) {
-  _inherits(NavBar, _React$Component);
-
-  function NavBar(props) {
-    _classCallCheck(this, NavBar);
-
-    var _this = _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
-
-    _this.state = {
-      isScrolled: false
-    };
-    return _this;
-  }
-
-  _createClass(NavBar, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      this.onScroll = function () {
-        _this2.setState({ isScrolled: isWindowScrolled() });
-      };
-      $(document).scroll(this.onScroll);
-      this.state = { isScrolled: isWindowScrolled() };
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      $(document).off('scroll', this.onScroll);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var className = 'om-nav-bar';
-      if (this.state.isScrolled) {
-        className += ' scrolled';
-      }
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        this.props.children
-      );
-    }
-  }]);
-
-  return NavBar;
-}(_react2.default.Component);
-
-var isWindowScrolled = function isWindowScrolled() {
-  return $(window).scrollTop() !== 0;
-};
-
-exports.default = NavBar;
-
-/***/ }),
-/* 338 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(8);
-
-var _index = __webpack_require__(17);
-
-var _display = __webpack_require__(37);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DisplayTypePicker = function DisplayTypePicker(_ref) {
-  var displayType = _ref.displayType,
-      onDisplayTypeChange = _ref.onDisplayTypeChange;
-
-  var _onClick = function _onClick(clickedDisplayType) {
-    if (displayType !== clickedDisplayType) {
-      onDisplayTypeChange(clickedDisplayType);
-    }
-  };
-
-  var getClassName = function getClassName(type) {
-    return type === displayType ? 'active' : '';
-  };
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'display-type-picker' },
-    _react2.default.createElement(_index.MatButton, { className: getClassName(_display.DISPLAY_TYPES.GALLERY),
-      icon: 'view_module',
-      tooltipText: 'gallery display',
-      onClick: function onClick() {
-        _onClick(_display.DISPLAY_TYPES.GALLERY);
-      } }),
-    _react2.default.createElement(_index.MatButton, { className: getClassName(_display.DISPLAY_TYPES.LIST),
-      icon: 'view_list',
-      tooltipText: 'list display',
-      onClick: function onClick() {
-        _onClick(_display.DISPLAY_TYPES.LIST);
-      } })
-  );
-};
-
-exports.default = DisplayTypePicker;
-
-/***/ }),
-/* 339 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(8);
-
-var _flex_table = __webpack_require__(158);
-
-var _flex_table2 = _interopRequireDefault(_flex_table);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FlexTableHeader = function FlexTableHeader(_ref) {
-  var className = _ref.className,
-      schema = _ref.schema;
-
-  className = className ? className + ' flex-table-header' : 'flex-table-header';
-
-  return _react2.default.createElement(_flex_table2.default, { className: className,
-    rowObjs: [{ key: 1 }],
-    keyPath: 'key',
-    schema: schema,
-    componentPath: 'label' });
-};
-
-exports.default = FlexTableHeader;
-
-/***/ }),
-/* 340 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _gallery_tile = __webpack_require__(341);
-
-var _gallery_tile2 = _interopRequireDefault(_gallery_tile);
-
-var _action_provider = __webpack_require__(160);
-
-var _action_provider2 = _interopRequireDefault(_action_provider);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NUM_COLUMNS = 3;
-
-var Gallery = function Gallery(_ref) {
-  var entities = _ref.entities,
-      schema = _ref.schema,
-      actions = _ref.actions;
-
-  var $items = entities.map(function (entity) {
-    return _react2.default.createElement(
-      'div',
-      { className: 'gallery-item',
-        key: entity.mbid,
-        style: { flex: '0 0 ' + 100 / NUM_COLUMNS + '%' } },
-      _react2.default.createElement(_gallery_tile2.default, { entity: entity, schema: schema, actions: actions })
-    );
-  });
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'om-gallery' },
-    $items
-  );
-};
-
-var GalleryWithActions = function GalleryWithActions(props) {
-  return _react2.default.createElement(
-    _action_provider2.default,
-    null,
-    _react2.default.createElement(Gallery, props)
-  );
-};
-
-exports.default = GalleryWithActions;
-
-/***/ }),
-/* 341 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(24);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _empty = __webpack_require__(8);
-
-var _image = __webpack_require__(35);
-
-var _nested_field = __webpack_require__(159);
-
-var _index = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var IMAGE_IDX = 3;
-
-var GalleryTile = function (_React$Component) {
-  _inherits(GalleryTile, _React$Component);
-
-  function GalleryTile() {
-    _classCallCheck(this, GalleryTile);
-
-    return _possibleConstructorReturn(this, (GalleryTile.__proto__ || Object.getPrototypeOf(GalleryTile)).apply(this, arguments));
-  }
-
-  _createClass(GalleryTile, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          entity = _props.entity,
-          schema = _props.schema,
-          actions = _props.actions;
-
-
-      var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
-      var title = (0, _nested_field.getNestedFieldValue)(entity, schema.titlePath);
-      var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
-
-      var imageSrc = image ? (0, _image.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
-      var imageClassName = imageSrc === _image.EMPTY_IMG_SRC ? 'bordered' : '';
-
-      var TitleChipComponent = schema.titleChipComponent || _index.MatChip;
-      var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title, actions: actions }) : '';
-      var SubtitleChipComponent = schema.subtitleChipComponent || _index.MatChip;
-      var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle, actions: actions }) : '';
-
-      var $buttons = Object.keys(schema.actions).map(function (actionType) {
-        var action = schema.actions[actionType];
-        return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
-          icon: action.icon,
-          tooltipText: action.tooltipText,
-          key: actionType,
-          onClick: function onClick() {
-            if (typeof actions[action.actionName] === 'function') {
-              actions[action.actionName](entity);
-            }
-          } });
-      });
-
-      var actionsDrawerStyle = (0, _empty.isEmpty)($buttons) ? { height: 0 } : {};
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'tile' },
-        _react2.default.createElement('img', { src: imageSrc, className: imageClassName }),
-        _react2.default.createElement(
-          'div',
-          { className: 'info' },
-          $titleChip,
-          $subtitleChip
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'actions-drawer', style: actionsDrawerStyle },
-          $buttons
-        )
-      );
-    }
-  }]);
-
-  return GalleryTile;
-}(_react2.default.Component);
-
-exports.default = GalleryTile;
-
-/***/ }),
-/* 342 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(24);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactRedux = __webpack_require__(27);
-
-var _search = __webpack_require__(152);
-
-var _search2 = _interopRequireDefault(_search);
-
-var _table_layout = __webpack_require__(85);
-
-var _table_layout2 = _interopRequireDefault(_table_layout);
-
-var _index = __webpack_require__(17);
-
-var _search3 = __webpack_require__(83);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DEFAULT_MAT_INPUT_WIDTH = _index.GRID * 60;
-
-var Search = function (_React$Component) {
-  _inherits(Search, _React$Component);
-
-  function Search(props) {
-    _classCallCheck(this, Search);
-
-    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
-
-    _this._focusInput = _this._focusInput.bind(_this);
-    _this._updateInputWidth = _this._updateInputWidth.bind(_this);
-    _this._getSearchForm = _this._getSearchForm.bind(_this);
-    _this._getMart = _this._getMatInput.bind(_this);
-    _this._getInput = _this._getInput.bind(_this);
-
-    props.fetchEntities();
-    return _this;
-  }
-
-  _createClass(Search, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this._focusInput();
-      this._updateInputWidth();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this._updateInputWidth();
-    }
-  }, {
-    key: '_focusInput',
-    value: function _focusInput() {
-      var $input = this._getInput();
-      $input.focus();
-
-      // So that focus ends up at the end of the input, not the beginning.
-      var temp = $input.val();
-      $input.val('');
-      $input.val(temp);
-    }
-    /// Resize input to fit query.
-
-  }, {
-    key: '_updateInputWidth',
-    value: function _updateInputWidth() {
-      var $searchForm = this._getSearchForm();
-      var $matInput = this._getMatInput();
-
-      var queryWidth = (0, _index.measureText)(this.props.query, _index.FONT_TYPES.DISPLAY_1);
-
-      if (queryWidth > DEFAULT_MAT_INPUT_WIDTH) {
-        var searchFormWidth = $searchForm.width();
-        if (queryWidth < searchFormWidth) {
-          $matInput.width(queryWidth);
-        } else {
-          $matInput.width(searchFormWidth);
-        }
-      } else {
-        $matInput.width(DEFAULT_MAT_INPUT_WIDTH);
-      }
-    }
-  }, {
-    key: '_getSearchForm',
-    value: function _getSearchForm() {
-      return $(_reactDom2.default.findDOMNode(this)).find('.search-form');
-    }
-  }, {
-    key: '_getMatInput',
-    value: function _getMatInput() {
-      return this._getSearchForm().find('.mat-input');
-    }
-  }, {
-    key: '_getInput',
-    value: function _getInput() {
-      return this._getMatInput().find('input');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          tracks = _props.tracks,
-          artists = _props.artists,
-          query = _props.query,
-          setQuery = _props.setQuery,
-          tableType = _props.tableType,
-          displayType = _props.displayType,
-          setDisplayType = _props.setDisplayType,
-          setTableType = _props.setTableType,
-          fetchMoreEntities = _props.fetchMoreEntities;
-
-
-      var schema = Object.assign({}, _search2.default);
-
-      var $emptyTable = _react2.default.createElement(
-        'div',
-        { className: 'empty-table' },
-        'No results'
-      );
-
-      schema[_search.SEARCH_TABLE_TYPES.TRACKS].entities = tracks.tracks;
-      schema[_search.SEARCH_TABLE_TYPES.TRACKS].isFetching = tracks.isFetching;
-      schema[_search.SEARCH_TABLE_TYPES.TRACKS].endOfTable = tracks.endOfTable;
-      schema[_search.SEARCH_TABLE_TYPES.TRACKS].emptyTable = $emptyTable;
-
-      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].entities = artists.artists;
-      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].isFetching = artists.isFetching;
-      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].endOfTable = artists.endOfTable;
-      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].emptyTable = $emptyTable;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'search' },
-        _react2.default.createElement(
-          _table_layout2.default,
-          { schema: schema,
-            tableType: tableType,
-            onTableTypeChange: setTableType,
-            displayType: displayType,
-            onDisplayTypeChange: setDisplayType,
-            onScrollBottom: fetchMoreEntities },
-          _react2.default.createElement(
-            'div',
-            { className: 'search-form' },
-            _react2.default.createElement(_index.MatInput, { value: query,
-              placeholder: 'Search for tracks or artists',
-              onValueChange: setQuery })
-          )
-        )
-      );
-    }
-  }]);
-
-  return Search;
-}(_react2.default.Component);
-
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {
-    query: state.search.query,
-    tracks: state.search.tracks,
-    artists: state.search.artists,
-    tableType: state.search.tableType,
-    displayType: state.search.displayType
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    fetchEntities: function fetchEntities(startIdx) {
-      dispatch((0, _search3.fetchEntities)(startIdx));
-    },
-    fetchMoreEntities: function fetchMoreEntities(startIdx) {
-      dispatch((0, _search3.fetchMoreEntities)(startIdx));
-    },
-    setQuery: function setQuery(query) {
-      dispatch((0, _search3.setQuery)(query));
-    },
-    setTableType: function setTableType(tableType) {
-      dispatch((0, _search3.setSearchTableType)(tableType));
-    },
-    setDisplayType: function setDisplayType(displayType) {
-      dispatch((0, _search3.setSearchDisplayType)(displayType));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Search);
-
-/***/ }),
-/* 343 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(27);
-
-var _now_playing = __webpack_require__(344);
-
-var _now_playing2 = _interopRequireDefault(_now_playing);
-
-var _queue = __webpack_require__(153);
-
-var _queue2 = _interopRequireDefault(_queue);
-
-var _table_layout = __webpack_require__(85);
-
-var _table_layout2 = _interopRequireDefault(_table_layout);
-
-var _queue3 = __webpack_require__(38);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Queue = function (_React$Component) {
-  _inherits(Queue, _React$Component);
-
-  function Queue() {
-    _classCallCheck(this, Queue);
-
-    return _possibleConstructorReturn(this, (Queue.__proto__ || Object.getPrototypeOf(Queue)).apply(this, arguments));
-  }
-
-  _createClass(Queue, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          queue = _props.queue,
-          history = _props.history,
-          tableType = _props.tableType,
-          displayType = _props.displayType,
-          setTableType = _props.setTableType,
-          setDisplayType = _props.setDisplayType;
-
-
-      var schema = Object.assign({}, _queue2.default);
-
-      schema[_queue.QUEUE_TABLE_TYPES.QUEUE].entities = queue.slice(1);
-      schema[_queue.QUEUE_TABLE_TYPES.QUEUE].emptyTable = _react2.default.createElement(
-        'div',
-        { className: 'empty-table-msg' },
-        _react2.default.createElement(
-          'span',
-          null,
-          'To add a track to your queue, click the green plus icon ('
-        ),
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'add'
-        ),
-        _react2.default.createElement(
-          'span',
-          null,
-          ').'
-        )
-      );
-
-      schema[_queue.QUEUE_TABLE_TYPES.HISTORY].entities = history;
-      schema[_queue.QUEUE_TABLE_TYPES.HISTORY].emptyTable = _react2.default.createElement(
-        'div',
-        { className: 'empty-table-msg' },
-        'After you listen to a track, it will show up here.'
-      );
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'queue' },
-        _react2.default.createElement(
-          _table_layout2.default,
-          { schema: schema,
-            tableType: tableType,
-            onTableTypeChange: setTableType,
-            displayType: displayType,
-            onDisplayTypeChange: setDisplayType },
-          _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] })
-        )
-      );
-    }
-  }]);
-
-  return Queue;
-}(_react2.default.Component);
-
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {
-    tableType: state.queue.tableType,
-    displayType: state.queue.displayType,
-    queue: state.queue.queue,
-    history: state.queue.history
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    setTableType: function setTableType(tableType) {
-      dispatch((0, _queue3.setQueueTableType)(tableType));
-    },
-    setDisplayType: function setDisplayType(displayType) {
-      dispatch((0, _queue3.setQueueDisplayType)(displayType));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Queue);
-
-/***/ }),
-/* 344 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _empty = __webpack_require__(8);
-
-var _list = __webpack_require__(157);
-
-var _list2 = _interopRequireDefault(_list);
-
-var _list_header = __webpack_require__(161);
-
-var _list_header2 = _interopRequireDefault(_list_header);
-
-var _now_playing = __webpack_require__(345);
-
-var _now_playing2 = _interopRequireDefault(_now_playing);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NowPlaying = function NowPlaying(_ref) {
-  var track = _ref.track;
-
-  var $content = (0, _empty.isNotEmpty)(track) ? _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(_list_header2.default, { schema: _now_playing2.default }),
-    _react2.default.createElement(_list2.default, { entities: [track], schema: _now_playing2.default })
-  ) : _react2.default.createElement(
-    'div',
-    { className: 'empty-msg' },
-    _react2.default.createElement(
-      'span',
-      null,
-      'To play a track, click the blue play icon ('
-    ),
-    _react2.default.createElement(
-      'i',
-      { className: 'material-icons' },
-      'play_arrow'
-    ),
-    _react2.default.createElement(
-      'span',
-      null,
-      ').'
-    )
-  );
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'now-playing' },
-    _react2.default.createElement(
-      'div',
-      { className: 'label' },
-      'Now Playing'
-    ),
-    $content
-  );
-};
-
-exports.default = NowPlaying;
-
-/***/ }),
-/* 345 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _track = __webpack_require__(36);
-
-var _track2 = _interopRequireDefault(_track);
-
-var _now_playing = __webpack_require__(346);
-
-var _now_playing2 = _interopRequireDefault(_now_playing);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Track list schema w/ Queue actions
-var SCHEMA = Object.assign({}, _track2.default, {
-  '@actions': Object.assign({}, _track2.default['@actions'], {
-    actions: _now_playing2.default
-  })
-});
-
-exports.default = SCHEMA;
-
-/***/ }),
-/* 346 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _queue = __webpack_require__(84);
-
-var ACTIONS = {};
-ACTIONS[_queue.QUEUE_ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
-  buttonClassName: 'remove-from-history-btn',
-  icon: 'remove',
-  tooltipText: 'Remove from queue',
-  actionName: 'removeFromQueue'
-};
-
-exports.default = ACTIONS;
-
-/***/ }),
-/* 347 */
-/***/ (function(module, exports, __webpack_require__) {
-
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -34922,7 +32645,2216 @@ function toNumber(value) {
 
 module.exports = debounce;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
+
+/***/ }),
+/* 320 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _url = __webpack_require__(142);
+
+module.exports.getVideo = function (_ref) {
+  var query = _ref.query,
+      artistQuery = _ref.artistQuery,
+      duration = _ref.duration;
+
+  return new Promise(function (resolve, reject) {
+    var url = (0, _url.getUrlWithUpdatedParams)('/video', {
+      q: query,
+      aq: artistQuery,
+      dur: duration
+    });
+    $.get(url, resolve).fail(reject);
+  });
+};
+
+/***/ }),
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _track = __webpack_require__(37);
+
+var _track2 = _interopRequireDefault(_track);
+
+var _queue = __webpack_require__(84);
+
+var _queue2 = _interopRequireDefault(_queue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Track list schema w/ Queue actions
+var SCHEMA = Object.assign({}, _track2.default, {
+  '@actions': Object.assign({}, _track2.default['@actions'], {
+    actions: _queue2.default
+  })
+});
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _track = __webpack_require__(37);
+
+var _track2 = _interopRequireDefault(_track);
+
+var _history = __webpack_require__(154);
+
+var _history2 = _interopRequireDefault(_history);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Track list schema w/ History actions
+var SCHEMA = Object.assign({}, _track2.default, {
+  '@actions': Object.assign({}, _track2.default['@actions'], {
+    actions: _history2.default
+  })
+});
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 323 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _track = __webpack_require__(52);
+
+var _track2 = _interopRequireDefault(_track);
+
+var _queue = __webpack_require__(84);
+
+var _queue2 = _interopRequireDefault(_queue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SCHEMA = Object.assign({}, _track2.default, {
+  actions: _queue2.default
+});
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _track = __webpack_require__(52);
+
+var _track2 = _interopRequireDefault(_track);
+
+var _history = __webpack_require__(154);
+
+var _history2 = _interopRequireDefault(_history);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SCHEMA = Object.assign({}, _track2.default, {
+  actions: _history2.default
+});
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux_query_sync = __webpack_require__(326);
+
+var _redux_query_sync2 = _interopRequireDefault(_redux_query_sync);
+
+var _home = __webpack_require__(79);
+
+var _search = __webpack_require__(83);
+
+var _queue = __webpack_require__(39);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Search Query
+var q = {
+  selector: function selector(state) {
+    return state.search.query;
+  },
+  action: function action(query) {
+    return function (dispatch) {
+      dispatch((0, _search.setQuery)(query));
+      dispatch((0, _search.fetchEntities)());
+    };
+  },
+  defaultValue: ''
+};
+
+// Table Type
+var tt = {
+  selector: function selector(state, location) {
+    switch (location.pathname) {
+      case '/search':
+        return state.search.tableType;
+      case '/queue':
+        return state.queue.tableType;
+      default:
+        return state.home.tableType;
+    }
+  },
+  action: function action(tableType, location) {
+    switch (location.pathname) {
+      case '/search':
+        return (0, _search.setSearchTableType)(tableType);
+      case '/queue':
+        return (0, _queue.setQueueTableType)(tableType);
+      default:
+        return (0, _home.setHomeTableType)(tableType);
+    }
+  },
+  defaultValue: '0'
+};
+
+// Display Type
+var dt = {
+  selector: function selector(state, location) {
+    switch (location.pathname) {
+      case '/search':
+        return state.search.displayType;
+      case '/queue':
+        return state.queue.displayType;
+      default:
+        return state.home.displayType;
+    }
+  },
+  action: function action(displayType, location) {
+    switch (location.pathname) {
+      case '/search':
+        return (0, _search.setSearchDisplayType)(displayType);
+      case '/queue':
+        return (0, _queue.setQueueDisplayType)(displayType);
+      default:
+        return (0, _home.setHomeDisplayType)(displayType);
+    }
+  },
+  defaultValue: '0'
+};
+
+var querySync = function querySync(store, history) {
+  (0, _redux_query_sync2.default)({
+    store: store,
+    history: history,
+    params: {
+      q: q,
+      tt: tt,
+      dt: dt
+    },
+    initialTruth: 'location',
+    replaceState: true
+  });
+};
+
+exports.default = querySync;
+
+/***/ }),
+/* 326 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createBrowserHistory = __webpack_require__(73);
+
+var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+
+var _urlSearchParams = __webpack_require__(155);
+
+var _urlSearchParams2 = _interopRequireDefault(_urlSearchParams);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Sets up bidirectional synchronisation between a Redux store and window
+ * location query parameters.
+ *
+ * @param {Object} options.store - The redux store object (= an object `{dispatch, getState}`).
+ * @param {Object} options.params - The query parameters in the location to keep in sync.
+ * @param {function value => action} options.params[].action - The action creator to be invoked with
+ *     the parameter value. Should return an action that sets this value in the store.
+ * @param {function state => value} options.params[].selector - The function that gets the value
+ *     given the state.
+ * @param {*} [options.params[].defaultValue] - The value corresponding to absence of the parameter.
+ *     You may want this to equal the state's default/initial value. Default: `undefined`.
+ * @param {function} [options.params[].valueToString] - The inverse of stringToValue. Specifies how
+ *     to cast the value to a string, to be used in the URL. Defaults to javascript's automatic
+ *     string conversion.
+ * @param {function} [options.params[].stringToValue] - The inverse of valueToString. Specifies how
+ *     to parse the parameter's string value to your desired value type. Defaults to the identity
+ *     function (i.e. you get the string as it is).
+ * @param {string} options.initialTruth - If set, indicates whose values to sync to the other,
+ *     initially. Can be either `'location'` or `'store'`. If not set, the first of them that
+ *     changes will set the other, which is not recommended. Usually you will want to use
+ *     `location`.
+ * @param {boolean} [options.replaceState] - If truthy, update location using
+ *     history.replaceState instead of history.pushState, to not fill the browser history.
+ * @param {Object} [options.history] - If you use the 'history' module, e.g. when using a router,
+ *     pass your history object here in order to ensure all code uses the same instance.
+ */
+function ReduxQuerySync(_ref) {
+    var store = _ref.store,
+        params = _ref.params,
+        replaceState = _ref.replaceState,
+        initialTruth = _ref.initialTruth,
+        _ref$history = _ref.history,
+        history = _ref$history === undefined ? (0, _createBrowserHistory2.default)() : _ref$history;
+    var dispatch = store.dispatch;
+
+    // Two bits of state used to not respond to self-induced updates.
+
+    var ignoreLocationUpdate = false;
+    var ignoreStateUpdate = false;
+
+    // Keeps the last seen values for comparing what has changed.
+    var lastQueryValues = void 0;
+
+    // Helper function to support history module v3 as well as v4.
+    function getLocation(history) {
+        if (Object.hasOwnProperty.call(history, 'location')) {
+            return history.location;
+        } else if (Object.hasOwnProperty.call(history, 'getCurrentLocation')) {
+            return history.getCurrentLocation();
+        }
+    }
+
+    function getQueryValues(location) {
+        var locationParams = new _urlSearchParams2.default(location.search);
+        var queryValues = {};
+        Object.keys(params).forEach(function (param) {
+            var _params$param = params[param],
+                defaultValue = _params$param.defaultValue,
+                _params$param$stringT = _params$param.stringToValue,
+                stringToValue = _params$param$stringT === undefined ? function (s) {
+                return s;
+            } : _params$param$stringT;
+
+            var valueString = locationParams.get(param);
+            var value = valueString === null ? defaultValue : stringToValue(valueString);
+            queryValues[param] = value;
+        });
+        return queryValues;
+    }
+
+    function handleLocationUpdate(location) {
+        // Ignore the event if the location update was induced by ourselves.
+        if (ignoreLocationUpdate) return;
+
+        var state = store.getState();
+
+        // Read the values of the watched parameters
+        var queryValues = getQueryValues(location);
+
+        // For each parameter value that changed, we dispatch the corresponding action.
+        var actionsToDispatch = [];
+        Object.keys(queryValues).forEach(function (param) {
+            var value = queryValues[param];
+            // Process the parameter both on initialisation and if it has changed since last time.
+            // (should we just do this unconditionally?)
+            if (lastQueryValues === undefined || lastQueryValues[param] !== value) {
+                var _params$param2 = params[param],
+                    selector = _params$param2.selector,
+                    action = _params$param2.action;
+
+                // Dispatch the action to update the state if needed.
+                // (except on initialisation, this should always be needed)
+
+                if (selector(state, location) !== value) {
+                    actionsToDispatch.push(action(value, location));
+                }
+            }
+        });
+
+        lastQueryValues = queryValues;
+
+        ignoreStateUpdate = true;
+        actionsToDispatch.forEach(function (action) {
+            dispatch(action);
+        });
+        ignoreStateUpdate = false;
+
+        // Update the location the again: reducers may have e.g. corrected invalid values.
+        handleStateUpdate({ replaceState: true });
+    }
+
+    function handleStateUpdate(_ref2) {
+        var replaceState = _ref2.replaceState;
+
+        if (ignoreStateUpdate) return;
+
+        var state = store.getState();
+        var location = getLocation(history);
+
+        // Parse the current location's query string.
+        var locationParams = new _urlSearchParams2.default(location.search);
+
+        // Replace each configured parameter with its value in the state.
+        Object.keys(params).forEach(function (param) {
+            var _params$param3 = params[param],
+                selector = _params$param3.selector,
+                defaultValue = _params$param3.defaultValue,
+                _params$param3$valueT = _params$param3.valueToString,
+                valueToString = _params$param3$valueT === undefined ? function (v) {
+                return '' + v;
+            } : _params$param3$valueT;
+
+            var value = selector(state, location);
+            if (value === defaultValue) {
+                locationParams.delete(param);
+            } else {
+                locationParams.set(param, valueToString(value));
+            }
+            lastQueryValues[param] = value;
+        });
+        var newLocationSearchString = '?' + locationParams;
+        var oldLocationSearchString = location.search || '?';
+
+        // Only update location if anything changed.
+        if (newLocationSearchString !== oldLocationSearchString) {
+            // Update location (but prevent triggering a state update).
+            ignoreLocationUpdate = true;
+            var newLocation = {
+                pathname: location.pathname,
+                search: newLocationSearchString,
+                hash: location.hash,
+                state: location.state
+            };
+            replaceState ? history.replace(newLocation) : history.push(newLocation);
+            ignoreLocationUpdate = false;
+        }
+    }
+
+    // Sync location to store on every location change, and vice versa.
+    var unsubscribeFromLocation = history.listen(handleLocationUpdate);
+    var unsubscribeFromStore = store.subscribe(function () {
+        return handleStateUpdate({ replaceState: replaceState });
+    });
+
+    // Sync location to store now, or vice versa, or neither.
+    if (initialTruth === 'location') {
+        handleLocationUpdate(getLocation(history));
+    } else {
+        // Just set the last seen values to later compare what changed.
+        lastQueryValues = getQueryValues(getLocation(history));
+    }
+    if (initialTruth === 'store') {
+        handleStateUpdate({ replaceState: true });
+    }
+
+    return function unsubscribe() {
+        unsubscribeFromLocation();
+        unsubscribeFromStore();
+    };
+}
+
+/**
+ * For convenience, one can set up the synchronisation by passing this enhancer to createStore.
+ *
+ * @example
+ *
+ *     const storeEnhancer = ReduxQuerySync.enhancer({params, initialTruth: 'location'})
+ *     const store = createStore(reducer, initialState, storeEnhancer)
+ *
+ * Arguments are equal to those of ReduxQuerySync itself, except that `store` can now be omitted.
+ */
+ReduxQuerySync.enhancer = function makeStoreEnhancer(config) {
+    return function (storeCreator) {
+        return function (reducer, initialState, enhancer) {
+            // Create the store as usual.
+            var store = storeCreator(reducer, initialState, enhancer);
+
+            // Hook up our listeners.
+            ReduxQuerySync(_extends({ store: store }, config));
+
+            return store;
+        };
+    };
+};
+
+exports.default = ReduxQuerySync;
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createBrowserHistory = __webpack_require__(73);
+
+var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+
+var _urlSearchParams = __webpack_require__(155);
+
+var _urlSearchParams2 = _interopRequireDefault(_urlSearchParams);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var history = (0, _createBrowserHistory2.default)();
+
+history.pushLocation = function (pathname, search) {
+  var location = history.location;
+  var locationParams = new _urlSearchParams2.default(location.search);
+
+  Object.keys(search).forEach(function (param) {
+    locationParams.set(param, search[param]);
+  });
+
+  search = '?' + locationParams;
+  var oldSearch = location.search || '?';
+
+  if (search !== oldSearch || pathname !== location.pathname) {
+    var newLocation = {
+      pathname: pathname,
+      search: search,
+      hash: location.hash,
+      state: location.state
+    };
+    history.push(newLocation);
+  }
+};
+
+exports.default = history;
+
+/***/ }),
+/* 328 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(128);
+
+var _nav_panel = __webpack_require__(329);
+
+var _nav_panel2 = _interopRequireDefault(_nav_panel);
+
+var _player = __webpack_require__(330);
+
+var _player2 = _interopRequireDefault(_player);
+
+var _home = __webpack_require__(337);
+
+var _home2 = _interopRequireDefault(_home);
+
+var _search = __webpack_require__(343);
+
+var _search2 = _interopRequireDefault(_search);
+
+var _queue = __webpack_require__(344);
+
+var _queue2 = _interopRequireDefault(_queue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = function App() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'div',
+      { className: 'app' },
+      _react2.default.createElement(
+        'div',
+        { className: 'nav-panel-container' },
+        _react2.default.createElement(_nav_panel2.default, null)
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'content-container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'route-container' },
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _search2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default })
+        )
+      )
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'player-container' },
+      _react2.default.createElement(_player2.default, null)
+    )
+  );
+};
+
+exports.default = App;
+
+/***/ }),
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(156);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NavPanel = function NavPanel(_ref) {
+  var history = _ref.history,
+      location = _ref.location;
+
+  var pushPath = function pushPath(path) {
+    var pathname = location.pathname,
+        search = location.search;
+
+    if (pathname !== path) {
+      history.push(path + search);
+    }
+  };
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'om-nav-panel' },
+    _react2.default.createElement(
+      'div',
+      { className: 'nav-btns' },
+      _react2.default.createElement(_index.MatButton, { className: 'home-btn',
+        icon: 'icon-orange-slice',
+        onClick: function onClick() {
+          pushPath('/');
+        } }),
+      _react2.default.createElement('div', { className: 'divider' }),
+      _react2.default.createElement(_index.MatButton, { className: 'search-btn',
+        text: 'SEARCH',
+        icon: 'search',
+        onClick: function onClick() {
+          pushPath('/search');
+        } }),
+      _react2.default.createElement('div', { className: 'divider' }),
+      _react2.default.createElement(_index.MatButton, { text: 'QUEUE',
+        onClick: function onClick() {
+          pushPath('/queue');
+        } }),
+      _react2.default.createElement(_index.MatButton, { text: 'PLAYLISTS',
+        onClick: function onClick() {
+          pushPath('/playlists');
+        } })
+    )
+  );
+};
+
+exports.default = (0, _reactRouter.withRouter)(NavPanel);
+
+/***/ }),
+/* 330 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(27);
+
+var _empty = __webpack_require__(8);
+
+var _image = __webpack_require__(36);
+
+var _queue = __webpack_require__(39);
+
+var _track_info = __webpack_require__(331);
+
+var _track_info2 = _interopRequireDefault(_track_info);
+
+var _track_controls = __webpack_require__(332);
+
+var _track_controls2 = _interopRequireDefault(_track_controls);
+
+var _volume_controls = __webpack_require__(333);
+
+var _volume_controls2 = _interopRequireDefault(_volume_controls);
+
+var _progress_bar = __webpack_require__(334);
+
+var _progress_bar2 = _interopRequireDefault(_progress_bar);
+
+var _audio_api = __webpack_require__(336);
+
+var _audio_api2 = _interopRequireDefault(_audio_api);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AUTO_PLAY = true;
+var IMAGE_IDX = 2;
+
+var Player = function (_React$Component) {
+  _inherits(Player, _React$Component);
+
+  function Player(props) {
+    _classCallCheck(this, Player);
+
+    var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
+
+    _this._loadTrack = _this._loadTrack.bind(_this);
+    _this._killTrack = _this._killTrack.bind(_this);
+    _this._playNextTrack = _this._playNextTrack.bind(_this);
+    _this._setCurrentTime = _this._setCurrentTime.bind(_this);
+    _this._setVolume = _this._setVolume.bind(_this);
+    _this._onPlayPauseButtonClick = _this._onPlayPauseButtonClick.bind(_this);
+    _this._onPrevButtonClick = _this._onPrevButtonClick.bind(_this);
+    _this._onNextButtonClick = _this._onNextButtonClick.bind(_this);
+    _this._onVolumeButtonClick = _this._onVolumeButtonClick.bind(_this);
+
+    _this.state = {
+      isPlaying: false,
+      isLoading: false,
+      currentTime: 0,
+      volume: MAX_VOLUME
+    };
+
+    _this.audioApi = new _audio_api2.default(AUDIO_PLAYER_ID, {
+      onPlay: function onPlay() {
+        _this.setState({ isPlaying: true });
+      },
+      onPause: function onPause() {
+        _this.setState({ isPlaying: false });
+      },
+      onTimeUpdate: function onTimeUpdate(currentTime) {
+        _this.setState({ currentTime: currentTime });
+      },
+      onCanPlay: function onCanPlay() {
+        _this.setState({ isLoading: false });
+      },
+      onEnded: _this._playNextTrack
+    });
+    return _this;
+  }
+
+  _createClass(Player, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      (0, _empty.isEmpty)(newProps.track) || (0, _empty.isEmpty)(newProps.video) ? this._killTrack() : this._loadTrack();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.audioApi.dispose();
+    }
+  }, {
+    key: '_loadTrack',
+    value: function _loadTrack() {
+      this.setState({
+        isPlaying: false,
+        isLoading: true,
+        currentTime: 0
+      });
+      this.audioApi.load();
+    }
+  }, {
+    key: '_killTrack',
+    value: function _killTrack() {
+      this.setState({
+        isPlaying: false,
+        isLoading: false,
+        currentTime: 0
+      });
+      this.audioApi.pause();
+    }
+  }, {
+    key: '_playNextTrack',
+    value: function _playNextTrack() {
+      var _props = this.props,
+          removeFromQueue = _props.removeFromQueue,
+          track = _props.track;
+
+
+      this._killTrack();
+      removeFromQueue(track);
+    }
+  }, {
+    key: '_setCurrentTime',
+    value: function _setCurrentTime(currentTime) {
+      this.setState({ currentTime: currentTime });
+      this.audioApi.setCurrentTime(currentTime);
+    }
+  }, {
+    key: '_setVolume',
+    value: function _setVolume(volume) {
+      this.setState({ volume: volume });
+      this.audioApi.setVolume(volume);
+    }
+  }, {
+    key: '_onPlayPauseButtonClick',
+    value: function _onPlayPauseButtonClick() {
+      this.state.isPlaying ? this.audioApi.pause() : this.audioApi.play();
+    }
+  }, {
+    key: '_onPrevButtonClick',
+    value: function _onPrevButtonClick() {
+      var _props2 = this.props,
+          popFromHistory = _props2.popFromHistory,
+          history = _props2.history;
+
+
+      if (this.audioApi.currentTime() < 5.0 && history.length > 0) {
+        popFromHistory();
+      } else {
+        this._setCurrentTime(0);
+      }
+    }
+  }, {
+    key: '_onNextButtonClick',
+    value: function _onNextButtonClick() {
+      this._playNextTrack();
+    }
+  }, {
+    key: '_onVolumeButtonClick',
+    value: function _onVolumeButtonClick() {
+      this.state.volume === 0 ? this._setVolume(MAX_VOLUME) : this._setVolume(0);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props3 = this.props,
+          duration = _props3.duration,
+          audioSrc = _props3.audioSrc,
+          imageSrc = _props3.imageSrc,
+          artistName = _props3.artistName,
+          trackName = _props3.trackName,
+          track = _props3.track;
+      var _state = this.state,
+          isPlaying = _state.isPlaying,
+          currentTime = _state.currentTime,
+          volume = _state.volume,
+          isLoading = _state.isLoading;
+
+
+      var isDisabled = (0, _empty.isEmpty)(track) || isLoading;
+
+      var className = 'om-player';
+      if ((0, _empty.isEmpty)(track)) {
+        className += ' hidden';
+      }
+
+      return _react2.default.createElement(
+        'div',
+        { className: className },
+        _react2.default.createElement(
+          'div',
+          { className: 'top-bar' },
+          _react2.default.createElement(_track_info2.default, { trackName: trackName,
+            artistName: artistName,
+            imageSrc: imageSrc }),
+          _react2.default.createElement(_track_controls2.default, { isPlaying: isPlaying,
+            isDisabled: isDisabled,
+            onPrev: this._onPrevButtonClick,
+            onPlayPause: this._onPlayPauseButtonClick,
+            onNext: this._onNextButtonClick }),
+          _react2.default.createElement(_volume_controls2.default, { volume: volume,
+            maxVolume: MAX_VOLUME,
+            onVolumeChange: this._setVolume,
+            onVolumeButtonClick: this._onVolumeButtonClick })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'bottom-bar' },
+          _react2.default.createElement(_progress_bar2.default, { currentTime: currentTime,
+            duration: duration,
+            isDisabled: isDisabled,
+            onCurrentTimeChange: this._setCurrentTime })
+        ),
+        _react2.default.createElement(
+          'audio',
+          { id: AUDIO_PLAYER_ID, autoPlay: AUTO_PLAY },
+          _react2.default.createElement('source', { src: audioSrc })
+        )
+      );
+    }
+  }]);
+
+  return Player;
+}(_react2.default.Component);
+
+var AUDIO_PLAYER_ID = 'audio-player';
+var MAX_VOLUME = 1;
+
+var mapStateToProps = function mapStateToProps(state) {
+  var history = state.queue.history;
+  var track = state.queue.queue[0];
+  var video = (0, _empty.isNotEmpty)(track) ? track.video : null;
+
+  var hasTrack = (0, _empty.isNotEmpty)(track);
+  var hasVideo = (0, _empty.isNotEmpty)(video);
+  return {
+    trackName: hasTrack ? track.name : '',
+    artistName: hasTrack ? track.artist.name : '',
+    imageSrc: hasTrack ? (0, _image.getImageUrl)(track.image, IMAGE_IDX) : _image.EMPTY_IMG_SRC,
+    audioSrc: hasVideo ? video.stream.url : null,
+    duration: hasVideo ? video.contentDetails.duration : 0,
+    track: track,
+    video: video,
+    history: history
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchVideo: function (_fetchVideo) {
+      function fetchVideo(_x) {
+        return _fetchVideo.apply(this, arguments);
+      }
+
+      fetchVideo.toString = function () {
+        return _fetchVideo.toString();
+      };
+
+      return fetchVideo;
+    }(function (track) {
+      dispatch(fetchVideo(track));
+    }),
+    removeFromQueue: function removeFromQueue(track) {
+      dispatch((0, _queue.removeFromQueue)(track));
+    },
+    popFromHistory: function popFromHistory() {
+      dispatch((0, _queue.popFromHistory)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Player);
+
+/***/ }),
+/* 331 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _image = __webpack_require__(36);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TrackInfo = function TrackInfo(_ref) {
+  var trackName = _ref.trackName,
+      artistName = _ref.artistName,
+      imageSrc = _ref.imageSrc;
+
+  var $img = imageSrc === _image.EMPTY_IMG_SRC ? _react2.default.createElement('div', { className: 'img-placeholder' }) : _react2.default.createElement('img', { src: imageSrc });
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'track-info' },
+    $img,
+    _react2.default.createElement(
+      'div',
+      { className: 'info-text' },
+      _react2.default.createElement(
+        'div',
+        { className: 'track-name' },
+        trackName
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'artist-name' },
+        artistName
+      )
+    )
+  );
+};
+
+exports.default = TrackInfo;
+
+/***/ }),
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+           value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TrackControls = function TrackControls(_ref) {
+           var isPlaying = _ref.isPlaying,
+               isDisabled = _ref.isDisabled,
+               onPrev = _ref.onPrev,
+               onPlayPause = _ref.onPlayPause,
+               onNext = _ref.onNext;
+
+           var playPauseButtonIcon = isPlaying ? 'pause_circle_outline' : 'play_circle_outline';
+           return _react2.default.createElement(
+                      'div',
+                      { className: 'track-controls' },
+                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'prev-btn',
+                                 icon: 'skip_previous',
+                                 onClick: onPrev }),
+                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'play-pause-btn',
+                                 icon: playPauseButtonIcon,
+                                 isDisabled: isDisabled,
+                                 onClick: onPlayPause }),
+                      _react2.default.createElement(_index.MatButton, { buttonClassName: 'next-btn',
+                                 icon: 'skip_next',
+                                 onClick: onNext })
+           );
+};
+
+exports.default = TrackControls;
+
+/***/ }),
+/* 333 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var VolumeControls = function VolumeControls(_ref) {
+  var volume = _ref.volume,
+      maxVolume = _ref.maxVolume,
+      onVolumeButtonClick = _ref.onVolumeButtonClick,
+      onVolumeChange = _ref.onVolumeChange,
+      isDisabled = _ref.isDisabled;
+
+  var volumeButtonIcon = volume === 0 ? 'volume_off' : 'volume_up';
+  return _react2.default.createElement(
+    'div',
+    { className: 'volume-controls' },
+    _react2.default.createElement(
+      'div',
+      { className: 'controls-container' },
+      _react2.default.createElement(_index.MatButton, { icon: volumeButtonIcon,
+        isDisabled: isDisabled,
+        onClick: onVolumeButtonClick }),
+      _react2.default.createElement(_index.MatSlider, { value: volume,
+        maxValue: maxVolume,
+        isDisabled: isDisabled,
+        onValueChange: onVolumeChange })
+    )
+  );
+};
+
+exports.default = VolumeControls;
+
+/***/ }),
+/* 334 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _time = __webpack_require__(335);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ProgressBar = function ProgressBar(_ref) {
+  var currentTime = _ref.currentTime,
+      duration = _ref.duration,
+      onCurrentTimeChange = _ref.onCurrentTimeChange,
+      isDisabled = _ref.isDisabled;
+
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'progress-bar' },
+    _react2.default.createElement(
+      'div',
+      { className: 'time-label' },
+      (0, _time.formatTimeMinutesSeconds)(currentTime)
+    ),
+    _react2.default.createElement(_index.MatSlider, { value: currentTime,
+      maxValue: duration,
+      isDisabled: isDisabled,
+      onValueChange: onCurrentTimeChange }),
+    _react2.default.createElement(
+      'div',
+      { className: 'time-label' },
+      (0, _time.formatTimeMinutesSeconds)(duration)
+    )
+  );
+};
+
+exports.default = ProgressBar;
+
+/***/ }),
+/* 335 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.formatTimeMinutesSeconds = undefined;
+
+var _empty = __webpack_require__(8);
+
+/// Returnsed when [numOfSeconds] is empty.
+var EMPTY_RENDER_VALUE = '-:--';
+
+/// Returns a string in the format 'MM:SS' for the given # of seconds.
+var formatTimeMinutesSeconds = exports.formatTimeMinutesSeconds = function formatTimeMinutesSeconds(numOfSeconds) {
+  if ((0, _empty.isEmpty)(numOfSeconds)) {
+    return EMPTY_RENDER_VALUE;
+  }
+
+  var secondsStr = Math.floor(numOfSeconds % 60).toString();
+  if (secondsStr.length < 2) secondsStr = '0' + secondsStr;
+  return Math.floor(numOfSeconds / 60) + ':' + secondsStr;
+};
+
+/***/ }),
+/* 336 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _empty = __webpack_require__(8);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AudioApi = function () {
+  function AudioApi(eleId, _ref) {
+    var onPlay = _ref.onPlay,
+        onPause = _ref.onPause,
+        onTimeUpdate = _ref.onTimeUpdate,
+        onEnded = _ref.onEnded,
+        onCanPlay = _ref.onCanPlay;
+
+    _classCallCheck(this, AudioApi);
+
+    this.eleId = eleId;
+    this.onPlay = onPlay;
+    this.onPause = onPause;
+    this.onTimeUpdate = onTimeUpdate;
+    this.onEnded = onEnded;
+    this.onCanPlay = onCanPlay;
+  }
+
+  _createClass(AudioApi, [{
+    key: 'load',
+    value: function load() {
+      var _this = this;
+
+      var player = this._audioPlayer();
+      if ((0, _empty.isEmpty)(player)) throw 'MyAudioPlayer failed to find audio element!!';
+
+      player.load();
+      player.addEventListener('play', this.onPlay);
+      player.addEventListener('pause', this.onPause);
+      player.addEventListener('ended', this.onEnded);
+      player.addEventListener('canplay', this.onCanPlay);
+      player.addEventListener('timeupdate', function () {
+        _this.onTimeUpdate(_this.currentTime());
+      });
+    }
+  }, {
+    key: 'play',
+    value: function play() {
+      this._audioPlayer().play();
+    }
+  }, {
+    key: 'pause',
+    value: function pause() {
+      this._audioPlayer().pause();
+    }
+  }, {
+    key: 'setCurrentTime',
+    value: function setCurrentTime(newCurrentTime) {
+      this._audioPlayer().currentTime = newCurrentTime;
+    }
+  }, {
+    key: 'setVolume',
+    value: function setVolume(newVolume) {
+      this._audioPlayer().volume = newVolume;
+    }
+  }, {
+    key: 'currentTime',
+    value: function currentTime() {
+      return this._audioPlayer().currentTime;
+    }
+  }, {
+    key: 'dispose',
+    value: function dispose() {
+      player.removeEventListener('play', this.onPlay);
+      player.removeEventListener('pause', this.onPause);
+      player.removeEventListener('timeupdate', this.onTimeUpdate);
+      player.removeEventListener('ended', this.onEnded);
+      player.removeEventListener('canplay', this.onCanPlay);
+    }
+  }, {
+    key: '_audioPlayer',
+    value: function _audioPlayer() {
+      return $('#' + this.eleId)[0];
+    }
+  }]);
+
+  return AudioApi;
+}();
+
+exports.default = AudioApi;
+
+/***/ }),
+/* 337 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(27);
+
+var _home = __webpack_require__(143);
+
+var _home2 = _interopRequireDefault(_home);
+
+var _table_layout = __webpack_require__(85);
+
+var _table_layout2 = _interopRequireDefault(_table_layout);
+
+var _home3 = __webpack_require__(79);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Home = function (_React$Component) {
+  _inherits(Home, _React$Component);
+
+  function Home(props) {
+    _classCallCheck(this, Home);
+
+    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+    props.fetchEntities();
+    return _this;
+  }
+
+  _createClass(Home, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          topTracks = _props.topTracks,
+          topArtists = _props.topArtists,
+          tableType = _props.tableType,
+          displayType = _props.displayType,
+          setTableType = _props.setTableType,
+          setDisplayType = _props.setDisplayType,
+          fetchMoreEntities = _props.fetchMoreEntities;
+
+
+      var schema = Object.assign({}, _home2.default);
+
+      schema[_home.HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks.tracks;
+      schema[_home.HOME_TABLE_TYPES.TOP_TRACKS].isFetching = topTracks.isFetching;
+
+      schema[_home.HOME_TABLE_TYPES.TOP_ARTISTS].entities = topArtists.artists;
+      schema[_home.HOME_TABLE_TYPES.TOP_ARTISTS].isFetching = topArtists.isFetching;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'om-home' },
+        _react2.default.createElement(
+          _table_layout2.default,
+          { schema: schema,
+            tableType: tableType,
+            onTableTypeChange: setTableType,
+            displayType: displayType,
+            onDisplayTypeChange: setDisplayType,
+            onScrollBottom: fetchMoreEntities },
+          _react2.default.createElement(
+            'div',
+            { className: 'title-container' },
+            _react2.default.createElement(
+              'span',
+              null,
+              'Charts'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Home;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    tableType: state.home.tableType,
+    displayType: state.home.displayType,
+    topTracks: state.home.topTracks,
+    topArtists: state.home.topArtists
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchEntities: function fetchEntities(startIdx) {
+      dispatch((0, _home3.fetchEntities)(startIdx));
+    },
+    fetchMoreEntities: function fetchMoreEntities(startIdx) {
+      dispatch((0, _home3.fetchMoreEntities)(startIdx));
+    },
+    setTableType: function setTableType(tableType) {
+      dispatch((0, _home3.setHomeTableType)(tableType));
+    },
+    setDisplayType: function setDisplayType(displayType) {
+      dispatch((0, _home3.setHomeDisplayType)(displayType));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Home);
+
+/***/ }),
+/* 338 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(24);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NavBar = function (_React$Component) {
+  _inherits(NavBar, _React$Component);
+
+  function NavBar(props) {
+    _classCallCheck(this, NavBar);
+
+    var _this = _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, props));
+
+    _this.state = {
+      isScrolled: false
+    };
+    return _this;
+  }
+
+  _createClass(NavBar, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.onScroll = function () {
+        _this2.setState({ isScrolled: isWindowScrolled() });
+      };
+      $(document).scroll(this.onScroll);
+      this.state = { isScrolled: isWindowScrolled() };
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      $(document).off('scroll', this.onScroll);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var className = 'om-nav-bar';
+      if (this.state.isScrolled) {
+        className += ' scrolled';
+      }
+      return _react2.default.createElement(
+        'div',
+        { className: className },
+        this.props.children
+      );
+    }
+  }]);
+
+  return NavBar;
+}(_react2.default.Component);
+
+var isWindowScrolled = function isWindowScrolled() {
+  return $(window).scrollTop() !== 0;
+};
+
+exports.default = NavBar;
+
+/***/ }),
+/* 339 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(8);
+
+var _index = __webpack_require__(17);
+
+var _display = __webpack_require__(38);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DisplayTypePicker = function DisplayTypePicker(_ref) {
+  var displayType = _ref.displayType,
+      onDisplayTypeChange = _ref.onDisplayTypeChange;
+
+  var _onClick = function _onClick(clickedDisplayType) {
+    if (displayType !== clickedDisplayType) {
+      onDisplayTypeChange(clickedDisplayType);
+    }
+  };
+
+  var getClassName = function getClassName(type) {
+    return type === displayType ? 'active' : '';
+  };
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'display-type-picker' },
+    _react2.default.createElement(_index.MatButton, { className: getClassName(_display.DISPLAY_TYPES.GALLERY),
+      icon: 'view_module',
+      tooltipText: 'gallery display',
+      onClick: function onClick() {
+        _onClick(_display.DISPLAY_TYPES.GALLERY);
+      } }),
+    _react2.default.createElement(_index.MatButton, { className: getClassName(_display.DISPLAY_TYPES.LIST),
+      icon: 'view_list',
+      tooltipText: 'list display',
+      onClick: function onClick() {
+        _onClick(_display.DISPLAY_TYPES.LIST);
+      } })
+  );
+};
+
+exports.default = DisplayTypePicker;
+
+/***/ }),
+/* 340 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(8);
+
+var _flex_table = __webpack_require__(158);
+
+var _flex_table2 = _interopRequireDefault(_flex_table);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FlexTableHeader = function FlexTableHeader(_ref) {
+  var className = _ref.className,
+      schema = _ref.schema;
+
+  className = className ? className + ' flex-table-header' : 'flex-table-header';
+
+  return _react2.default.createElement(_flex_table2.default, { className: className,
+    rowObjs: [{ key: 1 }],
+    keyPath: 'key',
+    schema: schema,
+    componentPath: 'label' });
+};
+
+exports.default = FlexTableHeader;
+
+/***/ }),
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _gallery_tile = __webpack_require__(342);
+
+var _gallery_tile2 = _interopRequireDefault(_gallery_tile);
+
+var _action_provider = __webpack_require__(160);
+
+var _action_provider2 = _interopRequireDefault(_action_provider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NUM_COLUMNS = 3;
+
+var Gallery = function Gallery(_ref) {
+  var entities = _ref.entities,
+      schema = _ref.schema,
+      actions = _ref.actions;
+
+  var $items = entities.map(function (entity) {
+    return _react2.default.createElement(
+      'div',
+      { className: 'gallery-item',
+        key: entity.mbid,
+        style: { flex: '0 0 ' + 100 / NUM_COLUMNS + '%' } },
+      _react2.default.createElement(_gallery_tile2.default, { entity: entity, schema: schema, actions: actions })
+    );
+  });
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'om-gallery' },
+    $items
+  );
+};
+
+var GalleryWithActions = function GalleryWithActions(props) {
+  return _react2.default.createElement(
+    _action_provider2.default,
+    null,
+    _react2.default.createElement(Gallery, props)
+  );
+};
+
+exports.default = GalleryWithActions;
+
+/***/ }),
+/* 342 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(24);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _empty = __webpack_require__(8);
+
+var _image = __webpack_require__(36);
+
+var _nested_field = __webpack_require__(159);
+
+var _index = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IMAGE_IDX = 3;
+
+var GalleryTile = function (_React$Component) {
+  _inherits(GalleryTile, _React$Component);
+
+  function GalleryTile() {
+    _classCallCheck(this, GalleryTile);
+
+    return _possibleConstructorReturn(this, (GalleryTile.__proto__ || Object.getPrototypeOf(GalleryTile)).apply(this, arguments));
+  }
+
+  _createClass(GalleryTile, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          entity = _props.entity,
+          schema = _props.schema,
+          actions = _props.actions;
+
+
+      var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
+      var title = (0, _nested_field.getNestedFieldValue)(entity, schema.titlePath);
+      var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
+
+      var imageSrc = image ? (0, _image.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
+      var imageClassName = imageSrc === _image.EMPTY_IMG_SRC ? 'bordered' : '';
+
+      var TitleChipComponent = schema.titleChipComponent || _index.MatChip;
+      var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title, actions: actions }) : '';
+      var SubtitleChipComponent = schema.subtitleChipComponent || _index.MatChip;
+      var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle, actions: actions }) : '';
+
+      var $buttons = Object.keys(schema.actions).map(function (actionType) {
+        var action = schema.actions[actionType];
+        return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
+          icon: action.icon,
+          tooltipText: action.tooltipText,
+          key: actionType,
+          onClick: function onClick() {
+            if (typeof actions[action.actionName] === 'function') {
+              actions[action.actionName](entity);
+            }
+          } });
+      });
+
+      var actionsDrawerStyle = (0, _empty.isEmpty)($buttons) ? { height: 0 } : {};
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'tile' },
+        _react2.default.createElement('img', { src: imageSrc, className: imageClassName }),
+        _react2.default.createElement(
+          'div',
+          { className: 'info' },
+          $titleChip,
+          $subtitleChip
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'actions-drawer', style: actionsDrawerStyle },
+          $buttons
+        )
+      );
+    }
+  }]);
+
+  return GalleryTile;
+}(_react2.default.Component);
+
+exports.default = GalleryTile;
+
+/***/ }),
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(24);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactRedux = __webpack_require__(27);
+
+var _search = __webpack_require__(152);
+
+var _search2 = _interopRequireDefault(_search);
+
+var _table_layout = __webpack_require__(85);
+
+var _table_layout2 = _interopRequireDefault(_table_layout);
+
+var _index = __webpack_require__(17);
+
+var _search3 = __webpack_require__(83);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DEFAULT_MAT_INPUT_WIDTH = _index.GRID * 60;
+
+var Search = function (_React$Component) {
+  _inherits(Search, _React$Component);
+
+  function Search(props) {
+    _classCallCheck(this, Search);
+
+    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+
+    _this._focusInput = _this._focusInput.bind(_this);
+    _this._updateInputWidth = _this._updateInputWidth.bind(_this);
+    _this._getSearchForm = _this._getSearchForm.bind(_this);
+    _this._getMart = _this._getMatInput.bind(_this);
+    _this._getInput = _this._getInput.bind(_this);
+
+    props.fetchEntities();
+    return _this;
+  }
+
+  _createClass(Search, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this._focusInput();
+      this._updateInputWidth();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this._updateInputWidth();
+    }
+  }, {
+    key: '_focusInput',
+    value: function _focusInput() {
+      var $input = this._getInput();
+      $input.focus();
+
+      // So that focus ends up at the end of the input, not the beginning.
+      var temp = $input.val();
+      $input.val('');
+      $input.val(temp);
+    }
+    /// Resize input to fit query.
+
+  }, {
+    key: '_updateInputWidth',
+    value: function _updateInputWidth() {
+      var $searchForm = this._getSearchForm();
+      var $matInput = this._getMatInput();
+
+      var queryWidth = (0, _index.measureText)(this.props.query, _index.FONT_TYPES.DISPLAY_1);
+
+      if (queryWidth > DEFAULT_MAT_INPUT_WIDTH) {
+        var searchFormWidth = $searchForm.width();
+        if (queryWidth < searchFormWidth) {
+          $matInput.width(queryWidth);
+        } else {
+          $matInput.width(searchFormWidth);
+        }
+      } else {
+        $matInput.width(DEFAULT_MAT_INPUT_WIDTH);
+      }
+    }
+  }, {
+    key: '_getSearchForm',
+    value: function _getSearchForm() {
+      return $(_reactDom2.default.findDOMNode(this)).find('.search-form');
+    }
+  }, {
+    key: '_getMatInput',
+    value: function _getMatInput() {
+      return this._getSearchForm().find('.mat-input');
+    }
+  }, {
+    key: '_getInput',
+    value: function _getInput() {
+      return this._getMatInput().find('input');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          tracks = _props.tracks,
+          artists = _props.artists,
+          query = _props.query,
+          setQuery = _props.setQuery,
+          tableType = _props.tableType,
+          displayType = _props.displayType,
+          setDisplayType = _props.setDisplayType,
+          setTableType = _props.setTableType,
+          fetchMoreEntities = _props.fetchMoreEntities;
+
+
+      var schema = Object.assign({}, _search2.default);
+
+      var $emptyTable = _react2.default.createElement(
+        'div',
+        { className: 'empty-table' },
+        'No results'
+      );
+
+      schema[_search.SEARCH_TABLE_TYPES.TRACKS].entities = tracks.tracks;
+      schema[_search.SEARCH_TABLE_TYPES.TRACKS].isFetching = tracks.isFetching;
+      schema[_search.SEARCH_TABLE_TYPES.TRACKS].endOfTable = tracks.endOfTable;
+      schema[_search.SEARCH_TABLE_TYPES.TRACKS].emptyTable = $emptyTable;
+
+      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].entities = artists.artists;
+      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].isFetching = artists.isFetching;
+      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].endOfTable = artists.endOfTable;
+      schema[_search.SEARCH_TABLE_TYPES.ARTISTS].emptyTable = $emptyTable;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'search' },
+        _react2.default.createElement(
+          _table_layout2.default,
+          { schema: schema,
+            tableType: tableType,
+            onTableTypeChange: setTableType,
+            displayType: displayType,
+            onDisplayTypeChange: setDisplayType,
+            onScrollBottom: fetchMoreEntities },
+          _react2.default.createElement(
+            'div',
+            { className: 'search-form' },
+            _react2.default.createElement(_index.MatInput, { value: query,
+              placeholder: 'Search for tracks or artists',
+              onValueChange: setQuery })
+          )
+        )
+      );
+    }
+  }]);
+
+  return Search;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    query: state.search.query,
+    tracks: state.search.tracks,
+    artists: state.search.artists,
+    tableType: state.search.tableType,
+    displayType: state.search.displayType
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchEntities: function fetchEntities(startIdx) {
+      dispatch((0, _search3.fetchEntities)(startIdx));
+    },
+    fetchMoreEntities: function fetchMoreEntities(startIdx) {
+      dispatch((0, _search3.fetchMoreEntities)(startIdx));
+    },
+    setQuery: function setQuery(query) {
+      dispatch((0, _search3.setQuery)(query));
+    },
+    setTableType: function setTableType(tableType) {
+      dispatch((0, _search3.setSearchTableType)(tableType));
+    },
+    setDisplayType: function setDisplayType(displayType) {
+      dispatch((0, _search3.setSearchDisplayType)(displayType));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Search);
+
+/***/ }),
+/* 344 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(27);
+
+var _now_playing = __webpack_require__(345);
+
+var _now_playing2 = _interopRequireDefault(_now_playing);
+
+var _queue = __webpack_require__(153);
+
+var _queue2 = _interopRequireDefault(_queue);
+
+var _table_layout = __webpack_require__(85);
+
+var _table_layout2 = _interopRequireDefault(_table_layout);
+
+var _queue3 = __webpack_require__(39);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Queue = function (_React$Component) {
+  _inherits(Queue, _React$Component);
+
+  function Queue() {
+    _classCallCheck(this, Queue);
+
+    return _possibleConstructorReturn(this, (Queue.__proto__ || Object.getPrototypeOf(Queue)).apply(this, arguments));
+  }
+
+  _createClass(Queue, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          queue = _props.queue,
+          history = _props.history,
+          tableType = _props.tableType,
+          displayType = _props.displayType,
+          setTableType = _props.setTableType,
+          setDisplayType = _props.setDisplayType;
+
+
+      var schema = Object.assign({}, _queue2.default);
+
+      schema[_queue.QUEUE_TABLE_TYPES.QUEUE].entities = queue.slice(1);
+      schema[_queue.QUEUE_TABLE_TYPES.QUEUE].emptyTable = _react2.default.createElement(
+        'div',
+        { className: 'empty-table-msg' },
+        _react2.default.createElement(
+          'span',
+          null,
+          'To add a track to your queue, click the green plus icon ('
+        ),
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'add'
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
+          ').'
+        )
+      );
+
+      schema[_queue.QUEUE_TABLE_TYPES.HISTORY].entities = history;
+      schema[_queue.QUEUE_TABLE_TYPES.HISTORY].emptyTable = _react2.default.createElement(
+        'div',
+        { className: 'empty-table-msg' },
+        'After you listen to a track, it will show up here.'
+      );
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'queue' },
+        _react2.default.createElement(
+          _table_layout2.default,
+          { schema: schema,
+            tableType: tableType,
+            onTableTypeChange: setTableType,
+            displayType: displayType,
+            onDisplayTypeChange: setDisplayType },
+          _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] })
+        )
+      );
+    }
+  }]);
+
+  return Queue;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    tableType: state.queue.tableType,
+    displayType: state.queue.displayType,
+    queue: state.queue.queue,
+    history: state.queue.history
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setTableType: function setTableType(tableType) {
+      dispatch((0, _queue3.setQueueTableType)(tableType));
+    },
+    setDisplayType: function setDisplayType(displayType) {
+      dispatch((0, _queue3.setQueueDisplayType)(displayType));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Queue);
+
+/***/ }),
+/* 345 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _empty = __webpack_require__(8);
+
+var _list = __webpack_require__(157);
+
+var _list2 = _interopRequireDefault(_list);
+
+var _list_header = __webpack_require__(161);
+
+var _list_header2 = _interopRequireDefault(_list_header);
+
+var _now_playing = __webpack_require__(346);
+
+var _now_playing2 = _interopRequireDefault(_now_playing);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NowPlaying = function NowPlaying(_ref) {
+  var track = _ref.track;
+
+  var $content = (0, _empty.isNotEmpty)(track) ? _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(_list_header2.default, { schema: _now_playing2.default }),
+    _react2.default.createElement(_list2.default, { entities: [track], schema: _now_playing2.default })
+  ) : _react2.default.createElement(
+    'div',
+    { className: 'empty-msg' },
+    _react2.default.createElement(
+      'span',
+      null,
+      'To play a track, click the blue play icon ('
+    ),
+    _react2.default.createElement(
+      'i',
+      { className: 'material-icons' },
+      'play_arrow'
+    ),
+    _react2.default.createElement(
+      'span',
+      null,
+      ').'
+    )
+  );
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'now-playing' },
+    _react2.default.createElement(
+      'div',
+      { className: 'label' },
+      'Now Playing'
+    ),
+    $content
+  );
+};
+
+exports.default = NowPlaying;
+
+/***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _track = __webpack_require__(37);
+
+var _track2 = _interopRequireDefault(_track);
+
+var _now_playing = __webpack_require__(347);
+
+var _now_playing2 = _interopRequireDefault(_now_playing);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Track list schema w/ Queue actions
+var SCHEMA = Object.assign({}, _track2.default, {
+  '@actions': Object.assign({}, _track2.default['@actions'], {
+    actions: _now_playing2.default
+  })
+});
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _queue = __webpack_require__(84);
+
+var ACTIONS = {};
+ACTIONS[_queue.QUEUE_ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
+  buttonClassName: 'remove-from-history-btn',
+  icon: 'remove',
+  tooltipText: 'Remove from queue',
+  actionName: 'removeFromQueue'
+};
+
+exports.default = ACTIONS;
 
 /***/ })
 /******/ ]);

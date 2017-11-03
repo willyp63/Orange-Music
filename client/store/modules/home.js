@@ -79,26 +79,11 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 
+export const setHomeDisplayType = displayType => ({type: SET_DISPLAY_TYPE, displayType});
 export const setHomeTableType = tableType => (dispatch, getState) => {
   dispatch({type: SET_TABLE_TYPE, tableType});
-
-  // Fetch entities for the table we are about to visit if there are none.
-  const { topTracks, topArtists } = getState().home;
-  if (tableType === HOME_TABLE_TYPES.TOP_TRACKS) {
-    if (topTracks.tracks.length === 0) {
-      dispatch(fetchTopTracks());
-    }
-  } else if (tableType === HOME_TABLE_TYPES.TOP_ARTISTS) {
-    if (topArtists.artists.length === 0) {
-      dispatch(fetchTopArtists());
-    }
-  }
+  dispatch(fetchEntities());
 };
-
-export const setHomeDisplayType = displayType => ({
-  type: SET_DISPLAY_TYPE,
-  displayType,
-});
 
 const fetchTopTracks = (startIdx = 0) => (dispatch, getState) => {
   const { topTracks } = getState().home;
@@ -106,10 +91,7 @@ const fetchTopTracks = (startIdx = 0) => (dispatch, getState) => {
 
   dispatch({type: FETCH_TOP_TRACKS});
   lastFmApi.topTracks({startIdx}).then(({tracks}) => {
-    dispatch({
-      type: RECEIVE_TOP_TRACKS,
-      tracks,
-    });
+    dispatch({type: RECEIVE_TOP_TRACKS, tracks});
   });
 };
 
@@ -119,16 +101,17 @@ const fetchTopArtists = (startIdx = 0) => (dispatch, getState) => {
 
   dispatch({type: FETCH_TOP_ARTISTS});
   lastFmApi.topArtists({startIdx}).then(({artists}) => {
-    dispatch({
-      type: RECEIVE_TOP_ARTISTS,
-      artists,
-    });
+    dispatch({type: RECEIVE_TOP_ARTISTS, artists});
   });
 };
 
 export const fetchEntities = () => (dispatch, getState) => {
-  const { tableType } = getState().home;
-  dispatch(setHomeTableType(tableType));
+  const { tableType, topTracks, topArtists } = getState().home;
+  if (tableType === HOME_TABLE_TYPES.TOP_TRACKS) {
+    if (topTracks.tracks.length === 0) { dispatch(fetchTopTracks()); }
+  } else if (tableType === HOME_TABLE_TYPES.TOP_ARTISTS) {
+    if (topArtists.artists.length === 0) { dispatch(fetchTopArtists()); }
+  }
 };
 
 export const fetchMoreEntities = () => (dispatch, getState) => {

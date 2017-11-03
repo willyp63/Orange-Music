@@ -1,7 +1,7 @@
 const Express = require('express');
 const path = require('path');
 
-const ytApi = require('./api/yt/yt_api');
+const ytApi = require('./api/youtube');
 const isEmpty = require('./util/empty').isEmpty;
 
 const STATIC_RESOURCES_PATH = path.resolve(__dirname, 'static');
