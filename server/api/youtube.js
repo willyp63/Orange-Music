@@ -25,7 +25,7 @@ module.exports.search = ({name, artistName, duration, maxResults}) => {
   });
 };
 
-module.exports.getInfo = (ytid = 0) => {
+module.exports.getInfo = (ytid) => {
   return new Promise((resolve, reject) => {
     if (isEmpty(ytid)) { reject('Must provide ytid.'); }
 
