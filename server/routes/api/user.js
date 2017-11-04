@@ -78,7 +78,8 @@ router.post('/login', async (req, res) => {
 
 router.get('/verify', (req, res) => {
   if (req.user) {
-    res.json({success: true, user: req.user});
+    const user = Object.assign({}, req.user, {password: undefined}); // Don't send password.
+    res.json({success: true, user});
   } else {
     res.json({success: false});
   }

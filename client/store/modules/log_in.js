@@ -7,7 +7,7 @@ const SET_PASSWORD = 'orange-music/log_in/SET_PASSWORD';
 
 const SET_FORM_ERRORS = 'orange-music/log_in/SET_FORM_ERRORS';
 
-const SUBMIT_FORM = 'orange-music/log_in/SUBMIT_FORM';
+const CLEAR_FORM = 'orange-music/log_in/CLEAR_FORM';
 
 const initialState = {
   name: '',
@@ -37,6 +37,8 @@ export default function reducer(state = initialState, action = {}) {
           form: action.errors,
         },
       };
+    case CLEAR_FORM:
+      return Object.assign({}, initialState);
     default:
       return state;
   }
@@ -48,6 +50,8 @@ export const setPassword = password => ({type: SET_PASSWORD, password});
 
 const setFormErrors = errors => ({type: SET_FORM_ERRORS, errors});
 
+const clearForm = () => ({type: CLEAR_FORM});
+
 export const submitForm = () => (dispatch, getState) => {
   const { name, password } = getState().logIn;
 
@@ -57,6 +61,7 @@ export const submitForm = () => (dispatch, getState) => {
     } else {
       dispatch(logInUser({name, password}, data.token));
       history.pushLocation('/');
+      dispatch(clearForm());
     }
   });
 };

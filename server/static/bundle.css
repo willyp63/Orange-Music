@@ -21,8 +21,8 @@ body {
 }
 @font-face {
   font-family: 'icomoon';
-  src: url('fonts/icomoon.eot?a0v6sz');
-  src: url('fonts/icomoon.eot?a0v6sz#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?a0v6sz') format('truetype'), url('fonts/icomoon.woff?a0v6sz') format('woff'), url('fonts/icomoon.svg?a0v6sz#icomoon') format('svg');
+  src: url('fonts/icomoon.eot?duz6d');
+  src: url('fonts/icomoon.eot?duz6d#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?duz6d') format('truetype'), url('fonts/icomoon.woff?duz6d') format('woff'), url('fonts/icomoon.svg?duz6d#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -139,6 +139,8 @@ body {
 }
 .mat-tabs .tab .inner-btn {
   width: 192px;
+  padding-left: 0;
+  padding-right: 0;
   display: inline-flex;
   justify-content: space-around;
   font-size: 24px;

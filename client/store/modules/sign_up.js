@@ -9,7 +9,7 @@ const SET_PASSWORD = 'orange-music/sign_up/SET_PASSWORD';
 const SET_NAME_ERRORS = 'orange-music/sign_up/SET_NAME_ERRORS';
 const SET_PASSWORD_ERRORS = 'orange-music/sign_up/SET_PASSWORD_ERRORS';
 
-const SUBMIT_FORM = 'orange-music/sign_up/SUBMIT_FORM';
+const CLEAR_FORM = 'orange-music/sign_up/CLEAR_FORM';
 
 const initialState = {
   name: '',
@@ -48,6 +48,8 @@ export default function reducer(state = initialState, action = {}) {
           password: action.errors,
         },
       };
+    case CLEAR_FORM:
+      return Object.assign({}, initialState);
     default:
       return state;
   }
@@ -69,6 +71,8 @@ export const validatePassword = () => (dispatch, getState) => {
   dispatch(setPasswordErrors(errors.password));
 };
 
+const clearForm = () => ({type: CLEAR_FORM});
+
 export const submitForm = () => (dispatch, getState) => {
   dispatch(validateName());
   dispatch(validatePassword());
@@ -76,13 +80,15 @@ export const submitForm = () => (dispatch, getState) => {
   const { name, password, errors } = getState().signUp;
 
   if (errors.name.length === 0 && errors.password.length === 0) {
-    omApi.signUp({name, password}).then(data => {
+    const user = {name, password};
+    omApi.signUp(user).then(data => {
       if (data.errors) {
         dispatch(setNameErrors(data.errors.name || []));
         dispatch(setPasswordErrors(data.errors.password || []));
       } else {
-        dispatch(logInUser({name, password}, data.token));
+        dispatch(logInUser(user, data.token));
         history.pushLocation('/');
+        dispatch(clearForm());
       }
     });
   }
