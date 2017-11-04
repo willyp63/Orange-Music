@@ -43,6 +43,9 @@
     "webpack": "webpack --config webpack.js --watch --colors",
     "lessc": "lessc client/index.less server/static/bundle.css"
   },
+  "engines": {
+    "node": ">= 7.6.0"
+  },
   "author": "Wil Pirino",
   "license": "ISC"
 }
