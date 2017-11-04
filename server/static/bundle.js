@@ -16337,6 +16337,10 @@ var _queue = __webpack_require__(39);
 
 var _queue2 = _interopRequireDefault(_queue);
 
+var _signup = __webpack_require__(350);
+
+var _signup2 = _interopRequireDefault(_signup);
+
 var _query_sync = __webpack_require__(325);
 
 var _query_sync2 = _interopRequireDefault(_query_sync);
@@ -16354,7 +16358,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var store = (0, _redux.createStore)((0, _redux.combineReducers)({
   home: _home2.default,
   search: _search2.default,
-  queue: _queue2.default
+  queue: _queue2.default,
+  signup: _signup2.default
 }), {}, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
 
 // Sync store with url query params
@@ -32658,16 +32663,30 @@ var _url = __webpack_require__(142);
 
 module.exports.getVideo = function (_ref) {
   var query = _ref.query,
-      artistQuery = _ref.artistQuery,
-      duration = _ref.duration;
+      artistQuery = _ref.artistQuery;
 
   return new Promise(function (resolve, reject) {
-    var url = (0, _url.getUrlWithUpdatedParams)('/video', {
+    var url = (0, _url.getUrlWithUpdatedParams)('/api/v1/stream/video', {
       q: query,
-      aq: artistQuery,
-      dur: duration
+      aq: artistQuery
     });
     $.get(url, resolve).fail(reject);
+  });
+};
+
+module.exports.signup = function (_ref2) {
+  var name = _ref2.name,
+      password = _ref2.password;
+
+  return new Promise(function (resolve, reject) {
+    var data = { name: name, password: password };
+    $.post({
+      url: '/api/v1/user/signup',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json'
+    });
   });
 };
 
@@ -33146,7 +33165,7 @@ history.pushLocation = function (pathname, search) {
   var location = history.location;
   var locationParams = new _urlSearchParams2.default(location.search);
 
-  Object.keys(search).forEach(function (param) {
+  Object.keys(search || {}).forEach(function (param) {
     locationParams.set(param, search[param]);
   });
 
@@ -33203,6 +33222,10 @@ var _queue = __webpack_require__(344);
 
 var _queue2 = _interopRequireDefault(_queue);
 
+var _signup = __webpack_require__(348);
+
+var _signup2 = _interopRequireDefault(_signup);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
@@ -33225,7 +33248,8 @@ var App = function App() {
           { className: 'route-container' },
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/search', component: _search2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _signup2.default })
         )
       )
     ),
@@ -34855,6 +34879,308 @@ ACTIONS[_queue.QUEUE_ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
 };
 
 exports.default = ACTIONS;
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(27);
+
+var _material = __webpack_require__(17);
+
+var _signup = __webpack_require__(350);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Signup = function (_React$Component) {
+  _inherits(Signup, _React$Component);
+
+  function Signup() {
+    _classCallCheck(this, Signup);
+
+    return _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).apply(this, arguments));
+  }
+
+  _createClass(Signup, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          name = _props.name,
+          password = _props.password,
+          errors = _props.errors,
+          setName = _props.setName,
+          setPassword = _props.setPassword,
+          validateName = _props.validateName,
+          validatePassword = _props.validatePassword,
+          submitForm = _props.submitForm;
+
+
+      var $nameErrors = errors.name.map(function (err) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'err-msg', key: err },
+          err
+        );
+      });
+      if (errors.name.length === 0) {
+        $nameErrors = _react2.default.createElement('div', { className: 'err-msg' });
+      }
+
+      var $passwordErrors = errors.password.map(function (err) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'err-msg', key: err },
+          err
+        );
+      });
+      if (errors.password.length === 0) {
+        $passwordErrors = _react2.default.createElement('div', { className: 'err-msg' });
+      }
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'signup' },
+        _react2.default.createElement(
+          'div',
+          { className: 'form' },
+          _react2.default.createElement(_material.MatInput, { value: name,
+            onValueChange: setName,
+            placeholder: 'Username' }),
+          $nameErrors,
+          _react2.default.createElement(_material.MatInput, { value: password,
+            onValueChange: setPassword,
+            placeholder: 'Password' }),
+          $passwordErrors,
+          _react2.default.createElement(_material.MatButton, { text: 'Sign Up!', onClick: submitForm })
+        )
+      );
+    }
+  }]);
+
+  return Signup;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    name: state.signup.name,
+    password: state.signup.password,
+    errors: state.signup.errors
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setName: function setName(name) {
+      dispatch((0, _signup.setName)(name));
+    },
+    setPassword: function setPassword(password) {
+      dispatch((0, _signup.setPassword)(password));
+    },
+    validateName: function validateName() {
+      dispatch((0, _signup.validateName)());
+    },
+    validatePassword: function validatePassword() {
+      dispatch((0, _signup.validatePassword)());
+    },
+    submitForm: function submitForm() {
+      dispatch((0, _signup.submitForm)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Signup);
+
+/***/ }),
+/* 349 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var validateName = function validateName(name) {
+  var errors = [];
+
+  if (typeof name !== 'string') {
+    errors.push('Invalid type.');
+  } else if (name.length <= 0) {
+    errors.push("Can't be empty.");
+  }
+
+  return errors;
+};
+
+var validatePassword = function validatePassword(password) {
+  var errors = [];
+
+  if (typeof password !== 'string') {
+    errors.push('Invalid type.');
+  } else if (password.length < 6) {
+    errors.push("Must be at least 6 characters.");
+  }
+
+  return errors;
+};
+
+var validate = function validate(_ref) {
+  var name = _ref.name,
+      password = _ref.password;
+
+  var errors = {};
+
+  errors.name = name !== undefined ? validateName(name) : [];
+  errors.password = password !== undefined ? validatePassword(password) : [];
+
+  return errors;
+};
+
+module.exports = validate;
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.submitForm = exports.validatePassword = exports.validateName = exports.setPassword = exports.setName = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = reducer;
+
+var _orange_music = __webpack_require__(320);
+
+var _orange_music2 = _interopRequireDefault(_orange_music);
+
+var _history = __webpack_require__(327);
+
+var _history2 = _interopRequireDefault(_history);
+
+var _signup = __webpack_require__(349);
+
+var _signup2 = _interopRequireDefault(_signup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SET_NAME = 'orange-music/signup/SET_NAME';
+var SET_PASSWORD = 'orange-music/signup/SET_PASSWORD';
+
+var SET_NAME_ERRORS = 'orange-music/signup/SET_NAME_ERRORS';
+var SET_PASSWORD_ERRORS = 'orange-music/signup/SET_PASSWORD_ERRORS';
+
+var SUBMIT_FORM = 'orange-music/signup/SUBMIT_FORM';
+
+var initialState = {
+  name: '',
+  password: '',
+  errors: {
+    name: [],
+    password: []
+  }
+};
+
+function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  switch (action.type) {
+    case SET_NAME:
+      return _extends({}, state, {
+        name: action.name
+      });
+    case SET_PASSWORD:
+      return _extends({}, state, {
+        password: action.password
+      });
+    case SET_NAME_ERRORS:
+      return _extends({}, state, {
+        errors: _extends({}, state.errors, {
+          name: action.errors
+        })
+      });
+    case SET_PASSWORD_ERRORS:
+      return _extends({}, state, {
+        errors: _extends({}, state.errors, {
+          password: action.errors
+        })
+      });
+    default:
+      return state;
+  }
+}
+
+var setName = exports.setName = function setName(name) {
+  return { type: SET_NAME, name: name };
+};
+var setPassword = exports.setPassword = function setPassword(password) {
+  return { type: SET_PASSWORD, password: password };
+};
+
+var setNameErrors = function setNameErrors(errors) {
+  return { type: SET_NAME_ERRORS, errors: errors };
+};
+var setPasswordErrors = function setPasswordErrors(errors) {
+  return { type: SET_PASSWORD_ERRORS, errors: errors };
+};
+
+var validateName = exports.validateName = function validateName() {
+  return function (dispatch, getState) {
+    var errors = (0, _signup2.default)({ name: getState().signup.name });
+    dispatch(setNameErrors(errors.name));
+  };
+};
+var validatePassword = exports.validatePassword = function validatePassword() {
+  return function (dispatch, getState) {
+    var errors = (0, _signup2.default)({ password: getState().signup.password });
+    dispatch(setPasswordErrors(errors.password));
+  };
+};
+
+var submitForm = exports.submitForm = function submitForm() {
+  return function (dispatch, getState) {
+    dispatch(validateName());
+    dispatch(validatePassword());
+
+    var _getState$signup = getState().signup,
+        name = _getState$signup.name,
+        password = _getState$signup.password,
+        errors = _getState$signup.errors;
+
+
+    if (errors.name.length === 0 && errors.password.length === 0) {
+      _orange_music2.default.signup({ name: name, password: password }).then(function (data) {
+        if (data.formErrors) {
+          dispatch(setNameErrors(data.formErrors.name || []));
+          dispatch(setPasswordErrors(data.formErrors.password || []));
+        } else {
+          _history2.default.pushLocation('/');
+        }
+      });
+    }
+  };
+};
 
 /***/ })
 /******/ ]);

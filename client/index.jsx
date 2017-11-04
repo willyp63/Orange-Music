@@ -9,6 +9,7 @@ import logger from 'redux-logger';
 import home from './store/modules/home';
 import search from './store/modules/search';
 import queue from './store/modules/queue';
+import signup from './store/modules/signup';
 import querySync from './store/query_sync/query_sync';
 import history from './history/history';
 import App from './components/app';
@@ -18,6 +19,7 @@ const store = createStore(
     home,
     search,
     queue,
+    signup,
   }),
   {},
   applyMiddleware(thunk, logger)

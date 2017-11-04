@@ -7,7 +7,7 @@ history.pushLocation = (pathname, search) => {
   const location = history.location;
   const locationParams = new URLSearchParams(location.search);
 
-  Object.keys(search).forEach(param => {
+  Object.keys(search || {}).forEach(param => {
     locationParams.set(param, search[param]);
   });
 

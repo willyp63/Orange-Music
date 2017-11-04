@@ -5,6 +5,7 @@ import Player from './player/player';
 import Home from './home/home';
 import Search from './search/search';
 import Queue from './queue/queue';
+import Signup from './signup/signup';
 
 const App = () => (
   <div>
@@ -17,6 +18,7 @@ const App = () => (
           <Route exact path="/" component={Home} />
           <Route path="/search" component={Search} />
           <Route path="/queue" component={Queue} />
+          <Route path="/signup" component={Signup} />
         </div>
       </div>
     </div>
