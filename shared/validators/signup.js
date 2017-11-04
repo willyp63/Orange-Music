@@ -25,8 +25,8 @@ const validatePassword = (password) => {
 const validate = ({name, password}) => {
   const errors = {};
 
-  errors.name = name !== undefined ? validateName(name) : [];
-  errors.password = password !== undefined ? validatePassword(password) : [];
+  errors.name = validateName(name);
+  errors.password = validatePassword(password);
 
   return errors;
 };
