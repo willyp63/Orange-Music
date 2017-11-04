@@ -37,6 +37,7 @@ const createPlaylistAdds = `
 `;
 
 module.exports = (async () => {
+  console.log(connectionString);
   const client = new Client({connectionString});
   await client.connect();
 
