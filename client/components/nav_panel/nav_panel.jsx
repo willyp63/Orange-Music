@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import SessionButtons from './session_buttons';
 import { MatButton } from '../material/index';
 
 const NavPanel = ({history, location}) => {
@@ -25,6 +26,7 @@ const NavPanel = ({history, location}) => {
         <MatButton text={'PLAYLISTS'}
                    onClick={() => { pushPath('/playlists'); }} />
       </div>
+      <SessionButtons />
     </div>
   );
 };

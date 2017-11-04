@@ -25,6 +25,8 @@ app.get([
   '/queue',
   '/playlists',
   '/signup',
+  '/login',
+  '/account',
 ], (_, res) => res.sendFile(REACT_APP_PATH));
 
 /// Unused routes.

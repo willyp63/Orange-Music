@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const validate = require('../../../shared/validators/signup');
+const validate = require('../../../shared/validators/sign_up');
 const db = require('../../db');
 const JWT_SECRET = require('../../secrets/jwt');
 
@@ -19,16 +19,23 @@ router.post('/signup', async (req, res) => {
     return res.json({success: false, errors});
   }
 
-  console.log(req.body);
   try {
+    // Insert user
     await db.query(insertUser(name, password));
-    res.json({success: true});
+
+    // Get JWT
+    const user = {name, password};
+    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '24h'});
+
+    // Success!
+    res.json({success: true, token});
   } catch (err) {
     if (err.constraint === 'users_name_key') {
-      // Database error indicates that username is not unique.
+      // Database error indicates that username is not unique
       const errors = {name: ['Username is already taken.']};
       res.json({success: false, errors});
     } else {
+      // Unknown error
       const errors = {form: [err]};
       res.json({success: false, errors});
       console.log(err);
@@ -46,22 +53,35 @@ router.post('/login', async (req, res) => {
   const { name, password } = req.body;
 
   try {
+    // Fetch user from database
     const result = await db.query(getUser(name));
     const user = result.rows[0];
 
+    // Check credentials
     if (!user || user.password !== password) {
       const errors = {form: ['Username/ password pair not found.']};
       return res.json({success: false, errors});
     }
 
-    var token = jwt.sign({user}, JWT_SECRET, {expiresIn: '24h'});
+    // Get JWT
+    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '24h'});
 
+    // Success!
     res.json({success: true, token});
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    // Unknown error
+    const errors = {form: [err]};
+    res.json({success: false, errors});
+    console.log(err);
   }
+});
 
-
+router.get('/verify', (req, res) => {
+  if (req.user) {
+    res.json({success: true, user: req.user});
+  } else {
+    res.json({success: false});
+  }
 });
 
 const insertUser = (name, password) => ({

@@ -9,7 +9,7 @@
   @colorHover;
   @colorDisabled: @grey-400) {
 
-  button {
+  .inner-btn {
     color: @color;
     transition: color @time @timing-fcn;
 
@@ -27,7 +27,7 @@
   @bgColorHover;
   @bgColorDisabled: @grey-400) {
 
-  button {
+  .inner-btn {
     color: @color;
     background-color: @bgColor;
     transition: color @time @timing-fcn,
@@ -90,7 +90,7 @@
   display: inline-flex;
   border-radius: @mat-btn-border-radius; // To contain ripple.
 
-  button {
+  .inner-btn {
     display: flex;
     align-items: center;
     padding: @mat-btn-padding;
@@ -104,7 +104,7 @@
 
 // For buttons with no text just one icon (icon buttons).
 .mat-icon-btn() {
-  button {
+  .inner-btn {
     // Remove padding and center icon both horz and vert.
     padding: 0;
     justify-content: space-around;
@@ -117,5 +117,5 @@
 .mat-cir-btn() {
   border-radius: 50%;
   .mat-tooltip { border-radius: 50%; }
-  button { border-radius: 50%; }
+  .inner-btn { border-radius: 50%; }
 }

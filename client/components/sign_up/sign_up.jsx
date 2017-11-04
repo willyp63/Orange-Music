@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { MatInput, MatButton } from '../material';
-import { setName, setPassword, validateName, validatePassword, submitForm } from '../../store/modules/signup';
+import { setName, setPassword, validateName, validatePassword, submitForm } from '../../store/modules/sign_up';
 
-class Signup extends React.Component {
+class SignUp extends React.Component {
   render() {
     const { name, password, errors, setName, setPassword, validateName, validatePassword, submitForm } = this.props;
 
@@ -22,7 +22,7 @@ class Signup extends React.Component {
     }
 
     return (
-      <div className="signup">
+      <div className="sign-up">
         <div className="form">
           <MatInput value={name}
                     onValueChange={setName}
@@ -41,9 +41,9 @@ class Signup extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    name: state.signup.name,
-    password: state.signup.password,
-    errors: state.signup.errors,
+    name: state.signUp.name,
+    password: state.signUp.password,
+    errors: state.signUp.errors,
   };
 };
 
@@ -60,4 +60,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Signup);
+)(SignUp);

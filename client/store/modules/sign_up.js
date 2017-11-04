@@ -1,14 +1,15 @@
 import omApi from '../api/orange_music';
 import history from '../../history/history';
-import validate from '../../../shared/validators/signup';
+import validate from '../../../shared/validators/sign_up';
+import { logInUser } from './session';
 
-const SET_NAME = 'orange-music/signup/SET_NAME';
-const SET_PASSWORD = 'orange-music/signup/SET_PASSWORD';
+const SET_NAME = 'orange-music/sign_up/SET_NAME';
+const SET_PASSWORD = 'orange-music/sign_up/SET_PASSWORD';
 
-const SET_NAME_ERRORS = 'orange-music/signup/SET_NAME_ERRORS';
-const SET_PASSWORD_ERRORS = 'orange-music/signup/SET_PASSWORD_ERRORS';
+const SET_NAME_ERRORS = 'orange-music/sign_up/SET_NAME_ERRORS';
+const SET_PASSWORD_ERRORS = 'orange-music/sign_up/SET_PASSWORD_ERRORS';
 
-const SUBMIT_FORM = 'orange-music/signup/SUBMIT_FORM';
+const SUBMIT_FORM = 'orange-music/sign_up/SUBMIT_FORM';
 
 const initialState = {
   name: '',
@@ -60,11 +61,11 @@ const setNameErrors = errors => ({type: SET_NAME_ERRORS, errors});
 const setPasswordErrors = errors => ({type: SET_PASSWORD_ERRORS, errors});
 
 export const validateName = () => (dispatch, getState) => {
-  const errors = validate({name: getState().signup.name});
+  const errors = validate({name: getState().signUp.name});
   dispatch(setNameErrors(errors.name));
 };
 export const validatePassword = () => (dispatch, getState) => {
-  const errors = validate({password: getState().signup.password});
+  const errors = validate({password: getState().signUp.password});
   dispatch(setPasswordErrors(errors.password));
 };
 
@@ -72,14 +73,15 @@ export const submitForm = () => (dispatch, getState) => {
   dispatch(validateName());
   dispatch(validatePassword());
 
-  const { name, password, errors } = getState().signup;
+  const { name, password, errors } = getState().signUp;
 
   if (errors.name.length === 0 && errors.password.length === 0) {
-    omApi.signup({name, password}).then(data => {
-      if (data.formErrors) {
-        dispatch(setNameErrors(data.formErrors.name || []));
-        dispatch(setPasswordErrors(data.formErrors.password || []));
+    omApi.signUp({name, password}).then(data => {
+      if (data.errors) {
+        dispatch(setNameErrors(data.errors.name || []));
+        dispatch(setPasswordErrors(data.errors.password || []));
       } else {
+        dispatch(logInUser({name, password}, data.token));
         history.pushLocation('/');
       }
     });

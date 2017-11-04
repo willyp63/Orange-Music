@@ -7,6 +7,7 @@
 
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
   background-color: @orange-300;
 
@@ -20,7 +21,7 @@
 
       .mat-btn-colorize(@color: rgba(255, 255, 255, 0.75); @colorHover: @white);
 
-      button {
+      .inner-btn {
         .font-headline();
         font-weight: 400; // Make up slightly thicker font.
 
@@ -37,7 +38,7 @@
 
       .mat-icon-btn-colorize(@color: @white; @colorHover: @white);
 
-      button {
+      .inner-btn {
         width: @grid * 6;
         height: @grid * 6;
 
@@ -51,7 +52,7 @@
       .mat-ripple {
         width: 100%;
 
-        button {
+        .inner-btn {
           width: 100%;
           display: inline-flex;
           justify-content: space-between;

@@ -1,0 +1,20 @@
+.session-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: @grid * 2;
+
+  &.logged-in {
+    justify-content: space-around;
+  }
+
+  .mat-btn {
+    .mat-btn-colorize(@color: rgba(255, 255, 255, 0.75); @colorHover: @white);
+  }
+
+  .divider {
+    width: 1px;
+    height: @grid * 2;
+    background-color: @white;
+  }
+}
