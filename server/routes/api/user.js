@@ -11,7 +11,7 @@ const JWT_SECRET = require('../../secrets/jwt');
 ///   password: User's password,
 /// }
 router.post('/signup', async (req, res) => {
-  let { name, password } = req.body;
+  const { name, password } = req.body;
 
   // Validate form data
   const errors = validate({name, password});
@@ -23,9 +23,12 @@ router.post('/signup', async (req, res) => {
     // Insert user
     await db.query(insertUser(name, password));
 
+    // Fetch user we inserted
+    const result = await db.query(getUserByName(name));
+    const user = result.rows[0];
+
     // Get JWT
-    const user = {name, password};
-    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '24h'});
+    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '12h'});
 
     // Success!
     res.json({success: true, token});
@@ -35,10 +38,7 @@ router.post('/signup', async (req, res) => {
       const errors = {name: ['Username is already taken.']};
       res.json({success: false, errors});
     } else {
-      // Unknown error
-      const errors = {form: [err]};
-      res.json({success: false, errors});
-      console.log(err);
+      res.json({success: false, errors: {unknown: [err]}});
     }
   }
 });
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
 
   try {
     // Fetch user from database
-    const result = await db.query(getUser(name));
+    const result = await db.query(getUserByName(name));
     const user = result.rows[0];
 
     // Check credentials
@@ -64,15 +64,12 @@ router.post('/login', async (req, res) => {
     }
 
     // Get JWT
-    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '24h'});
+    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '12h'});
 
     // Success!
     res.json({success: true, token});
   } catch (err) {
-    // Unknown error
-    const errors = {form: [err]};
-    res.json({success: false, errors});
-    console.log(err);
+    res.json({success: false, errors: {unknown: [err]}});
   }
 });
 
@@ -93,7 +90,7 @@ const insertUser = (name, password) => ({
   values: [name, password],
 });
 
-const getUser = (name) => ({
+const getUserByName = (name) => ({
   text: `
     SELECT * from users
     WHERE name = $1;

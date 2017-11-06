@@ -7,7 +7,6 @@ const List = ({ entities, schema }) => {
     <ActionProvider>
       <FlexTable className={'om-list'}
                  rowObjs={entities}
-                 keyPath={'mbid'}
                  schema={schema} />
     </ActionProvider>
   )

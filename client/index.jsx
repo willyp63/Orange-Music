@@ -12,6 +12,8 @@ import queue from './store/modules/queue';
 import signUp from './store/modules/sign_up';
 import logIn from './store/modules/log_in';
 import session from './store/modules/session';
+import playlists from './store/modules/playlists';
+import createPlaylist from './store/modules/create_playlist';
 
 import querySync from './store/query_sync/query_sync';
 import history from './history/history';
@@ -25,6 +27,8 @@ const store = createStore(
     signUp,
     logIn,
     session,
+    playlists,
+    createPlaylist,
   }),
   {},
   applyMiddleware(thunk, logger)

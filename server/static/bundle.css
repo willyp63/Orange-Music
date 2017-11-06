@@ -249,6 +249,22 @@ body {
 .mat-tooltip:hover .tooltip div {
   margin-top: 0;
 }
+.mat-modal {
+  position: fixed;
+  z-index: 999;
+  top: -70vh;
+  left: 15vw;
+  width: 70vw;
+  height: 70vh;
+  opacity: 0;
+  transition: top 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #FFFFFF;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 24px 38px 3px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.4);
+}
+.mat-modal.open {
+  top: 15vh;
+  opacity: 1;
+}
 html,
 body,
 input,
@@ -739,6 +755,98 @@ i {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.playlists .new-playlist-btn {
+  margin-left: 64px;
+}
+.playlists .new-playlist-btn .inner-btn {
+  color: #FFFFFF;
+  background-color: #1E88E5;
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.playlists .new-playlist-btn .inner-btn.disabled {
+  color: #BDBDBD;
+  background-color: #BDBDBD;
+  box-shadow: none;
+}
+.playlists .new-playlist-btn .inner-btn:hover:not(.disabled) {
+  color: #FFFFFF;
+  background-color: #2196F3;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.playlists .new-playlist-btn .inner-btn {
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: inherit;
+}
+.create-playlist {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.create-playlist .close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  border-radius: 50%;
+}
+.create-playlist .close-btn .inner-btn {
+  color: #424242;
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.create-playlist .close-btn .inner-btn.disabled {
+  color: #BDBDBD;
+}
+.create-playlist .close-btn .inner-btn:hover:not(.disabled) {
+  color: #000000;
+}
+.create-playlist .close-btn .inner-btn {
+  padding: 0;
+  justify-content: space-around;
+}
+.create-playlist .close-btn .mat-tooltip {
+  border-radius: 50%;
+}
+.create-playlist .close-btn .inner-btn {
+  border-radius: 50%;
+}
+.create-playlist .close-btn .inner-btn i {
+  font-size: 36px;
+}
+.create-playlist .form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.create-playlist .form .mat-input {
+  width: 400px;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: inherit;
+}
+.create-playlist .form .err-msg {
+  color: #F44336;
+  width: 100%;
+  height: 1em;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  text-transform: inherit;
+}
+.create-playlist .form .mat-btn {
+  margin-top: 32px;
+}
+.create-playlist .form .mat-btn .mat-ripple s {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+.create-playlist .form .mat-btn .inner-btn {
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: inherit;
 }
 .om-table-layout .om-nav-bar {
   padding-top: 16px;

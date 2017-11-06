@@ -937,7 +937,7 @@ if (process.env.NODE_ENV !== 'production') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.measureText = exports.FONT_TYPES = exports.TIME = exports.GRID = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
+exports.measureText = exports.FONT_TYPES = exports.TIME = exports.GRID = exports.MatModal = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(83);
 
@@ -967,6 +967,10 @@ var _mat_input = __webpack_require__(322);
 
 var _mat_input2 = _interopRequireDefault(_mat_input);
 
+var _mat_modal = __webpack_require__(372);
+
+var _mat_modal2 = _interopRequireDefault(_mat_modal);
+
 var _grid = __webpack_require__(28);
 
 var _grid2 = _interopRequireDefault(_grid);
@@ -988,6 +992,7 @@ var MatSlider = exports.MatSlider = _mat_slider2.default;
 var MatSpinner = exports.MatSpinner = _mat_spinner2.default;
 var MatTabs = exports.MatTabs = _mat_tabs2.default;
 var MatInput = exports.MatInput = _mat_input2.default;
+var MatModal = exports.MatModal = _mat_modal2.default;
 
 var GRID = exports.GRID = _grid2.default.GRID;
 var TIME = exports.TIME = _transition2.default.TIME;
@@ -4339,15 +4344,21 @@ var _orange_music = __webpack_require__(55);
 
 var _orange_music2 = _interopRequireDefault(_orange_music);
 
+var _playlists = __webpack_require__(356);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var REQUEST_LOG_IN = 'orange-music/session/REQUEST_LOG_IN';
+var RECIEVE_LOG_IN = 'orange-music/session/RECIEVE_LOG_IN';
 var LOG_IN_USER = 'orange-music/session/LOG_IN_USER';
+
 var LOG_OUT_USER = 'orange-music/session/LOG_OUT_USER';
 
 var initialState = {
   user: {},
   token: '',
-  loggedIn: false
+  loggedIn: false,
+  isLoggingIn: false
 };
 
 function reducer() {
@@ -4355,6 +4366,17 @@ function reducer() {
   var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   switch (action.type) {
+    case REQUEST_LOG_IN:
+      return _extends({}, state, {
+        user: {},
+        token: '',
+        loggedIn: false,
+        isLoggingIn: true
+      });
+    case RECIEVE_LOG_IN:
+      return _extends({}, state, {
+        isLoggingIn: false
+      });
     case LOG_IN_USER:
       return _extends({}, state, {
         user: action.user,
@@ -4368,26 +4390,26 @@ function reducer() {
   }
 }
 
+var requestLogIn = function requestLogIn() {
+  return { type: REQUEST_LOG_IN };
+};
+var receiveLogIn = function receiveLogIn() {
+  return { type: RECIEVE_LOG_IN };
+};
+
 var logInUserFromLocalStorage = exports.logInUserFromLocalStorage = function logInUserFromLocalStorage() {
   return function (dispatch) {
     var token = sessionStorage.getItem('token');
-
-    var redirectFromAccount = function redirectFromAccount() {
-      if (_history2.default.location.pathname === '/account') {
-        _history2.default.pushLocation('/signup');
-      }
-    };
-
     if (!token) {
-      return redirectFromAccount();
+      return;
     }
 
+    dispatch(requestLogIn());
     _orange_music2.default.verify({ token: token }).then(function (data) {
       if (data.success) {
         dispatch(logInUser(data.user, token));
-      } else {
-        redirectFromAccount();
       }
+      dispatch(receiveLogIn());
     });
   };
 };
@@ -4395,6 +4417,7 @@ var logInUserFromLocalStorage = exports.logInUserFromLocalStorage = function log
 var logInUser = exports.logInUser = function logInUser(user, token) {
   return function (dispatch) {
     dispatch({ type: LOG_IN_USER, user: user, token: token });
+    dispatch((0, _playlists.clearPlaylists)());
     sessionStorage.setItem('token', token);
   };
 };
@@ -5928,6 +5951,7 @@ exports.default = SCHEMA;
 
 var _url = __webpack_require__(145);
 
+/// STREAM
 module.exports.getVideo = function (_ref) {
   var query = _ref.query,
       artistQuery = _ref.artistQuery;
@@ -5941,6 +5965,7 @@ module.exports.getVideo = function (_ref) {
   });
 };
 
+/// USER
 module.exports.signUp = function (_ref2) {
   var name = _ref2.name,
       password = _ref2.password;
@@ -5979,6 +6004,32 @@ module.exports.verify = function (_ref4) {
   return new Promise(function (resolve, reject) {
     var url = (0, _url.getUrlWithUpdatedParams)('/api/v1/user/verify', { token: token });
     $.get(url, resolve).fail(reject);
+  });
+};
+
+/// PLAYLISTS
+module.exports.getPlaylists = function (_ref5) {
+  var token = _ref5.token;
+
+  return new Promise(function (resolve, reject) {
+    var url = (0, _url.getUrlWithUpdatedParams)('/api/v1/playlists', { token: token });
+    $.get(url, resolve).fail(reject);
+  });
+};
+
+module.exports.createPlaylist = function (_ref6) {
+  var token = _ref6.token,
+      name = _ref6.name;
+
+  return new Promise(function (resolve, reject) {
+    var data = { token: token, name: name };
+    $.post({
+      url: '/api/v1/playlists/create',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json'
+    });
   });
 };
 
@@ -9439,6 +9490,10 @@ var TableLayout = function (_React$Component) {
         };
       });
 
+      var $tabs = tabs.length > 1 ? _react2.default.createElement(_index.MatTabs, { tabs: tabs,
+        selectedTab: tableType,
+        onTabSelect: onTableTypeChange }) : _react2.default.createElement('div', null);
+
       var $table = '';
       if (tableSchema.entities.length > 0) {
         $table = displayType === _display.DISPLAY_TYPES.GALLERY ? _react2.default.createElement(_gallery2.default, { entities: tableSchema.entities,
@@ -9470,9 +9525,7 @@ var TableLayout = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: tableControlsContainerClassName },
-            _react2.default.createElement(_index.MatTabs, { tabs: tabs,
-              selectedTab: tableType,
-              onTabSelect: onTableTypeChange }),
+            $tabs,
             _react2.default.createElement(_display_type_picker2.default, { displayType: displayType,
               onDisplayTypeChange: onDisplayTypeChange })
           ),
@@ -16527,7 +16580,6 @@ var List = function List(_ref) {
     null,
     _react2.default.createElement(_flex_table2.default, { className: 'om-list',
       rowObjs: entities,
-      keyPath: 'mbid',
       schema: schema })
   );
 };
@@ -16558,8 +16610,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var FlexTable = function FlexTable(_ref) {
   var className = _ref.className,
       rowObjs = _ref.rowObjs,
-      keyPath = _ref.keyPath,
       schema = _ref.schema,
+      keyPath = _ref.keyPath,
       componentPath = _ref.componentPath,
       actions = _ref.actions;
 
@@ -16569,22 +16621,23 @@ var FlexTable = function FlexTable(_ref) {
   return _react2.default.createElement(
     'div',
     { className: className },
-    getRows({ rowObjs: rowObjs, keyPath: keyPath, schema: schema, componentPath: componentPath, actions: actions })
+    getRows({ rowObjs: rowObjs, schema: schema, keyPath: keyPath, componentPath: componentPath, actions: actions })
   );
 };
 
 var getRows = function getRows(_ref2) {
   var rowObjs = _ref2.rowObjs,
-      keyPath = _ref2.keyPath,
       schema = _ref2.schema,
+      keyPath = _ref2.keyPath,
       componentPath = _ref2.componentPath,
       actions = _ref2.actions;
 
   return rowObjs.map(function (rowObj) {
+    var key = keyPath ? rowObj[keyPath] : rowObj.mbid || rowObj.id;
     return _react2.default.createElement(
       'div',
       { className: 'row',
-        key: rowObj[keyPath] },
+        key: key },
       getColumns({ rowObj: rowObj, schema: schema, componentPath: componentPath, actions: actions })
     );
   });
@@ -16805,6 +16858,14 @@ var _session = __webpack_require__(41);
 
 var _session2 = _interopRequireDefault(_session);
 
+var _playlists = __webpack_require__(356);
+
+var _playlists2 = _interopRequireDefault(_playlists);
+
+var _create_playlist = __webpack_require__(373);
+
+var _create_playlist2 = _interopRequireDefault(_create_playlist);
+
 var _query_sync = __webpack_require__(330);
 
 var _query_sync2 = _interopRequireDefault(_query_sync);
@@ -16825,7 +16886,9 @@ var store = (0, _redux.createStore)((0, _redux.combineReducers)({
   queue: _queue2.default,
   signUp: _sign_up2.default,
   logIn: _log_in2.default,
-  session: _session2.default
+  session: _session2.default,
+  playlists: _playlists2.default,
+  createPlaylist: _create_playlist2.default
 }), {}, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
 
 // Sync store with url query params
@@ -33666,6 +33729,10 @@ var _account = __webpack_require__(355);
 
 var _account2 = _interopRequireDefault(_account);
 
+var _playlists = __webpack_require__(357);
+
+var _playlists2 = _interopRequireDefault(_playlists);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33711,7 +33778,8 @@ var App = function (_React$Component) {
               _react2.default.createElement(_reactRouterDom.Route, { path: '/queue', component: _queue2.default }),
               _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _sign_up2.default }),
               _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _log_in2.default }),
-              _react2.default.createElement(_reactRouterDom.Route, { path: '/account', component: _account2.default })
+              _react2.default.createElement(_reactRouterDom.Route, { path: '/account', component: _account2.default }),
+              _react2.default.createElement(_reactRouterDom.Route, { path: '/playlists', component: _playlists2.default })
             )
           )
         ),
@@ -34826,7 +34894,7 @@ var Gallery = function Gallery(_ref) {
     return _react2.default.createElement(
       'div',
       { className: 'gallery-item',
-        key: entity.mbid,
+        key: entity.mbid || entity.id,
         style: { flex: '0 0 ' + 100 / NUM_COLUMNS + '%' } },
       _react2.default.createElement(_gallery_tile2.default, { entity: entity, schema: schema, actions: actions })
     );
@@ -35686,6 +35754,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(16);
 
+var _history = __webpack_require__(40);
+
+var _history2 = _interopRequireDefault(_history);
+
 var _material = __webpack_require__(11);
 
 var _session = __webpack_require__(41);
@@ -35701,13 +35773,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Account = function (_React$Component) {
   _inherits(Account, _React$Component);
 
-  function Account() {
+  function Account(props) {
     _classCallCheck(this, Account);
 
-    return _possibleConstructorReturn(this, (Account.__proto__ || Object.getPrototypeOf(Account)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Account.__proto__ || Object.getPrototypeOf(Account)).call(this, props));
+
+    _this._redirect = _this._redirect.bind(_this);
+
+    _this._redirect(props);
+    return _this;
   }
 
   _createClass(Account, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this._redirect(newProps);
+    }
+  }, {
+    key: '_redirect',
+    value: function _redirect(props) {
+      var _ref = props || this.props,
+          loggedIn = _ref.loggedIn,
+          isLoggingIn = _ref.isLoggingIn;
+
+      if (!loggedIn && !isLoggingIn) {
+        _history2.default.pushLocation('/signup');
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -35745,7 +35838,9 @@ var Account = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    user: state.session.user
+    user: state.session.user,
+    loggedIn: state.session.loggedIn,
+    isLoggingIn: state.session.isLoggingIn
   };
 };
 
@@ -35758,6 +35853,673 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Account);
+
+/***/ }),
+/* 356 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.refreshPlaylists = exports.fetchPlaylists = exports.clearPlaylists = exports.receivePlaylists = exports.closeCreateModal = exports.openCreateModal = exports.setPlaylistsDisplayType = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = reducer;
+
+var _orange_music = __webpack_require__(55);
+
+var _orange_music2 = _interopRequireDefault(_orange_music);
+
+var _display = __webpack_require__(38);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SET_DISPLAY_TYPE = 'orange-music/playlists/SET_DISPLAY_TYPE';
+
+var OPEN_CREATE_MODAL = 'orange-music/playlists/OPEN_CREATE_MODAL';
+var CLOSE_CREATE_MODAL = 'orange-music/playlists/CLOSE_CREATE_MODAL';
+
+var REQUEST_PLAYLISTS = 'orange-music/playlists/REQUEST_PLAYLISTS';
+var RECEIVE_PLAYLISTS = 'orange-music/playlists/RECEIVE_PLAYLISTS';
+
+var CLEAR_PLAYLISTS = 'orange-music/playlists/CLEAR_PLAYLISTS';
+
+var initialState = {
+  displayType: _display.DISPLAY_TYPES.GALLERY,
+  isCreateModalOpen: false,
+  playlists: {
+    playlists: [],
+    isFetching: false,
+    fetched: false
+  }
+};
+
+function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  switch (action.type) {
+    case SET_DISPLAY_TYPE:
+      return _extends({}, state, {
+        displayType: action.displayType
+      });
+    case OPEN_CREATE_MODAL:
+      return _extends({}, state, {
+        isCreateModalOpen: true
+      });
+    case CLOSE_CREATE_MODAL:
+      return _extends({}, state, {
+        isCreateModalOpen: false
+      });
+    case REQUEST_PLAYLISTS:
+      return _extends({}, state, {
+        playlists: _extends({}, state.playlists, {
+          playlists: [],
+          fetched: false,
+          isFetching: true
+        })
+      });
+    case RECEIVE_PLAYLISTS:
+      return _extends({}, state, {
+        playlists: _extends({}, state.playlists, {
+          playlists: action.playlists,
+          fetched: true,
+          isFetching: false
+        })
+      });
+    case CLEAR_PLAYLISTS:
+      return _extends({}, state, {
+        playlists: Object.assign({}, initialState.playlists)
+      });
+    default:
+      return state;
+  }
+}
+
+var setPlaylistsDisplayType = exports.setPlaylistsDisplayType = function setPlaylistsDisplayType(displayType) {
+  return { type: SET_DISPLAY_TYPE, displayType: displayType };
+};
+
+var openCreateModal = exports.openCreateModal = function openCreateModal() {
+  return { type: OPEN_CREATE_MODAL };
+};
+var closeCreateModal = exports.closeCreateModal = function closeCreateModal() {
+  return { type: CLOSE_CREATE_MODAL };
+};
+
+var receivePlaylists = exports.receivePlaylists = function receivePlaylists(playlists) {
+  return { type: RECEIVE_PLAYLISTS, playlists: playlists };
+};
+
+var clearPlaylists = exports.clearPlaylists = function clearPlaylists() {
+  return { type: CLEAR_PLAYLISTS };
+};
+
+var fetchPlaylists = exports.fetchPlaylists = function fetchPlaylists() {
+  return function (dispatch, getState) {
+    var _getState = getState(),
+        session = _getState.session,
+        playlists = _getState.playlists;
+
+    var token = session.token;
+    var _playlists$playlists = playlists.playlists,
+        isFetching = _playlists$playlists.isFetching,
+        fetched = _playlists$playlists.fetched;
+
+
+    if (isFetching || fetched) {
+      return;
+    }
+
+    dispatch({ type: REQUEST_PLAYLISTS });
+    _orange_music2.default.getPlaylists({ token: token }).then(function (response) {
+      var playlists = response.playlists;
+      dispatch(receivePlaylists(playlists));
+    });
+  };
+};
+
+var refreshPlaylists = exports.refreshPlaylists = function refreshPlaylists() {
+  return function (dispatch) {
+    dispatch(clearPlaylists());
+    dispatch(fetchPlaylists());
+  };
+};
+
+/***/ }),
+/* 357 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(25);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactRedux = __webpack_require__(16);
+
+var _history = __webpack_require__(40);
+
+var _history2 = _interopRequireDefault(_history);
+
+var _playlists = __webpack_require__(358);
+
+var _playlists2 = _interopRequireDefault(_playlists);
+
+var _table_layout = __webpack_require__(88);
+
+var _table_layout2 = _interopRequireDefault(_table_layout);
+
+var _create_playlist = __webpack_require__(375);
+
+var _create_playlist2 = _interopRequireDefault(_create_playlist);
+
+var _material = __webpack_require__(11);
+
+var _playlists3 = __webpack_require__(356);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Playlists = function (_React$Component) {
+  _inherits(Playlists, _React$Component);
+
+  function Playlists(props) {
+    _classCallCheck(this, Playlists);
+
+    var _this = _possibleConstructorReturn(this, (Playlists.__proto__ || Object.getPrototypeOf(Playlists)).call(this, props));
+
+    _this._redirectOrFetch = _this._redirectOrFetch.bind(_this);
+    _this._focusCreatePlaylistForm = _this._focusCreatePlaylistForm.bind(_this);
+
+    _this._redirectOrFetch(props);
+    return _this;
+  }
+
+  _createClass(Playlists, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this._redirectOrFetch(newProps);
+    }
+  }, {
+    key: '_redirectOrFetch',
+    value: function _redirectOrFetch(props) {
+      var _ref = props || this.props,
+          loggedIn = _ref.loggedIn,
+          isLoggingIn = _ref.isLoggingIn,
+          fetchPlaylists = _ref.fetchPlaylists;
+
+      if (!isLoggingIn) {
+        if (loggedIn) {
+          fetchPlaylists();
+        } else {
+          _history2.default.pushLocation('/signup');
+        }
+      }
+    }
+  }, {
+    key: '_focusCreatePlaylistForm',
+    value: function _focusCreatePlaylistForm() {
+      $(_reactDom2.default.findDOMNode(this)).find('.create-playlist .mat-input input').focus();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          playlists = _props.playlists,
+          isFetching = _props.isFetching,
+          displayType = _props.displayType,
+          setDisplayType = _props.setDisplayType,
+          isCreateModalOpen = _props.isCreateModalOpen,
+          openCreateModal = _props.openCreateModal;
+
+
+      var schema = Object.assign({}, _playlists2.default);
+
+      schema[_playlists.PLAYLISTS_TABLE_TYPES.PLAYLISTS].entities = playlists;
+      schema[_playlists.PLAYLISTS_TABLE_TYPES.PLAYLISTS].isFetching = isFetching;
+      schema[_playlists.PLAYLISTS_TABLE_TYPES.PLAYLISTS].emptyTable = _react2.default.createElement(
+        'div',
+        { className: 'empty-table-msg' },
+        'You have no playlists.'
+      );
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'playlists' },
+        _react2.default.createElement(
+          _table_layout2.default,
+          { schema: schema,
+            tableType: _playlists.PLAYLISTS_TABLE_TYPES.PLAYLISTS,
+            displayType: displayType,
+            onDisplayTypeChange: setDisplayType },
+          _react2.default.createElement(_material.MatButton, { text: 'New Playlist',
+            className: 'new-playlist-btn',
+            onClick: function onClick() {
+              openCreateModal();
+              _this2._focusCreatePlaylistForm();
+            } })
+        ),
+        _react2.default.createElement(
+          _material.MatModal,
+          { isOpen: isCreateModalOpen },
+          _react2.default.createElement(_create_playlist2.default, null)
+        )
+      );
+    }
+  }]);
+
+  return Playlists;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    isCreateModalOpen: state.playlists.isCreateModalOpen,
+    playlists: state.playlists.playlists.playlists,
+    isFetching: state.playlists.playlists.isFetching,
+    displayType: state.playlists.displayType,
+    loggedIn: state.session.loggedIn,
+    isLoggingIn: state.session.isLoggingIn
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setDisplayType: function setDisplayType(displayType) {
+      dispatch((0, _playlists3.setPlaylistsDisplayType)(displayType));
+    },
+    fetchPlaylists: function fetchPlaylists() {
+      dispatch((0, _playlists3.fetchPlaylists)());
+    },
+    openCreateModal: function openCreateModal() {
+      dispatch((0, _playlists3.openCreateModal)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Playlists);
+
+/***/ }),
+/* 358 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PLAYLISTS_TABLE_TYPES = undefined;
+
+var _playlists = __webpack_require__(359);
+
+var _playlists2 = _interopRequireDefault(_playlists);
+
+var _playlists3 = __webpack_require__(360);
+
+var _playlists4 = _interopRequireDefault(_playlists3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PLAYLISTS_TABLE_TYPES = exports.PLAYLISTS_TABLE_TYPES = {
+  PLAYLISTS: '0'
+};
+
+var SCHEMA = {};
+SCHEMA[PLAYLISTS_TABLE_TYPES.PLAYLISTS] = {
+  label: '@NA',
+  listSchema: _playlists2.default,
+  gallerySchema: _playlists4.default,
+  endOfTable: true /* All playlists are always loaded on component load */
+};
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 359 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _text_cell = __webpack_require__(314);
+
+var _text_cell2 = _interopRequireDefault(_text_cell);
+
+var _image_cell = __webpack_require__(148);
+
+var _image_cell2 = _interopRequireDefault(_image_cell);
+
+var _mock_image_cell = __webpack_require__(149);
+
+var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SCHEMA = {
+  image: {
+    label: _mock_image_cell2.default,
+    width: 0,
+    component: _image_cell2.default
+  },
+  name: {
+    label: 'Name',
+    width: '100%',
+    component: _text_cell2.default
+  }
+};
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 360 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SCHEMA = {
+  titlePath: 'name',
+  subtitlePath: '@NA',
+  imagePath: 'image',
+  actions: {}
+};
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MatModal = function MatModal(_ref) {
+  var children = _ref.children,
+      isOpen = _ref.isOpen,
+      className = _ref.className;
+
+  className = className ? className + ' mat-modal' : 'mat-modal';
+  if (isOpen) {
+    className += ' open';
+  }
+
+  return _react2.default.createElement(
+    'div',
+    { className: className },
+    children
+  );
+};
+
+exports.default = MatModal;
+
+/***/ }),
+/* 373 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.submitForm = exports.validateName = exports.setName = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = reducer;
+
+var _orange_music = __webpack_require__(55);
+
+var _orange_music2 = _interopRequireDefault(_orange_music);
+
+var _playlist = __webpack_require__(374);
+
+var _playlist2 = _interopRequireDefault(_playlist);
+
+var _playlists = __webpack_require__(356);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SET_NAME = 'orange-music/create_playlist/SET_NAME';
+var SET_NAME_ERRORS = 'orange-music/create_playlist/SET_NAME_ERRORS';
+var CLEAR_FORM = 'orange-music/create_playlist/CLEAR_FORM';
+
+var initialState = {
+  name: '',
+  errors: {
+    name: []
+  }
+};
+
+function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  switch (action.type) {
+    case SET_NAME:
+      return _extends({}, state, {
+        name: action.name
+      });
+    case SET_NAME_ERRORS:
+      return _extends({}, state, {
+        errors: _extends({}, state.errors, {
+          name: action.errors
+        })
+      });
+    case CLEAR_FORM:
+      return Object.assign({}, initialState);
+    default:
+      return state;
+  }
+}
+
+var setName = exports.setName = function setName(name) {
+  return { type: SET_NAME, name: name };
+};
+
+var setNameErrors = function setNameErrors(errors) {
+  return { type: SET_NAME_ERRORS, errors: errors };
+};
+
+var clearForm = function clearForm() {
+  return { type: CLEAR_FORM };
+};
+
+var validateName = exports.validateName = function validateName() {
+  return function (dispatch, getState) {
+    var errors = (0, _playlist2.default)({ name: getState().createPlaylist.name });
+    dispatch(setNameErrors(errors.name));
+  };
+};
+
+var submitForm = exports.submitForm = function submitForm() {
+  return function (dispatch, getState) {
+    dispatch(validateName());
+
+    var state = getState();
+    var _state$createPlaylist = state.createPlaylist,
+        name = _state$createPlaylist.name,
+        errors = _state$createPlaylist.errors;
+    var token = state.session.token;
+
+
+    if (errors.name.length === 0) {
+      _orange_music2.default.createPlaylist({ token: token, name: name }).then(function (data) {
+        if (data.errors) {
+          dispatch(setNameErrors(data.errors.name || []));
+        } else {
+          dispatch((0, _playlists.refreshPlaylists)());
+          dispatch((0, _playlists.closeCreateModal)());
+          dispatch(clearForm());
+        }
+      });
+    }
+  };
+};
+
+/***/ }),
+/* 374 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var validateName = function validateName(name) {
+  var errors = [];
+
+  if (typeof name !== 'string') {
+    errors.push('Invalid type.');
+  } else if (name.length <= 0) {
+    errors.push("Can't be empty.");
+  }
+
+  return errors;
+};
+
+var validate = function validate(_ref) {
+  var name = _ref.name;
+
+  var errors = {};
+
+  errors.name = validateName(name);
+
+  return errors;
+};
+
+module.exports = validate;
+
+/***/ }),
+/* 375 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(16);
+
+var _material = __webpack_require__(11);
+
+var _playlists = __webpack_require__(356);
+
+var _create_playlist = __webpack_require__(373);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CreatePlaylist = function CreatePlaylist(_ref) {
+  var name = _ref.name,
+      errors = _ref.errors,
+      setName = _ref.setName,
+      submitForm = _ref.submitForm,
+      closeCreateModal = _ref.closeCreateModal;
+
+  var $nameErrors = errors.name.map(function (err) {
+    return _react2.default.createElement(
+      'div',
+      { className: 'err-msg', key: err },
+      err
+    );
+  });
+  if (errors.name.length === 0) {
+    $nameErrors = _react2.default.createElement('div', { className: 'err-msg' });
+  }
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'create-playlist' },
+    _react2.default.createElement(
+      'div',
+      { className: 'form' },
+      _react2.default.createElement(_material.MatInput, { value: name,
+        onValueChange: setName,
+        placeholder: 'Playlist Name' }),
+      $nameErrors,
+      _react2.default.createElement(_material.MatButton, { text: 'Create Playlist!', onClick: submitForm })
+    ),
+    _react2.default.createElement(_material.MatButton, { icon: 'close', onClick: closeCreateModal, className: 'close-btn' })
+  );
+};
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    name: state.createPlaylist.name,
+    errors: state.createPlaylist.errors
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setName: function setName(name) {
+      dispatch((0, _create_playlist.setName)(name));
+    },
+    submitForm: function submitForm() {
+      dispatch((0, _create_playlist.submitForm)());
+    },
+    closeCreateModal: function closeCreateModal() {
+      dispatch((0, _playlists.closeCreateModal)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CreatePlaylist);
 
 /***/ })
 /******/ ]);

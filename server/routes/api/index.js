@@ -4,6 +4,7 @@ const JWT_SECRET = require('../../secrets/jwt');
 const bodyParser = require('body-parser');
 const stream = require('./stream');
 const user = require('./user');
+const playlists = require('./playlists');
 
 /// JSON API.
 router.use(bodyParser.json());
@@ -28,5 +29,6 @@ router.use((req, res, next) => {
 
 router.use('/stream', stream);
 router.use('/user', user);
+router.use('/playlists', playlists);
 
 module.exports = router;

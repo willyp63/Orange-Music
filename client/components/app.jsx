@@ -11,6 +11,7 @@ import Queue from './queue/queue';
 import SignUp from './sign_up/sign_up';
 import LogIn from './log_in/log_in';
 import Account from './account/account';
+import Playlists from './playlists/playlists';
 
 class App extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class App extends React.Component {
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={LogIn} />
               <Route path="/account" component={Account} />
+              <Route path="/playlists" component={Playlists} />
             </div>
           </div>
         </div>

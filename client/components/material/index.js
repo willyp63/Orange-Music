@@ -5,6 +5,7 @@ import MatSlider_1 from './components/mat_slider/mat_slider';
 import MatSpinner_1 from './components/mat_spinner/mat_spinner';
 import MatTabs_1 from './components/mat_tabs/mat_tabs';
 import MatInput_1 from './components/mat_input/mat_input';
+import MatModal_1 from './components/mat_modal/mat_modal';
 
 import Grid from './css/grid';
 import Transition from './css/transition';
@@ -17,6 +18,7 @@ export const MatSlider = MatSlider_1;
 export const MatSpinner = MatSpinner_1;
 export const MatTabs = MatTabs_1;
 export const MatInput = MatInput_1;
+export const MatModal = MatModal_1;
 
 export const GRID = Grid.GRID;
 export const TIME = Transition.TIME;

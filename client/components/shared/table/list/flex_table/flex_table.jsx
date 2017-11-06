@@ -2,25 +2,28 @@ import React from 'react';
 import { isNotEmpty } from '../../../../../util/empty';
 import { getNestedFieldValue } from '../../../../../util/nested_field';
 
-const FlexTable = ({className, rowObjs, keyPath, schema,
+const FlexTable = ({className, rowObjs, schema, keyPath,
     componentPath, actions}) => {
 
   className = className ? className + ' flex-table' : 'flex-table';
 
   return (
     <div className={className}>
-      {getRows({rowObjs, keyPath, schema, componentPath, actions})}
+      {getRows({rowObjs, schema, keyPath, componentPath, actions})}
     </div>
   );
 }
 
-const getRows = ({rowObjs, keyPath, schema, componentPath, actions}) => {
-  return rowObjs.map((rowObj) => (
-    <div className="row"
-         key={rowObj[keyPath]}>
-      {getColumns({rowObj, schema, componentPath, actions})}
-    </div>
-  ));
+const getRows = ({rowObjs, schema, keyPath, componentPath, actions}) => {
+  return rowObjs.map((rowObj) => {
+    const key = keyPath ? rowObj[keyPath] : (rowObj.mbid || rowObj.id);
+    return (
+      <div className="row"
+           key={key}>
+        {getColumns({rowObj, schema, componentPath, actions})}
+      </div>
+    );
+  });
 }
 
 const getColumns = ({rowObj, schema, componentPath, actions}) => {

@@ -12,8 +12,9 @@ const createUsers = `
 const createPlaylists = `
   CREATE TABLE IF NOT EXISTS playlists(
     id SERIAL PRIMARY KEY,
-    userId integer REFERENCES users,
-    name text UNIQUE
+    user_id integer REFERENCES users,
+    name text CHECK (char_length(name) >= 1),
+    UNIQUE(user_id, name)
   );
 `;
 
@@ -21,18 +22,18 @@ const createTracks = `
   CREATE TABLE IF NOT EXISTS tracks(
     id SERIAL PRIMARY KEY,
     name text,
-    artistName text,
+    artist_name text,
     image JSONB,
-    UNIQUE(name, artistName)
+    UNIQUE(name, artist_name)
   );
 `;
 
 const createPlaylistAdds = `
-  CREATE TABLE IF NOT EXISTS playlistAdds(
+  CREATE TABLE IF NOT EXISTS playlist_adds(
     id SERIAL PRIMARY KEY,
-    playlistId integer REFERENCES playlists,
-    trackId integer REFERENCES tracks,
-    UNIQUE(playlistId, trackId)
+    playlist_id integer REFERENCES playlists,
+    track_id integer REFERENCES tracks,
+    UNIQUE(playlist_id, track_id)
   );
 `;
 

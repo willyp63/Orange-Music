@@ -36,6 +36,12 @@ class TableLayout extends React.Component {
       };
     });
 
+    const $tabs = tabs.length > 1
+      ? (<MatTabs tabs={tabs}
+                  selectedTab={tableType}
+                  onTabSelect={onTableTypeChange} />)
+      : <div></div>;
+
     let $table = '';
     if (tableSchema.entities.length > 0) {
       $table = displayType === DISPLAY_TYPES.GALLERY
@@ -70,9 +76,7 @@ class TableLayout extends React.Component {
         <NavBar>
           {children}
           <div className={tableControlsContainerClassName}>
-            <MatTabs tabs={tabs}
-                     selectedTab={tableType}
-                     onTabSelect={onTableTypeChange} />
+            {$tabs}
             <DisplayTypePicker displayType={displayType}
                                onDisplayTypeChange={onDisplayTypeChange} />
           </div>

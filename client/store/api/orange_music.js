@@ -1,5 +1,7 @@
 import { getUrlWithUpdatedParams } from '../../util/url';
 
+
+/// STREAM
 module.exports.getVideo = ({query, artistQuery}) => {
   return new Promise((resolve, reject) => {
     const url = getUrlWithUpdatedParams('/api/v1/stream/video', {
@@ -10,6 +12,8 @@ module.exports.getVideo = ({query, artistQuery}) => {
   });
 };
 
+
+/// USER
 module.exports.signUp = ({name, password}) => {
   return new Promise((resolve, reject) => {
     const data = {name, password};
@@ -40,5 +44,27 @@ module.exports.verify = ({token}) => {
   return new Promise((resolve, reject) => {
     const url = getUrlWithUpdatedParams('/api/v1/user/verify', {token});
     $.get(url, resolve).fail(reject);
+  });
+};
+
+
+/// PLAYLISTS
+module.exports.getPlaylists = ({token}) => {
+  return new Promise((resolve, reject) => {
+    const url = getUrlWithUpdatedParams('/api/v1/playlists', {token});
+    $.get(url, resolve).fail(reject);
+  });
+};
+
+module.exports.createPlaylist = ({token, name}) => {
+  return new Promise((resolve, reject) => {
+    const data = {token, name};
+    $.post({
+      url: '/api/v1/playlists/create',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json',
+    });
   });
 };
