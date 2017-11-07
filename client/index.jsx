@@ -9,11 +9,9 @@ import logger from 'redux-logger';
 import home from './store/modules/home';
 import search from './store/modules/search';
 import queue from './store/modules/queue';
-import signUp from './store/modules/sign_up';
-import logIn from './store/modules/log_in';
+import form from './store/modules/form';
 import session from './store/modules/session';
 import playlists from './store/modules/playlists';
-import createPlaylist from './store/modules/create_playlist';
 
 import querySync from './store/query_sync/query_sync';
 import history from './history/history';
@@ -24,11 +22,9 @@ const store = createStore(
     home,
     search,
     queue,
-    signUp,
-    logIn,
+    form,
     session,
     playlists,
-    createPlaylist,
   }),
   {},
   applyMiddleware(thunk, logger)

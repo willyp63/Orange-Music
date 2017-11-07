@@ -756,6 +756,46 @@ i {
   flex-direction: column;
   align-items: center;
 }
+.om-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.om-form .centered {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.om-form .centered .mat-input {
+  width: 400px;
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: inherit;
+}
+.om-form .centered .mat-input:first-of-type {
+  margin-top: 0;
+}
+.om-form .centered .err-msg {
+  color: #F44336;
+  width: 100%;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  text-transform: inherit;
+}
+.om-form .centered .mat-btn {
+  margin-top: 32px;
+}
+.om-form .centered .mat-btn .mat-ripple s {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+.om-form .centered .mat-btn .inner-btn {
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: inherit;
+}
 .playlists .new-playlist-btn {
   margin-left: 64px;
 }
@@ -795,7 +835,7 @@ i {
   border-radius: 50%;
 }
 .create-playlist .close-btn .inner-btn {
-  color: #424242;
+  color: #000000;
   transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .create-playlist .close-btn .inner-btn.disabled {

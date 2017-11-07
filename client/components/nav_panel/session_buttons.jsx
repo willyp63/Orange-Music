@@ -1,21 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import history from '../../history/history';
 import { MatButton } from '../material';
+import { showForm, hideForm, setFormSchema } from '../../store/modules/form';
 
-const SessionButtons = ({user, loggedIn}) => {
-  const logIn = () => history.pushLocation('/login');
-  const signUp = () => history.pushLocation('/signup');
-  const account = () => history.pushLocation('/account');
+const signUpFormSchema = {
+  submitButtonText: 'Sign Up!',
+  submitAction: hideForm,
+  fields: [
+    {
+      name: 'name',
+      label: 'Name',
+    },
+    {
+      name: 'password',
+      label: 'Password',
+    },
+  ],
+};
+
+const SessionButtons = ({user, loggedIn, setFormSchema, showForm}) => {
+  const signUp = () => {
+    setFormSchema(signUpFormSchema);
+    showForm();
+  };
 
   return loggedIn
     ? (
       <div className='session-btns logged-in'>
-        <MatButton text={user.name} icon='person' iconFirst={true} onClick={account} />
+        <MatButton text={user.name} icon='person' iconFirst={true} onClick={signUp} />
       </div>
     ) : (
       <div className='session-btns'>
-        <MatButton text='Log In' onClick={logIn} />
+        <MatButton text='Log In' onClick={signUp} />
         <div className="divider"></div>
         <MatButton text='Sign Up' onClick={signUp} />
       </div>
@@ -30,7 +46,10 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    showForm: () => dispatch(showForm()),
+    setFormSchema: (schema) => dispatch(setFormSchema(schema)),
+  };
 };
 
 export default connect(

@@ -5,12 +5,10 @@ import { logInUserFromLocalStorage } from '../store/modules/session';
 
 import NavPanel from './nav_panel/nav_panel';
 import Player from './player/player';
+import Form from './form/form';
 import Home from './home/home';
 import Search from './search/search';
 import Queue from './queue/queue';
-import SignUp from './sign_up/sign_up';
-import LogIn from './log_in/log_in';
-import Account from './account/account';
 import Playlists from './playlists/playlists';
 
 class App extends React.Component {
@@ -30,9 +28,6 @@ class App extends React.Component {
               <Route exact path="/" component={Home} />
               <Route path="/search" component={Search} />
               <Route path="/queue" component={Queue} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/login" component={LogIn} />
-              <Route path="/account" component={Account} />
               <Route path="/playlists" component={Playlists} />
             </div>
           </div>
@@ -40,6 +35,7 @@ class App extends React.Component {
         <div className="player-container">
           <Player />
         </div>
+        <Form />
       </div>
     );
   }
