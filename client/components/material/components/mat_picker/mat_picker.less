@@ -1,17 +1,34 @@
 .mat-picker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
 
-  .mat-btn {
-    margin-bottom: @grid * 2;
 
-    .inner-btn {
-      .font-title();
-    }
+
+  overflow-y: scroll;
+
+  .mat-input {
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    background-color: @white;
+    z-index: 100;
   }
 
-  .mat-btn:last-of-type {
-    margin-bottom: 0;
+  .options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .mat-btn {
+      margin-bottom: @grid * 2;
+
+      .inner-btn {
+        .font-title();
+      }
+    }
+
+    .mat-btn:last-of-type {
+      margin-bottom: 0;
+    }
   }
 }

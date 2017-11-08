@@ -32691,9 +32691,12 @@ var MatInput = function (_React$Component) {
           value = _props.value,
           placeholder = _props.placeholder,
           onValueChange = _props.onValueChange,
-          onButtonClick = _props.onButtonClick;
+          onButtonClick = _props.onButtonClick,
+          className = _props.className;
       var isFocused = this.state.isFocused;
 
+
+      var className1 = className ? className + ' mat-input' : 'mat-input';
 
       var placeholderClassName = 'placeholder';
       if (isFocused || (0, _empty.isNotEmpty)(value)) {
@@ -32707,7 +32710,7 @@ var MatInput = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'mat-input' },
+        { className: className1 },
         _react2.default.createElement(
           'div',
           { className: 'placeholder-container' },
@@ -35871,18 +35874,19 @@ var Form = function Form(_ref) {
         fieldSchema.onValueChange();
       }
     };
-    var $errors = errors.map(function (error) {
+
+    var $errors = errors.length > 0 ? errors.map(function (error) {
       return _react2.default.createElement(
         'div',
         { className: 'err-msg', key: error },
         error
       );
-    });
+    }) : _react2.default.createElement('div', { className: 'err-msg' });
 
     if (type === 'picker') {
       return _react2.default.createElement(
         'div',
-        { key: fieldSchema.name },
+        { key: fieldSchema.name, className: 'picker-field' },
         _react2.default.createElement(_material.MatPicker, { options: fieldSchema.options, onOptionSelect: onValueChange }),
         $errors
       );
@@ -35890,7 +35894,7 @@ var Form = function Form(_ref) {
       return _react2.default.createElement(
         'div',
         { key: fieldSchema.name },
-        _react2.default.createElement(_material.MatInput, { value: value, onValueChange: onValueChange, placeholder: placeholder }),
+        _react2.default.createElement(_material.MatInput, { className: 'input-field', value: value, onValueChange: onValueChange, placeholder: placeholder }),
         $errors
       );
     }
@@ -36161,6 +36165,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -36169,22 +36175,68 @@ var _mat_button = __webpack_require__(87);
 
 var _mat_button2 = _interopRequireDefault(_mat_button);
 
+var _mat_input = __webpack_require__(324);
+
+var _mat_input2 = _interopRequireDefault(_mat_input);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MatPicker = function MatPicker(_ref) {
-  var options = _ref.options,
-      onOptionSelect = _ref.onOptionSelect;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  var $options = options.map(function (option) {
-    return _react2.default.createElement(_mat_button2.default, { text: option, onClick: onOptionSelect.bind(null, option), key: option });
-  });
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  return _react2.default.createElement(
-    'div',
-    { className: 'mat-picker' },
-    $options
-  );
-};
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MatPicker = function (_React$Component) {
+  _inherits(MatPicker, _React$Component);
+
+  function MatPicker(props) {
+    _classCallCheck(this, MatPicker);
+
+    var _this = _possibleConstructorReturn(this, (MatPicker.__proto__ || Object.getPrototypeOf(MatPicker)).call(this, props));
+
+    _this.state = {
+      query: ''
+    };
+    return _this;
+  }
+
+  _createClass(MatPicker, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          options = _props.options,
+          onOptionSelect = _props.onOptionSelect;
+      var query = this.state.query;
+
+
+      var $options = options.map(function (option) {
+        return _react2.default.createElement(_mat_button2.default, { text: option, onClick: onOptionSelect.bind(null, option), key: option });
+      });
+
+      var $input = options.length > 5 ? _react2.default.createElement(_mat_input2.default, { value: query,
+        placeholder: 'Search ...',
+        onValueChange: function onValueChange(newValue) {
+          return _this2.setState({ query: newValue });
+        } }) : '';
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'mat-picker' },
+        $input,
+        _react2.default.createElement(
+          'div',
+          { className: 'options' },
+          $options
+        )
+      );
+    }
+  }]);
+
+  return MatPicker;
+}(_react2.default.Component);
 
 exports.default = MatPicker;
 

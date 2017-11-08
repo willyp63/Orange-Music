@@ -18,13 +18,14 @@ const Form = ({ isVisible, schema, fields, setFieldValue, submitForm, hideForm }
         fieldSchema.onValueChange();
       }
     };
-    const $errors = errors.map(error => {
-      return (<div className='err-msg' key={error}>{error}</div>);
-    });
+
+    let $errors = errors.length > 0
+      ? errors.map(error => (<div className='err-msg' key={error}>{error}</div>))
+      : (<div className='err-msg'></div>);
 
     if (type === 'picker') {
       return (
-        <div key={fieldSchema.name}>
+        <div key={fieldSchema.name} className='picker-field'>
           <MatPicker options={fieldSchema.options} onOptionSelect={onValueChange} />
           {$errors}
         </div>
@@ -32,7 +33,7 @@ const Form = ({ isVisible, schema, fields, setFieldValue, submitForm, hideForm }
     } else {
       return (
         <div key={fieldSchema.name}>
-          <MatInput value={value} onValueChange={onValueChange} placeholder={placeholder} />
+          <MatInput className='input-field' value={value} onValueChange={onValueChange} placeholder={placeholder} />
           {$errors}
         </div>
       );

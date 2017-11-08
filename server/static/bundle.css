@@ -266,19 +266,30 @@ body {
   opacity: 1;
 }
 .mat-picker {
+  position: relative;
+  overflow-y: scroll;
+}
+.mat-picker .mat-input {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #FFFFFF;
+  z-index: 100;
+}
+.mat-picker .options {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.mat-picker .mat-btn {
+.mat-picker .options .mat-btn {
   margin-bottom: 16px;
 }
-.mat-picker .mat-btn .inner-btn {
+.mat-picker .options .mat-btn .inner-btn {
   font-size: 20px;
   font-weight: 400;
   text-transform: inherit;
 }
-.mat-picker .mat-btn:last-of-type {
+.mat-picker .options .mat-btn:last-of-type {
   margin-bottom: 0;
 }
 html,
@@ -699,27 +710,29 @@ i {
   font-size: 36px;
 }
 .om-form .centered {
-  height: 100%;
-  width: 100%;
-  padding: 16px;
-  overflow-y: scroll;
+  margin: 16px;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
-.om-form .centered .mat-input {
+.om-form .centered .input-field {
   width: 400px;
   margin-top: 16px;
   font-size: 24px;
   font-weight: 300;
   text-transform: inherit;
 }
-.om-form .centered .mat-input:first-of-type {
+.om-form .centered .input-field:first-of-type {
   margin-top: 0;
+}
+.om-form .centered .mat-picker {
+  min-width: 240px;
+  max-height: 55vh;
 }
 .om-form .centered .err-msg {
   color: #F44336;
   width: 100%;
+  height: 1em;
   margin-top: 4px;
   font-size: 15px;
   font-weight: 400;

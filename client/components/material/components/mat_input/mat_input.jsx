@@ -8,8 +8,10 @@ class MatInput extends React.Component {
     this.state = {isFocused: false};
   }
   render() {
-    const { value, placeholder, onValueChange, onButtonClick } = this.props;
+    const { value, placeholder, onValueChange, onButtonClick, className } = this.props;
     const { isFocused } = this.state;
+
+    let className1 = className ? className + ' mat-input' : 'mat-input';
 
     let placeholderClassName = 'placeholder';
     if (isFocused || isNotEmpty(value)) { placeholderClassName += ' lifted'; }
@@ -18,7 +20,7 @@ class MatInput extends React.Component {
     if (isFocused) { underlineClassName += ' filled'; }
 
     return (
-      <div className='mat-input'>
+      <div className={className1}>
         <div className='placeholder-container'>
           <span className={placeholderClassName}>{placeholder}</span>
         </div>

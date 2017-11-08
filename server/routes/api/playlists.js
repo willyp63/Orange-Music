@@ -59,6 +59,31 @@ router.post('/create', async (req, res) => {
   }
 });
 
+/// Add a track to a user's playlist
+///
+/// Params: {
+///   playlistName: Playlist's name,
+///   track: Track Obj,
+/// }
+router.post('/addto', async (req, res) => {
+  const userId = req.user.id;
+  const { playlistName, track } = req.body;
+
+  try {
+    // Insert playlist
+    await db.query(insertPlaylist(userId, name));
+    res.json({success: true});
+  } catch (err) {
+    if (err.constraint === 'playlists_user_id_name_key') {
+      // Database error indicates that name is not unique
+      const errors = {name: ['Name is already taken.']};
+      res.json({success: false, errors});
+    } else {
+      res.json({success: false, errors: {name: [err]}});
+    }
+  }
+});
+
 const insertPlaylist = (userId, name) => ({
   text: `
     INSERT INTO playlists(user_id, name)
