@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
+import history from '../history';
 import { startSessionFromLocalStorage } from '../store/modules/session';
 
 import NavPanel from './nav_panel/nav_panel';
@@ -14,7 +15,27 @@ import Playlists from './playlists/playlists';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this._willMountRoute = this._willMountRoute.bind(this);
+
     props.startSessionFromLocalStorage();
+    this._willMountRoute(props);
+  }
+  componentWillReceiveProps(newProps) {
+    this._willMountRoute(newProps);
+  }
+  _willMountRoute(newProps) {
+    const pathname = history.location.pathname;
+    switch (pathname) {
+      case '/playlists':
+        this._willMountProtectedRoute(newProps);
+        break;
+    }
+    this.lastPathname = pathname;
+  }
+  _willMountProtectedRoute(newProps) {
+    if (!newProps.isLoggingIn && !newProps.user) {
+      history.pushLocation(this.lastPathname || '/');
+    }
   }
   render() {
     return (
@@ -42,7 +63,10 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {};
+  return {
+    isLoggingIn: state.session.isLoggingIn,
+    user: state.session.user,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

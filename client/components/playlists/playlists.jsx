@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import history from '../../history/history';
 import TABLE_SCHEMA, { PLAYLISTS_TABLE_TYPES } from '../../schemas/table/playlists';
 import TableLayout from '../shared/table_layout/table_layout';
 import { MatButton } from '../material';

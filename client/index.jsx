@@ -14,7 +14,7 @@ import session from './store/modules/session';
 import playlists from './store/modules/playlists';
 
 import querySync from './store/query_sync/query_sync';
-import history from './history/history';
+import history from './history';
 import App from './components/app';
 
 const store = createStore(

@@ -1,34 +1,29 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import history from '../../history';
 import SessionButtons from './session_buttons';
 import { MatButton } from '../material/index';
 
-const NavPanel = ({history, location}) => {
-  const pushPath = (path) => {
-    const { pathname, search } = location;
-    if (pathname !== path) { history.push(path + search); }
-  };
-
+const NavPanel = () => {
   return (
     <div className="om-nav-panel">
       <div className="nav-btns">
         <MatButton className='home-btn'
                    icon={'icon-orange-slice'}
-                   onClick={() => { pushPath('/'); }} />
+                   onClick={() => { history.pushLocation('/'); }} />
         <div className="divider"></div>
         <MatButton className='search-btn'
                    text={'SEARCH'}
                    icon={'search'}
-                   onClick={() => { pushPath('/search'); }} />
+                   onClick={() => { history.pushLocation('/search'); }} />
         <div className="divider"></div>
         <MatButton text={'QUEUE'}
-                   onClick={() => { pushPath('/queue'); }} />
+                   onClick={() => { history.pushLocation('/queue'); }} />
         <MatButton text={'PLAYLISTS'}
-                   onClick={() => { pushPath('/playlists'); }} />
+                   onClick={() => { history.pushLocation('/playlists'); }} />
       </div>
       <SessionButtons />
     </div>
   );
 };
 
-export default withRouter(NavPanel);
+export default NavPanel;

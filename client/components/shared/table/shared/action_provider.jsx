@@ -1,10 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import history from '../../../../history';
 import { connect } from 'react-redux';
 import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../store/modules/queue';
 
 const ActionProvider = ({play, addToQueue, removeFromQueue, removeFromHistory,
-    history, children}) => {
+    children}) => {
 
   const goToArtist = artistName => {
     history.pushLocation('/search', {q: artistName, tt: '0'});
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ActionProvider));
+)(ActionProvider);

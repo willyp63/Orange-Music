@@ -2777,53 +2777,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createBrowserHistory = __webpack_require__(78);
-
-var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
-
-var _urlSearchParams = __webpack_require__(161);
-
-var _urlSearchParams2 = _interopRequireDefault(_urlSearchParams);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var history = (0, _createBrowserHistory2.default)();
-
-history.pushLocation = function (pathname, search) {
-  var location = history.location;
-  var locationParams = new _urlSearchParams2.default(location.search);
-
-  Object.keys(search || {}).forEach(function (param) {
-    locationParams.set(param, search[param]);
-  });
-
-  search = '?' + locationParams;
-  var oldSearch = location.search || '?';
-
-  if (search !== oldSearch || pathname !== location.pathname) {
-    var newLocation = {
-      pathname: pathname,
-      search: search,
-      hash: location.hash,
-      state: location.state
-    };
-    history.push(newLocation);
-  }
-};
-
-exports.default = history;
-
-/***/ }),
+/* 24 */,
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16488,49 +16442,7 @@ URLSearchParams = (module.exports = global.URLSearchParams || URLSearchParams);
 /***/ }),
 /* 162 */,
 /* 163 */,
-/* 164 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__ = __webpack_require__(139);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prompt__ = __webpack_require__(141);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_1__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Redirect__ = __webpack_require__(142);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_2__Redirect__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(82);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_3__Route__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(52);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_4__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__StaticRouter__ = __webpack_require__(144);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_5__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Switch__ = __webpack_require__(145);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_6__Switch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(53);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_7__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(146);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
+/* 164 */,
 /* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16706,7 +16618,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(164);
+var _history = __webpack_require__(368);
+
+var _history2 = _interopRequireDefault(_history);
 
 var _reactRedux = __webpack_require__(13);
 
@@ -16719,12 +16633,11 @@ var ActionProvider = function ActionProvider(_ref) {
       addToQueue = _ref.addToQueue,
       removeFromQueue = _ref.removeFromQueue,
       removeFromHistory = _ref.removeFromHistory,
-      history = _ref.history,
       children = _ref.children;
 
 
   var goToArtist = function goToArtist(artistName) {
-    history.pushLocation('/search', { q: artistName, tt: '0' });
+    _history2.default.pushLocation('/search', { q: artistName, tt: '0' });
   };
 
   var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
@@ -16758,7 +16671,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ActionProvider));
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ActionProvider);
 
 /***/ }),
 /* 169 */
@@ -16846,7 +16759,7 @@ var _query_sync = __webpack_require__(334);
 
 var _query_sync2 = _interopRequireDefault(_query_sync);
 
-var _history = __webpack_require__(24);
+var _history = __webpack_require__(368);
 
 var _history2 = _interopRequireDefault(_history);
 
@@ -33681,6 +33594,10 @@ var _reactRedux = __webpack_require__(13);
 
 var _reactRouterDom = __webpack_require__(134);
 
+var _history = __webpack_require__(368);
+
+var _history2 = _interopRequireDefault(_history);
+
 var _session = __webpack_require__(42);
 
 var _nav_panel = __webpack_require__(337);
@@ -33727,11 +33644,37 @@ var App = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+    _this._willMountRoute = _this._willMountRoute.bind(_this);
+
     props.startSessionFromLocalStorage();
+    _this._willMountRoute(props);
     return _this;
   }
 
   _createClass(App, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this._willMountRoute(newProps);
+    }
+  }, {
+    key: '_willMountRoute',
+    value: function _willMountRoute(newProps) {
+      var pathname = _history2.default.location.pathname;
+      switch (pathname) {
+        case '/playlists':
+          this._willMountProtectedRoute(newProps);
+          break;
+      }
+      this.lastPathname = pathname;
+    }
+  }, {
+    key: '_willMountProtectedRoute',
+    value: function _willMountProtectedRoute(newProps) {
+      if (!newProps.isLoggingIn && !newProps.user) {
+        _history2.default.pushLocation(this.lastPathname || '/');
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -33772,7 +33715,10 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {};
+  return {
+    isLoggingIn: state.session.isLoggingIn,
+    user: state.session.user
+  };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -33793,14 +33739,16 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+           value: true
 });
 
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(164);
+var _history = __webpack_require__(368);
+
+var _history2 = _interopRequireDefault(_history);
 
 var _session_buttons = __webpack_require__(338);
 
@@ -33810,52 +33758,40 @@ var _index = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NavPanel = function NavPanel(_ref) {
-  var history = _ref.history,
-      location = _ref.location;
-
-  var pushPath = function pushPath(path) {
-    var pathname = location.pathname,
-        search = location.search;
-
-    if (pathname !== path) {
-      history.push(path + search);
-    }
-  };
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'om-nav-panel' },
-    _react2.default.createElement(
-      'div',
-      { className: 'nav-btns' },
-      _react2.default.createElement(_index.MatButton, { className: 'home-btn',
-        icon: 'icon-orange-slice',
-        onClick: function onClick() {
-          pushPath('/');
-        } }),
-      _react2.default.createElement('div', { className: 'divider' }),
-      _react2.default.createElement(_index.MatButton, { className: 'search-btn',
-        text: 'SEARCH',
-        icon: 'search',
-        onClick: function onClick() {
-          pushPath('/search');
-        } }),
-      _react2.default.createElement('div', { className: 'divider' }),
-      _react2.default.createElement(_index.MatButton, { text: 'QUEUE',
-        onClick: function onClick() {
-          pushPath('/queue');
-        } }),
-      _react2.default.createElement(_index.MatButton, { text: 'PLAYLISTS',
-        onClick: function onClick() {
-          pushPath('/playlists');
-        } })
-    ),
-    _react2.default.createElement(_session_buttons2.default, null)
-  );
+var NavPanel = function NavPanel() {
+           return _react2.default.createElement(
+                      'div',
+                      { className: 'om-nav-panel' },
+                      _react2.default.createElement(
+                                 'div',
+                                 { className: 'nav-btns' },
+                                 _react2.default.createElement(_index.MatButton, { className: 'home-btn',
+                                            icon: 'icon-orange-slice',
+                                            onClick: function onClick() {
+                                                       _history2.default.pushLocation('/');
+                                            } }),
+                                 _react2.default.createElement('div', { className: 'divider' }),
+                                 _react2.default.createElement(_index.MatButton, { className: 'search-btn',
+                                            text: 'SEARCH',
+                                            icon: 'search',
+                                            onClick: function onClick() {
+                                                       _history2.default.pushLocation('/search');
+                                            } }),
+                                 _react2.default.createElement('div', { className: 'divider' }),
+                                 _react2.default.createElement(_index.MatButton, { text: 'QUEUE',
+                                            onClick: function onClick() {
+                                                       _history2.default.pushLocation('/queue');
+                                            } }),
+                                 _react2.default.createElement(_index.MatButton, { text: 'PLAYLISTS',
+                                            onClick: function onClick() {
+                                                       _history2.default.pushLocation('/playlists');
+                                            } })
+                      ),
+                      _react2.default.createElement(_session_buttons2.default, null)
+           );
 };
 
-exports.default = (0, _reactRouter.withRouter)(NavPanel);
+exports.default = NavPanel;
 
 /***/ }),
 /* 338 */
@@ -35555,10 +35491,6 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRedux = __webpack_require__(13);
 
-var _history = __webpack_require__(24);
-
-var _history2 = _interopRequireDefault(_history);
-
 var _playlists = __webpack_require__(361);
 
 var _playlists2 = _interopRequireDefault(_playlists);
@@ -36031,6 +35963,53 @@ var validate = function validate(_ref) {
 };
 
 module.exports = validate;
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createBrowserHistory = __webpack_require__(78);
+
+var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+
+var _urlSearchParams = __webpack_require__(161);
+
+var _urlSearchParams2 = _interopRequireDefault(_urlSearchParams);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var history = (0, _createBrowserHistory2.default)();
+
+history.pushLocation = function (pathname, search) {
+  var location = history.location;
+  var locationParams = new _urlSearchParams2.default(location.search);
+
+  Object.keys(search || {}).forEach(function (param) {
+    locationParams.set(param, search[param]);
+  });
+
+  search = '?' + locationParams;
+  var oldSearch = location.search || '?';
+
+  if (search !== oldSearch || pathname !== location.pathname) {
+    var newLocation = {
+      pathname: pathname,
+      search: search,
+      hash: location.hash,
+      state: location.state
+    };
+    history.push(newLocation);
+  }
+};
+
+exports.default = history;
 
 /***/ })
 /******/ ]);
