@@ -3371,6 +3371,23 @@ module.exports.createPlaylist = function (_ref6) {
   });
 };
 
+module.exports.addToPlaylist = function (_ref7) {
+  var token = _ref7.token,
+      playlist = _ref7.playlist,
+      track = _ref7.track;
+
+  return new Promise(function (resolve, reject) {
+    var data = { token: token, playlist: playlist, track: track };
+    $.post({
+      url: '/api/v1/playlists/addto',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json'
+    });
+  });
+};
+
 /***/ }),
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -4612,6 +4629,14 @@ function reducer() {
   }
 }
 
+var formatTrackForApiRequest = function formatTrackForApiRequest(track) {
+  return {
+    name: track.name,
+    artistName: track.artist.name,
+    image: JSON.stringify(track.image)
+  };
+};
+
 var setPlaylistsDisplayType = exports.setPlaylistsDisplayType = function setPlaylistsDisplayType(displayType) {
   return { type: SET_DISPLAY_TYPE, displayType: displayType };
 };
@@ -4682,16 +4707,23 @@ var createPlaylist = exports.createPlaylist = function createPlaylist() {
 
 var addTrackToPlaylist = exports.addTrackToPlaylist = function addTrackToPlaylist() {
   return function (dispatch, getState) {
-    var _getState$form$fields = getState().form.fields,
-        playlist = _getState$form$fields.playlist,
-        track = _getState$form$fields.track;
+    var state = getState();
+    var _state$form$fields = state.form.fields,
+        playlist = _state$form$fields.playlist,
+        track = _state$form$fields.track;
+    var token = state.session.token;
 
 
-    console.log(playlist.value);
-    console.log(track.value);
+    var formData = { token: token, playlist: playlist.value, track: formatTrackForApiRequest(track.value) };
 
-    dispatch((0, _form.hideForm)());
-    dispatch((0, _form.clearForm)());
+    _orange_music2.default.addToPlaylist(formData).then(function (response) {
+      if (response.errors) {
+        dispatch((0, _form.setFieldErrors)('playlist', response.errors.playlist || []));
+      } else {
+        dispatch((0, _form.hideForm)());
+        dispatch((0, _form.clearForm)());
+      }
+    });
   };
 };
 
@@ -36004,7 +36036,7 @@ function reducer() {
     case SET_SCHEMA:
       return _extends({}, state, {
         schema: action.schema,
-        fields: getFields(action.schema)
+        fields: getFields(state, action.schema)
       });
     case SET_FIELD_VALUE:
       fields = Object.assign({}, state.fields);
@@ -36020,19 +36052,20 @@ function reducer() {
       });
     case CLEAR_FORM:
       return _extends({}, state, {
-        fields: getFields(state.schema)
+        fields: getFields(state, state.schema)
       });
     default:
       return state;
   }
 }
 
-var getFields = function getFields(schema) {
+var getFields = function getFields(state, schema) {
   var fields = {};
   schema.fields.forEach(function (field) {
+    var oldField = state.fields[field.name] || {};
     fields[field.name] = {
-      value: '',
-      errors: []
+      value: oldField.value,
+      errors: oldField.errors || []
     };
   });
   return fields;

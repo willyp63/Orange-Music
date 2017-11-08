@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
     // Success!
     res.json({success: true, playlists});
   } catch (err) {
-    res.json({success: false, errors: {unknown: [err]}});
+    res.json({success: false, errors: {unknown: [err.toString()]}});
   }
 });
 
@@ -54,7 +54,7 @@ router.post('/create', async (req, res) => {
       const errors = {name: ['Name is already taken.']};
       res.json({success: false, errors});
     } else {
-      res.json({success: false, errors: {name: [err]}});
+      res.json({success: false, errors: {name: [err.toString()]}});
     }
   }
 });
@@ -62,24 +62,41 @@ router.post('/create', async (req, res) => {
 /// Add a track to a user's playlist
 ///
 /// Params: {
-///   playlistName: Playlist's name,
-///   track: Track Obj,
+///   playlist: Playlist to add to,
+///   track: Track to add,
 /// }
 router.post('/addto', async (req, res) => {
   const userId = req.user.id;
-  const { playlistName, track } = req.body;
+  const { playlist, track } = req.body;
 
+  console.log(req.body);
+
+  // Insert Track
   try {
-    // Insert playlist
-    await db.query(insertPlaylist(userId, name));
+    await db.query(insertTrack(track.name, track.artistName, track.image));
+  } catch (err) {
+    if (err.constraint === 'tracks_name_artist_name_key') {
+      // Database error indicates that track is already in table.
+      //
+      // Do nothing, this is fine.
+    } else {
+      console.log(err);
+      return res.json({success: false, errors: {playlist: [err.toString()]}});
+    }
+  }
+
+  // Add to Playlist
+  try {
+    await db.query(insertPlaylistAdd(playlist.id, track.id));
     res.json({success: true});
   } catch (err) {
-    if (err.constraint === 'playlists_user_id_name_key') {
-      // Database error indicates that name is not unique
-      const errors = {name: ['Name is already taken.']};
+    if (err.constraint === 'playlist_adds_playlist_id_track_id_key') {
+      // Database error indicates that track is already added to playlist.
+      const errors = {playlist: ['Already contains track.']};
       res.json({success: false, errors});
     } else {
-      res.json({success: false, errors: {name: [err]}});
+      console.log(err);
+      res.json({success: false, errors: {playlist: [err.toString()]}});
     }
   }
 });
@@ -90,6 +107,22 @@ const insertPlaylist = (userId, name) => ({
     VALUES ($1, $2);
   `,
   values: [userId, name],
+});
+
+const insertTrack = (name, artistName, image) => ({
+  text: `
+    INSERT INTO tracks(name, artist_name, image)
+    VALUES ($1, $2, $3);
+  `,
+  values: [name, artistName, image],
+});
+
+const insertPlaylistAdd = (playlistId, trackId) => ({
+  text: `
+    INSERT INTO playlist_adds(playlist_id, track_id)
+    VALUES ($1, $2);
+  `,
+  values: [playlistId, trackId],
 });
 
 const getPlaylistsForUser = (userId) => ({

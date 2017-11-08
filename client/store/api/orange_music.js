@@ -68,3 +68,16 @@ module.exports.createPlaylist = ({token, name}) => {
     });
   });
 };
+
+module.exports.addToPlaylist = ({token, playlist, track}) => {
+  return new Promise((resolve, reject) => {
+    const data = {token, playlist, track};
+    $.post({
+      url: '/api/v1/playlists/addto',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json',
+    });
+  });
+};

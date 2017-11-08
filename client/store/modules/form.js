@@ -51,7 +51,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         schema: action.schema,
-        fields: getFields(action.schema),
+        fields: getFields(state, action.schema),
       };
     case SET_FIELD_VALUE:
       fields = Object.assign({}, state.fields);
@@ -70,19 +70,20 @@ export default function reducer(state = initialState, action = {}) {
     case CLEAR_FORM:
       return {
         ...state,
-        fields: getFields(state.schema),
+        fields: getFields(state, state.schema),
       };
     default:
       return state;
   }
 }
 
-const getFields = (schema) => {
+const getFields = (state, schema) => {
   const fields = {};
   schema.fields.forEach(field => {
+    const oldField = state.fields[field.name] || {};
     fields[field.name] = {
-      value: '',
-      errors: [],
+      value: oldField.value,
+      errors: oldField.errors || [],
     };
   });
   return fields;

@@ -57,6 +57,12 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
+const formatTrackForApiRequest = track => ({
+  name: track.name,
+  artistName: track.artist.name,
+  image: JSON.stringify(track.image),
+});
+
 
 export const setPlaylistsDisplayType = (displayType) => ({type: SET_DISPLAY_TYPE, displayType});
 
@@ -106,11 +112,18 @@ export const createPlaylist = () => (dispatch, getState) => {
 };
 
 export const addTrackToPlaylist = () => (dispatch, getState) => {
-  const { playlist, track } = getState().form.fields;
+  const state = getState();
+  const { playlist, track } = state.form.fields;
+  const { token } = state.session;
 
-  console.log(playlist.value);
-  console.log(track.value);
+  const formData = {token, playlist: playlist.value, track: formatTrackForApiRequest(track.value)};
 
-  dispatch(hideForm());
-  dispatch(clearForm());
+  omApi.addToPlaylist(formData).then(response => {
+    if (response.errors) {
+      dispatch(setFieldErrors('playlist', response.errors.playlist || []));
+    } else {
+      dispatch(hideForm());
+      dispatch(clearForm());
+    }
+  });
 };
