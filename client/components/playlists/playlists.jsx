@@ -18,6 +18,17 @@ const createPlaylistFormSchema = {
 };
 
 class Playlists extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this._fetchPlaylists(props);
+  }
+  componentWillReceiveProps(newProps) {
+    this._fetchPlaylists(newProps);
+  }
+  _fetchPlaylists(props) {
+    if (props.user) { props.fetchPlaylists(); }
+  }
   render() {
     const { playlists, isFetching, displayType, setDisplayType, showForm, setFormSchema, createPlaylist } = this.props;
 
@@ -33,7 +44,7 @@ class Playlists extends React.Component {
 
     const onNewPlaylist = () => {
       const schema = Object.assign({}, createPlaylistFormSchema);
-      schema.submitAction = createPlaylist
+      schema.submitAction = createPlaylist;
       setFormSchema(schema);
       showForm();
     };

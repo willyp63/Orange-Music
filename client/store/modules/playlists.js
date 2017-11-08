@@ -69,7 +69,7 @@ export const fetchPlaylists = () => (dispatch, getState) => {
   const { token } = session;
   const { isFetching, fetched } = playlists.playlists;
 
-  if (isFetching || fetched) { return; }
+  if (!token || isFetching || fetched) { return; }
 
   dispatch({type: REQUEST_PLAYLISTS});
   omApi.getPlaylists({token}).then((response) => {
@@ -103,4 +103,14 @@ export const createPlaylist = () => (dispatch, getState) => {
       }
     });
   }
+};
+
+export const addTrackToPlaylist = () => (dispatch, getState) => {
+  const { playlistName, track } = getState().form.fields;
+
+  console.log(playlistName.value);
+  console.log(track.value);
+
+  dispatch(hideForm());
+  dispatch(clearForm());
 };

@@ -902,7 +902,7 @@ module.exports = warning;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.measureText = exports.FONT_TYPES = exports.TIME = exports.GRID = exports.MatModal = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
+exports.measureText = exports.FONT_TYPES = exports.TIME = exports.GRID = exports.MatPicker = exports.MatModal = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(87);
 
@@ -936,6 +936,10 @@ var _mat_modal = __webpack_require__(325);
 
 var _mat_modal2 = _interopRequireDefault(_mat_modal);
 
+var _mat_picker = __webpack_require__(369);
+
+var _mat_picker2 = _interopRequireDefault(_mat_picker);
+
 var _grid = __webpack_require__(29);
 
 var _grid2 = _interopRequireDefault(_grid);
@@ -958,6 +962,7 @@ var MatSpinner = exports.MatSpinner = _mat_spinner2.default;
 var MatTabs = exports.MatTabs = _mat_tabs2.default;
 var MatInput = exports.MatInput = _mat_input2.default;
 var MatModal = exports.MatModal = _mat_modal2.default;
+var MatPicker = exports.MatPicker = _mat_picker2.default;
 
 var GRID = exports.GRID = _grid2.default.GRID;
 var TIME = exports.TIME = _transition2.default.TIME;
@@ -4494,12 +4499,14 @@ var receiveLogIn = function receiveLogIn() {
 
 var startSessionFromLocalStorage = exports.startSessionFromLocalStorage = function startSessionFromLocalStorage() {
   return function (dispatch) {
+    dispatch(requestLogIn());
+
     var token = sessionStorage.getItem('token');
     if (!token) {
+      dispatch(receiveLogIn());
       return;
     }
 
-    dispatch(requestLogIn());
     _orange_music2.default.verify({ token: token }).then(function (response) {
       if (response.success) {
         dispatch(startSession(response.user, token));
@@ -4535,7 +4542,7 @@ var endSession = exports.endSession = function endSession() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createPlaylist = exports.refreshPlaylists = exports.fetchPlaylists = exports.clearPlaylists = exports.receivePlaylists = exports.setPlaylistsDisplayType = undefined;
+exports.addTrackToPlaylist = exports.createPlaylist = exports.refreshPlaylists = exports.fetchPlaylists = exports.clearPlaylists = exports.receivePlaylists = exports.setPlaylistsDisplayType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -4629,7 +4636,7 @@ var fetchPlaylists = exports.fetchPlaylists = function fetchPlaylists() {
         fetched = _playlists$playlists.fetched;
 
 
-    if (isFetching || fetched) {
+    if (!token || isFetching || fetched) {
       return;
     }
 
@@ -4670,6 +4677,21 @@ var createPlaylist = exports.createPlaylist = function createPlaylist() {
         }
       });
     }
+  };
+};
+
+var addTrackToPlaylist = exports.addTrackToPlaylist = function addTrackToPlaylist() {
+  return function (dispatch, getState) {
+    var _getState$form$fields = getState().form.fields,
+        playlistName = _getState$form$fields.playlistName,
+        track = _getState$form$fields.track;
+
+
+    console.log(playlistName.value);
+    console.log(track.value);
+
+    dispatch((0, _form.hideForm)());
+    dispatch((0, _form.clearForm)());
   };
 };
 
@@ -6149,7 +6171,7 @@ ACTIONS[TRACK_ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
   buttonClassName: 'add-to-playlist-btn',
   icon: 'playlist_add',
   tooltipText: 'Add to playlist',
-  actionName: 'TODO' // TODO: Add action once we have playlists
+  actionName: 'addToPlaylist'
 };
 
 exports.default = ACTIONS;
@@ -16614,6 +16636,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -16626,32 +16650,95 @@ var _reactRedux = __webpack_require__(13);
 
 var _queue = __webpack_require__(41);
 
+var _form = __webpack_require__(366);
+
+var _playlists = __webpack_require__(43);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ActionProvider = function ActionProvider(_ref) {
-  var play = _ref.play,
-      addToQueue = _ref.addToQueue,
-      removeFromQueue = _ref.removeFromQueue,
-      removeFromHistory = _ref.removeFromHistory,
-      children = _ref.children;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  var goToArtist = function goToArtist(artistName) {
-    _history2.default.pushLocation('/search', { q: artistName, tt: '0' });
-  };
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
-    goToArtist: goToArtist };
-
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.cloneElement(children, { actions: actions })
-  );
+var addToPlaylistFormSchema = {
+  fields: [{
+    name: 'playlistName',
+    type: 'picker'
+  }, {
+    name: 'track',
+    isVisible: false
+  }]
 };
 
+var ActionProvider = function (_React$Component) {
+  _inherits(ActionProvider, _React$Component);
+
+  function ActionProvider() {
+    _classCallCheck(this, ActionProvider);
+
+    return _possibleConstructorReturn(this, (ActionProvider.__proto__ || Object.getPrototypeOf(ActionProvider)).apply(this, arguments));
+  }
+
+  _createClass(ActionProvider, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      addToPlaylistFormSchema.fields[0].options = newProps.playlists.map(function (playlist) {
+        return playlist.name;
+      });
+      newProps.setFormSchema(addToPlaylistFormSchema);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          play = _props.play,
+          addToQueue = _props.addToQueue,
+          removeFromQueue = _props.removeFromQueue,
+          removeFromHistory = _props.removeFromHistory,
+          children = _props.children,
+          showForm = _props.showForm,
+          setFormSchema = _props.setFormSchema,
+          playlists = _props.playlists,
+          fetchPlaylists = _props.fetchPlaylists,
+          addTrackToPlaylist = _props.addTrackToPlaylist,
+          setFieldValue = _props.setFieldValue;
+
+
+      var goToArtist = function goToArtist(artistName) {
+        _history2.default.pushLocation('/search', { q: artistName, tt: '0' });
+      };
+
+      var addToPlaylist = function addToPlaylist(track) {
+        addToPlaylistFormSchema.fields[0].options = playlists.map(function (playlist) {
+          return playlist.name;
+        });
+        addToPlaylistFormSchema.fields[0].onValueChange = addTrackToPlaylist;
+        fetchPlaylists(); // Incase we have not yet.
+        setFormSchema(addToPlaylistFormSchema);
+        setFieldValue('track', track);
+        showForm();
+      };
+
+      var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
+        goToArtist: goToArtist, addToPlaylist: addToPlaylist };
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.cloneElement(children, { actions: actions })
+      );
+    }
+  }]);
+
+  return ActionProvider;
+}(_react2.default.Component);
+
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {};
+  return {
+    playlists: state.playlists.playlists.playlists
+  };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -16667,6 +16754,21 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     removeFromHistory: function removeFromHistory(track) {
       dispatch((0, _queue.removeFromHistory)(track));
+    },
+    showForm: function showForm() {
+      return dispatch((0, _form.showForm)());
+    },
+    setFormSchema: function setFormSchema(schema) {
+      return dispatch((0, _form.setFormSchema)(schema));
+    },
+    fetchPlaylists: function fetchPlaylists() {
+      return dispatch((0, _playlists.fetchPlaylists)());
+    },
+    addTrackToPlaylist: function addTrackToPlaylist() {
+      return dispatch((0, _playlists.addTrackToPlaylist)());
+    },
+    setFieldValue: function setFieldValue(field, value) {
+      return dispatch((0, _form.setFieldValue)(field, value));
     }
   };
 };
@@ -33647,7 +33749,6 @@ var App = function (_React$Component) {
     _this._willMountRoute = _this._willMountRoute.bind(_this);
 
     props.startSessionFromLocalStorage();
-    _this._willMountRoute(props);
     return _this;
   }
 
@@ -33662,16 +33763,17 @@ var App = function (_React$Component) {
       var pathname = _history2.default.location.pathname;
       switch (pathname) {
         case '/playlists':
-          this._willMountProtectedRoute(newProps);
+          this._willMountProtectedRoute(newProps, pathname);
           break;
       }
       this.lastPathname = pathname;
     }
   }, {
     key: '_willMountProtectedRoute',
-    value: function _willMountProtectedRoute(newProps) {
+    value: function _willMountProtectedRoute(newProps, pathname) {
       if (!newProps.isLoggingIn && !newProps.user) {
-        _history2.default.pushLocation(this.lastPathname || '/');
+        var newPathname = this.lastPathname !== pathname ? this.lastPathname || '/' : '/';
+        _history2.default.pushLocation(newPathname);
       }
     }
   }, {
@@ -35524,13 +35626,28 @@ var createPlaylistFormSchema = {
 var Playlists = function (_React$Component) {
   _inherits(Playlists, _React$Component);
 
-  function Playlists() {
+  function Playlists(props) {
     _classCallCheck(this, Playlists);
 
-    return _possibleConstructorReturn(this, (Playlists.__proto__ || Object.getPrototypeOf(Playlists)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Playlists.__proto__ || Object.getPrototypeOf(Playlists)).call(this, props));
+
+    _this._fetchPlaylists(props);
+    return _this;
   }
 
   _createClass(Playlists, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this._fetchPlaylists(newProps);
+    }
+  }, {
+    key: '_fetchPlaylists',
+    value: function _fetchPlaylists(props) {
+      if (props.user) {
+        props.fetchPlaylists();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -35738,12 +35855,22 @@ var Form = function Form(_ref) {
       submitForm = _ref.submitForm,
       hideForm = _ref.hideForm;
 
-  var $fields = schema.fields.map(function (fieldSchema) {
+  var visibleFields = schema.fields.filter(function (field) {
+    return field.isVisible !== false;
+  });
+
+  var $fields = visibleFields.map(function (fieldSchema) {
+    var type = fieldSchema.type;
     var field = fields[fieldSchema.name];
     var value = field.value;
     var errors = field.errors;
     var placeholder = fieldSchema.label;
-    var onValueChange = setFieldValue.bind(null, fieldSchema.name);
+    var onValueChange = function onValueChange(newValue) {
+      setFieldValue(fieldSchema.name, newValue);
+      if (typeof fieldSchema.onValueChange === 'function') {
+        fieldSchema.onValueChange();
+      }
+    };
     var $errors = errors.map(function (error) {
       return _react2.default.createElement(
         'div',
@@ -35751,13 +35878,25 @@ var Form = function Form(_ref) {
         error
       );
     });
-    return _react2.default.createElement(
-      'div',
-      { key: fieldSchema.name },
-      _react2.default.createElement(_material.MatInput, { value: value, onValueChange: onValueChange, placeholder: placeholder }),
-      $errors
-    );
+
+    if (type === 'picker') {
+      return _react2.default.createElement(
+        'div',
+        { key: fieldSchema.name },
+        _react2.default.createElement(_material.MatPicker, { options: fieldSchema.options, onOptionSelect: onValueChange }),
+        $errors
+      );
+    } else {
+      return _react2.default.createElement(
+        'div',
+        { key: fieldSchema.name },
+        _react2.default.createElement(_material.MatInput, { value: value, onValueChange: onValueChange, placeholder: placeholder }),
+        $errors
+      );
+    }
   });
+
+  var $submitButton = schema.submitButtonText ? _react2.default.createElement(_material.MatButton, { className: 'submit-btn', text: schema.submitButtonText, onClick: submitForm }) : '';
 
   return _react2.default.createElement(
     _material.MatModal,
@@ -35766,7 +35905,7 @@ var Form = function Form(_ref) {
       'div',
       { className: 'centered' },
       $fields,
-      _react2.default.createElement(_material.MatButton, { text: schema.submitButtonText, onClick: submitForm })
+      $submitButton
     ),
     _react2.default.createElement(_material.MatButton, { className: 'close-btn', icon: 'close', onClick: hideForm })
   );
@@ -36010,6 +36149,44 @@ history.pushLocation = function (pathname, search) {
 };
 
 exports.default = history;
+
+/***/ }),
+/* 369 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _mat_button = __webpack_require__(87);
+
+var _mat_button2 = _interopRequireDefault(_mat_button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MatPicker = function MatPicker(_ref) {
+  var options = _ref.options,
+      onOptionSelect = _ref.onOptionSelect;
+
+  var $options = options.map(function (option) {
+    return _react2.default.createElement(_mat_button2.default, { text: option, onClick: onOptionSelect.bind(null, option), key: option });
+  });
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'mat-picker' },
+    $options
+  );
+};
+
+exports.default = MatPicker;
 
 /***/ })
 /******/ ]);

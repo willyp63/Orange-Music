@@ -265,6 +265,22 @@ body {
   top: 15vh;
   opacity: 1;
 }
+.mat-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mat-picker .mat-btn {
+  margin-bottom: 16px;
+}
+.mat-picker .mat-btn .inner-btn {
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: inherit;
+}
+.mat-picker .mat-btn:last-of-type {
+  margin-bottom: 0;
+}
 html,
 body,
 input,
@@ -683,6 +699,10 @@ i {
   font-size: 36px;
 }
 .om-form .centered {
+  height: 100%;
+  width: 100%;
+  padding: 16px;
+  overflow-y: scroll;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -705,13 +725,13 @@ i {
   font-weight: 400;
   text-transform: inherit;
 }
-.om-form .centered .mat-btn {
+.om-form .centered .submit-btn {
   margin-top: 32px;
 }
-.om-form .centered .mat-btn .mat-ripple s {
+.om-form .centered .submit-btn .mat-ripple s {
   background-color: rgba(0, 0, 0, 0.12);
 }
-.om-form .centered .mat-btn .inner-btn {
+.om-form .centered .submit-btn .inner-btn {
   font-size: 24px;
   font-weight: 300;
   text-transform: inherit;

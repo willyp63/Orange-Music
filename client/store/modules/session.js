@@ -88,10 +88,14 @@ const requestLogIn = () => ({type: REQUEST_LOG_IN});
 const receiveLogIn = () => ({type: RECIEVE_LOG_IN});
 
 export const startSessionFromLocalStorage = () => dispatch => {
-  const token = sessionStorage.getItem('token');
-  if (!token) { return; }
-
   dispatch(requestLogIn());
+
+  const token = sessionStorage.getItem('token');
+  if (!token) {
+    dispatch(receiveLogIn());
+    return;
+  }
+
   omApi.verify({token}).then(response => {
     if (response.success) {
       dispatch(startSession(response.user, token));

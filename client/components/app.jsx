@@ -18,7 +18,6 @@ class App extends React.Component {
     this._willMountRoute = this._willMountRoute.bind(this);
 
     props.startSessionFromLocalStorage();
-    this._willMountRoute(props);
   }
   componentWillReceiveProps(newProps) {
     this._willMountRoute(newProps);
@@ -27,14 +26,17 @@ class App extends React.Component {
     const pathname = history.location.pathname;
     switch (pathname) {
       case '/playlists':
-        this._willMountProtectedRoute(newProps);
+        this._willMountProtectedRoute(newProps, pathname);
         break;
     }
     this.lastPathname = pathname;
   }
-  _willMountProtectedRoute(newProps) {
+  _willMountProtectedRoute(newProps, pathname) {
     if (!newProps.isLoggingIn && !newProps.user) {
-      history.pushLocation(this.lastPathname || '/');
+      const newPathname = this.lastPathname !== pathname
+        ? (this.lastPathname || '/')
+        : '/';
+      history.pushLocation(newPathname);
     }
   }
   render() {

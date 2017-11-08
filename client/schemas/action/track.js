@@ -21,7 +21,7 @@ ACTIONS[TRACK_ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
   buttonClassName: 'add-to-playlist-btn',
   icon: 'playlist_add',
   tooltipText: 'Add to playlist',
-  actionName: 'TODO', // TODO: Add action once we have playlists
+  actionName: 'addToPlaylist',
 };
 
 export default ACTIONS;
