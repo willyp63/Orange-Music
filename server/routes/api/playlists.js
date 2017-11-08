@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const db = require('../../db');
-const validate = require('../../../shared/validators/playlist');
+const validate = require('../../../shared/validators/create_playlist');
 
-const AUTH_ERRORS = {auth: ['Failed to provide valid auth token.']};
+const AUTH_ERRORS = {name: ['Failed to provide valid auth token.']};
 
 /// Require auth token.
 router.use((req, res, next) => {
@@ -38,8 +38,6 @@ router.post('/create', async (req, res) => {
   const userId = req.user.id;
   const { name } = req.body;
 
-  console.log(req.user);
-
   // Validate form data
   const errors = validate({name});
   if (errors.name.length !== 0) {
@@ -56,7 +54,7 @@ router.post('/create', async (req, res) => {
       const errors = {name: ['Name is already taken.']};
       res.json({success: false, errors});
     } else {
-      res.json({success: false, errors: {unknown: [err]}});
+      res.json({success: false, errors: {name: [err]}});
     }
   }
 });

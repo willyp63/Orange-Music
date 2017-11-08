@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { MatInput, MatButton, MatModal } from '../material';
-import { setFieldValue, submitForm } from '../../store/modules/form';
+import { setFieldValue, submitForm, hideForm } from '../../store/modules/form';
 
-const Form = ({ isVisible, schema, fields, setFieldValue, submitForm }) => {
+const Form = ({ isVisible, schema, fields, setFieldValue, submitForm, hideForm }) => {
   const $fields = schema.fields.map(fieldSchema => {
     const field = fields[fieldSchema.name];
     const value = field.value;
@@ -27,6 +27,7 @@ const Form = ({ isVisible, schema, fields, setFieldValue, submitForm }) => {
         {$fields}
         <MatButton text={schema.submitButtonText} onClick={submitForm} />
       </div>
+      <MatButton className='close-btn' icon='close' onClick={hideForm} />
     </MatModal>
   );
 }
@@ -43,6 +44,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFieldValue: (field, value) => { dispatch(setFieldValue(field, value)); },
     submitForm: () => { dispatch(submitForm()); },
+    hideForm: () => { dispatch(hideForm()); },
   };
 };
 

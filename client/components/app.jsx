@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
-import { logInUserFromLocalStorage } from '../store/modules/session';
+import { startSessionFromLocalStorage } from '../store/modules/session';
 
 import NavPanel from './nav_panel/nav_panel';
 import Player from './player/player';
@@ -14,7 +14,7 @@ import Playlists from './playlists/playlists';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    props.logInUserFromLocalStorage();
+    props.startSessionFromLocalStorage();
   }
   render() {
     return (
@@ -47,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logInUserFromLocalStorage: () => { dispatch(logInUserFromLocalStorage()); },
+    startSessionFromLocalStorage: () => { dispatch(startSessionFromLocalStorage()); },
   };
 };
 

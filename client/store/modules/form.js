@@ -48,17 +48,10 @@ export default function reducer(state = initialState, action = {}) {
         isVisible: false,
       };
     case SET_SCHEMA:
-      fields = {};
-      action.schema.fields.forEach(field => {
-        fields[field.name] = {
-          value: '',
-          errors: [],
-        };
-      });
       return {
         ...state,
         schema: action.schema,
-        fields,
+        fields: getFields(action.schema),
       };
     case SET_FIELD_VALUE:
       fields = Object.assign({}, state.fields);
@@ -75,11 +68,25 @@ export default function reducer(state = initialState, action = {}) {
         fields,
       };
     case CLEAR_FORM:
-      return Object.assign({}, initialState);
+      return {
+        ...state,
+        fields: getFields(state.schema),
+      };
     default:
       return state;
   }
 }
+
+const getFields = (schema) => {
+  const fields = {};
+  schema.fields.forEach(field => {
+    fields[field.name] = {
+      value: '',
+      errors: [],
+    };
+  });
+  return fields;
+};
 
 export const showForm = (schema) => ({type: SHOW_FORM});
 export const hideForm = (schema) => ({type: HIDE_FORM});
@@ -99,8 +106,7 @@ export const setFieldErrors = (field, errors) => ({
 });
 
 export const submitForm = () => (dispatch, getState) => {
-  const submitAction = getState().form.schema.submitAction;
-  dispatch(submitAction);
+  getState().form.schema.submitAction();
 };
 
 export const clearForm = () => ({type: CLEAR_FORM});

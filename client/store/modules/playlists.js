@@ -1,11 +1,9 @@
 import omApi from '../api/orange_music';
+import validateCreatePlaylistForm from '../../../shared/validators/create_playlist';
+import { setFieldErrors, clearForm, hideForm } from './form';
 import { DISPLAY_TYPES } from '../../schemas/display';
 
-
 const SET_DISPLAY_TYPE = 'orange-music/playlists/SET_DISPLAY_TYPE';
-
-const OPEN_CREATE_MODAL = 'orange-music/playlists/OPEN_CREATE_MODAL';
-const CLOSE_CREATE_MODAL = 'orange-music/playlists/CLOSE_CREATE_MODAL';
 
 const REQUEST_PLAYLISTS = 'orange-music/playlists/REQUEST_PLAYLISTS';
 const RECEIVE_PLAYLISTS = 'orange-music/playlists/RECEIVE_PLAYLISTS';
@@ -15,7 +13,6 @@ const CLEAR_PLAYLISTS = 'orange-music/playlists/CLEAR_PLAYLISTS';
 
 const initialState = {
   displayType: DISPLAY_TYPES.GALLERY,
-  isCreateModalOpen: false,
   playlists: {
     playlists: [],
     isFetching: false,
@@ -29,16 +26,6 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         displayType: action.displayType,
-      };
-    case OPEN_CREATE_MODAL:
-      return {
-        ...state,
-        isCreateModalOpen: true,
-      };
-    case CLOSE_CREATE_MODAL:
-      return {
-        ...state,
-        isCreateModalOpen: false,
       };
     case REQUEST_PLAYLISTS:
       return {
@@ -73,9 +60,6 @@ export default function reducer(state = initialState, action = {}) {
 
 export const setPlaylistsDisplayType = (displayType) => ({type: SET_DISPLAY_TYPE, displayType});
 
-export const openCreateModal = () => ({type: OPEN_CREATE_MODAL});
-export const closeCreateModal = () => ({type: CLOSE_CREATE_MODAL});
-
 export const receivePlaylists = (playlists) => ({type: RECEIVE_PLAYLISTS, playlists});
 
 export const clearPlaylists = () => ({type: CLEAR_PLAYLISTS});
@@ -97,4 +81,26 @@ export const fetchPlaylists = () => (dispatch, getState) => {
 export const refreshPlaylists = () => dispatch => {
   dispatch(clearPlaylists());
   dispatch(fetchPlaylists());
+};
+
+export const createPlaylist = () => (dispatch, getState) => {
+  const state = getState();
+  const { name } = state.form.fields;
+  const { token } = state.session;
+
+  const formData = {name: name.value, token};
+  const errors = validateCreatePlaylistForm(formData);
+  dispatch(setFieldErrors('name', errors.name));
+
+  if (errors.name.length === 0) {
+    omApi.createPlaylist(formData).then(response => {
+      if (response.errors) {
+        dispatch(setFieldErrors('name', response.errors.name || []));
+      } else {
+        dispatch(refreshPlaylists());
+        dispatch(hideForm());
+        dispatch(clearForm());
+      }
+    });
+  }
 };

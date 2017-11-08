@@ -4,6 +4,20 @@
   flex-direction: column;
   justify-content: space-around;
 
+  .close-btn {
+    position: absolute;
+    top: @grid;
+    right: @grid;
+
+    .mat-icon-btn-colorize(
+      @color: @black;
+      @colorHover: @black);
+
+    .inner-btn i {
+      .font-icon-lg();
+    }
+  }
+
   .centered {
     display: flex;
     align-items: center;

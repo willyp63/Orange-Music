@@ -4,37 +4,23 @@ import { connect } from 'react-redux';
 import history from '../../history/history';
 import TABLE_SCHEMA, { PLAYLISTS_TABLE_TYPES } from '../../schemas/table/playlists';
 import TableLayout from '../shared/table_layout/table_layout';
-import CreatePlaylist from './create/create_playlist';
-import { MatButton, MatModal } from '../material';
-import { setPlaylistsDisplayType, fetchPlaylists, openCreateModal } from '../../store/modules/playlists';
+import { MatButton } from '../material';
+import { setPlaylistsDisplayType, fetchPlaylists, createPlaylist } from '../../store/modules/playlists';
+import { showForm, setFormSchema } from '../../store/modules/form';
+
+const createPlaylistFormSchema = {
+  submitButtonText: 'Create Playlist!',
+  fields: [
+    {
+      name: 'name',
+      label: 'Name',
+    },
+  ],
+};
 
 class Playlists extends React.Component {
-  constructor(props) {
-    super(props);
-    this._redirectOrFetch = this._redirectOrFetch.bind(this);
-    this._focusCreatePlaylistForm = this._focusCreatePlaylistForm.bind(this);
-
-    this._redirectOrFetch(props);
-  }
-  componentWillReceiveProps(newProps) {
-    this._redirectOrFetch(newProps);
-  }
-  _redirectOrFetch(props) {
-    const { loggedIn, isLoggingIn, fetchPlaylists } = props || this.props;
-
-    if (!isLoggingIn) {
-      if (loggedIn) {
-        fetchPlaylists();
-      } else {
-        history.pushLocation('/signup');
-      }
-    }
-  }
-  _focusCreatePlaylistForm() {
-    $(ReactDOM.findDOMNode(this)).find('.create-playlist .mat-input input').focus();
-  }
   render() {
-    const { playlists, isFetching, displayType, setDisplayType, isCreateModalOpen, openCreateModal } = this.props;
+    const { playlists, isFetching, displayType, setDisplayType, showForm, setFormSchema, createPlaylist } = this.props;
 
     const schema = Object.assign({}, TABLE_SCHEMA);
 
@@ -46,6 +32,13 @@ class Playlists extends React.Component {
       </div>
     );
 
+    const onNewPlaylist = () => {
+      const schema = Object.assign({}, createPlaylistFormSchema);
+      schema.submitAction = createPlaylist
+      setFormSchema(schema);
+      showForm();
+    };
+
     return (
       <div className="playlists">
         <TableLayout schema={schema}
@@ -54,14 +47,8 @@ class Playlists extends React.Component {
                      onDisplayTypeChange={setDisplayType}>
           <MatButton text='New Playlist'
                      className='new-playlist-btn'
-                     onClick={() => {
-                       openCreateModal();
-                       this._focusCreatePlaylistForm();
-                     }} />
+                     onClick={onNewPlaylist} />
         </TableLayout>
-        <MatModal isOpen={isCreateModalOpen}>
-          <CreatePlaylist />
-        </MatModal>
       </div>
     );
   }
@@ -69,12 +56,10 @@ class Playlists extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isCreateModalOpen: state.playlists.isCreateModalOpen,
     playlists: state.playlists.playlists.playlists,
     isFetching: state.playlists.playlists.isFetching,
     displayType: state.playlists.displayType,
-    loggedIn: state.session.loggedIn,
-    isLoggingIn: state.session.isLoggingIn,
+    user: state.session.user,
   };
 };
 
@@ -82,7 +67,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setDisplayType: (displayType) => { dispatch(setPlaylistsDisplayType(displayType)); },
     fetchPlaylists: () => { dispatch(fetchPlaylists()); },
-    openCreateModal: () => { dispatch(openCreateModal()); },
+    showForm: () => dispatch(showForm()),
+    createPlaylist: () => dispatch(createPlaylist()),
+    setFormSchema: (schema) => dispatch(setFormSchema(schema)),
   };
 };
 

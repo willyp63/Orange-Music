@@ -1,17 +1,17 @@
-import history from '../../history/history';
 import omApi from '../api/orange_music';
+import validateSignUpForm from '../../../shared/validators/sign_up';
+import { setFieldErrors, clearForm, hideForm } from './form';
 import { clearPlaylists } from './playlists';
 
 const REQUEST_LOG_IN = 'orange-music/session/REQUEST_LOG_IN';
 const RECIEVE_LOG_IN = 'orange-music/session/RECIEVE_LOG_IN';
-const LOG_IN_USER = 'orange-music/session/LOG_IN_USER';
 
-const LOG_OUT_USER = 'orange-music/session/LOG_OUT_USER';
+const START_SESSION = 'orange-music/session/START_SESSION';
+const END_SESSION = 'orange-music/session/END_SESSION';
 
 const initialState = {
-  user: {},
-  token: '',
-  loggedIn: false,
+  user: null,
+  token: null,
   isLoggingIn: false,
 };
 
@@ -20,9 +20,8 @@ export default function reducer(state = initialState, action = {}) {
     case REQUEST_LOG_IN:
       return {
         ...state,
-        user: {},
-        token: '',
-        loggedIn: false,
+        user: null,
+        token: null,
         isLoggingIn: true,
       };
     case RECIEVE_LOG_IN:
@@ -30,44 +29,85 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         isLoggingIn: false,
       };
-    case LOG_IN_USER:
+    case START_SESSION:
       return {
         ...state,
         user: action.user,
         token: action.token,
-        loggedIn: true,
       };
-    case LOG_OUT_USER:
+    case END_SESSION:
       return Object.assign({}, initialState);
     default:
       return state;
   }
 }
 
+
+/// Sign Up
+export const signUp = () => (dispatch, getState) => {
+  const { name, password } = getState().form.fields;
+
+  const formData = {name: name.value, password: password.value};
+  const errors = validateSignUpForm(formData);
+  dispatch(setFieldErrors('password', errors.password));
+  dispatch(setFieldErrors('name', errors.name));
+
+  if (errors.name.length === 0 && errors.password.length === 0) {
+    omApi.signUp(formData).then(response => {
+      if (response.errors) {
+        dispatch(setFieldErrors('name', response.errors.name || []));
+        dispatch(setFieldErrors('password', response.errors.password || []));
+      } else {
+        dispatch(startSession(formData /* user */, response.token));
+        dispatch(hideForm());
+        dispatch(clearForm());
+      }
+    });
+  }
+};
+
+/// Log In
+export const logIn = () => (dispatch, getState) => {
+  const { name, password } = getState().form.fields;
+
+  const formData = {name: name.value, password: password.value};
+  omApi.logIn(formData).then(response => {
+    if (response.errors) {
+      dispatch(setFieldErrors('name', response.errors.name || []));
+      dispatch(setFieldErrors('password', response.errors.password || []));
+    } else {
+      dispatch(startSession(formData /* user */, response.token));
+      dispatch(hideForm());
+      dispatch(clearForm());
+    }
+  });
+};
+
+/// Session
 const requestLogIn = () => ({type: REQUEST_LOG_IN});
 const receiveLogIn = () => ({type: RECIEVE_LOG_IN});
 
-export const logInUserFromLocalStorage = () => dispatch => {
+export const startSessionFromLocalStorage = () => dispatch => {
   const token = sessionStorage.getItem('token');
   if (!token) { return; }
 
   dispatch(requestLogIn());
-  omApi.verify({token}).then(data => {
-    if (data.success) {
-      dispatch(logInUser(data.user, token));
+  omApi.verify({token}).then(response => {
+    if (response.success) {
+      dispatch(startSession(response.user, token));
     }
     dispatch(receiveLogIn());
   });
 };
 
-export const logInUser = (user, token) => dispatch => {
-  dispatch({type: LOG_IN_USER, user, token});
+export const startSession = (user, token) => dispatch => {
+  dispatch({type: START_SESSION, user, token});
   dispatch(clearPlaylists());
   sessionStorage.setItem('token', token);
 };
 
-export const logOutUser = () => dispatch => {
-  dispatch({type: LOG_OUT_USER});
+export const endSession = () => dispatch => {
+  dispatch({type: END_SESSION});
+  dispatch(hideForm());
   sessionStorage.removeItem('token');
-  history.pushLocation('/');
 };

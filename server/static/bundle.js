@@ -4421,19 +4421,21 @@ var indexOf = function indexOf(tracks, track) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logOutUser = exports.logInUser = exports.logInUserFromLocalStorage = undefined;
+exports.endSession = exports.startSession = exports.startSessionFromLocalStorage = exports.logIn = exports.signUp = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = reducer;
 
-var _history = __webpack_require__(24);
-
-var _history2 = _interopRequireDefault(_history);
-
 var _orange_music = __webpack_require__(31);
 
 var _orange_music2 = _interopRequireDefault(_orange_music);
+
+var _sign_up = __webpack_require__(332);
+
+var _sign_up2 = _interopRequireDefault(_sign_up);
+
+var _form = __webpack_require__(366);
 
 var _playlists = __webpack_require__(43);
 
@@ -4441,14 +4443,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var REQUEST_LOG_IN = 'orange-music/session/REQUEST_LOG_IN';
 var RECIEVE_LOG_IN = 'orange-music/session/RECIEVE_LOG_IN';
-var LOG_IN_USER = 'orange-music/session/LOG_IN_USER';
 
-var LOG_OUT_USER = 'orange-music/session/LOG_OUT_USER';
+var START_SESSION = 'orange-music/session/START_SESSION';
+var END_SESSION = 'orange-music/session/END_SESSION';
 
 var initialState = {
-  user: {},
-  token: '',
-  loggedIn: false,
+  user: null,
+  token: null,
   isLoggingIn: false
 };
 
@@ -4459,28 +4460,77 @@ function reducer() {
   switch (action.type) {
     case REQUEST_LOG_IN:
       return _extends({}, state, {
-        user: {},
-        token: '',
-        loggedIn: false,
+        user: null,
+        token: null,
         isLoggingIn: true
       });
     case RECIEVE_LOG_IN:
       return _extends({}, state, {
         isLoggingIn: false
       });
-    case LOG_IN_USER:
+    case START_SESSION:
       return _extends({}, state, {
         user: action.user,
-        token: action.token,
-        loggedIn: true
+        token: action.token
       });
-    case LOG_OUT_USER:
+    case END_SESSION:
       return Object.assign({}, initialState);
     default:
       return state;
   }
 }
 
+/// Sign Up
+var signUp = exports.signUp = function signUp() {
+  return function (dispatch, getState) {
+    var _getState$form$fields = getState().form.fields,
+        name = _getState$form$fields.name,
+        password = _getState$form$fields.password;
+
+
+    var formData = { name: name.value, password: password.value };
+    var errors = (0, _sign_up2.default)(formData);
+    dispatch((0, _form.setFieldErrors)('password', errors.password));
+    dispatch((0, _form.setFieldErrors)('name', errors.name));
+
+    if (errors.name.length === 0 && errors.password.length === 0) {
+      _orange_music2.default.signUp(formData).then(function (response) {
+        if (response.errors) {
+          dispatch((0, _form.setFieldErrors)('name', response.errors.name || []));
+          dispatch((0, _form.setFieldErrors)('password', response.errors.password || []));
+        } else {
+          dispatch(startSession(formData /* user */, response.token));
+          dispatch((0, _form.hideForm)());
+          dispatch((0, _form.clearForm)());
+        }
+      });
+    }
+  };
+};
+
+/// Log In
+var logIn = exports.logIn = function logIn() {
+  return function (dispatch, getState) {
+    var _getState$form$fields2 = getState().form.fields,
+        name = _getState$form$fields2.name,
+        password = _getState$form$fields2.password;
+
+
+    var formData = { name: name.value, password: password.value };
+    _orange_music2.default.logIn(formData).then(function (response) {
+      if (response.errors) {
+        dispatch((0, _form.setFieldErrors)('name', response.errors.name || []));
+        dispatch((0, _form.setFieldErrors)('password', response.errors.password || []));
+      } else {
+        dispatch(startSession(formData /* user */, response.token));
+        dispatch((0, _form.hideForm)());
+        dispatch((0, _form.clearForm)());
+      }
+    });
+  };
+};
+
+/// Session
 var requestLogIn = function requestLogIn() {
   return { type: REQUEST_LOG_IN };
 };
@@ -4488,7 +4538,7 @@ var receiveLogIn = function receiveLogIn() {
   return { type: RECIEVE_LOG_IN };
 };
 
-var logInUserFromLocalStorage = exports.logInUserFromLocalStorage = function logInUserFromLocalStorage() {
+var startSessionFromLocalStorage = exports.startSessionFromLocalStorage = function startSessionFromLocalStorage() {
   return function (dispatch) {
     var token = sessionStorage.getItem('token');
     if (!token) {
@@ -4496,28 +4546,28 @@ var logInUserFromLocalStorage = exports.logInUserFromLocalStorage = function log
     }
 
     dispatch(requestLogIn());
-    _orange_music2.default.verify({ token: token }).then(function (data) {
-      if (data.success) {
-        dispatch(logInUser(data.user, token));
+    _orange_music2.default.verify({ token: token }).then(function (response) {
+      if (response.success) {
+        dispatch(startSession(response.user, token));
       }
       dispatch(receiveLogIn());
     });
   };
 };
 
-var logInUser = exports.logInUser = function logInUser(user, token) {
+var startSession = exports.startSession = function startSession(user, token) {
   return function (dispatch) {
-    dispatch({ type: LOG_IN_USER, user: user, token: token });
+    dispatch({ type: START_SESSION, user: user, token: token });
     dispatch((0, _playlists.clearPlaylists)());
     sessionStorage.setItem('token', token);
   };
 };
 
-var logOutUser = exports.logOutUser = function logOutUser() {
+var endSession = exports.endSession = function endSession() {
   return function (dispatch) {
-    dispatch({ type: LOG_OUT_USER });
+    dispatch({ type: END_SESSION });
+    dispatch((0, _form.hideForm)());
     sessionStorage.removeItem('token');
-    _history2.default.pushLocation('/');
   };
 };
 
@@ -4531,7 +4581,7 @@ var logOutUser = exports.logOutUser = function logOutUser() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.refreshPlaylists = exports.fetchPlaylists = exports.clearPlaylists = exports.receivePlaylists = exports.closeCreateModal = exports.openCreateModal = exports.setPlaylistsDisplayType = undefined;
+exports.createPlaylist = exports.refreshPlaylists = exports.fetchPlaylists = exports.clearPlaylists = exports.receivePlaylists = exports.setPlaylistsDisplayType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -4541,14 +4591,17 @@ var _orange_music = __webpack_require__(31);
 
 var _orange_music2 = _interopRequireDefault(_orange_music);
 
+var _create_playlist = __webpack_require__(367);
+
+var _create_playlist2 = _interopRequireDefault(_create_playlist);
+
+var _form = __webpack_require__(366);
+
 var _display = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SET_DISPLAY_TYPE = 'orange-music/playlists/SET_DISPLAY_TYPE';
-
-var OPEN_CREATE_MODAL = 'orange-music/playlists/OPEN_CREATE_MODAL';
-var CLOSE_CREATE_MODAL = 'orange-music/playlists/CLOSE_CREATE_MODAL';
 
 var REQUEST_PLAYLISTS = 'orange-music/playlists/REQUEST_PLAYLISTS';
 var RECEIVE_PLAYLISTS = 'orange-music/playlists/RECEIVE_PLAYLISTS';
@@ -4557,7 +4610,6 @@ var CLEAR_PLAYLISTS = 'orange-music/playlists/CLEAR_PLAYLISTS';
 
 var initialState = {
   displayType: _display.DISPLAY_TYPES.GALLERY,
-  isCreateModalOpen: false,
   playlists: {
     playlists: [],
     isFetching: false,
@@ -4573,14 +4625,6 @@ function reducer() {
     case SET_DISPLAY_TYPE:
       return _extends({}, state, {
         displayType: action.displayType
-      });
-    case OPEN_CREATE_MODAL:
-      return _extends({}, state, {
-        isCreateModalOpen: true
-      });
-    case CLOSE_CREATE_MODAL:
-      return _extends({}, state, {
-        isCreateModalOpen: false
       });
     case REQUEST_PLAYLISTS:
       return _extends({}, state, {
@@ -4609,13 +4653,6 @@ function reducer() {
 
 var setPlaylistsDisplayType = exports.setPlaylistsDisplayType = function setPlaylistsDisplayType(displayType) {
   return { type: SET_DISPLAY_TYPE, displayType: displayType };
-};
-
-var openCreateModal = exports.openCreateModal = function openCreateModal() {
-  return { type: OPEN_CREATE_MODAL };
-};
-var closeCreateModal = exports.closeCreateModal = function closeCreateModal() {
-  return { type: CLOSE_CREATE_MODAL };
 };
 
 var receivePlaylists = exports.receivePlaylists = function receivePlaylists(playlists) {
@@ -4654,6 +4691,31 @@ var refreshPlaylists = exports.refreshPlaylists = function refreshPlaylists() {
   return function (dispatch) {
     dispatch(clearPlaylists());
     dispatch(fetchPlaylists());
+  };
+};
+
+var createPlaylist = exports.createPlaylist = function createPlaylist() {
+  return function (dispatch, getState) {
+    var state = getState();
+    var name = state.form.fields.name;
+    var token = state.session.token;
+
+
+    var formData = { name: name.value, token: token };
+    var errors = (0, _create_playlist2.default)(formData);
+    dispatch((0, _form.setFieldErrors)('name', errors.name));
+
+    if (errors.name.length === 0) {
+      _orange_music2.default.createPlaylist(formData).then(function (response) {
+        if (response.errors) {
+          dispatch((0, _form.setFieldErrors)('name', response.errors.name || []));
+        } else {
+          dispatch(refreshPlaylists());
+          dispatch((0, _form.hideForm)());
+          dispatch((0, _form.clearForm)());
+        }
+      });
+    }
   };
 };
 
@@ -16425,111 +16487,7 @@ URLSearchParams = (module.exports = global.URLSearchParams || URLSearchParams);
 
 /***/ }),
 /* 162 */,
-/* 163 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.submitForm = exports.validateName = exports.setName = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.default = reducer;
-
-var _orange_music = __webpack_require__(31);
-
-var _orange_music2 = _interopRequireDefault(_orange_music);
-
-var _playlist = __webpack_require__(333);
-
-var _playlist2 = _interopRequireDefault(_playlist);
-
-var _playlists = __webpack_require__(43);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SET_NAME = 'orange-music/create_playlist/SET_NAME';
-var SET_NAME_ERRORS = 'orange-music/create_playlist/SET_NAME_ERRORS';
-var CLEAR_FORM = 'orange-music/create_playlist/CLEAR_FORM';
-
-var initialState = {
-  name: '',
-  errors: {
-    name: []
-  }
-};
-
-function reducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  switch (action.type) {
-    case SET_NAME:
-      return _extends({}, state, {
-        name: action.name
-      });
-    case SET_NAME_ERRORS:
-      return _extends({}, state, {
-        errors: _extends({}, state.errors, {
-          name: action.errors
-        })
-      });
-    case CLEAR_FORM:
-      return Object.assign({}, initialState);
-    default:
-      return state;
-  }
-}
-
-var setName = exports.setName = function setName(name) {
-  return { type: SET_NAME, name: name };
-};
-
-var setNameErrors = function setNameErrors(errors) {
-  return { type: SET_NAME_ERRORS, errors: errors };
-};
-
-var clearForm = function clearForm() {
-  return { type: CLEAR_FORM };
-};
-
-var validateName = exports.validateName = function validateName() {
-  return function (dispatch, getState) {
-    var errors = (0, _playlist2.default)({ name: getState().createPlaylist.name });
-    dispatch(setNameErrors(errors.name));
-  };
-};
-
-var submitForm = exports.submitForm = function submitForm() {
-  return function (dispatch, getState) {
-    dispatch(validateName());
-
-    var state = getState();
-    var _state$createPlaylist = state.createPlaylist,
-        name = _state$createPlaylist.name,
-        errors = _state$createPlaylist.errors;
-    var token = state.session.token;
-
-
-    if (errors.name.length === 0) {
-      _orange_music2.default.createPlaylist({ token: token, name: name }).then(function (data) {
-        if (data.errors) {
-          dispatch(setNameErrors(data.errors.name || []));
-        } else {
-          dispatch((0, _playlists.refreshPlaylists)());
-          dispatch((0, _playlists.closeCreateModal)());
-          dispatch(clearForm());
-        }
-      });
-    }
-  };
-};
-
-/***/ }),
+/* 163 */,
 /* 164 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33323,8 +33281,7 @@ var SCHEMA = Object.assign({}, _track2.default, {
 exports.default = SCHEMA;
 
 /***/ }),
-/* 332 */,
-/* 333 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33342,12 +33299,26 @@ var validateName = function validateName(name) {
   return errors;
 };
 
+var validatePassword = function validatePassword(password) {
+  var errors = [];
+
+  if (typeof password !== 'string') {
+    errors.push('Invalid type.');
+  } else if (password.length < 6) {
+    errors.push("Must be at least 6 characters.");
+  }
+
+  return errors;
+};
+
 var validate = function validate(_ref) {
-  var name = _ref.name;
+  var name = _ref.name,
+      password = _ref.password;
 
   var errors = {};
 
   errors.name = validateName(name);
+  errors.password = validatePassword(password);
 
   return errors;
 };
@@ -33355,6 +33326,7 @@ var validate = function validate(_ref) {
 module.exports = validate;
 
 /***/ }),
+/* 333 */,
 /* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -33755,7 +33727,7 @@ var App = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-    props.logInUserFromLocalStorage();
+    props.startSessionFromLocalStorage();
     return _this;
   }
 
@@ -33805,8 +33777,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    logInUserFromLocalStorage: function logInUserFromLocalStorage() {
-      dispatch((0, _session.logInUserFromLocalStorage)());
+    startSessionFromLocalStorage: function startSessionFromLocalStorage() {
+      dispatch((0, _session.startSessionFromLocalStorage)());
     }
   };
 };
@@ -33906,11 +33878,12 @@ var _material = __webpack_require__(10);
 
 var _form = __webpack_require__(366);
 
+var _session = __webpack_require__(42);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var signUpFormSchema = {
   submitButtonText: 'Sign Up!',
-  submitAction: _form.hideForm,
   fields: [{
     name: 'name',
     label: 'Name'
@@ -33920,34 +33893,67 @@ var signUpFormSchema = {
   }]
 };
 
+var logInFormSchema = {
+  submitButtonText: 'Log In!',
+  fields: [{
+    name: 'name',
+    label: 'Name'
+  }, {
+    name: 'password',
+    label: 'Password'
+  }]
+};
+
+var accountFormSchema = {
+  submitButtonText: 'Log Out!',
+  fields: []
+};
+
 var SessionButtons = function SessionButtons(_ref) {
   var user = _ref.user,
-      loggedIn = _ref.loggedIn,
       setFormSchema = _ref.setFormSchema,
-      showForm = _ref.showForm;
+      showForm = _ref.showForm,
+      signUp = _ref.signUp,
+      logIn = _ref.logIn,
+      endSession = _ref.endSession;
 
-  var signUp = function signUp() {
-    setFormSchema(signUpFormSchema);
+  var onSignUp = function onSignUp() {
+    var schema = Object.assign({}, signUpFormSchema);
+    schema.submitAction = signUp;
+    setFormSchema(schema);
     showForm();
   };
 
-  return loggedIn ? _react2.default.createElement(
+  var onLogIn = function onLogIn() {
+    var schema = Object.assign({}, logInFormSchema);
+    schema.submitAction = logIn;
+    setFormSchema(schema);
+    showForm();
+  };
+
+  var onAccount = function onAccount() {
+    var schema = Object.assign({}, accountFormSchema);
+    schema.submitAction = endSession;
+    setFormSchema(schema);
+    showForm();
+  };
+
+  return user ? _react2.default.createElement(
     'div',
     { className: 'session-btns logged-in' },
-    _react2.default.createElement(_material.MatButton, { text: user.name, icon: 'person', iconFirst: true, onClick: signUp })
+    _react2.default.createElement(_material.MatButton, { text: user.name, icon: 'person', iconFirst: true, onClick: onAccount })
   ) : _react2.default.createElement(
     'div',
     { className: 'session-btns' },
-    _react2.default.createElement(_material.MatButton, { text: 'Log In', onClick: signUp }),
+    _react2.default.createElement(_material.MatButton, { text: 'Log In', onClick: onLogIn }),
     _react2.default.createElement('div', { className: 'divider' }),
-    _react2.default.createElement(_material.MatButton, { text: 'Sign Up', onClick: signUp })
+    _react2.default.createElement(_material.MatButton, { text: 'Sign Up', onClick: onSignUp })
   );
 };
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    user: state.session.user,
-    loggedIn: state.session.loggedIn
+    user: state.session.user
   };
 };
 
@@ -33958,6 +33964,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     setFormSchema: function setFormSchema(schema) {
       return dispatch((0, _form.setFormSchema)(schema));
+    },
+    signUp: function signUp() {
+      return dispatch((0, _session.signUp)());
+    },
+    logIn: function logIn() {
+      return dispatch((0, _session.logIn)());
+    },
+    endSession: function endSession() {
+      return dispatch((0, _session.endSession)());
     }
   };
 };
@@ -35552,13 +35567,11 @@ var _table_layout = __webpack_require__(57);
 
 var _table_layout2 = _interopRequireDefault(_table_layout);
 
-var _create_playlist = __webpack_require__(364);
-
-var _create_playlist2 = _interopRequireDefault(_create_playlist);
-
 var _material = __webpack_require__(10);
 
 var _playlists3 = __webpack_require__(43);
+
+var _form = __webpack_require__(366);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35568,59 +35581,34 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var createPlaylistFormSchema = {
+  submitButtonText: 'Create Playlist!',
+  fields: [{
+    name: 'name',
+    label: 'Name'
+  }]
+};
+
 var Playlists = function (_React$Component) {
   _inherits(Playlists, _React$Component);
 
-  function Playlists(props) {
+  function Playlists() {
     _classCallCheck(this, Playlists);
 
-    var _this = _possibleConstructorReturn(this, (Playlists.__proto__ || Object.getPrototypeOf(Playlists)).call(this, props));
-
-    _this._redirectOrFetch = _this._redirectOrFetch.bind(_this);
-    _this._focusCreatePlaylistForm = _this._focusCreatePlaylistForm.bind(_this);
-
-    _this._redirectOrFetch(props);
-    return _this;
+    return _possibleConstructorReturn(this, (Playlists.__proto__ || Object.getPrototypeOf(Playlists)).apply(this, arguments));
   }
 
   _createClass(Playlists, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      this._redirectOrFetch(newProps);
-    }
-  }, {
-    key: '_redirectOrFetch',
-    value: function _redirectOrFetch(props) {
-      var _ref = props || this.props,
-          loggedIn = _ref.loggedIn,
-          isLoggingIn = _ref.isLoggingIn,
-          fetchPlaylists = _ref.fetchPlaylists;
-
-      if (!isLoggingIn) {
-        if (loggedIn) {
-          fetchPlaylists();
-        } else {
-          _history2.default.pushLocation('/signup');
-        }
-      }
-    }
-  }, {
-    key: '_focusCreatePlaylistForm',
-    value: function _focusCreatePlaylistForm() {
-      $(_reactDom2.default.findDOMNode(this)).find('.create-playlist .mat-input input').focus();
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var _props = this.props,
           playlists = _props.playlists,
           isFetching = _props.isFetching,
           displayType = _props.displayType,
           setDisplayType = _props.setDisplayType,
-          isCreateModalOpen = _props.isCreateModalOpen,
-          openCreateModal = _props.openCreateModal;
+          showForm = _props.showForm,
+          setFormSchema = _props.setFormSchema,
+          createPlaylist = _props.createPlaylist;
 
 
       var schema = Object.assign({}, _playlists2.default);
@@ -35633,6 +35621,13 @@ var Playlists = function (_React$Component) {
         'You have no playlists.'
       );
 
+      var onNewPlaylist = function onNewPlaylist() {
+        var schema = Object.assign({}, createPlaylistFormSchema);
+        schema.submitAction = createPlaylist;
+        setFormSchema(schema);
+        showForm();
+      };
+
       return _react2.default.createElement(
         'div',
         { className: 'playlists' },
@@ -35644,15 +35639,7 @@ var Playlists = function (_React$Component) {
             onDisplayTypeChange: setDisplayType },
           _react2.default.createElement(_material.MatButton, { text: 'New Playlist',
             className: 'new-playlist-btn',
-            onClick: function onClick() {
-              openCreateModal();
-              _this2._focusCreatePlaylistForm();
-            } })
-        ),
-        _react2.default.createElement(
-          _material.MatModal,
-          { isOpen: isCreateModalOpen },
-          _react2.default.createElement(_create_playlist2.default, null)
+            onClick: onNewPlaylist })
         )
       );
     }
@@ -35663,12 +35650,10 @@ var Playlists = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    isCreateModalOpen: state.playlists.isCreateModalOpen,
     playlists: state.playlists.playlists.playlists,
     isFetching: state.playlists.playlists.isFetching,
     displayType: state.playlists.displayType,
-    loggedIn: state.session.loggedIn,
-    isLoggingIn: state.session.isLoggingIn
+    user: state.session.user
   };
 };
 
@@ -35680,8 +35665,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     fetchPlaylists: function fetchPlaylists() {
       dispatch((0, _playlists3.fetchPlaylists)());
     },
-    openCreateModal: function openCreateModal() {
-      dispatch((0, _playlists3.openCreateModal)());
+    showForm: function showForm() {
+      return dispatch((0, _form.showForm)());
+    },
+    createPlaylist: function createPlaylist() {
+      return dispatch((0, _playlists3.createPlaylist)());
+    },
+    setFormSchema: function setFormSchema(schema) {
+      return dispatch((0, _form.setFormSchema)(schema));
     }
   };
 };
@@ -35784,88 +35775,7 @@ var SCHEMA = {
 exports.default = SCHEMA;
 
 /***/ }),
-/* 364 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(13);
-
-var _material = __webpack_require__(10);
-
-var _playlists = __webpack_require__(43);
-
-var _create_playlist = __webpack_require__(163);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CreatePlaylist = function CreatePlaylist(_ref) {
-  var name = _ref.name,
-      errors = _ref.errors,
-      setName = _ref.setName,
-      submitForm = _ref.submitForm,
-      closeCreateModal = _ref.closeCreateModal;
-
-  var $nameErrors = errors.name.map(function (err) {
-    return _react2.default.createElement(
-      'div',
-      { className: 'err-msg', key: err },
-      err
-    );
-  });
-  if (errors.name.length === 0) {
-    $nameErrors = _react2.default.createElement('div', { className: 'err-msg' });
-  }
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'create-playlist' },
-    _react2.default.createElement(
-      'div',
-      { className: 'form' },
-      _react2.default.createElement(_material.MatInput, { value: name,
-        onValueChange: setName,
-        placeholder: 'Playlist Name' }),
-      $nameErrors,
-      _react2.default.createElement(_material.MatButton, { text: 'Create Playlist!', onClick: submitForm })
-    ),
-    _react2.default.createElement(_material.MatButton, { icon: 'close', onClick: closeCreateModal, className: 'close-btn' })
-  );
-};
-
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {
-    name: state.createPlaylist.name,
-    errors: state.createPlaylist.errors
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    setName: function setName(name) {
-      dispatch((0, _create_playlist.setName)(name));
-    },
-    submitForm: function submitForm() {
-      dispatch((0, _create_playlist.submitForm)());
-    },
-    closeCreateModal: function closeCreateModal() {
-      dispatch((0, _playlists.closeCreateModal)());
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CreatePlaylist);
-
-/***/ }),
+/* 364 */,
 /* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35893,7 +35803,8 @@ var Form = function Form(_ref) {
       schema = _ref.schema,
       fields = _ref.fields,
       setFieldValue = _ref.setFieldValue,
-      submitForm = _ref.submitForm;
+      submitForm = _ref.submitForm,
+      hideForm = _ref.hideForm;
 
   var $fields = schema.fields.map(function (fieldSchema) {
     var field = fields[fieldSchema.name];
@@ -35924,7 +35835,8 @@ var Form = function Form(_ref) {
       { className: 'centered' },
       $fields,
       _react2.default.createElement(_material.MatButton, { text: schema.submitButtonText, onClick: submitForm })
-    )
+    ),
+    _react2.default.createElement(_material.MatButton, { className: 'close-btn', icon: 'close', onClick: hideForm })
   );
 };
 
@@ -35943,6 +35855,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     submitForm: function submitForm() {
       dispatch((0, _form.submitForm)());
+    },
+    hideForm: function hideForm() {
+      dispatch((0, _form.hideForm)());
     }
   };
 };
@@ -36013,16 +35928,9 @@ function reducer() {
         isVisible: false
       });
     case SET_SCHEMA:
-      fields = {};
-      action.schema.fields.forEach(function (field) {
-        fields[field.name] = {
-          value: '',
-          errors: []
-        };
-      });
       return _extends({}, state, {
         schema: action.schema,
-        fields: fields
+        fields: getFields(action.schema)
       });
     case SET_FIELD_VALUE:
       fields = Object.assign({}, state.fields);
@@ -36037,11 +35945,24 @@ function reducer() {
         fields: fields
       });
     case CLEAR_FORM:
-      return Object.assign({}, initialState);
+      return _extends({}, state, {
+        fields: getFields(state.schema)
+      });
     default:
       return state;
   }
 }
+
+var getFields = function getFields(schema) {
+  var fields = {};
+  schema.fields.forEach(function (field) {
+    fields[field.name] = {
+      value: '',
+      errors: []
+    };
+  });
+  return fields;
+};
 
 var showForm = exports.showForm = function showForm(schema) {
   return { type: SHOW_FORM };
@@ -36072,14 +35993,44 @@ var setFieldErrors = exports.setFieldErrors = function setFieldErrors(field, err
 
 var submitForm = exports.submitForm = function submitForm() {
   return function (dispatch, getState) {
-    var submitAction = getState().form.schema.submitAction;
-    dispatch(submitAction);
+    getState().form.schema.submitAction();
   };
 };
 
 var clearForm = exports.clearForm = function clearForm() {
   return { type: CLEAR_FORM };
 };
+
+/***/ }),
+/* 367 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var validateName = function validateName(name) {
+  var errors = [];
+
+  if (typeof name !== 'string') {
+    errors.push('Invalid type.');
+  } else if (name.length <= 0) {
+    errors.push("Can't be empty.");
+  }
+
+  return errors;
+};
+
+var validate = function validate(_ref) {
+  var name = _ref.name;
+
+  var errors = {};
+
+  errors.name = validateName(name);
+
+  return errors;
+};
+
+module.exports = validate;
 
 /***/ })
 /******/ ]);

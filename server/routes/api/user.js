@@ -38,7 +38,7 @@ router.post('/signup', async (req, res) => {
       const errors = {name: ['Username is already taken.']};
       res.json({success: false, errors});
     } else {
-      res.json({success: false, errors: {unknown: [err]}});
+      res.json({success: false, errors: {name: [err]}});
     }
   }
 });
@@ -59,7 +59,7 @@ router.post('/login', async (req, res) => {
 
     // Check credentials
     if (!user || user.password !== password) {
-      const errors = {form: ['Username/ password pair not found.']};
+      const errors = {password: ['Username/ password pair not found.']};
       return res.json({success: false, errors});
     }
 
@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
     // Success!
     res.json({success: true, token});
   } catch (err) {
-    res.json({success: false, errors: {unknown: [err]}});
+    res.json({success: false, errors: {password: [err]}});
   }
 });
 
