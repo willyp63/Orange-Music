@@ -8,8 +8,9 @@ import { fetchPlaylists, addTrackToPlaylist } from '../../../../store/modules/pl
 const addToPlaylistFormSchema = {
   fields: [
     {
-      name: 'playlistName',
+      name: 'playlist',
       type: 'picker',
+      formatter: (playlist) => playlist.name,
     },
     {
       name: 'track',
@@ -20,7 +21,7 @@ const addToPlaylistFormSchema = {
 
 class ActionProvider extends React.Component {
   componentWillReceiveProps(newProps) {
-    addToPlaylistFormSchema.fields[0].options = newProps.playlists.map(playlist => playlist.name);
+    addToPlaylistFormSchema.fields[0].options = newProps.playlists;
     newProps.setFormSchema(addToPlaylistFormSchema);
   }
   render() {
@@ -32,7 +33,7 @@ class ActionProvider extends React.Component {
     };
 
     const addToPlaylist = track => {
-      addToPlaylistFormSchema.fields[0].options = playlists.map(playlist => playlist.name);
+      addToPlaylistFormSchema.fields[0].options = playlists;
       addToPlaylistFormSchema.fields[0].onValueChange = addTrackToPlaylist;
       fetchPlaylists(); // Incase we have not yet.
       setFormSchema(addToPlaylistFormSchema);

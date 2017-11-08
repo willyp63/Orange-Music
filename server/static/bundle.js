@@ -4683,11 +4683,11 @@ var createPlaylist = exports.createPlaylist = function createPlaylist() {
 var addTrackToPlaylist = exports.addTrackToPlaylist = function addTrackToPlaylist() {
   return function (dispatch, getState) {
     var _getState$form$fields = getState().form.fields,
-        playlistName = _getState$form$fields.playlistName,
+        playlist = _getState$form$fields.playlist,
         track = _getState$form$fields.track;
 
 
-    console.log(playlistName.value);
+    console.log(playlist.value);
     console.log(track.value);
 
     dispatch((0, _form.hideForm)());
@@ -16664,8 +16664,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var addToPlaylistFormSchema = {
   fields: [{
-    name: 'playlistName',
-    type: 'picker'
+    name: 'playlist',
+    type: 'picker',
+    formatter: function formatter(playlist) {
+      return playlist.name;
+    }
   }, {
     name: 'track',
     isVisible: false
@@ -16684,9 +16687,7 @@ var ActionProvider = function (_React$Component) {
   _createClass(ActionProvider, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
-      addToPlaylistFormSchema.fields[0].options = newProps.playlists.map(function (playlist) {
-        return playlist.name;
-      });
+      addToPlaylistFormSchema.fields[0].options = newProps.playlists;
       newProps.setFormSchema(addToPlaylistFormSchema);
     }
   }, {
@@ -16711,9 +16712,7 @@ var ActionProvider = function (_React$Component) {
       };
 
       var addToPlaylist = function addToPlaylist(track) {
-        addToPlaylistFormSchema.fields[0].options = playlists.map(function (playlist) {
-          return playlist.name;
-        });
+        addToPlaylistFormSchema.fields[0].options = playlists;
         addToPlaylistFormSchema.fields[0].onValueChange = addTrackToPlaylist;
         fetchPlaylists(); // Incase we have not yet.
         setFormSchema(addToPlaylistFormSchema);
@@ -35887,7 +35886,7 @@ var Form = function Form(_ref) {
       return _react2.default.createElement(
         'div',
         { key: fieldSchema.name, className: 'picker-field' },
-        _react2.default.createElement(_material.MatPicker, { options: fieldSchema.options, onOptionSelect: onValueChange }),
+        _react2.default.createElement(_material.MatPicker, { options: fieldSchema.options, onOptionSelect: onValueChange, formatter: fieldSchema.formatter }),
         $errors
       );
     } else {
@@ -36208,12 +36207,14 @@ var MatPicker = function (_React$Component) {
 
       var _props = this.props,
           options = _props.options,
-          onOptionSelect = _props.onOptionSelect;
+          onOptionSelect = _props.onOptionSelect,
+          formatter = _props.formatter;
       var query = this.state.query;
 
 
       var $options = options.map(function (option) {
-        return _react2.default.createElement(_mat_button2.default, { text: option, onClick: onOptionSelect.bind(null, option), key: option });
+        var text = typeof formatter === 'function' ? formatter(option) : option;
+        return _react2.default.createElement(_mat_button2.default, { text: text, onClick: onOptionSelect.bind(null, option), key: text });
       });
 
       var $input = options.length > 5 ? _react2.default.createElement(_mat_input2.default, { value: query,

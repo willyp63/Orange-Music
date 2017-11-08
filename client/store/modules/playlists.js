@@ -106,9 +106,9 @@ export const createPlaylist = () => (dispatch, getState) => {
 };
 
 export const addTrackToPlaylist = () => (dispatch, getState) => {
-  const { playlistName, track } = getState().form.fields;
+  const { playlist, track } = getState().form.fields;
 
-  console.log(playlistName.value);
+  console.log(playlist.value);
   console.log(track.value);
 
   dispatch(hideForm());

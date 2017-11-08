@@ -26,7 +26,7 @@ const Form = ({ isVisible, schema, fields, setFieldValue, submitForm, hideForm }
     if (type === 'picker') {
       return (
         <div key={fieldSchema.name} className='picker-field'>
-          <MatPicker options={fieldSchema.options} onOptionSelect={onValueChange} />
+          <MatPicker options={fieldSchema.options} onOptionSelect={onValueChange} formatter={fieldSchema.formatter} />
           {$errors}
         </div>
       );

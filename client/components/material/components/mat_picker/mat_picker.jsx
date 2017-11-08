@@ -11,12 +11,13 @@ class MatPicker extends React.Component {
     };
   }
   render() {
-    const { options, onOptionSelect } = this.props;
+    const { options, onOptionSelect, formatter } = this.props;
     const { query } = this.state;
 
     const $options = options.map(option => {
+      const text = typeof formatter === 'function' ? formatter(option) : option;
       return (
-        <MatButton text={option} onClick={onOptionSelect.bind(null, option)} key={option} />
+        <MatButton text={text} onClick={onOptionSelect.bind(null, option)} key={text} />
       );
     });
 
