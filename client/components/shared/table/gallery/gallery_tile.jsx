@@ -20,11 +20,11 @@ class GalleryTile extends React.Component {
 
     const TitleChipComponent = schema.titleChipComponent || MatChip;
     const $titleChip = title
-      ? (<TitleChipComponent className='title' text={title} actions={actions} />)
+      ? (<TitleChipComponent className='title' text={title} actions={actions} entity={entity} />)
       : '';
     const SubtitleChipComponent = schema.subtitleChipComponent || MatChip;
     const $subtitleChip = subtitle
-      ? (<SubtitleChipComponent className='subtitle' text={subtitle} actions={actions} />)
+      ? (<SubtitleChipComponent className='subtitle' text={subtitle} actions={actions} entity={entity} />)
       : '';
 
     const $buttons = Object.keys(schema.actions).map((actionType) => {

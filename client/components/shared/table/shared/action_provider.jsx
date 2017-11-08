@@ -32,6 +32,10 @@ class ActionProvider extends React.Component {
       history.pushLocation('/search', {q: artistName, tt: '0'});
     };
 
+    const goToPlaylist = playlistId => {
+      history.pushLocation('/playlists/tracks', {pi: playlistId});
+    };
+
     const addToPlaylist = track => {
       addToPlaylistFormSchema.fields[0].options = playlists;
       addToPlaylistFormSchema.fields[0].onValueChange = addTrackToPlaylist;
@@ -43,7 +47,7 @@ class ActionProvider extends React.Component {
 
 
     const actions = {play, addToQueue, removeFromQueue, removeFromHistory,
-      goToArtist, addToPlaylist};
+      goToArtist, addToPlaylist, goToPlaylist};
 
     return (<div>{React.cloneElement(children, {actions})}</div>);
   }

@@ -12,6 +12,7 @@ import queue from './store/modules/queue';
 import form from './store/modules/form';
 import session from './store/modules/session';
 import playlists from './store/modules/playlists';
+import playlistDetail from './store/modules/playlist_detail';
 
 import querySync from './store/query_sync/query_sync';
 import history from './history';
@@ -25,6 +26,7 @@ const store = createStore(
     form,
     session,
     playlists,
+    playlistDetail,
   }),
   {},
   applyMiddleware(thunk, logger)

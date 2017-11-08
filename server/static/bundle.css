@@ -1115,6 +1115,14 @@ i {
   color: #2196F3;
   text-decoration: underline;
 }
+.om-list .playlist-link-cell {
+  color: #1976D2;
+  cursor: pointer;
+}
+.om-list .playlist-link-cell:hover {
+  color: #2196F3;
+  text-decoration: underline;
+}
 .om-gallery {
   display: flex;
   flex-wrap: wrap;
@@ -1299,6 +1307,14 @@ i {
   cursor: pointer;
 }
 .om-gallery .artist-link-chip:hover {
+  color: #2196F3;
+  text-decoration: underline;
+}
+.om-gallery .playlist-link-chip {
+  color: #1976D2;
+  cursor: pointer;
+}
+.om-gallery .playlist-link-chip:hover {
   color: #2196F3;
   text-decoration: underline;
 }

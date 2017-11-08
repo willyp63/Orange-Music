@@ -11,6 +11,7 @@ import Home from './home/home';
 import Search from './search/search';
 import Queue from './queue/queue';
 import Playlists from './playlists/playlists';
+import PlaylistDetail from './playlists/detail/playlist_detail';
 
 class App extends React.Component {
   constructor(props) {
@@ -49,9 +50,10 @@ class App extends React.Component {
           <div className="content-container">
             <div className="route-container">
               <Route exact path="/" component={Home} />
-              <Route path="/search" component={Search} />
-              <Route path="/queue" component={Queue} />
-              <Route path="/playlists" component={Playlists} />
+              <Route exact path="/search" component={Search} />
+              <Route exact path="/queue" component={Queue} />
+              <Route exact path="/playlists" component={Playlists} />
+              <Route exact path="/playlists/tracks" component={PlaylistDetail} />
             </div>
           </div>
         </div>
