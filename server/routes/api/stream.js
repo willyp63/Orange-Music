@@ -37,8 +37,11 @@ router.get('/video', async (req, res) => {
 ///   videoId: Youtube video id
 /// }
 router.get('/:videoId', (req, res) => {
-  // TODO: Probably needs more sospisticated request handeling (errors, cancelation, ...)
-  ytApi.stream(req.params.videoId).pipe(res);
+  try {
+    ytApi.stream(req.params.videoId).pipe(res);
+  } catch (exception) {
+    res.status(500).send(exception);
+  }
 });
 
 module.exports = router;
