@@ -1,5 +1,5 @@
-import TRACK_LIST_SCHEMA from '../list/track';
-import TRACK_GALLERY_SCHEMA from '../gallery/track';
+import PLAYLIST_DETAIL_LIST_SCHEMA from '../list/playlist_detail';
+import PLAYLIST_DETAIL_GALLERY_SCHEMA from '../gallery/playlist_detail';
 
 export const PLAYLIST_DETAIL_TABLE_TYPES = {
   TRACKS: '0',
@@ -8,8 +8,8 @@ export const PLAYLIST_DETAIL_TABLE_TYPES = {
 let SCHEMA = {};
 SCHEMA[PLAYLIST_DETAIL_TABLE_TYPES.TRACKS] = {
   label: '@NA',
-  listSchema: TRACK_LIST_SCHEMA,
-  gallerySchema: TRACK_GALLERY_SCHEMA,
+  listSchema: PLAYLIST_DETAIL_LIST_SCHEMA,
+  gallerySchema: PLAYLIST_DETAIL_GALLERY_SCHEMA,
   endOfTable: true, /* All tracks are always loaded on component load */
 };
 

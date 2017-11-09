@@ -79,6 +79,33 @@ router.post('/create', async (req, res) => {
   }
 });
 
+/// Delete a User's Playlist
+///
+/// Params: {
+///   playlist: Playlist to delete,
+/// }
+router.post('/delete', async (req, res) => {
+  const userId = req.user.id;
+  let { playlist } = req.body;
+
+  // Delete Playlist Adds for Playlist
+  try {
+    await db.query(removePlaylistAddsForPlaylist(userId, playlist.id));
+  } catch (err) {
+    console.log(err);
+    return res.json({success: false, errors: {playlist: [err.toString()]}});
+  }
+
+  // Delete Playlist
+  try {
+    await db.query(removePlaylist(userId, playlist.id));
+    res.json({success: true});
+  } catch (err) {
+    console.log(err);
+    return res.json({success: false, errors: {playlist: [err.toString()]}});
+  }
+});
+
 /// Add a track to a user's playlist
 ///
 /// Params: {
@@ -128,12 +155,40 @@ router.post('/addto', async (req, res) => {
   }
 });
 
+/// Remove a track from a user's playlist
+///
+/// Params: {
+///   playlist: Playlist to remove from,
+///   track: Track to remove,
+/// }
+router.post('/removefrom', async (req, res) => {
+  const userId = req.user.id;
+  let { playlist, track } = req.body;
+
+  // Remove Playlist Add
+  try {
+    await db.query(removePlaylistAdd(userId, playlist.id, track.id));
+    res.json({success: true});
+  } catch (err) {
+    console.log(err);
+    return res.json({success: false, errors: {playlist: [err.toString()]}});
+  }
+});
+
 const insertPlaylist = (userId, name) => ({
   text: `
     INSERT INTO playlists(user_id, name)
     VALUES ($1, $2);
   `,
   values: [userId, name],
+});
+
+const removePlaylist = (userId, playlistId) => ({
+  text: `
+    DELETE FROM playlists
+    WHERE user_id = $1 AND id = $2;
+  `,
+  values: [userId, playlistId],
 });
 
 const insertTrack = (mbid, name, artistName, image) => ({
@@ -150,6 +205,22 @@ const insertPlaylistAdd = (userId, playlistId, trackId) => ({
     VALUES ($1, $2, $3);
   `,
   values: [userId, playlistId, trackId],
+});
+
+const removePlaylistAdd = (userId, playlistId, trackId) => ({
+  text: `
+    DELETE FROM playlist_adds
+    WHERE user_id = $1 AND playlist_id = $2 AND track_id = $3;
+  `,
+  values: [userId, playlistId, trackId],
+});
+
+const removePlaylistAddsForPlaylist = (userId, playlistId) => ({
+  text: `
+    DELETE FROM playlist_adds
+    WHERE user_id = $1 AND playlist_id = $2;
+  `,
+  values: [userId, playlistId],
 });
 
 const getPlaylistsForUser = (userId) => ({

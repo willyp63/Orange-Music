@@ -4457,7 +4457,7 @@ var indexOf = function indexOf(tracks, track) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addTrackToPlaylist = exports.createPlaylist = exports.refreshPlaylists = exports.fetchPlaylists = exports.clearPlaylists = exports.receivePlaylists = exports.setPlaylistsDisplayType = undefined;
+exports.removeTrackFromPlaylist = exports.addTrackToPlaylist = exports.deletePlaylist = exports.createPlaylist = exports.refreshPlaylists = exports.fetchPlaylists = exports.clearPlaylists = exports.receivePlaylists = exports.setPlaylistsDisplayType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -4606,6 +4606,18 @@ var createPlaylist = exports.createPlaylist = function createPlaylist() {
   };
 };
 
+var deletePlaylist = exports.deletePlaylist = function deletePlaylist(playlist) {
+  return function (dispatch, getState) {
+    var token = getState().session.token;
+
+    var formData = { token: token, playlist: playlist };
+
+    _orange_music2.default.deletePlaylist(formData).then(function (response) {
+      dispatch(refreshPlaylists());
+    });
+  };
+};
+
 var addTrackToPlaylist = exports.addTrackToPlaylist = function addTrackToPlaylist() {
   return function (dispatch, getState) {
     var state = getState();
@@ -4625,6 +4637,20 @@ var addTrackToPlaylist = exports.addTrackToPlaylist = function addTrackToPlaylis
         dispatch((0, _form.clearForm)());
         dispatch((0, _playlist_detail.refreshTracks)());
       }
+    });
+  };
+};
+
+var removeTrackFromPlaylist = exports.removeTrackFromPlaylist = function removeTrackFromPlaylist(track) {
+  return function (dispatch, getState) {
+    var state = getState();
+    var playlist = { id: state.playlistDetail.playlistId };
+    var token = state.session.token;
+
+    var formData = { token: token, playlist: playlist, track: track };
+
+    _orange_music2.default.removeFromPlaylist(formData).then(function (response) {
+      dispatch((0, _playlist_detail.refreshTracks)());
     });
   };
 };
@@ -6289,15 +6315,48 @@ module.exports.createPlaylist = function (_ref7) {
   });
 };
 
-module.exports.addToPlaylist = function (_ref8) {
+module.exports.deletePlaylist = function (_ref8) {
   var token = _ref8.token,
-      playlist = _ref8.playlist,
-      track = _ref8.track;
+      playlist = _ref8.playlist;
+
+  return new Promise(function (resolve, reject) {
+    var data = { token: token, playlist: playlist };
+    $.post({
+      url: '/api/v1/playlists/delete',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json'
+    });
+  });
+};
+
+module.exports.addToPlaylist = function (_ref9) {
+  var token = _ref9.token,
+      playlist = _ref9.playlist,
+      track = _ref9.track;
 
   return new Promise(function (resolve, reject) {
     var data = { token: token, playlist: playlist, track: track };
     $.post({
       url: '/api/v1/playlists/addto',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json'
+    });
+  });
+};
+
+module.exports.removeFromPlaylist = function (_ref10) {
+  var token = _ref10.token,
+      playlist = _ref10.playlist,
+      track = _ref10.track;
+
+  return new Promise(function (resolve, reject) {
+    var data = { token: token, playlist: playlist, track: track };
+    $.post({
+      url: '/api/v1/playlists/removefrom',
       data: JSON.stringify(data),
       success: resolve,
       error: reject,
@@ -16573,7 +16632,9 @@ var ActionProvider = function (_React$Component) {
           playlists = _props.playlists,
           fetchPlaylists = _props.fetchPlaylists,
           addTrackToPlaylist = _props.addTrackToPlaylist,
-          setFieldValue = _props.setFieldValue;
+          setFieldValue = _props.setFieldValue,
+          deletePlaylist = _props.deletePlaylist,
+          removeTrackFromPlaylist = _props.removeTrackFromPlaylist;
 
 
       var goToArtist = function goToArtist(artistName) {
@@ -16594,7 +16655,7 @@ var ActionProvider = function (_React$Component) {
       };
 
       var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
-        goToArtist: goToArtist, addToPlaylist: addToPlaylist, goToPlaylist: goToPlaylist };
+        goToArtist: goToArtist, addToPlaylist: addToPlaylist, goToPlaylist: goToPlaylist, deletePlaylist: deletePlaylist, removeTrackFromPlaylist: removeTrackFromPlaylist };
 
       return _react2.default.createElement(
         'div',
@@ -16627,20 +16688,26 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     removeFromHistory: function removeFromHistory(track) {
       dispatch((0, _queue.removeFromHistory)(track));
     },
+    deletePlaylist: function deletePlaylist(playlist) {
+      return dispatch((0, _playlists.deletePlaylist)(playlist));
+    },
+    addTrackToPlaylist: function addTrackToPlaylist() {
+      return dispatch((0, _playlists.addTrackToPlaylist)());
+    },
+    removeTrackFromPlaylist: function removeTrackFromPlaylist(track) {
+      return dispatch((0, _playlists.removeTrackFromPlaylist)(track));
+    },
     showForm: function showForm() {
       return dispatch((0, _form.showForm)());
     },
     setFormSchema: function setFormSchema(schema) {
       return dispatch((0, _form.setFormSchema)(schema));
     },
-    fetchPlaylists: function fetchPlaylists() {
-      return dispatch((0, _playlists.fetchPlaylists)());
-    },
-    addTrackToPlaylist: function addTrackToPlaylist() {
-      return dispatch((0, _playlists.addTrackToPlaylist)());
-    },
     setFieldValue: function setFieldValue(field, value) {
       return dispatch((0, _form.setFieldValue)(field, value));
+    },
+    fetchPlaylists: function fetchPlaylists() {
+      return dispatch((0, _playlists.fetchPlaylists)());
     }
   };
 };
@@ -36404,6 +36471,14 @@ var _mock_image_cell = __webpack_require__(86);
 
 var _mock_image_cell2 = _interopRequireDefault(_mock_image_cell);
 
+var _action_cell = __webpack_require__(316);
+
+var _action_cell2 = _interopRequireDefault(_action_cell);
+
+var _playlist = __webpack_require__(365);
+
+var _playlist2 = _interopRequireDefault(_playlist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SCHEMA = {
@@ -36416,6 +36491,12 @@ var SCHEMA = {
     label: 'Name',
     width: '100%',
     component: _playlist_link_cell2.default
+  },
+  '@actions': {
+    label: '',
+    width: 40 * 8 + 'px', // Experimental
+    component: _action_cell2.default,
+    actions: _playlist2.default
   }
 };
 
@@ -36436,6 +36517,10 @@ var _playlist_link_chip = __webpack_require__(363);
 
 var _playlist_link_chip2 = _interopRequireDefault(_playlist_link_chip);
 
+var _playlist = __webpack_require__(365);
+
+var _playlist2 = _interopRequireDefault(_playlist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SCHEMA = {
@@ -36443,7 +36528,7 @@ var SCHEMA = {
   titleChipComponent: _playlist_link_chip2.default,
   subtitlePath: '@NA',
   imagePath: 'image',
-  actions: {}
+  actions: _playlist2.default
 };
 
 exports.default = SCHEMA;
@@ -36575,13 +36660,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PLAYLIST_DETAIL_TABLE_TYPES = undefined;
 
-var _track = __webpack_require__(30);
+var _playlist_detail = __webpack_require__(367);
 
-var _track2 = _interopRequireDefault(_track);
+var _playlist_detail2 = _interopRequireDefault(_playlist_detail);
 
-var _track3 = __webpack_require__(40);
+var _playlist_detail3 = __webpack_require__(368);
 
-var _track4 = _interopRequireDefault(_track3);
+var _playlist_detail4 = _interopRequireDefault(_playlist_detail3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36592,8 +36677,8 @@ var PLAYLIST_DETAIL_TABLE_TYPES = exports.PLAYLIST_DETAIL_TABLE_TYPES = {
 var SCHEMA = {};
 SCHEMA[PLAYLIST_DETAIL_TABLE_TYPES.TRACKS] = {
   label: '@NA',
-  listSchema: _track2.default,
-  gallerySchema: _track4.default,
+  listSchema: _playlist_detail2.default,
+  gallerySchema: _playlist_detail4.default,
   endOfTable: true /* All tracks are always loaded on component load */
 };
 
@@ -36667,6 +36752,121 @@ var PlaylistLinkCell = function PlaylistLinkCell(text, entity, actions) {
 };
 
 exports.default = PlaylistLinkCell;
+
+/***/ }),
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var PLAYLIST_ACTION_TYPES = exports.PLAYLIST_ACTION_TYPES = {
+  DELETE_PLAYLIST: '0'
+};
+
+var ACTIONS = {};
+ACTIONS[PLAYLIST_ACTION_TYPES.DELETE_PLAYLIST] = {
+  buttonClassName: 'delete-playlist-btn',
+  icon: 'remove',
+  tooltipText: 'Delete playlist',
+  actionName: 'deletePlaylist'
+};
+
+exports.default = ACTIONS;
+
+/***/ }),
+/* 366 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PLAYLIST_DETAIL_ACTION_TYPES = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _track = __webpack_require__(54);
+
+var _track2 = _interopRequireDefault(_track);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PLAYLIST_DETAIL_ACTION_TYPES = exports.PLAYLIST_DETAIL_ACTION_TYPES = {
+  REMOVE_FROM_PLAYLIST: '3' // 3 prior actions
+};
+
+var ACTIONS = _extends({}, _track2.default);
+ACTIONS[PLAYLIST_DETAIL_ACTION_TYPES.REMOVE_FROM_PLAYLIST] = {
+  buttonClassName: 'remove-from-playlist-btn',
+  icon: 'remove',
+  tooltipText: 'Remove from playlist',
+  actionName: 'removeTrackFromPlaylist'
+};
+
+exports.default = ACTIONS;
+
+/***/ }),
+/* 367 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _track = __webpack_require__(30);
+
+var _track2 = _interopRequireDefault(_track);
+
+var _playlist_detail = __webpack_require__(366);
+
+var _playlist_detail2 = _interopRequireDefault(_playlist_detail);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Track list schema w/ Playlist Detail actions
+var SCHEMA = Object.assign({}, _track2.default, {
+  '@actions': Object.assign({}, _track2.default['@actions'], {
+    actions: _playlist_detail2.default
+  })
+});
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _track = __webpack_require__(40);
+
+var _track2 = _interopRequireDefault(_track);
+
+var _playlist_detail = __webpack_require__(366);
+
+var _playlist_detail2 = _interopRequireDefault(_playlist_detail);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SCHEMA = Object.assign({}, _track2.default, {
+  actions: _playlist_detail2.default
+});
+
+exports.default = SCHEMA;
 
 /***/ })
 /******/ ]);

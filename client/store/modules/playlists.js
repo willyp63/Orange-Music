@@ -1,7 +1,7 @@
 import omApi from '../api/orange_music';
 import validateCreatePlaylistForm from '../../../shared/validators/create_playlist';
 import { setFieldErrors, clearForm, hideForm } from './form';
-import { refreshTracks} from './playlist_detail';
+import { refreshTracks } from './playlist_detail';
 import { DISPLAY_TYPES } from '../../schemas/display';
 
 const SET_DISPLAY_TYPE = 'orange-music/playlists/SET_DISPLAY_TYPE';
@@ -113,6 +113,15 @@ export const createPlaylist = () => (dispatch, getState) => {
   }
 };
 
+export const deletePlaylist = (playlist) => (dispatch, getState) => {
+  const { token } = getState().session;
+  const formData = {token, playlist};
+
+  omApi.deletePlaylist(formData).then(response => {
+    dispatch(refreshPlaylists());
+  });
+};
+
 export const addTrackToPlaylist = () => (dispatch, getState) => {
   const state = getState();
   const { playlist, track } = state.form.fields;
@@ -128,5 +137,16 @@ export const addTrackToPlaylist = () => (dispatch, getState) => {
       dispatch(clearForm());
       dispatch(refreshTracks());
     }
+  });
+};
+
+export const removeTrackFromPlaylist = (track) => (dispatch, getState) => {
+  const state = getState();
+  const playlist = {id: state.playlistDetail.playlistId};
+  const { token } = state.session;
+  const formData = {token, playlist, track};
+
+  omApi.removeFromPlaylist(formData).then(response => {
+    dispatch(refreshTracks());
   });
 };

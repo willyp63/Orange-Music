@@ -75,11 +75,37 @@ module.exports.createPlaylist = ({token, name}) => {
   });
 };
 
+module.exports.deletePlaylist = ({token, playlist}) => {
+  return new Promise((resolve, reject) => {
+    const data = {token, playlist};
+    $.post({
+      url: '/api/v1/playlists/delete',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json',
+    });
+  });
+};
+
 module.exports.addToPlaylist = ({token, playlist, track}) => {
   return new Promise((resolve, reject) => {
     const data = {token, playlist, track};
     $.post({
       url: '/api/v1/playlists/addto',
+      data: JSON.stringify(data),
+      success: resolve,
+      error: reject,
+      contentType: 'application/json',
+    });
+  });
+};
+
+module.exports.removeFromPlaylist = ({token, playlist, track}) => {
+  return new Promise((resolve, reject) => {
+    const data = {token, playlist, track};
+    $.post({
+      url: '/api/v1/playlists/removefrom',
       data: JSON.stringify(data),
       success: resolve,
       error: reject,

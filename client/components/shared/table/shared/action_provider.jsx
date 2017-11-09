@@ -3,7 +3,7 @@ import history from '../../../../history';
 import { connect } from 'react-redux';
 import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../store/modules/queue';
 import { showForm, setFormSchema, setFieldValue } from '../../../../store/modules/form';
-import { fetchPlaylists, addTrackToPlaylist } from '../../../../store/modules/playlists';
+import { fetchPlaylists, addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist } from '../../../../store/modules/playlists';
 
 const addToPlaylistFormSchema = {
   fields: [
@@ -26,7 +26,8 @@ class ActionProvider extends React.Component {
   }
   render() {
     const { play, addToQueue, removeFromQueue, removeFromHistory, children, showForm,
-      setFormSchema, playlists, fetchPlaylists, addTrackToPlaylist, setFieldValue } = this.props;
+      setFormSchema, playlists, fetchPlaylists, addTrackToPlaylist, setFieldValue,
+      deletePlaylist, removeTrackFromPlaylist } = this.props;
 
     const goToArtist = artistName => {
       history.pushLocation('/search', {q: artistName, tt: '0'});
@@ -47,7 +48,7 @@ class ActionProvider extends React.Component {
 
 
     const actions = {play, addToQueue, removeFromQueue, removeFromHistory,
-      goToArtist, addToPlaylist, goToPlaylist};
+      goToArtist, addToPlaylist, goToPlaylist, deletePlaylist, removeTrackFromPlaylist};
 
     return (<div>{React.cloneElement(children, {actions})}</div>);
   }
@@ -65,11 +66,13 @@ const mapDispatchToProps = (dispatch) => {
     addToQueue: (track) => { dispatch(addToQueue(track)); },
     removeFromQueue: (track) => { dispatch(removeFromQueue(track)); },
     removeFromHistory: (track) => { dispatch(removeFromHistory(track)); },
+    deletePlaylist: (playlist) => dispatch(deletePlaylist(playlist)),
+    addTrackToPlaylist: () => dispatch(addTrackToPlaylist()),
+    removeTrackFromPlaylist: (track) => dispatch(removeTrackFromPlaylist(track)),
     showForm: () => dispatch(showForm()),
     setFormSchema: (schema) => dispatch(setFormSchema(schema)),
-    fetchPlaylists: () => dispatch(fetchPlaylists()),
-    addTrackToPlaylist: () => dispatch(addTrackToPlaylist()),
     setFieldValue: (field, value) => dispatch(setFieldValue(field, value)),
+    fetchPlaylists: () => dispatch(fetchPlaylists()),
   };
 };
 

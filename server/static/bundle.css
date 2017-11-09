@@ -1036,39 +1036,53 @@ i {
   border-radius: 50%;
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn,
-.om-list .actions-cell .action-btns-container .remove-from-history-btn {
+.om-list .actions-cell .action-btns-container .remove-from-history-btn,
+.om-list .actions-cell .action-btns-container .remove-from-playlist-btn,
+.om-list .actions-cell .action-btns-container .delete-playlist-btn {
   border-radius: 50%;
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn .inner-btn,
-.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn {
+.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn,
+.om-list .actions-cell .action-btns-container .remove-from-playlist-btn .inner-btn,
+.om-list .actions-cell .action-btns-container .delete-playlist-btn .inner-btn {
   color: #FFFFFF;
   background-color: #E53935;
   transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn .inner-btn.disabled,
-.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn.disabled {
+.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn.disabled,
+.om-list .actions-cell .action-btns-container .remove-from-playlist-btn .inner-btn.disabled,
+.om-list .actions-cell .action-btns-container .delete-playlist-btn .inner-btn.disabled {
   color: #BDBDBD;
   background-color: #BDBDBD;
   box-shadow: none;
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn .inner-btn:hover:not(.disabled),
-.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn:hover:not(.disabled) {
+.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn:hover:not(.disabled),
+.om-list .actions-cell .action-btns-container .remove-from-playlist-btn .inner-btn:hover:not(.disabled),
+.om-list .actions-cell .action-btns-container .delete-playlist-btn .inner-btn:hover:not(.disabled) {
   color: #EEEEEE;
   background-color: #F44336;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn .inner-btn,
-.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn {
+.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn,
+.om-list .actions-cell .action-btns-container .remove-from-playlist-btn .inner-btn,
+.om-list .actions-cell .action-btns-container .delete-playlist-btn .inner-btn {
   padding: 0;
   justify-content: space-around;
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn .mat-tooltip,
-.om-list .actions-cell .action-btns-container .remove-from-history-btn .mat-tooltip {
+.om-list .actions-cell .action-btns-container .remove-from-history-btn .mat-tooltip,
+.om-list .actions-cell .action-btns-container .remove-from-playlist-btn .mat-tooltip,
+.om-list .actions-cell .action-btns-container .delete-playlist-btn .mat-tooltip {
   border-radius: 50%;
 }
 .om-list .actions-cell .action-btns-container .remove-from-queue-btn .inner-btn,
-.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn {
+.om-list .actions-cell .action-btns-container .remove-from-history-btn .inner-btn,
+.om-list .actions-cell .action-btns-container .remove-from-playlist-btn .inner-btn,
+.om-list .actions-cell .action-btns-container .delete-playlist-btn .inner-btn {
   border-radius: 50%;
 }
 .om-list .actions-cell .action-btns-container .add-to-playlist-btn {
@@ -1270,33 +1284,47 @@ i {
   border-radius: 50%;
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn,
-.om-gallery .tile .actions-drawer .remove-from-history-btn {
+.om-gallery .tile .actions-drawer .remove-from-history-btn,
+.om-gallery .tile .actions-drawer .remove-from-playlist-btn,
+.om-gallery .tile .actions-drawer .delete-playlist-btn {
   border-radius: 50%;
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn .inner-btn,
-.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn {
+.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn,
+.om-gallery .tile .actions-drawer .remove-from-playlist-btn .inner-btn,
+.om-gallery .tile .actions-drawer .delete-playlist-btn .inner-btn {
   color: #E53935;
   transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn .inner-btn.disabled,
-.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn.disabled {
+.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn.disabled,
+.om-gallery .tile .actions-drawer .remove-from-playlist-btn .inner-btn.disabled,
+.om-gallery .tile .actions-drawer .delete-playlist-btn .inner-btn.disabled {
   color: #BDBDBD;
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn .inner-btn:hover:not(.disabled),
-.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn:hover:not(.disabled) {
+.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn:hover:not(.disabled),
+.om-gallery .tile .actions-drawer .remove-from-playlist-btn .inner-btn:hover:not(.disabled),
+.om-gallery .tile .actions-drawer .delete-playlist-btn .inner-btn:hover:not(.disabled) {
   color: #F44336;
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn .inner-btn,
-.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn {
+.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn,
+.om-gallery .tile .actions-drawer .remove-from-playlist-btn .inner-btn,
+.om-gallery .tile .actions-drawer .delete-playlist-btn .inner-btn {
   padding: 0;
   justify-content: space-around;
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn .mat-tooltip,
-.om-gallery .tile .actions-drawer .remove-from-history-btn .mat-tooltip {
+.om-gallery .tile .actions-drawer .remove-from-history-btn .mat-tooltip,
+.om-gallery .tile .actions-drawer .remove-from-playlist-btn .mat-tooltip,
+.om-gallery .tile .actions-drawer .delete-playlist-btn .mat-tooltip {
   border-radius: 50%;
 }
 .om-gallery .tile .actions-drawer .remove-from-queue-btn .inner-btn,
-.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn {
+.om-gallery .tile .actions-drawer .remove-from-history-btn .inner-btn,
+.om-gallery .tile .actions-drawer .remove-from-playlist-btn .inner-btn,
+.om-gallery .tile .actions-drawer .delete-playlist-btn .inner-btn {
   border-radius: 50%;
 }
 .om-gallery .tile:hover .actions-drawer {
