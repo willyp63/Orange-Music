@@ -1,10 +1,13 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const validate = require('../../../shared/validators/sign_up');
 const db = require('../../db');
+const jwt = require('jsonwebtoken');
 const JWT_SECRET = require('../../secrets/jwt');
+const validateSignUp = require('../../../shared/validators/sign_up');
+
 
 /// Sign-up a new user.
+///
+/// Insert user & send back auth token.
 ///
 /// Params: {
 ///   name: User's name,
@@ -13,37 +16,33 @@ const JWT_SECRET = require('../../secrets/jwt');
 router.post('/signup', async (req, res) => {
   const { name, password } = req.body;
 
-  // Validate form data
-  const errors = validate({name, password});
-  if (errors.name.length !== 0 || errors.password.length !== 0) {
-    return res.json({success: false, errors});
-  }
+  // Validate form data.
+  const errors = validateSignUp({name, password});
+  if (!errors.valid) { return res.json({success: false, errors}); }
 
   try {
-    // Insert user
+    // Insert user, then fetch same user so we can get the user's id.
     await db.query(insertUser(name, password));
+    const user = (await db.query(getUser(name))).rows[0];
 
-    // Fetch user we inserted
-    const result = await db.query(getUserByName(name));
-    const user = result.rows[0];
-
-    // Get JWT
-    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '12h'});
-
-    // Success!
-    res.json({success: true, token});
-  } catch (err) {
-    if (err.constraint === 'users_name_key') {
+    // Send back token.
+    res.json({success: true, token: getJWT(user)});
+  } catch (e) {
+    if (e.constraint === 'users_name_key') {
       // Database error indicates that username is not unique
       const errors = {name: ['Username is already taken.']};
       res.json({success: false, errors});
     } else {
-      res.json({success: false, errors: {name: [err]}});
+      console.log('!!! Problem Signing-up User !!!');
+      console.log(e);
     }
   }
 });
 
-/// Get a JWT token for the user (Login).
+
+/// Log-in an existing user.
+///
+/// Check credentials and if valid, respond with an auth token.
 ///
 /// Params: {
 ///   name: User's name,
@@ -51,36 +50,43 @@ router.post('/signup', async (req, res) => {
 /// }
 router.post('/login', async (req, res) => {
   const { name, password } = req.body;
-
   try {
-    // Fetch user from database
-    const result = await db.query(getUserByName(name));
-    const user = result.rows[0];
-
-    // Check credentials
+    // Check credentials.
+    const user = (await db.query(getUser(name))).rows[0];
     if (!user || user.password !== password) {
       const errors = {password: ['Username/ password pair not found.']};
       return res.json({success: false, errors});
     }
 
-    // Get JWT
-    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '12h'});
-
-    // Success!
-    res.json({success: true, token});
-  } catch (err) {
-    res.json({success: false, errors: {password: [err]}});
+    // Send back token.
+    res.json({success: true, token: getJWT(user)});
+  } catch (e) {
+    console.log('!!! Problem Loggin-in User !!!');
+    console.log(e);
   }
 });
 
-router.get('/verify', (req, res) => {
-  if (req.user) {
-    const user = Object.assign({}, req.user, {password: undefined}); // Don't send password.
-    res.json({success: true, user});
-  } else {
-    res.json({success: false});
+
+/// Returns {success: true} if the sender has valid auth token.
+///
+/// Responds with user object if valid auth token.
+///
+/// Can be used to initiate a browser session from a stored token.
+router.get('/verify', async (req, res) => {
+  if (!req.user ) { return res.json({success: false}); }
+  try {
+    // Check that user still exists.
+    const user = (await db.query(getUser(req.user.name))).rows[0];
+    if (!user ) { return res.json({success: false}); }
+
+    // Send back token.
+    res.json({success: true, token: getJWT(user)});
+  } catch (e) {
+    console.log('!!! Problem Loggin-in User !!!');
+    console.log(e);
   }
 });
+
 
 const insertUser = (name, password) => ({
   text: `
@@ -90,12 +96,17 @@ const insertUser = (name, password) => ({
   values: [name, password],
 });
 
-const getUserByName = (name) => ({
+const getUser = (name) => ({
   text: `
     SELECT * from users
     WHERE name = $1;
   `,
   values: [name],
 });
+
+const getJWT = user => {
+  const safeUser = Object.assign({}, user, {password: undefined});
+  return jwt.sign({user: safeUser}, JWT_SECRET, {expiresIn: '12h'});
+};
 
 module.exports = router;

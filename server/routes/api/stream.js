@@ -1,40 +1,44 @@
 const router = require('express').Router();
 const ytApi = require('../../api_util/youtube');
-const isEmpty = require('lodash.isempty');
 
-/// Stream audio for a given Youtube video id.
-///
-/// Params: {
-///   vid: Youtube video id
-/// }
-router.get('/', (req, res) => {
-  const { vid } = req.query;
-  ytApi.stream(vid).pipe(res);
-});
-
-/// Search for a video matching the query params and return its meta data.
+/// Return a Youtube video matching the query params.
 ///
 /// Params: {
 ///   q: query for track name,
 ///   aq: query for artist name,
-///   dur: the duration of the track in seconds (ie. '124' = 124 seconds)
 /// }
 router.get('/video', async (req, res) => {
-  const { q, aq, dur } = req.query;
+  const { q, aq } = req.query;
+
+  // Get first search result.
   const videos = await ytApi.search({
     name: q,
     artistName: aq,
-    duration: dur,
     maxResults: 1,
   });
 
+  // Get more info on video.
   const videoId = videos[0].id.videoId;
   const videoInfo = await ytApi.getInfo(videoId);
 
-  const streamObj = {stream: {url: `/api/v1/stream?vid=${videoId}`}};
-  const videoObj = Object.assign(videos[0], videoInfo, streamObj);
+  // Format response.
+  const video = Object.assign(
+    videos[0],
+    videoInfo,
+    {stream: {url: `/api/v1/stream/${videoId}`}}
+  );
 
-  res.end(JSON.stringify(videoObj));
+  res.end(JSON.stringify(video));
+});
+
+/// Stream audio for a given Youtube video id.
+///
+/// Params: {
+///   videoId: Youtube video id
+/// }
+router.get('/:videoId', (req, res) => {
+  // TODO: Probably needs more sospisticated request handeling (errors, cancelation, ...)
+  ytApi.stream(req.params.videoId).pipe(res);
 });
 
 module.exports = router;

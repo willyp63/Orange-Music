@@ -28,6 +28,8 @@ const validate = ({name, password}) => {
   errors.name = validateName(name);
   errors.password = validatePassword(password);
 
+  errors.valid = errors.name.length === 0 && errors.password.length === 0;
+
   return errors;
 };
 

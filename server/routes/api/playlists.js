@@ -1,51 +1,47 @@
 const router = require('express').Router();
 const db = require('../../db');
-const validate = require('../../../shared/validators/create_playlist');
+const validateCreatePlaylist = require('../../../shared/validators/create_playlist');
 
-const AUTH_ERRORS = {name: ['Failed to provide valid auth token.']};
 
-/// Require auth token.
+// Require auth.
 router.use((req, res, next) => {
   if (!req.user) {
-    const errors = Object.assign({}, AUTH_ERRORS);
+    const errors = {name: ['Failed to provide valid auth token.']};
     res.json({success: false, errors});
   } else {
     next();
   }
 });
 
-/// Get a user's playlists
+
+/// Get a user's playlists.
 router.get('/', async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const result = await db.query(getPlaylistsForUser(userId));
-    const playlists = result.rows.map(formatPlaylistRow);
-
-    // Success!
+    const playlists = (await db.query(getPlaylists(userId))).rows;
     res.json({success: true, playlists});
-  } catch (err) {
-    res.json({success: false, errors: {unknown: [err.toString()]}});
+  } catch (e) {
+    console.log('!!! Problem getting users playlists !!!');
+    console.log(e);
   }
 });
 
 /// Get the tracks on a user's playlist
 ///
 /// Params: {
-///   playlistId: Playlist's name,
+///   playlistId: Playlist's id,
 /// }
 router.get('/tracks/:playlistId', async (req, res) => {
   const userId = req.user.id;
   const playlistId = req.params.playlistId;
 
   try {
-    const result = await db.query(getTracksOnUsersPlaylist(userId, playlistId));
-    const tracks = result.rows.map(formatTrackRow);
-
-    // Success!
+    const tracks = (await db.query(getTracks(userId, playlistId))).rows.map(formatTrackRow);
     res.json({success: true, tracks});
-  } catch (err) {
-    res.json({success: false, errors: {unknown: [err.toString()]}});
+  } catch (e) {
+    console.log('!!! Problem getting tracks on users playlist !!!');
+    console.log(e);
   }
 });
 
@@ -59,22 +55,20 @@ router.post('/create', async (req, res) => {
   const { name } = req.body;
 
   // Validate form data
-  const errors = validate({name});
-  if (errors.name.length !== 0) {
-    return res.json({success: false, errors});
-  }
+  const errors = validateCreatePlaylist({name});
+  if (!errors.valid) { return res.json({success: false, errors}); }
 
   try {
-    // Insert playlist
     await db.query(insertPlaylist(userId, name));
     res.json({success: true});
-  } catch (err) {
-    if (err.constraint === 'playlists_user_id_name_key') {
+  } catch (e) {
+    if (e.constraint === 'playlists_user_id_name_key') {
       // Database error indicates that name is not unique
       const errors = {name: ['Name is already taken.']};
       res.json({success: false, errors});
     } else {
-      res.json({success: false, errors: {name: [err.toString()]}});
+      console.log('!!! Problem creating playlist !!!');
+      console.log(e);
     }
   }
 });
@@ -90,10 +84,10 @@ router.post('/delete', async (req, res) => {
 
   // Delete Playlist Adds for Playlist
   try {
-    await db.query(removePlaylistAddsForPlaylist(userId, playlist.id));
-  } catch (err) {
-    console.log(err);
-    return res.json({success: false, errors: {playlist: [err.toString()]}});
+    await db.query(removePlaylistAdds(userId, playlist.id));
+  } catch (e) {
+    console.log('!!! Problem removing playlist adds, while removing playlist !!!');
+    console.log(e);
   }
 
   // Delete Playlist
@@ -101,8 +95,8 @@ router.post('/delete', async (req, res) => {
     await db.query(removePlaylist(userId, playlist.id));
     res.json({success: true});
   } catch (err) {
-    console.log(err);
-    return res.json({success: false, errors: {playlist: [err.toString()]}});
+    console.log('!!! Problem while removing playlist !!!');
+    console.log(e);
   }
 });
 
@@ -119,38 +113,37 @@ router.post('/addto', async (req, res) => {
   // Insert Track
   try {
     await db.query(insertTrack(track.mbid, track.name, track.artistName, track.image));
-  } catch (err) {
-    if (err.constraint === 'tracks_name_artist_name_key') {
+  } catch (e) {
+    if (e.constraint === 'tracks_name_artist_name_key') {
       // Database error indicates that track is already in table.
       //
       // Do nothing, this is fine.
     } else {
-      console.log(err);
-      return res.json({success: false, errors: {playlist: [err.toString()]}});
+      console.log('!!! Problem adding track to table, while adding track to playlist !!!');
+      console.log(e);
     }
   }
 
   // Fetch Track
   try {
-    const result = await db.query(getTrack(track.name, track.artistName));
-    track = result.rows[0];
+    track = (await db.query(getTrack(track.name, track.artistName))).rows[0];
   } catch (err) {
-    console.log(err);
-    return res.json({success: false, errors: {playlist: [err.toString()]}});
+    console.log('!!! Problem fetching track, while adding track to playlist !!!');
+    console.log(e);
   }
 
   // Add to Playlist
   try {
     await db.query(insertPlaylistAdd(userId, playlist.id, track.id));
     res.json({success: true});
-  } catch (err) {
-    if (err.constraint === 'playlist_adds_playlist_id_track_id_key') {
+  } catch (e) {
+    if (e.constraint === 'playlist_adds_playlist_id_track_id_key') {
       // Database error indicates that track is already added to playlist.
       const errors = {playlist: ['Already contains track.']};
       res.json({success: false, errors});
     } else {
-      console.log(err);
-      res.json({success: false, errors: {playlist: [err.toString()]}});
+      console.log('!!! Problem while adding track to playlist !!!');
+      console.log(e);
     }
   }
 });
@@ -165,15 +158,15 @@ router.post('/removefrom', async (req, res) => {
   const userId = req.user.id;
   let { playlist, track } = req.body;
 
-  // Remove Playlist Add
   try {
     await db.query(removePlaylistAdd(userId, playlist.id, track.id));
     res.json({success: true});
   } catch (err) {
-    console.log(err);
-    return res.json({success: false, errors: {playlist: [err.toString()]}});
+    console.log('!!! Problem while removing track from playlist !!!');
+    console.log(e);
   }
 });
+
 
 const insertPlaylist = (userId, name) => ({
   text: `
@@ -215,7 +208,7 @@ const removePlaylistAdd = (userId, playlistId, trackId) => ({
   values: [userId, playlistId, trackId],
 });
 
-const removePlaylistAddsForPlaylist = (userId, playlistId) => ({
+const removePlaylistAdds = (userId, playlistId) => ({
   text: `
     DELETE FROM playlist_adds
     WHERE user_id = $1 AND playlist_id = $2;
@@ -223,7 +216,7 @@ const removePlaylistAddsForPlaylist = (userId, playlistId) => ({
   values: [userId, playlistId],
 });
 
-const getPlaylistsForUser = (userId) => ({
+const getPlaylists = (userId) => ({
   text: `
     SELECT * FROM playlists
     WHERE user_id = $1;
@@ -239,18 +232,13 @@ const getTrack = (name, artistName) => ({
   values: [name, artistName],
 });
 
-const getTracksOnUsersPlaylist = (userId, playlistId) => ({
+const getTracks = (userId, playlistId) => ({
   text: `
     SELECT tracks.* FROM playlist_adds
     JOIN tracks ON playlist_adds.track_id = tracks.id
     WHERE playlist_adds.user_id = $1 AND playlist_adds.playlist_id = $2;
   `,
   values: [userId, playlistId],
-});
-
-const formatPlaylistRow = (row) => ({
-  id: row.id,
-  name: row.name,
 });
 
 const formatTrackRow = (row) => ({

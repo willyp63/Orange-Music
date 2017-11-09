@@ -6063,7 +6063,7 @@ var createLocation = function createLocation(path, state, key, currentLocation) 
     if (e instanceof URIError) {
       throw new URIError('Pathname "' + location.pathname + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.');
     } else {
-      throw e;
+      console.log(e);
     }
   }
 
@@ -8772,7 +8772,7 @@ var createLocation = exports.createLocation = function createLocation(path, stat
     if (e instanceof URIError) {
       throw new URIError('Pathname "' + location.pathname + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.');
     } else {
-      throw e;
+      console.log(e);
     }
   }
 
@@ -33879,6 +33879,8 @@ var validate = function validate(_ref) {
   errors.name = validateName(name);
   errors.password = validatePassword(password);
 
+  errors.valid = errors.name.length === 0 && errors.password.length === 0;
+
   return errors;
 };
 
@@ -33909,6 +33911,8 @@ var validate = function validate(_ref) {
   var errors = {};
 
   errors.name = validateName(name);
+
+  errors.valid = errors.name.length === 0;
 
   return errors;
 };
@@ -34369,6 +34373,7 @@ var App = function (_React$Component) {
       var pathname = _history2.default.location.pathname;
       switch (pathname) {
         case '/playlists':
+        case '/playlists/tracks':
           this._willMountProtectedRoute(newProps, pathname);
           break;
       }

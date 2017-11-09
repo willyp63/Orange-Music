@@ -28,7 +28,7 @@ app.get([
 ], (_, res) => res.sendFile(REACT_APP_PATH));
 
 /// Unused routes.
-app.get('/*', (_, res) => res.end("Nothing to see here ..."));
+app.get('/*', (_, res) => res.end('Nothing to see here ...'));
 
 /// Start-up Script.
 (async () => {

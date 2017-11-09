@@ -15,6 +15,8 @@ const validate = ({name}) => {
 
   errors.name = validateName(name);
 
+  errors.valid = errors.name.length === 0;
+
   return errors;
 };
 

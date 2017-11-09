@@ -1,5 +1,4 @@
-const { Client } = require('pg');
-const connectionString = require('./connection_str');
+const db = require('./index.js');
 
 const createUsers = `
   CREATE TABLE IF NOT EXISTS users(
@@ -40,15 +39,20 @@ const createPlaylistAdds = `
 `;
 
 module.exports = (async () => {
-  const client = new Client({connectionString});
-  await client.connect();
-
+  const client = await db.getClient();
   try {
+    await client.query('BEGIN');
     await client.query(createUsers);
     await client.query(createPlaylists);
     await client.query(createTracks);
     await client.query(createPlaylistAdds);
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    console.log('!!! Problem Initiating Database !!!');
+    console.log(e);
   } finally {
-    await client.end();
+    await client.release();
+    console.log('Database looks good \u2714');
   }
 });
