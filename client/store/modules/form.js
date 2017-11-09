@@ -70,7 +70,7 @@ export default function reducer(state = initialState, action = {}) {
     case CLEAR_FORM:
       return {
         ...state,
-        fields: getFields(state, state.schema),
+        fields: getFields({fields: {}}, state.schema),
       };
     default:
       return state;
@@ -80,7 +80,7 @@ export default function reducer(state = initialState, action = {}) {
 const getFields = (state, schema) => {
   const fields = {};
   schema.fields.forEach(field => {
-    const oldField = state.fields[field.name] || {};
+    const oldField = state.fields[field.name] || {value: ''};
     fields[field.name] = {
       value: oldField.value,
       errors: oldField.errors || [],

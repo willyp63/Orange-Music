@@ -38,7 +38,7 @@ class Playlists extends React.Component {
     schema[PLAYLISTS_TABLE_TYPES.PLAYLISTS].isFetching = isFetching;
     schema[PLAYLISTS_TABLE_TYPES.PLAYLISTS].emptyTable = (
       <div className="empty-table-msg">
-        You have no playlists.
+        Click the button above to create a new playlist.
       </div>
     );
 

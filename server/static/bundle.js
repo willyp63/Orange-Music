@@ -2878,7 +2878,7 @@ function reducer() {
       });
     case CLEAR_FORM:
       return _extends({}, state, {
-        fields: getFields(state, state.schema)
+        fields: getFields({ fields: {} }, state.schema)
       });
     default:
       return state;
@@ -2888,7 +2888,7 @@ function reducer() {
 var getFields = function getFields(state, schema) {
   var fields = {};
   schema.fields.forEach(function (field) {
-    var oldField = state.fields[field.name] || {};
+    var oldField = state.fields[field.name] || { value: '' };
     fields[field.name] = {
       value: oldField.value,
       errors: oldField.errors || []
@@ -33191,17 +33191,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MatModal = function MatModal(_ref) {
   var children = _ref.children,
       isOpen = _ref.isOpen,
-      className = _ref.className;
+      className = _ref.className,
+      overlayClassName = _ref.overlayClassName;
 
   className = className ? className + ' mat-modal' : 'mat-modal';
   if (isOpen) {
     className += ' open';
   }
 
+  overlayClassName = overlayClassName ? overlayClassName + ' mat-modal-overlay' : 'mat-modal-overlay';
+  if (isOpen) {
+    overlayClassName += ' open';
+  }
+
   return _react2.default.createElement(
     'div',
-    { className: className },
-    children
+    { className: overlayClassName },
+    _react2.default.createElement(
+      'div',
+      { className: className },
+      children
+    )
   );
 };
 
@@ -35211,9 +35221,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(22);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRedux = __webpack_require__(16);
 
@@ -35223,70 +35239,115 @@ var _form = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Form = function Form(_ref) {
-  var isVisible = _ref.isVisible,
-      schema = _ref.schema,
-      fields = _ref.fields,
-      setFieldValue = _ref.setFieldValue,
-      submitForm = _ref.submitForm,
-      hideForm = _ref.hideForm;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  var visibleFields = schema.fields.filter(function (field) {
-    return field.isVisible !== false;
-  });
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  var $fields = visibleFields.map(function (fieldSchema) {
-    var type = fieldSchema.type;
-    var field = fields[fieldSchema.name];
-    var value = field.value;
-    var errors = field.errors;
-    var placeholder = fieldSchema.label;
-    var onValueChange = function onValueChange(newValue) {
-      setFieldValue(fieldSchema.name, newValue);
-      if (typeof fieldSchema.onValueChange === 'function') {
-        fieldSchema.onValueChange();
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Form = function (_React$Component) {
+  _inherits(Form, _React$Component);
+
+  function Form(props) {
+    _classCallCheck(this, Form);
+
+    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+    _this.isOpen = false;
+    return _this;
+  }
+
+  _createClass(Form, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (this.props.isVisible) {
+        if (!this.isOpen) {
+          var $firstInput = $(_reactDom2.default.findDOMNode(this)).find('input')[0];
+          if ($firstInput) {
+            $firstInput.focus();
+          }
+          this.isOpen = true;
+        }
+      } else {
+        this.isOpen = false;
       }
-    };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          isVisible = _props.isVisible,
+          schema = _props.schema,
+          fields = _props.fields,
+          setFieldValue = _props.setFieldValue,
+          submitForm = _props.submitForm,
+          hideForm = _props.hideForm,
+          clearForm = _props.clearForm;
 
-    var $errors = errors.length > 0 ? errors.map(function (error) {
-      return _react2.default.createElement(
-        'div',
-        { className: 'err-msg', key: error },
-        error
-      );
-    }) : _react2.default.createElement('div', { className: 'err-msg' });
 
-    if (type === 'picker') {
+      var visibleFields = schema.fields.filter(function (field) {
+        return field.isVisible !== false;
+      });
+
+      var $fields = visibleFields.map(function (fieldSchema) {
+        var type = fieldSchema.type;
+        var field = fields[fieldSchema.name];
+        var value = field.value;
+        var errors = field.errors;
+        var placeholder = fieldSchema.label;
+        var onValueChange = function onValueChange(newValue) {
+          setFieldValue(fieldSchema.name, newValue);
+          if (typeof fieldSchema.onValueChange === 'function') {
+            fieldSchema.onValueChange();
+          }
+        };
+
+        var $errors = errors.length > 0 ? errors.map(function (error) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'err-msg', key: error },
+            error
+          );
+        }) : _react2.default.createElement('div', { className: 'err-msg' });
+
+        if (type === 'picker') {
+          return _react2.default.createElement(
+            'div',
+            { key: fieldSchema.name, className: 'picker-field' },
+            _react2.default.createElement(_material.MatPicker, { options: fieldSchema.options, onOptionSelect: onValueChange, formatter: fieldSchema.formatter }),
+            $errors
+          );
+        } else {
+          return _react2.default.createElement(
+            'div',
+            { key: fieldSchema.name },
+            _react2.default.createElement(_material.MatInput, { className: 'input-field', value: value, onValueChange: onValueChange, placeholder: placeholder }),
+            $errors
+          );
+        }
+      });
+
+      var $submitButton = schema.submitButtonText ? _react2.default.createElement(_material.MatButton, { className: 'submit-btn', text: schema.submitButtonText, onClick: submitForm }) : '';
+
       return _react2.default.createElement(
-        'div',
-        { key: fieldSchema.name, className: 'picker-field' },
-        _react2.default.createElement(_material.MatPicker, { options: fieldSchema.options, onOptionSelect: onValueChange, formatter: fieldSchema.formatter }),
-        $errors
-      );
-    } else {
-      return _react2.default.createElement(
-        'div',
-        { key: fieldSchema.name },
-        _react2.default.createElement(_material.MatInput, { className: 'input-field', value: value, onValueChange: onValueChange, placeholder: placeholder }),
-        $errors
+        _material.MatModal,
+        { className: 'om-form', isOpen: isVisible },
+        _react2.default.createElement(
+          'div',
+          { className: 'centered' },
+          $fields,
+          $submitButton
+        ),
+        _react2.default.createElement(_material.MatButton, { className: 'close-btn', icon: 'close', onClick: function onClick() {
+            hideForm();
+            clearForm();
+          } })
       );
     }
-  });
+  }]);
 
-  var $submitButton = schema.submitButtonText ? _react2.default.createElement(_material.MatButton, { className: 'submit-btn', text: schema.submitButtonText, onClick: submitForm }) : '';
-
-  return _react2.default.createElement(
-    _material.MatModal,
-    { className: 'om-form', isOpen: isVisible },
-    _react2.default.createElement(
-      'div',
-      { className: 'centered' },
-      $fields,
-      $submitButton
-    ),
-    _react2.default.createElement(_material.MatButton, { className: 'close-btn', icon: 'close', onClick: hideForm })
-  );
-};
+  return Form;
+}(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
@@ -35306,6 +35367,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     hideForm: function hideForm() {
       dispatch((0, _form.hideForm)());
+    },
+    clearForm: function clearForm() {
+      dispatch((0, _form.clearForm)());
     }
   };
 };
@@ -36351,7 +36415,7 @@ var Playlists = function (_React$Component) {
       schema[_playlists.PLAYLISTS_TABLE_TYPES.PLAYLISTS].emptyTable = _react2.default.createElement(
         'div',
         { className: 'empty-table-msg' },
-        'You have no playlists.'
+        'Click the button above to create a new playlist.'
       );
 
       var onNewPlaylist = function onNewPlaylist() {
@@ -36617,7 +36681,11 @@ var PlaylistDetail = function (_React$Component) {
             tableType: _playlist_detail.PLAYLIST_DETAIL_TABLE_TYPES.TRACKS,
             displayType: displayType,
             onDisplayTypeChange: setDisplayType },
-          _react2.default.createElement(_material.MatButton, { className: 'back-btn', icon: 'arrow_back', onClick: function onClick() {
+          _react2.default.createElement(_material.MatButton, { className: 'back-btn',
+            text: 'Playlists',
+            icon: 'arrow_back',
+            iconFirst: true,
+            onClick: function onClick() {
               _history2.default.pushLocation('/playlists'); // TODO: pop location instead of another push.
             } })
         )

@@ -249,9 +249,25 @@ body {
 .mat-tooltip:hover .tooltip div {
   margin-top: 0;
 }
-.mat-modal {
+.mat-modal-overlay {
   position: fixed;
   z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(0, 0, 0, 0.36);
+  pointer-events: none;
+}
+.mat-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mat-modal-overlay .mat-modal {
+  position: fixed;
+  z-index: 1000;
   top: -70vh;
   left: 15vw;
   width: 70vw;
@@ -259,9 +275,10 @@ body {
   opacity: 0;
   transition: top 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);
   background-color: #FFFFFF;
+  border-radius: 4px;
   box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 24px 38px 3px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.4);
 }
-.mat-modal.open {
+.mat-modal-overlay .mat-modal.open {
   top: 15vh;
   opacity: 1;
 }
@@ -682,19 +699,19 @@ i {
 }
 .om-form .close-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 16px;
+  right: 16px;
   border-radius: 50%;
 }
 .om-form .close-btn .inner-btn {
-  color: #000000;
+  color: #616161;
   transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .om-form .close-btn .inner-btn.disabled {
   color: #BDBDBD;
 }
 .om-form .close-btn .inner-btn:hover:not(.disabled) {
-  color: #000000;
+  color: #212121;
 }
 .om-form .close-btn .inner-btn {
   padding: 0;
@@ -741,16 +758,34 @@ i {
 .om-form .centered .submit-btn {
   margin-top: 32px;
 }
-.om-form .centered .submit-btn .mat-ripple s {
-  background-color: rgba(0, 0, 0, 0.12);
+.om-form .centered .submit-btn .inner-btn {
+  color: #FFFFFF;
+  background-color: #1E88E5;
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.om-form .centered .submit-btn .inner-btn.disabled {
+  color: #BDBDBD;
+  background-color: #BDBDBD;
+  box-shadow: none;
+}
+.om-form .centered .submit-btn .inner-btn:hover:not(.disabled) {
+  color: #FFFFFF;
+  background-color: #2196F3;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.om-form .centered .submit-btn button:focus .inner-btn {
+  background-color: #1976D2;
 }
 .om-form .centered .submit-btn .inner-btn {
+  padding: 8px 16px;
   font-size: 24px;
   font-weight: 300;
   text-transform: inherit;
 }
 .playlists .new-playlist-btn {
   margin-left: 64px;
+  margin-top: 8px;
 }
 .playlists .new-playlist-btn .inner-btn {
   color: #FFFFFF;
@@ -769,12 +804,39 @@ i {
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
 }
 .playlists .new-playlist-btn .inner-btn {
+  padding: 8px 16px;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: inherit;
+}
+.playlists .empty-table-msg {
+  height: 36px;
+  padding-top: 16px;
+  padding-left: 32px;
+  color: #757575;
   font-size: 20px;
   font-weight: 400;
   text-transform: inherit;
+  font-weight: 300;
 }
 .om-playlist-detail .back-btn {
   margin-left: 32px;
+  margin-top: 8px;
+}
+.om-playlist-detail .back-btn .inner-btn {
+  color: #1E88E5;
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.om-playlist-detail .back-btn .inner-btn.disabled {
+  color: #BDBDBD;
+}
+.om-playlist-detail .back-btn .inner-btn:hover:not(.disabled) {
+  color: #2196F3;
+}
+.om-playlist-detail .back-btn .inner-btn {
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: inherit;
 }
 .om-playlist-detail .back-btn .inner-btn i {
   font-size: 36px;

@@ -6,12 +6,12 @@
 
   .close-btn {
     position: absolute;
-    top: @grid;
-    right: @grid;
+    top: @grid * 2;
+    right: @grid * 2;
 
     .mat-icon-btn-colorize(
-      @color: @black;
-      @colorHover: @black);
+      @color: @grey-700;
+      @colorHover: @grey-900);
 
     .inner-btn i {
       .font-icon-lg();
@@ -53,9 +53,21 @@
     .submit-btn {
       margin-top: @grid * 4;
 
-      .mat-ripple s { background-color: rgba(0, 0, 0, 0.12); }
+      .mat-btn-raised-colorize(
+        @color: @white;
+        @colorHover: @white;
+        @bgColor: @blue-600;
+        @bgColorHover: @blue);
+
+      button:focus {
+        .inner-btn {
+          background-color: @blue-700;
+        }
+      }
 
       .inner-btn {
+        padding: (@grid) (@grid * 2);
+
         .font-headline();
       }
     }

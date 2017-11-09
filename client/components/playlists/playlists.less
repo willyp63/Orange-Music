@@ -1,6 +1,7 @@
 .playlists {
   .new-playlist-btn {
     margin-left: @grid * 8;
+    margin-top: @grid;
 
     .mat-btn-raised-colorize(
       @color: @white;
@@ -9,7 +10,20 @@
       @bgColorHover: @blue);
 
     .inner-btn {
-      .font-title();
+      padding: @grid (@grid * 2);
+
+      .font-headline();
     }
+  }
+
+  .empty-table-msg {
+    height: 36px; // Constant height w/ or w/o icon (consistent w/ other tables).
+
+    padding-top: @grid * 2;
+    padding-left: @grid * 4;
+    color: @grey-600;
+
+    .font-title();
+    font-weight: 300;
   }
 }

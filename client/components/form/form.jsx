@@ -1,58 +1,81 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { MatInput, MatButton, MatModal, MatPicker } from '../material';
-import { setFieldValue, submitForm, hideForm } from '../../store/modules/form';
+import { setFieldValue, submitForm, hideForm, clearForm } from '../../store/modules/form';
 
-const Form = ({ isVisible, schema, fields, setFieldValue, submitForm, hideForm }) => {
-  const visibleFields = schema.fields.filter(field => field.isVisible !== false);
-
-  const $fields = visibleFields.map(fieldSchema => {
-    const type = fieldSchema.type;
-    const field = fields[fieldSchema.name];
-    const value = field.value;
-    const errors = field.errors;
-    const placeholder = fieldSchema.label;
-    const onValueChange = (newValue) => {
-      setFieldValue(fieldSchema.name, newValue);
-      if (typeof fieldSchema.onValueChange === 'function') {
-        fieldSchema.onValueChange();
+class Form extends React.Component {
+  constructor(props) {
+    super(props);
+    this.isOpen = false;
+  }
+  componentDidUpdate() {
+    if (this.props.isVisible) {
+      if (!this.isOpen) {
+        const $firstInput = $(ReactDOM.findDOMNode(this)).find('input')[0];
+        if ($firstInput) { $firstInput.focus(); }
+        this.isOpen = true;
       }
-    };
-
-    let $errors = errors.length > 0
-      ? errors.map(error => (<div className='err-msg' key={error}>{error}</div>))
-      : (<div className='err-msg'></div>);
-
-    if (type === 'picker') {
-      return (
-        <div key={fieldSchema.name} className='picker-field'>
-          <MatPicker options={fieldSchema.options} onOptionSelect={onValueChange} formatter={fieldSchema.formatter} />
-          {$errors}
-        </div>
-      );
     } else {
-      return (
-        <div key={fieldSchema.name}>
-          <MatInput className='input-field' value={value} onValueChange={onValueChange} placeholder={placeholder} />
-          {$errors}
-        </div>
-      );
+      this.isOpen = false;
     }
-  });
+  }
+  render() {
+    const { isVisible, schema, fields, setFieldValue, submitForm, hideForm, clearForm } = this.props;
 
-  const $submitButton = schema.submitButtonText
-    ? (<MatButton className='submit-btn' text={schema.submitButtonText} onClick={submitForm} />)
-    : '';
+    const visibleFields = schema.fields.filter(field => field.isVisible !== false);
 
-  return (
-    <MatModal className="om-form" isOpen={isVisible}>
-      <div className="centered">
-        {$fields}
-        {$submitButton}
-      </div>
-      <MatButton className='close-btn' icon='close' onClick={hideForm} />
-    </MatModal>
-  );
+    const $fields = visibleFields.map(fieldSchema => {
+      const type = fieldSchema.type;
+      const field = fields[fieldSchema.name];
+      const value = field.value;
+      const errors = field.errors;
+      const placeholder = fieldSchema.label;
+      const onValueChange = (newValue) => {
+        setFieldValue(fieldSchema.name, newValue);
+        if (typeof fieldSchema.onValueChange === 'function') {
+          fieldSchema.onValueChange();
+        }
+      };
+
+      let $errors = errors.length > 0
+        ? errors.map(error => (<div className='err-msg' key={error}>{error}</div>))
+        : (<div className='err-msg'></div>);
+
+      if (type === 'picker') {
+        return (
+          <div key={fieldSchema.name} className='picker-field'>
+            <MatPicker options={fieldSchema.options} onOptionSelect={onValueChange} formatter={fieldSchema.formatter} />
+            {$errors}
+          </div>
+        );
+      } else {
+        return (
+          <div key={fieldSchema.name}>
+            <MatInput className='input-field' value={value} onValueChange={onValueChange} placeholder={placeholder} />
+            {$errors}
+          </div>
+        );
+      }
+    });
+
+    const $submitButton = schema.submitButtonText
+      ? (<MatButton className='submit-btn' text={schema.submitButtonText} onClick={submitForm} />)
+      : '';
+
+    return (
+      <MatModal className="om-form" isOpen={isVisible}>
+        <div className="centered">
+          {$fields}
+          {$submitButton}
+        </div>
+        <MatButton className='close-btn' icon='close' onClick={() => {
+            hideForm();
+            clearForm();
+          }} />
+      </MatModal>
+    );
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -68,6 +91,7 @@ const mapDispatchToProps = (dispatch) => {
     setFieldValue: (field, value) => { dispatch(setFieldValue(field, value)); },
     submitForm: () => { dispatch(submitForm()); },
     hideForm: () => { dispatch(hideForm()); },
+    clearForm: () => { dispatch(clearForm()); },
   };
 };
 

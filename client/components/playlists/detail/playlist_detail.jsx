@@ -29,9 +29,13 @@ class PlaylistDetail extends React.Component {
                               tableType={PLAYLIST_DETAIL_TABLE_TYPES.TRACKS}
                               displayType={displayType}
                               onDisplayTypeChange={setDisplayType}>
-          <MatButton className='back-btn' icon='arrow_back' onClick={() => {
-              history.pushLocation('/playlists'); // TODO: pop location instead of another push.
-            }} />
+          <MatButton className='back-btn'
+                     text='Playlists'
+                     icon='arrow_back'
+                     iconFirst={true}
+                     onClick={() => {
+                       history.pushLocation('/playlists'); // TODO: pop location instead of another push.
+                     }} />
         </TableLayoutComponent>
       </div>
     );
