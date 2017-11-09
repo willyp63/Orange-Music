@@ -1,7 +1,7 @@
 {
   "name": "orange_music",
-  "version": "1.0.0",
-  "description": "Like Apple music lolz.",
+  "version": "1.1.0",
+  "description": "A music streaming application.",
   "main": "server/index.js",
   "dependencies": {
     "babel-core": "^6.25.0",
@@ -19,7 +19,6 @@
     "morgan": "^1.9.0",
     "path": "^0.12.7",
     "pg": "^6.1.0",
-    "prop-types": "^15.6.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-modal": "^3.1.0",

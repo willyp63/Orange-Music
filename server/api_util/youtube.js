@@ -1,7 +1,7 @@
 const service = require('googleapis').youtube('v3');
 const ytStream = require('youtube-audio-stream');
 const API_KEY = require('../secrets/api_keys').YOUTUBE_API_KEY;
-const isEmpty  = require('lodash.isEmpty');
+const isEmpty  = require('lodash.isempty');
 
 
 const DEFAULT_MAX_RESULTS = 20;
