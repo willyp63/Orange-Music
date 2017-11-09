@@ -1,18 +1,41 @@
 .om-playlist-detail {
-  .back-btn {
-    margin-left: @grid * 4;
-    margin-top: @grid;
+  .action-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    .mat-btn-colorize(
-      @color: @blue-600;
-      @colorHover: @blue);
+    .back-btn {
+      margin-left: @grid * 4;
 
-    .inner-btn {
-      .font-headline();
+      .mat-btn-colorize(
+        @color: @blue-600;
+        @colorHover: @blue);
 
-      i {
-        .font-icon-lg();
+      .inner-btn {
+        .font-headline();
+
+        i {
+          .font-icon-lg();
+        }
       }
+    }
+
+    .play-playlist-btn {
+      .mat-btn-raised-colorize(
+        @color: @white;
+        @colorHover: @white;
+        @bgColor: @blue-600;
+        @bgColorHover: @blue);
+
+      .inner-btn {
+        padding: @grid (@grid * 2);
+
+        .font-headline();
+      }
+    }
+
+    .back-btn-mock {
+      width: @grid * 20;
     }
   }
 }

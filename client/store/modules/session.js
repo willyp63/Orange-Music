@@ -106,12 +106,12 @@ export const startSessionFromLocalStorage = () => dispatch => {
 
 export const startSession = (user, token) => dispatch => {
   dispatch({type: START_SESSION, user, token});
-  dispatch(clearPlaylists());
   sessionStorage.setItem('token', token);
 };
 
 export const endSession = () => dispatch => {
   dispatch({type: END_SESSION});
   dispatch(hideForm());
+  dispatch(clearPlaylists());
   sessionStorage.removeItem('token');
 };

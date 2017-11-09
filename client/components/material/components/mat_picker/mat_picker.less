@@ -1,7 +1,7 @@
 .mat-picker {
   position: relative;
 
-
+  min-width: @grid * 30;
 
   overflow-y: scroll;
 
@@ -21,8 +21,17 @@
 
     .mat-btn {
       margin-bottom: @grid * 2;
+      border-radius: 0;
+
+      &:hover {
+        background-color: @grey-300;
+      }
 
       .inner-btn {
+        min-width: @grid * 30;
+        border-radius: 0;
+        display: inline-block;
+
         .font-title();
       }
     }

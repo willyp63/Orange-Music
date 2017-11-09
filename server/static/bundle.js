@@ -4243,7 +4243,7 @@ exports.default = SCHEMA;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.popFromHistory = exports.removeFromHistory = exports.play = exports.removeFromQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
+exports.popFromHistory = exports.removeFromHistory = exports.playList = exports.play = exports.removeFromQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -4268,6 +4268,7 @@ var ADD_TO_QUEUE = 'orange-music/queue/ADD_TO_QUEUE';
 var ADD_TO_HEAD_OF_QUEUE = 'orange-music/queue/ADD_TO_HEAD_OF_QUEUE';
 var REMOVE_FROM_QUEUE = 'orange-music/queue/REMOVE_FROM_QUEUE';
 var CLEAR_QUEUE = 'orange-music/queue/CLEAR_QUEUE';
+var FILL_QUEUE = 'orange-music/queue/FILL_QUEUE';
 
 var ADD_TO_HISTORY = 'orange-music/queue/ADD_TO_HISTORY';
 var REMOVE_FROM_HISTORY = 'orange-music/queue/REMOVE_FROM_HISTORY';
@@ -4318,6 +4319,12 @@ function reducer() {
       return _extends({}, state, {
         queue: []
       });
+    case FILL_QUEUE:
+      return _extends({}, state, {
+        queue: (0, _shared.concat)([], action.tracks.map(function (t) {
+          return Object.assign({}, t);
+        }))
+      });
     case RECEIVE_VIDEO:
       queue = state.queue.slice();
       i = indexOf(queue, action.track);
@@ -4366,6 +4373,13 @@ var addToHeadOfQueue = function addToHeadOfQueue(track) {
   };
 };
 
+var fillQueue = function fillQueue(tracks) {
+  return function (dispatch) {
+    dispatch({ type: FILL_QUEUE, tracks: tracks });
+    dispatch(fetchVideoForPlayingTrack());
+  };
+};
+
 var removeFromQueue = exports.removeFromQueue = function removeFromQueue(track) {
   return function (dispatch, getState) {
     // If this is the current playing song, add it to history.
@@ -4395,6 +4409,13 @@ var play = exports.play = function play(track) {
   return function (dispatch) {
     dispatch(clearQueue());
     dispatch(addToQueue(track));
+  };
+};
+
+var playList = exports.playList = function playList(tracks) {
+  return function (dispatch) {
+    dispatch(clearQueue());
+    dispatch(fillQueue(tracks));
   };
 };
 
@@ -9919,7 +9940,6 @@ var startSessionFromLocalStorage = exports.startSessionFromLocalStorage = functi
 var startSession = exports.startSession = function startSession(user, token) {
   return function (dispatch) {
     dispatch({ type: START_SESSION, user: user, token: token });
-    dispatch((0, _playlists.clearPlaylists)());
     sessionStorage.setItem('token', token);
   };
 };
@@ -9928,6 +9948,7 @@ var endSession = exports.endSession = function endSession() {
   return function (dispatch) {
     dispatch({ type: END_SESSION });
     dispatch((0, _form.hideForm)());
+    dispatch((0, _playlists.clearPlaylists)());
     sessionStorage.removeItem('token');
   };
 };
@@ -16591,6 +16612,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var addToPlaylistFormSchema = {
+  title: 'Add to Playlist',
   fields: [{
     name: 'playlist',
     type: 'picker',
@@ -33282,7 +33304,7 @@ var MatPicker = function (_React$Component) {
       });
 
       var $input = options.length > 5 ? _react2.default.createElement(_mat_input2.default, { value: query,
-        placeholder: 'Search ...',
+        placeholder: 'Search',
         onValueChange: function onValueChange(newValue) {
           return _this2.setState({ query: newValue });
         } }) : '';
@@ -35285,6 +35307,12 @@ var Form = function (_React$Component) {
           clearForm = _props.clearForm;
 
 
+      var $title = schema.title ? _react2.default.createElement(
+        'div',
+        { className: 'title' },
+        schema.title
+      ) : '';
+
       var visibleFields = schema.fields.filter(function (field) {
         return field.isVisible !== false;
       });
@@ -35332,6 +35360,7 @@ var Form = function (_React$Component) {
       return _react2.default.createElement(
         _material.MatModal,
         { className: 'om-form', isOpen: isVisible },
+        $title,
         _react2.default.createElement(
           'div',
           { className: 'centered' },
@@ -36630,6 +36659,8 @@ var _table_layout = __webpack_require__(43);
 
 var _table_layout2 = _interopRequireDefault(_table_layout);
 
+var _queue = __webpack_require__(41);
+
 var _playlist_detail3 = __webpack_require__(92);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -36664,12 +36695,14 @@ var PlaylistDetail = function (_React$Component) {
           tracks = _props.tracks,
           displayType = _props.displayType,
           setDisplayType = _props.setDisplayType,
-          fetchTracks = _props.fetchTracks;
+          fetchTracks = _props.fetchTracks,
+          playList = _props.playList;
 
+      var trackEntities = tracks.tracks;
 
       var schema = Object.assign({}, _playlist_detail2.default);
 
-      schema[_playlist_detail.PLAYLIST_DETAIL_TABLE_TYPES.TRACKS].entities = tracks.tracks;
+      schema[_playlist_detail.PLAYLIST_DETAIL_TABLE_TYPES.TRACKS].entities = trackEntities;
       schema[_playlist_detail.PLAYLIST_DETAIL_TABLE_TYPES.TRACKS].isFetching = tracks.isFetching;
 
       return _react2.default.createElement(
@@ -36681,13 +36714,23 @@ var PlaylistDetail = function (_React$Component) {
             tableType: _playlist_detail.PLAYLIST_DETAIL_TABLE_TYPES.TRACKS,
             displayType: displayType,
             onDisplayTypeChange: setDisplayType },
-          _react2.default.createElement(_material.MatButton, { className: 'back-btn',
-            text: 'Playlists',
-            icon: 'arrow_back',
-            iconFirst: true,
-            onClick: function onClick() {
-              _history2.default.pushLocation('/playlists'); // TODO: pop location instead of another push.
-            } })
+          _react2.default.createElement(
+            'div',
+            { className: 'action-btns' },
+            _react2.default.createElement(_material.MatButton, { className: 'back-btn',
+              text: 'Back',
+              icon: 'arrow_back',
+              iconFirst: true,
+              onClick: function onClick() {
+                _history2.default.pushLocation('/playlists'); // TODO: pop location instead of another push.
+              } }),
+            _react2.default.createElement(_material.MatButton, { text: 'Play!',
+              className: 'play-playlist-btn',
+              onClick: function onClick() {
+                playList(trackEntities);
+              } }),
+            _react2.default.createElement('div', { className: 'back-btn-mock' })
+          )
         )
       );
     }
@@ -36710,6 +36753,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchTracks: function fetchTracks() {
       dispatch((0, _playlist_detail3.fetchTracks)());
+    },
+    playList: function playList(tracks) {
+      dispatch((0, _queue.playList)(tracks));
     }
   };
 };

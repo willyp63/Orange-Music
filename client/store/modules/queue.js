@@ -11,6 +11,7 @@ const ADD_TO_QUEUE = 'orange-music/queue/ADD_TO_QUEUE';
 const ADD_TO_HEAD_OF_QUEUE = 'orange-music/queue/ADD_TO_HEAD_OF_QUEUE';
 const REMOVE_FROM_QUEUE = 'orange-music/queue/REMOVE_FROM_QUEUE';
 const CLEAR_QUEUE = 'orange-music/queue/CLEAR_QUEUE';
+const FILL_QUEUE = 'orange-music/queue/FILL_QUEUE';
 
 const ADD_TO_HISTORY = 'orange-music/queue/ADD_TO_HISTORY';
 const REMOVE_FROM_HISTORY = 'orange-music/queue/REMOVE_FROM_HISTORY';
@@ -61,6 +62,11 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         queue: [],
       };
+    case FILL_QUEUE:
+      return {
+        ...state,
+        queue: concat([], action.tracks.map(t => Object.assign({}, t))),
+      };
     case RECEIVE_VIDEO:
       queue = state.queue.slice();
       i = indexOf(queue, action.track);
@@ -101,6 +107,11 @@ const addToHeadOfQueue = track => dispatch => {
   dispatch(fetchVideoForPlayingTrack());
 }
 
+const fillQueue = tracks => dispatch => {
+  dispatch({type: FILL_QUEUE, tracks});
+  dispatch(fetchVideoForPlayingTrack());
+};
+
 export const removeFromQueue = track => (dispatch, getState) => {
   // If this is the current playing song, add it to history.
   const { queue } = getState().queue;
@@ -121,6 +132,11 @@ const clearQueue = () => (dispatch, getState) => {
 export const play = track => dispatch => {
   dispatch(clearQueue());
   dispatch(addToQueue(track));
+};
+
+export const playList = tracks => dispatch => {
+  dispatch(clearQueue());
+  dispatch(fillQueue(tracks));
 };
 
 const fetchVideoForPlayingTrack = () => (dispatch, getState) => {

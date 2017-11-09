@@ -284,6 +284,7 @@ body {
 }
 .mat-picker {
   position: relative;
+  min-width: 240px;
   overflow-y: scroll;
 }
 .mat-picker .mat-input {
@@ -300,8 +301,15 @@ body {
 }
 .mat-picker .options .mat-btn {
   margin-bottom: 16px;
+  border-radius: 0;
+}
+.mat-picker .options .mat-btn:hover {
+  background-color: #E0E0E0;
 }
 .mat-picker .options .mat-btn .inner-btn {
+  min-width: 240px;
+  border-radius: 0;
+  display: inline-block;
   font-size: 20px;
   font-weight: 400;
   text-transform: inherit;
@@ -697,6 +705,16 @@ i {
   flex-direction: column;
   justify-content: space-around;
 }
+.om-form .title {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 34px;
+  font-weight: 300;
+  text-transform: inherit;
+}
 .om-form .close-btn {
   position: absolute;
   top: 16px;
@@ -743,8 +761,7 @@ i {
   margin-top: 0;
 }
 .om-form .centered .mat-picker {
-  min-width: 240px;
-  max-height: 55vh;
+  max-height: 40vh;
 }
 .om-form .centered .err-msg {
   color: #F44336;
@@ -819,27 +836,56 @@ i {
   text-transform: inherit;
   font-weight: 300;
 }
-.om-playlist-detail .back-btn {
-  margin-left: 32px;
-  margin-top: 8px;
+.om-playlist-detail .action-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.om-playlist-detail .back-btn .inner-btn {
+.om-playlist-detail .action-btns .back-btn {
+  margin-left: 32px;
+}
+.om-playlist-detail .action-btns .back-btn .inner-btn {
   color: #1E88E5;
   transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.om-playlist-detail .back-btn .inner-btn.disabled {
+.om-playlist-detail .action-btns .back-btn .inner-btn.disabled {
   color: #BDBDBD;
 }
-.om-playlist-detail .back-btn .inner-btn:hover:not(.disabled) {
+.om-playlist-detail .action-btns .back-btn .inner-btn:hover:not(.disabled) {
   color: #2196F3;
 }
-.om-playlist-detail .back-btn .inner-btn {
+.om-playlist-detail .action-btns .back-btn .inner-btn {
   font-size: 24px;
   font-weight: 300;
   text-transform: inherit;
 }
-.om-playlist-detail .back-btn .inner-btn i {
+.om-playlist-detail .action-btns .back-btn .inner-btn i {
   font-size: 36px;
+}
+.om-playlist-detail .action-btns .play-playlist-btn .inner-btn {
+  color: #FFFFFF;
+  background-color: #1E88E5;
+  transition: color 280ms cubic-bezier(0.4, 0, 0.2, 1), background-color 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.om-playlist-detail .action-btns .play-playlist-btn .inner-btn.disabled {
+  color: #BDBDBD;
+  background-color: #BDBDBD;
+  box-shadow: none;
+}
+.om-playlist-detail .action-btns .play-playlist-btn .inner-btn:hover:not(.disabled) {
+  color: #FFFFFF;
+  background-color: #2196F3;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+.om-playlist-detail .action-btns .play-playlist-btn .inner-btn {
+  padding: 8px 16px;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: inherit;
+}
+.om-playlist-detail .action-btns .back-btn-mock {
+  width: 160px;
 }
 .om-table-layout .om-nav-bar {
   padding-top: 16px;

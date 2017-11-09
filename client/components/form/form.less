@@ -4,6 +4,16 @@
   flex-direction: column;
   justify-content: space-around;
 
+  .title {
+    position: absolute;
+    top: @grid * 4;
+    left: 0;
+    width: 100%;
+    text-align: center;
+
+    .font-display-1();
+  }
+
   .close-btn {
     position: absolute;
     top: @grid * 2;
@@ -37,8 +47,7 @@
     }
 
     .mat-picker {
-      min-width: @grid * 30;
-      max-height: 55vh;
+      max-height: 40vh;
     }
 
     .err-msg {

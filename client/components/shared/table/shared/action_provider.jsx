@@ -6,6 +6,7 @@ import { showForm, setFormSchema, setFieldValue } from '../../../../store/module
 import { fetchPlaylists, addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist } from '../../../../store/modules/playlists';
 
 const addToPlaylistFormSchema = {
+  title: 'Add to Playlist',
   fields: [
     {
       name: 'playlist',

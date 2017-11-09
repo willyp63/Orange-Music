@@ -23,7 +23,7 @@ class MatPicker extends React.Component {
 
     const $input = options.length > 5
       ? (<MatInput value={query}
-                   placeholder='Search ...'
+                   placeholder='Search'
                    onValueChange={(newValue) => this.setState({query: newValue})} />) : '';
 
     return (

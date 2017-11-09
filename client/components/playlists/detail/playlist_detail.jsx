@@ -4,6 +4,7 @@ import history from '../../../history';
 import TABLE_SCHEMA, { PLAYLIST_DETAIL_TABLE_TYPES } from '../../../schemas/table/playlist_detail';
 import { MatButton } from '../../material';
 import TableLayoutComponent from '../../shared/table_layout/table_layout';
+import { playList } from '../../../store/modules/queue';
 import { setPlaylistDetailDisplayType, fetchTracks } from '../../../store/modules/playlist_detail';
 
 class PlaylistDetail extends React.Component {
@@ -16,11 +17,12 @@ class PlaylistDetail extends React.Component {
     newProps.fetchTracks();
   }
   render() {
-    const { tracks, displayType, setDisplayType, fetchTracks } = this.props;
+    const { tracks, displayType, setDisplayType, fetchTracks, playList } = this.props;
+    const trackEntities = tracks.tracks;
 
     const schema = Object.assign({}, TABLE_SCHEMA);
 
-    schema[PLAYLIST_DETAIL_TABLE_TYPES.TRACKS].entities = tracks.tracks;
+    schema[PLAYLIST_DETAIL_TABLE_TYPES.TRACKS].entities = trackEntities;
     schema[PLAYLIST_DETAIL_TABLE_TYPES.TRACKS].isFetching = tracks.isFetching;
 
     return (
@@ -29,13 +31,21 @@ class PlaylistDetail extends React.Component {
                               tableType={PLAYLIST_DETAIL_TABLE_TYPES.TRACKS}
                               displayType={displayType}
                               onDisplayTypeChange={setDisplayType}>
-          <MatButton className='back-btn'
-                     text='Playlists'
-                     icon='arrow_back'
-                     iconFirst={true}
-                     onClick={() => {
-                       history.pushLocation('/playlists'); // TODO: pop location instead of another push.
-                     }} />
+          <div className='action-btns'>
+            <MatButton className='back-btn'
+                       text='Back'
+                       icon='arrow_back'
+                       iconFirst={true}
+                       onClick={() => {
+                         history.pushLocation('/playlists'); // TODO: pop location instead of another push.
+                       }} />
+           <MatButton text='Play!'
+                      className='play-playlist-btn'
+                      onClick={() => {
+                        playList(trackEntities);
+                      }} />
+                    <div className='back-btn-mock'></div>
+                  </div>
         </TableLayoutComponent>
       </div>
     );
@@ -53,6 +63,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setDisplayType: (displayType) => { dispatch(setPlaylistDetailDisplayType(displayType)); },
     fetchTracks: () => { dispatch(fetchTracks()); },
+    playList: (tracks) => { dispatch(playList(tracks)); },
   };
 };
 

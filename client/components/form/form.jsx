@@ -23,6 +23,10 @@ class Form extends React.Component {
   render() {
     const { isVisible, schema, fields, setFieldValue, submitForm, hideForm, clearForm } = this.props;
 
+    const $title = schema.title
+      ? (<div className='title'>{schema.title}</div>)
+      : '';
+
     const visibleFields = schema.fields.filter(field => field.isVisible !== false);
 
     const $fields = visibleFields.map(fieldSchema => {
@@ -65,6 +69,7 @@ class Form extends React.Component {
 
     return (
       <MatModal className="om-form" isOpen={isVisible}>
+        {$title}
         <div className="centered">
           {$fields}
           {$submitButton}
