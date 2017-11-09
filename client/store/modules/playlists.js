@@ -1,6 +1,7 @@
 import omApi from '../api/orange_music';
 import validateCreatePlaylistForm from '../../../shared/validators/create_playlist';
 import { setFieldErrors, clearForm, hideForm } from './form';
+import { refreshTracks} from './playlist_detail';
 import { DISPLAY_TYPES } from '../../schemas/display';
 
 const SET_DISPLAY_TYPE = 'orange-music/playlists/SET_DISPLAY_TYPE';
@@ -58,6 +59,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 const formatTrackForApiRequest = track => ({
+  mbid: track.mbid,
   name: track.name,
   artistName: track.artist.name,
   image: JSON.stringify(track.image),
@@ -124,6 +126,7 @@ export const addTrackToPlaylist = () => (dispatch, getState) => {
     } else {
       dispatch(hideForm());
       dispatch(clearForm());
+      dispatch(refreshTracks());
     }
   });
 };

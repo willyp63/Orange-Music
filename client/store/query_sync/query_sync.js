@@ -88,6 +88,7 @@ const querySync = (store, history) => {
     history,
     params: {
       q,
+      pi,
       tt,
       dt,
     },

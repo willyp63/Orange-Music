@@ -29,6 +29,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+/// Get the tracks on a user's playlist
+///
+/// Params: {
+///   playlistId: Playlist's name,
+/// }
+router.get('/tracks/:playlistId', async (req, res) => {
+  const userId = req.user.id;
+  const playlistId = req.params.playlistId;
+
+  try {
+    const result = await db.query(getTracksOnUsersPlaylist(userId, playlistId));
+    const tracks = result.rows.map(formatTrackRow);
+
+    // Success!
+    res.json({success: true, tracks});
+  } catch (err) {
+    res.json({success: false, errors: {unknown: [err.toString()]}});
+  }
+});
+
 /// Create a playlist for a user
 ///
 /// Params: {
@@ -67,13 +87,11 @@ router.post('/create', async (req, res) => {
 /// }
 router.post('/addto', async (req, res) => {
   const userId = req.user.id;
-  const { playlist, track } = req.body;
-
-  console.log(req.body);
+  let { playlist, track } = req.body;
 
   // Insert Track
   try {
-    await db.query(insertTrack(track.name, track.artistName, track.image));
+    await db.query(insertTrack(track.mbid, track.name, track.artistName, track.image));
   } catch (err) {
     if (err.constraint === 'tracks_name_artist_name_key') {
       // Database error indicates that track is already in table.
@@ -85,9 +103,18 @@ router.post('/addto', async (req, res) => {
     }
   }
 
+  // Fetch Track
+  try {
+    const result = await db.query(getTrack(track.name, track.artistName));
+    track = result.rows[0];
+  } catch (err) {
+    console.log(err);
+    return res.json({success: false, errors: {playlist: [err.toString()]}});
+  }
+
   // Add to Playlist
   try {
-    await db.query(insertPlaylistAdd(playlist.id, track.id));
+    await db.query(insertPlaylistAdd(userId, playlist.id, track.id));
     res.json({success: true});
   } catch (err) {
     if (err.constraint === 'playlist_adds_playlist_id_track_id_key') {
@@ -109,33 +136,60 @@ const insertPlaylist = (userId, name) => ({
   values: [userId, name],
 });
 
-const insertTrack = (name, artistName, image) => ({
+const insertTrack = (mbid, name, artistName, image) => ({
   text: `
-    INSERT INTO tracks(name, artist_name, image)
-    VALUES ($1, $2, $3);
+    INSERT INTO tracks(mbid, name, artist_name, image)
+    VALUES ($1, $2, $3, $4);
   `,
-  values: [name, artistName, image],
+  values: [mbid, name, artistName, image],
 });
 
-const insertPlaylistAdd = (playlistId, trackId) => ({
+const insertPlaylistAdd = (userId, playlistId, trackId) => ({
   text: `
-    INSERT INTO playlist_adds(playlist_id, track_id)
-    VALUES ($1, $2);
+    INSERT INTO playlist_adds(user_id, playlist_id, track_id)
+    VALUES ($1, $2, $3);
   `,
-  values: [playlistId, trackId],
+  values: [userId, playlistId, trackId],
 });
 
 const getPlaylistsForUser = (userId) => ({
   text: `
-    SELECT * from playlists
+    SELECT * FROM playlists
     WHERE user_id = $1;
   `,
   values: [userId],
 });
 
+const getTrack = (name, artistName) => ({
+  text: `
+    SELECT * FROM tracks
+    WHERE name = $1 AND artist_name = $2;
+  `,
+  values: [name, artistName],
+});
+
+const getTracksOnUsersPlaylist = (userId, playlistId) => ({
+  text: `
+    SELECT tracks.* FROM playlist_adds
+    JOIN tracks ON playlist_adds.track_id = tracks.id
+    WHERE playlist_adds.user_id = $1 AND playlist_adds.playlist_id = $2;
+  `,
+  values: [userId, playlistId],
+});
+
 const formatPlaylistRow = (row) => ({
   id: row.id,
   name: row.name,
+});
+
+const formatTrackRow = (row) => ({
+  id: row.id,
+  mbid: row.mbid,
+  name: row.name,
+  artist: {
+    name: row.artist_name,
+  },
+  image: row.image,
 });
 
 module.exports = router;

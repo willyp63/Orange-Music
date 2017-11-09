@@ -4473,6 +4473,8 @@ var _create_playlist2 = _interopRequireDefault(_create_playlist);
 
 var _form = __webpack_require__(25);
 
+var _playlist_detail = __webpack_require__(92);
+
 var _display = __webpack_require__(24);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -4529,6 +4531,7 @@ function reducer() {
 
 var formatTrackForApiRequest = function formatTrackForApiRequest(track) {
   return {
+    mbid: track.mbid,
     name: track.name,
     artistName: track.artist.name,
     image: JSON.stringify(track.image)
@@ -4620,6 +4623,7 @@ var addTrackToPlaylist = exports.addTrackToPlaylist = function addTrackToPlaylis
       } else {
         dispatch((0, _form.hideForm)());
         dispatch((0, _form.clearForm)());
+        dispatch((0, _playlist_detail.refreshTracks)());
       }
     });
   };
@@ -6259,9 +6263,19 @@ module.exports.getPlaylists = function (_ref5) {
   });
 };
 
-module.exports.createPlaylist = function (_ref6) {
+module.exports.getPlaylistTracks = function (_ref6) {
   var token = _ref6.token,
-      name = _ref6.name;
+      playlistId = _ref6.playlistId;
+
+  return new Promise(function (resolve, reject) {
+    var url = (0, _url.getUrlWithUpdatedParams)('/api/v1/playlists/tracks/' + playlistId, { token: token });
+    $.get(url, resolve).fail(reject);
+  });
+};
+
+module.exports.createPlaylist = function (_ref7) {
+  var token = _ref7.token,
+      name = _ref7.name;
 
   return new Promise(function (resolve, reject) {
     var data = { token: token, name: name };
@@ -6275,10 +6289,10 @@ module.exports.createPlaylist = function (_ref6) {
   });
 };
 
-module.exports.addToPlaylist = function (_ref7) {
-  var token = _ref7.token,
-      playlist = _ref7.playlist,
-      track = _ref7.track;
+module.exports.addToPlaylist = function (_ref8) {
+  var token = _ref8.token,
+      playlist = _ref8.playlist,
+      track = _ref8.track;
 
   return new Promise(function (resolve, reject) {
     var data = { token: token, playlist: playlist, track: track };
@@ -9869,7 +9883,7 @@ var endSession = exports.endSession = function endSession() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.receiveTracks = exports.fetchTracks = exports.setPlaylistId = exports.setPlaylistDetailDisplayType = undefined;
+exports.receiveTracks = exports.refreshTracks = exports.fetchTracks = exports.setPlaylistId = exports.setPlaylistDetailDisplayType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -9965,6 +9979,13 @@ var fetchTracks = exports.fetchTracks = function fetchTracks() {
       var tracks = response.tracks;
       dispatch(receiveTracks(tracks));
     });
+  };
+};
+
+var refreshTracks = exports.refreshTracks = function refreshTracks() {
+  return function (dispatch, getState) {
+    dispatch(setPlaylistId(getState().playlistDetail.playlistId));
+    dispatch(fetchTracks());
   };
 };
 
@@ -33915,6 +33936,7 @@ var querySync = function querySync(store, history) {
     history: history,
     params: {
       q: q,
+      pi: pi,
       tt: tt,
       dt: dt
     },
@@ -36445,9 +36467,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(16);
 
+var _history = __webpack_require__(56);
+
+var _history2 = _interopRequireDefault(_history);
+
 var _playlist_detail = __webpack_require__(362);
 
 var _playlist_detail2 = _interopRequireDefault(_playlist_detail);
+
+var _material = __webpack_require__(12);
 
 var _table_layout = __webpack_require__(43);
 
@@ -36469,10 +36497,18 @@ var PlaylistDetail = function (_React$Component) {
   function PlaylistDetail(props) {
     _classCallCheck(this, PlaylistDetail);
 
-    return _possibleConstructorReturn(this, (PlaylistDetail.__proto__ || Object.getPrototypeOf(PlaylistDetail)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (PlaylistDetail.__proto__ || Object.getPrototypeOf(PlaylistDetail)).call(this, props));
+
+    props.fetchTracks();
+    return _this;
   }
 
   _createClass(PlaylistDetail, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      newProps.fetchTracks();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -36496,15 +36532,9 @@ var PlaylistDetail = function (_React$Component) {
             tableType: _playlist_detail.PLAYLIST_DETAIL_TABLE_TYPES.TRACKS,
             displayType: displayType,
             onDisplayTypeChange: setDisplayType },
-          _react2.default.createElement(
-            'div',
-            { className: 'title-container' },
-            _react2.default.createElement(
-              'span',
-              null,
-              'Playlist\'s Tracks'
-            )
-          )
+          _react2.default.createElement(_material.MatButton, { className: 'back-btn', icon: 'arrow_back', onClick: function onClick() {
+              _history2.default.pushLocation('/playlists'); // TODO: pop location instead of another push.
+            } })
         )
       );
     }

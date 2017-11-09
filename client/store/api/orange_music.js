@@ -1,6 +1,5 @@
 import { getUrlWithUpdatedParams } from '../../util/url';
 
-
 /// STREAM
 module.exports.getVideo = ({query, artistQuery}) => {
   return new Promise((resolve, reject) => {
@@ -52,6 +51,13 @@ module.exports.verify = ({token}) => {
 module.exports.getPlaylists = ({token}) => {
   return new Promise((resolve, reject) => {
     const url = getUrlWithUpdatedParams('/api/v1/playlists', {token});
+    $.get(url, resolve).fail(reject);
+  });
+};
+
+module.exports.getPlaylistTracks = ({token, playlistId}) => {
+  return new Promise((resolve, reject) => {
+    const url = getUrlWithUpdatedParams(`/api/v1/playlists/tracks/${playlistId}`, {token});
     $.get(url, resolve).fail(reject);
   });
 };

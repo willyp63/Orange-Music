@@ -773,6 +773,12 @@ i {
   font-weight: 400;
   text-transform: inherit;
 }
+.om-playlist-detail .back-btn {
+  margin-left: 32px;
+}
+.om-playlist-detail .back-btn .inner-btn i {
+  font-size: 36px;
+}
 .om-table-layout .om-nav-bar {
   padding-top: 16px;
 }

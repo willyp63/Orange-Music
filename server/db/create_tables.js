@@ -21,6 +21,7 @@ const createPlaylists = `
 const createTracks = `
   CREATE TABLE IF NOT EXISTS tracks(
     id SERIAL PRIMARY KEY,
+    mbid text,
     name text,
     artist_name text,
     image JSONB,
@@ -31,6 +32,7 @@ const createTracks = `
 const createPlaylistAdds = `
   CREATE TABLE IF NOT EXISTS playlist_adds(
     id SERIAL PRIMARY KEY,
+    user_id integer REFERENCES users,
     playlist_id integer REFERENCES playlists,
     track_id integer REFERENCES tracks,
     UNIQUE(playlist_id, track_id)

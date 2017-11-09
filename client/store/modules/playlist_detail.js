@@ -77,4 +77,9 @@ export const fetchTracks = () => (dispatch, getState) => {
   });
 };
 
+export const refreshTracks = () => (dispatch, getState) => {
+  dispatch(setPlaylistId(getState().playlistDetail.playlistId));
+  dispatch(fetchTracks());
+};
+
 export const receiveTracks = (tracks) => ({type: RECEIVE_TRACKS, tracks});
