@@ -1,74 +1,45 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { MatButton } from '../material';
-import { showForm, setFormSchema } from '../../store/modules/form';
+import SIGN_UP_FROM_SCHEMA from '../../schemas/form/sign_up';
+import LOG_IN_FROM_SCHEMA from '../../schemas/form/log_in';
+import ACCOUNT_FROM_SCHEMA from '../../schemas/form/account';
+import { showFormWithSchame } from '../../store/modules/form';
 import { signUp, logIn, endSession } from '../../store/modules/session';
+import Button from 'material-ui/Button';
 
-const signUpFormSchema = {
-  submitButtonText: 'Sign Up!',
-  fields: [
-    {
-      name: 'name',
-      label: 'Name',
-    },
-    {
-      name: 'password',
-      label: 'Password',
-    },
-  ],
-};
-
-const logInFormSchema = {
-  submitButtonText: 'Log In!',
-  fields: [
-    {
-      name: 'name',
-      label: 'Name',
-    },
-    {
-      name: 'password',
-      label: 'Password',
-    },
-  ],
-};
-
-const accountFormSchema = {
-  submitButtonText: 'Log Out!',
-  fields: [],
-};
-
-const SessionButtons = ({user, setFormSchema, showForm, signUp, logIn, endSession}) => {
+const SessionButtons = ({user, showFormWithSchame, signUp, logIn, endSession}) => {
   const onSignUp = () => {
-    const schema = Object.assign({}, signUpFormSchema);
-    schema.submitAction = signUp;
-    setFormSchema(schema);
-    showForm();
+    const schema = Object.assign({}, SIGN_UP_FROM_SCHEMA, {submitAction: signUp});
+    showFormWithSchame(schema);
   };
 
   const onLogIn = () => {
-    const schema = Object.assign({}, logInFormSchema);
-    schema.submitAction = logIn;
-    setFormSchema(schema);
-    showForm();
+    const schema = Object.assign({}, LOG_IN_FROM_SCHEMA, {submitAction: logIn});
+    showFormWithSchame(schema);
   };
 
   const onAccount = () => {
-    const schema = Object.assign({}, accountFormSchema);
-    schema.submitAction = endSession;
-    setFormSchema(schema);
-    showForm();
+    const schema = Object.assign({}, ACCOUNT_FROM_SCHEMA, {submitAction: endSession});
+    showFormWithSchame(schema);
   };
 
   return user
     ? (
       <div className='session-btns logged-in'>
-        <MatButton text={user.name} icon='person' iconFirst={true} onClick={onAccount} />
+        <Button onClick={onAccount}>
+          <i className='material-icons'>person</i>
+          {user.name}
+        </Button>
       </div>
     ) : (
       <div className='session-btns'>
-        <MatButton text='Log In' onClick={onLogIn} />
+        <Button onClick={onLogIn}>
+          LOG IN
+        </Button>
         <div className="divider"></div>
-        <MatButton text='Sign Up' onClick={onSignUp} />
+        <Button onClick={onSignUp}>
+          SIGN UP
+        </Button>
       </div>
     );
 };
@@ -81,8 +52,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showForm: () => dispatch(showForm()),
-    setFormSchema: (schema) => dispatch(setFormSchema(schema)),
+    showFormWithSchame: (schema) => dispatch(showFormWithSchame(schema)),
     signUp: () => dispatch(signUp()),
     logIn: () => dispatch(logIn()),
     endSession: () => dispatch(endSession()),

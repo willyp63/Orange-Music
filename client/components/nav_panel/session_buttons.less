@@ -8,13 +8,17 @@
     justify-content: space-around;
   }
 
-  .mat-btn {
-    .mat-btn-colorize(@color: rgba(255, 255, 255, 0.75); @colorHover: @white);
+  button {
+    color: @white;
+
+    &:hover { background-color: @transparent; }
+
+    .font-subhead-2();
   }
 
   .divider {
     width: 1px;
-    height: @grid * 2;
+    height: @grid * 4;
     background-color: @white;
   }
 }

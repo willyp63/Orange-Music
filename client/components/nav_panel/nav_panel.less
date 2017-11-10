@@ -1,9 +1,12 @@
+@om-nav-panel-width: @grid * 28;
+
 .om-nav-panel {
-  // always taking up the left side of the screen
-  position: sticky;
-  top: 0;
+  position: fixed;
   z-index: 200;
-  height: 100vh;
+  top: 0;
+  left: 0;
+  width: @om-nav-panel-width;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -16,54 +19,41 @@
   .nav-btns {
     padding: @grid * 2;
 
-    .mat-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    button {
       margin-bottom: @grid;
+      justify-content: flex-start;
 
-      .mat-btn-colorize(@color: rgba(255, 255, 255, 0.75); @colorHover: @white);
+      color: @white;
 
-      .inner-btn {
-        .font-headline();
-        font-weight: 400; // Make up slightly thicker font.
+      &:hover { background-color: @transparent; }
 
-        i { .font-icon-md(); }
-      }
+      .font-title();
     }
 
-    .mat-btn:last-of-type {
+    button:last-of-type {
       margin-bottom: 0;
     }
 
-    .home-btn {
-      margin-left: @grid * 3 / 2;
+    button.home-btn {
+      justify-content: space-around;
+      border-radius: 999px;
 
-      .mat-icon-btn-colorize(@color: @white; @colorHover: @white);
-
-      .inner-btn {
-        width: @grid * 6;
-        height: @grid * 6;
-
-        i { .font-icon-lg(); }
-      }
+      i { .font-icon-xlg(); }
     }
 
-    .search-btn {
+    button.search-btn {
       width: 100%;
-
-      .mat-ripple {
-        width: 100%;
-
-        .inner-btn {
-          width: 100%;
-          display: inline-flex;
-          justify-content: space-between;
-        }
-      }
+      justify-content: space-between;
     }
 
     .divider {
       height: 1px;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.75);
+      background-color: @white;
       margin-bottom: @grid;
     }
   }

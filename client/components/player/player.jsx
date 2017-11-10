@@ -111,30 +111,32 @@ class Player extends React.Component {
     if (isEmpty(track)) { className += ' hidden'; }
 
     return (
-      <div className={className}>
-        <div className="top-bar">
-          <TrackInfo trackName={trackName}
-                     artistName={artistName}
-                     imageSrc={imageSrc} />
-          <TrackControls isPlaying={isPlaying}
+      <div className='om-player-wrap'>
+        <div className={className}>
+          <div className="top-bar">
+            <TrackInfo trackName={trackName}
+                       artistName={artistName}
+                       imageSrc={imageSrc} />
+            <TrackControls isPlaying={isPlaying}
+                           isDisabled={isDisabled}
+                           onPrev={this._onPrevButtonClick}
+                           onPlayPause={this._onPlayPauseButtonClick}
+                           onNext={this._onNextButtonClick} />
+            <VolumeControls volume={volume}
+                            maxVolume={MAX_VOLUME}
+                            onVolumeChange={this._setVolume}
+                            onVolumeButtonClick={this._onVolumeButtonClick} />
+          </div>
+          <div className="bottom-bar">
+            <ProgressBar currentTime={currentTime}
+                         duration={duration}
                          isDisabled={isDisabled}
-                         onPrev={this._onPrevButtonClick}
-                         onPlayPause={this._onPlayPauseButtonClick}
-                         onNext={this._onNextButtonClick} />
-          <VolumeControls volume={volume}
-                          maxVolume={MAX_VOLUME}
-                          onVolumeChange={this._setVolume}
-                          onVolumeButtonClick={this._onVolumeButtonClick} />
+                         onCurrentTimeChange={this._setCurrentTime} />
+          </div>
+          <audio id={AUDIO_PLAYER_ID} autoPlay={AUTO_PLAY}>
+            <source src={audioSrc} />
+          </audio>
         </div>
-        <div className="bottom-bar">
-          <ProgressBar currentTime={currentTime}
-                       duration={duration}
-                       isDisabled={isDisabled}
-                       onCurrentTimeChange={this._setCurrentTime} />
-        </div>
-        <audio id={AUDIO_PLAYER_ID} autoPlay={AUTO_PLAY}>
-          <source src={audioSrc} />
-        </audio>
       </div>
     )
   }

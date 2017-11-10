@@ -1,46 +1,53 @@
-@om-player-z-idx: 300;
-
-.om-player {
+.om-player-wrap {
   position: fixed;
   bottom: @grid * 2;
-  z-index: @om-player-z-idx;
-  width: @grid * 100;
-  border-radius: @grid / 4;
-  transition: bottom @time @timing-fcn;
+  z-index: 300;
+  width: 100%;
 
-  padding: @grid;
+  display: flex;
+  justify-content: space-around;
 
-  background-color: @orange-300;
+  pointer-events: none;
 
-  .z-depth(16);
+  .om-player {
+    width: @grid * 100;
+    border-radius: @grid / 4;
+    transition: bottom @time @timing-fcn;
 
-  .top-bar {
-    display: flex;
-    align-items: center;
+    padding: @grid;
 
-    .track-info {
-      flex: 1 0 0;
+    background-color: @orange-300;
+
+    .z-depth(16);
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+
+      .track-info {
+        flex: 1 0 0;
+      }
+
+      .track-controls {
+        flex: 0 1 0;
+      }
+
+      .volume-controls {
+        flex: 1 0 0;
+      }
+
+      .track-info, .track-controls {
+        margin-right: @grid * 4;
+      }
     }
 
-    .track-controls {
-      flex: 0 1 0;
+    .bottom-bar {
+      margin-top: @grid * 2;
     }
 
-    .volume-controls {
-      flex: 1 0 0;
+    &.hidden {
+      opacity: 0;
+      bottom: @grid * -15;
     }
-
-    .track-info, .track-controls {
-      margin-right: @grid * 4;
-    }
-  }
-
-  .bottom-bar {
-    margin-top: @grid * 2;
-  }
-
-  &.hidden {
-    opacity: 0;
-    bottom: @grid * -15;
   }
 }

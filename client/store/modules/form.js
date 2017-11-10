@@ -89,10 +89,15 @@ const getFields = (state, schema) => {
   return fields;
 };
 
-export const showForm = (schema) => ({type: SHOW_FORM});
-export const hideForm = (schema) => ({type: HIDE_FORM});
+export const showForm = () => ({type: SHOW_FORM});
+export const hideForm = () => ({type: HIDE_FORM});
 
 export const setFormSchema = (schema) => ({type: SET_SCHEMA, schema});
+
+export const showFormWithSchame = (schema) => dispatch => {
+  dispatch(setFormSchema(schema));
+  dispatch(showForm());
+};
 
 export const setFieldValue = (field, value) => ({
   type: SET_FIELD_VALUE,

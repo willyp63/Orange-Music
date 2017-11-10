@@ -79,8 +79,8 @@ router.get('/verify', async (req, res) => {
     const user = (await db.query(getUser(req.user.name))).rows[0];
     if (!user ) { return res.json({success: false}); }
 
-    // Send back token.
-    res.json({success: true, token: getJWT(user)});
+    // Send back user.
+    res.json({success: true, user: getSafeUser(user)});
   } catch (e) {
     console.log('!!! Problem Loggin-in User !!!');
     console.log(e);
@@ -105,8 +105,11 @@ const getUser = (name) => ({
 });
 
 const getJWT = user => {
-  const safeUser = Object.assign({}, user, {password: undefined});
-  return jwt.sign({user: safeUser}, JWT_SECRET, {expiresIn: '12h'});
+  return jwt.sign({user: getSafeUser(user)}, JWT_SECRET, {expiresIn: '12h'});
+};
+
+const getSafeUser = user => {
+  return Object.assign({}, user, {password: undefined});
 };
 
 module.exports = router;

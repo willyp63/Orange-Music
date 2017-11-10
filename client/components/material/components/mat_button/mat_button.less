@@ -89,6 +89,8 @@
 .mat-btn {
   display: inline-flex;
   border-radius: @mat-btn-border-radius; // To contain ripple.
+  
+  button:not(.disabled) { cursor: pointer; }
 
   .inner-btn {
     display: flex;
@@ -97,8 +99,6 @@
     border-radius: @mat-btn-border-radius;
 
     .font-button();
-
-    &:not(.disabled) { cursor: pointer; }
   }
 }
 
