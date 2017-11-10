@@ -11,17 +11,25 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015'],
-          plugins: ['transform-object-rest-spread']
-        }
+    rules: [{
+      test: /\.less$/,
+      use: [{
+        loader: "style-loader" // creates style nodes from JS strings
+      }, {
+        loader: "css-loader" // translates CSS into CommonJS
+      }, {
+        loader: "less-loader" // compiles Less to CSS
+      }]
+    },
+    {
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+      query: {
+        presets: ['react', 'es2015'],
+        plugins: ['transform-object-rest-spread']
       }
-    ]
+    }]
   },
   devtool: 'source-maps'
 };

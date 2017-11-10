@@ -1,32 +1,29 @@
-.mat-modal-overlay {
+.mat-overlay {
   position: fixed;
   z-index: 999;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  bottom: 0;
+  right: 0;
   opacity: 0;
+  background-color: rgba(0, 0, 0, 0.36);
+  pointer-events: none;
   transition: opacity @time @timing-fcn;
 
-  background-color: rgba(0, 0, 0, 0.36);
-
-  pointer-events: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
   &.open {
     opacity: 1;
-
     pointer-events: auto;
   }
 
   .mat-modal {
-    position: fixed;
     z-index: 1000;
-    top: -70vh;
-    left: 15vw;
-    width: 70vw;
-    height: 70vh;
     opacity: 0;
-    transition: top @time @timing-fcn, opacity @time @timing-fcn;
+    transform: scale(0);
+    transition: transform @time @timing-fcn, opacity @time @timing-fcn;
 
     background-color: @white;
     border-radius: @grid / 2;
@@ -34,8 +31,8 @@
     .z-depth(24);
 
     &.open {
-      top: 15vh;
       opacity: 1;
+      transform: scale(1);
     }
   }
 }

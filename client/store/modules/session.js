@@ -45,14 +45,9 @@ export default function reducer(state = initialState, action = {}) {
 
 /// Sign Up
 export const signUp = () => (dispatch, getState) => {
-  const { name, password } = getState().form.fields;
-
-  const formData = {name: name.value, password: password.value};
-  const errors = validateSignUpForm(formData);
-  dispatch(setFieldErrors('password', errors.password));
-  dispatch(setFieldErrors('name', errors.name));
-
-  if (errors.name.length === 0 && errors.password.length === 0) {
+  const { fields, isValid } = getState().form;
+  if (isValid) {
+    const formData = {name: fields.name.value, password: fields.password.value};
     omApi.signUp(formData).then(response => {
       if (response.errors) {
         dispatch(setFieldErrors('name', response.errors.name || []));
@@ -60,7 +55,6 @@ export const signUp = () => (dispatch, getState) => {
       } else {
         dispatch(startSession(formData /* user */, response.token));
         dispatch(hideForm());
-        dispatch(clearForm());
       }
     });
   }
@@ -68,19 +62,19 @@ export const signUp = () => (dispatch, getState) => {
 
 /// Log In
 export const logIn = () => (dispatch, getState) => {
-  const { name, password } = getState().form.fields;
-
-  const formData = {name: name.value, password: password.value};
-  omApi.logIn(formData).then(response => {
-    if (response.errors) {
-      dispatch(setFieldErrors('name', response.errors.name || []));
-      dispatch(setFieldErrors('password', response.errors.password || []));
-    } else {
-      dispatch(startSession(formData /* user */, response.token));
-      dispatch(hideForm());
-      dispatch(clearForm());
-    }
-  });
+  const { fields, isValid } = getState().form;
+  if (isValid) {
+    const formData = {name: fields.name.value, password: fields.password.value};
+    omApi.logIn(formData).then(response => {
+      if (response.errors) {
+        dispatch(setFieldErrors('name', response.errors.name || []));
+        dispatch(setFieldErrors('password', response.errors.password || []));
+      } else {
+        dispatch(startSession(formData /* user */, response.token));
+        dispatch(hideForm());
+      }
+    });
+  }
 };
 
 /// Session

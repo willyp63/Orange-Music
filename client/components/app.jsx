@@ -4,9 +4,9 @@ import { Route } from 'react-router-dom';
 import history from '../history';
 import { startSessionFromLocalStorage } from '../store/modules/session';
 
-import NavPanel from './nav_panel/nav_panel';
+import NavPanel from './nav_panel';
+import Form from './form';
 import Player from './player/player';
-import Form from './form/form';
 import Home from './home/home';
 import Search from './search/search';
 import Queue from './queue/queue';
