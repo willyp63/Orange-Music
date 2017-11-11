@@ -2,8 +2,8 @@ import React from 'react';
 import history from '../../../../history';
 import { connect } from 'react-redux';
 import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../store/modules/queue';
-import { showForm, setFormSchema, setFieldValue } from '../../../../store/modules/form';
-import { fetchPlaylists, addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist } from '../../../../store/modules/playlists';
+import { showFormWithSchema, setFieldValue } from '../../../../store/modules/form';
+import { addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist } from '../../../../store/modules/playlists';
 
 const addToPlaylistFormSchema = {
   title: 'Add to Playlist',
@@ -21,14 +21,10 @@ const addToPlaylistFormSchema = {
 };
 
 class ActionProvider extends React.Component {
-  componentWillReceiveProps(newProps) {
-    addToPlaylistFormSchema.fields[0].options = newProps.playlists;
-    newProps.setFormSchema(addToPlaylistFormSchema);
-  }
   render() {
-    const { play, addToQueue, removeFromQueue, removeFromHistory, children, showForm,
-      setFormSchema, playlists, fetchPlaylists, addTrackToPlaylist, setFieldValue,
-      deletePlaylist, removeTrackFromPlaylist } = this.props;
+    const { play, addToQueue, removeFromQueue, removeFromHistory, children,
+      showFormWithSchema, addTrackToPlaylist, setFieldValue, deletePlaylist,
+      removeTrackFromPlaylist } = this.props;
 
     const goToArtist = artistName => {
       history.pushLocation('/search', {q: artistName, tt: '0'});
@@ -39,14 +35,9 @@ class ActionProvider extends React.Component {
     };
 
     const addToPlaylist = track => {
-      addToPlaylistFormSchema.fields[0].options = playlists;
-      addToPlaylistFormSchema.fields[0].onValueChange = addTrackToPlaylist;
-      fetchPlaylists(); // Incase we have not yet.
-      setFormSchema(addToPlaylistFormSchema);
+      showFormWithSchema(addToPlaylistFormSchema);
       setFieldValue('track', track);
-      showForm();
     };
-
 
     const actions = {play, addToQueue, removeFromQueue, removeFromHistory,
       goToArtist, addToPlaylist, goToPlaylist, deletePlaylist, removeTrackFromPlaylist};
@@ -56,9 +47,7 @@ class ActionProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    playlists: state.playlists.playlists.playlists,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -70,10 +59,8 @@ const mapDispatchToProps = (dispatch) => {
     deletePlaylist: (playlist) => dispatch(deletePlaylist(playlist)),
     addTrackToPlaylist: () => dispatch(addTrackToPlaylist()),
     removeTrackFromPlaylist: (track) => dispatch(removeTrackFromPlaylist(track)),
-    showForm: () => dispatch(showForm()),
-    setFormSchema: (schema) => dispatch(setFormSchema(schema)),
+    showFormWithSchema: (schema) => dispatch(showFormWithSchema(schema)),
     setFieldValue: (field, value) => dispatch(setFieldValue(field, value)),
-    fetchPlaylists: () => dispatch(fetchPlaylists()),
   };
 };
 

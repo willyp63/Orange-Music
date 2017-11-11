@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TABLE_SCHEMA, { HOME_TABLE_TYPES } from '../../schemas/table/home';
-import TableLayoutComponent from '../shared/table_layout/table_layout';
+import TableLayoutComponent from '../shared/table_layout';
 import { fetchEntities, fetchMoreEntities, setHomeTableType, setHomeDisplayType } from '../../store/modules/home';
 
 class Home extends React.Component {
@@ -29,9 +29,6 @@ class Home extends React.Component {
                               displayType={displayType}
                               onDisplayTypeChange={setDisplayType}
                               onScrollBottom={fetchMoreEntities}>
-          <div className="title-container">
-            <span>Charts</span>
-          </div>
         </TableLayoutComponent>
       </div>
     );

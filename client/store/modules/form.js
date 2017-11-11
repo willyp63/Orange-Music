@@ -61,13 +61,15 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 const getFields = schema => {
-  return schema.fields.reduce((fields, fieldSchema) => {
-    fields[fieldSchema.name] = {
-      value: '',
-      errors: [],
-    };
-    return fields;
-  }, {});
+  return schema.fields
+    ? schema.fields.reduce((fields, fieldSchema) => {
+        fields[fieldSchema.name] = {
+          value: '',
+          errors: [],
+        };
+        return fields;
+      }, {})
+    : {};
 };
 
 const isValid = fields => Object.values(fields).every(f => f.errors.length === 0);

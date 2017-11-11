@@ -1,0 +1,17 @@
+.om-table-layout {
+  .display-type-picker {
+    display: flex;
+    align-items: center;
+    margin-bottom: @grid;
+
+    button {
+      border-radius: 999px;
+
+      &.active { color: @color-primary; }
+
+      &:hover { background-color: @transparent; }
+
+      i { .font-icon-lg(); }
+    }
+  }
+}

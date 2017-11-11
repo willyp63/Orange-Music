@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import TABLE_SCHEMA, { SEARCH_TABLE_TYPES } from '../../schemas/table/search';
-import TableLayoutComponent from '../shared/table_layout/table_layout';
-import { MatInput, measureText, FONT_TYPES, GRID } from '../material/index';
+import TableLayoutComponent from '../shared/table_layout';
+import { measureText, FONT_TYPES, GRID } from '../material/index';
+import TextField from 'material-ui/TextField';
 import { fetchEntities, fetchMoreEntities, setQuery, setSearchDisplayType,
   setSearchTableType } from '../../store/modules/search';
 
@@ -58,7 +59,7 @@ class Search extends React.Component {
     return $(ReactDOM.findDOMNode(this)).find('.search-form');
   }
   _getMatInput() {
-    return this._getSearchForm().find('.mat-input');
+    return this._getSearchForm().find('.search-field');
   }
   _getInput() {
     return this._getMatInput().find('input');
@@ -90,9 +91,10 @@ class Search extends React.Component {
                               onDisplayTypeChange={setDisplayType}
                               onScrollBottom={fetchMoreEntities}>
           <div className="search-form">
-            <MatInput value={query}
-                      placeholder="Search for tracks or artists"
-                      onValueChange={setQuery} />
+            <TextField className='search-field'
+                       value={query}
+                       placeholder="Start typing..."
+                       onChange={e => setQuery(e.target.value)} />
           </div>
         </TableLayoutComponent>
       </div>

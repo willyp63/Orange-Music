@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NowPlaying from './now_playing/now_playing';
 import TABLE_SCHEMA, { QUEUE_TABLE_TYPES } from '../../schemas/table/queue';
-import TableLayout from '../shared/table_layout/table_layout';
+import TableLayout from '../shared/table_layout';
 import { setQueueTableType, setQueueDisplayType } from '../../store/modules/queue';
 
 class Queue extends React.Component {

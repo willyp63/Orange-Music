@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import TABLE_SCHEMA, { PLAYLISTS_TABLE_TYPES } from '../../schemas/table/playlists';
-import TableLayout from '../shared/table_layout/table_layout';
-import { MatButton } from '../material';
+import TableLayout from '../shared/table_layout';
+import Button from 'material-ui/Button';
 import { setPlaylistsDisplayType, fetchPlaylists, createPlaylist } from '../../store/modules/playlists';
-import { showForm, setFormSchema } from '../../store/modules/form';
+import { showFormWithSchema } from '../../store/modules/form';
 
 const createPlaylistFormSchema = {
   submitButtonText: 'Create Playlist!',
@@ -30,7 +30,7 @@ class Playlists extends React.Component {
     if (props.user) { props.fetchPlaylists(); }
   }
   render() {
-    const { playlists, isFetching, displayType, setDisplayType, showForm, setFormSchema, createPlaylist } = this.props;
+    const { playlists, isFetching, displayType, setDisplayType, showFormWithSchema, createPlaylist } = this.props;
 
     const schema = Object.assign({}, TABLE_SCHEMA);
 
@@ -45,8 +45,7 @@ class Playlists extends React.Component {
     const onNewPlaylist = () => {
       const schema = Object.assign({}, createPlaylistFormSchema);
       schema.submitAction = createPlaylist;
-      setFormSchema(schema);
-      showForm();
+      showFormWithSchema(schema);
     };
 
     return (
@@ -55,9 +54,11 @@ class Playlists extends React.Component {
                      tableType={PLAYLISTS_TABLE_TYPES.PLAYLISTS}
                      displayType={displayType}
                      onDisplayTypeChange={setDisplayType}>
-          <MatButton text='New Playlist'
-                     className='new-playlist-btn'
-                     onClick={onNewPlaylist} />
+          <Button className='new-playlist-btn'
+                  raised={true}
+                  onClick={onNewPlaylist}>
+            NEW PLAYLIST
+          </Button>
         </TableLayout>
       </div>
     );
@@ -77,9 +78,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setDisplayType: (displayType) => { dispatch(setPlaylistsDisplayType(displayType)); },
     fetchPlaylists: () => { dispatch(fetchPlaylists()); },
-    showForm: () => dispatch(showForm()),
     createPlaylist: () => dispatch(createPlaylist()),
-    setFormSchema: (schema) => dispatch(setFormSchema(schema)),
+    showFormWithSchema: (schema) => dispatch(showFormWithSchema(schema)),
   };
 };
 

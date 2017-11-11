@@ -1,12 +1,14 @@
 import React from 'react';
 import { isNotEmpty, isEmpty } from '../../../util/empty';
-import { MatTabs, MatSpinner } from '../../material/index';
-import NavBar from '../nav_bar/nav_bar';
+import { MatSpinner } from '../../material/index';
+import NavBar from '../nav_bar';
+import Tabs, { Tab } from 'material-ui/Tabs';
 import DisplayTypePicker from './display_type_picker';
 import { DISPLAY_TYPES } from '../../../schemas/display';
 import List from '../table/list/list';
 import ListHeader from '../table/list/list_header';
 import Gallery from '../table/gallery/gallery';
+import classNames from 'classnames';
 
 class TableLayout extends React.Component {
   componentDidMount() {
@@ -28,19 +30,22 @@ class TableLayout extends React.Component {
 
     const tableSchema = schema[tableType];
 
-    // A tab for each table type.
-    const tabs = Object.keys(schema).map((tableType) => {
-      return {
-        label: schema[tableType].label,
-        value: tableType,
-      };
-    });
-
-    const $tabs = tabs.length > 1
-      ? (<MatTabs tabs={tabs}
-                  selectedTab={tableType}
-                  onTabSelect={onTableTypeChange} />)
-      : <div></div>;
+    const $tabs = Object.keys(schema).length > 1
+      ? (
+        <Tabs className='tabs'
+              value={tableType}
+              onChange={(e, i) => onTableTypeChange(`${i}`)}
+              indicatorClassName='underline'>
+          {
+            Object.keys(schema).map((tt) => {
+              const label = schema[tt].label;
+              return (<Tab className={classNames('tab', {active: tt === tableType})}
+                           key={label}
+                           label={label} />);
+            })
+          }
+        </Tabs>
+      ) : <div></div>;
 
     let $table = '';
     if (tableSchema.entities.length > 0) {

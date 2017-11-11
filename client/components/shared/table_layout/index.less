@@ -8,18 +8,14 @@
       align-items: flex-end;
       padding: 0 (@grid * 4);
 
-      .mat-tabs {
-        .mat-tabs-colorize(
-          @color: @blue-600;
-          @hoverColor: @blue;
-          @activeColor: @orange-600;
-          @activeHoverColor: @orange);
+      .tabs {
+        .tab {
+          span { .font-subhead-1(); }
 
-        .mat-ripple s { background-color: rgba(0, 0, 0, 0.12); }
-
-        .mat-btn button:hover {
-          background-color: rgba(0, 0, 0, 0.05);
+          &.active span { .font-subhead-2(); }
         }
+
+        .underline { background-color: @color-primary; }
       }
 
       &.bordered {

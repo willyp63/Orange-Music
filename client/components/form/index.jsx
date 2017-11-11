@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { MatModal } from '../material';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import { setFieldValue, validateField, submitForm, hideForm } from '../../store/modules/form';
+import { setFieldValue, submitForm, hideForm } from '../../store/modules/form';
 
 class Form extends React.Component {
   componentDidUpdate() {
@@ -19,7 +19,7 @@ class Form extends React.Component {
     }
   }
   render() {
-    const { isOpen, schema, fields, setFieldValue, validateField, submitForm,
+    const { isOpen, schema, fields, setFieldValue, submitForm,
       hideForm } = this.props;
 
     if (!schema) { return <noscript />; }
@@ -30,7 +30,6 @@ class Form extends React.Component {
         <TextField className='text-field'
                    value={field.value}
                    onChange={e => setFieldValue(fieldSchema.name, e.target.value)}
-                   onBlur={() => validateField(fieldSchema.name)}
                    label={fieldSchema.label}
                    error={field.errors.length > 0}
                    helperText={field.errors[0] || ' '}
@@ -45,7 +44,7 @@ class Form extends React.Component {
         </Button>
         <div className='content'>
           {$textFields}
-          <Button className='submit-btn' onClick={submitForm}>
+          <Button className='submit-btn' onClick={submitForm} raised={true}>
             {schema.submitButtonText}
           </Button>
         </div>
@@ -65,7 +64,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setFieldValue: (fieldName, value) => dispatch(setFieldValue(fieldName, value)),
-    validateField: (fieldName) => dispatch(validateField(fieldName)),
     hideForm: () => dispatch(hideForm()),
     submitForm: () => dispatch(submitForm()),
   };

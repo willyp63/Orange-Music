@@ -15,10 +15,33 @@
     .text-field {
       margin-top: @grid * 2;
       min-width: @grid * 50;
+
+      label {
+        color: @grey;
+
+        .font-title();
+        font-weight: 300;
+      }
+
+      input {
+        .font-title();
+      }
+
+      div:after {
+        background-color: @color-primary;
+      }
     }
 
     .submit-btn {
       margin-top: @grid * 2;
+      margin-bottom: @grid * 2;
+
+      color: @white;
+      background-color: @color-primary;
+
+      &:hover {
+        background-color: @color-primary-darken;
+      }
     }
   }
 }

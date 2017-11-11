@@ -2,11 +2,17 @@
   .search-form {
     margin: 0 (@grid * 8);
 
-    .mat-input {
+    .search-field {
       width: @grid * 60;
       max-width: 100%;
 
-      .font-display-1();
+      input {
+        .font-display-1();
+      }
+
+      div:after {
+        background-color: @color-primary;
+      }
     }
   }
 

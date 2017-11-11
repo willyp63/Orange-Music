@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import history from '../../../history';
 import TABLE_SCHEMA, { PLAYLIST_DETAIL_TABLE_TYPES } from '../../../schemas/table/playlist_detail';
 import { MatButton } from '../../material';
-import TableLayoutComponent from '../../shared/table_layout/table_layout';
+import TableLayoutComponent from '../../shared/table_layout';
 import { playList } from '../../../store/modules/queue';
 import { setPlaylistDetailDisplayType, fetchTracks } from '../../../store/modules/playlist_detail';
 
