@@ -1,3 +1,19 @@
+@color-primary: @blue-grey;
+@color-primary-darken: @blue-grey-600;
+
+@color-secondary: @orange;
+@color-secondary-darken: @orange-600;
+
 .om-app {
   margin-left: @om-nav-panel-width;
+}
+
+.om-app-bg {
+  position: fixed;
+  left: @om-nav-panel-width;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  
+  background: linear-gradient(0deg, @color-primary, @white 40%);
 }

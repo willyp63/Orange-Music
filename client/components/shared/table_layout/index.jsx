@@ -1,6 +1,6 @@
 import React from 'react';
 import { isNotEmpty, isEmpty } from '../../../util/empty';
-import { MatSpinner } from '../../material/index';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
 import NavBar from '../nav_bar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import DisplayTypePicker from './display_type_picker';
@@ -74,7 +74,7 @@ class TableLayout extends React.Component {
     }
 
     const $spinner = tableSchema.isFetching
-      ? (<MatSpinner />) : '';
+      ? (<CircularProgress className='spinner' />) : '';
 
     return (
       <div className="om-table-layout">

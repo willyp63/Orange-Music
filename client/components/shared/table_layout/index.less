@@ -15,7 +15,7 @@
           &.active span { .font-subhead-2(); }
         }
 
-        .underline { background-color: @color-primary; }
+        .underline { background-color: @color-secondary; }
       }
 
       &.bordered {
@@ -28,6 +28,12 @@
     display: flex;
     justify-content: space-around;
     padding: (@grid * 2) 0;
+    
+    .spinner {
+      color: @color-secondary;
+      width: @grid * 15 !important;
+      height: @grid * 15 !important;
+    }
   }
 
   .player-spacer {

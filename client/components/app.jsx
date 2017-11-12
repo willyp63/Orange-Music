@@ -44,6 +44,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <div className="om-app-bg"></div>
         <div className="om-app">
           <Route exact path="/" component={Home} />
           <Route exact path="/search" component={Search} />
