@@ -7,4 +7,13 @@
   z-index: 100;
   background-color: @white;
   border-bottom: 1px solid @grey-300;
+  
+  .z-depth(0);
+  transition: box-shadow @time ease-out;
+
+  &.scrolled {
+    border-bottom: 0;
+
+    .z-depth(2);
+  }
 }
