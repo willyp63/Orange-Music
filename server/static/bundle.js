@@ -2560,7 +2560,7 @@ module.exports = ReactUpdates;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.measureText = exports.FONT_TYPES = exports.TIME = exports.GRID = exports.MatPicker = exports.MatModal = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
+exports.measureText = exports.FONT_TYPES = exports.TIME = exports.GRID = exports.MatMenu = exports.MatPicker = exports.MatModal = exports.MatInput = exports.MatTabs = exports.MatSpinner = exports.MatSlider = exports.MatRipple = exports.MatChip = exports.MatButton = undefined;
 
 var _mat_button = __webpack_require__(89);
 
@@ -2598,6 +2598,10 @@ var _mat_picker = __webpack_require__(462);
 
 var _mat_picker2 = _interopRequireDefault(_mat_picker);
 
+var _mat_menu = __webpack_require__(685);
+
+var _mat_menu2 = _interopRequireDefault(_mat_menu);
+
 var _grid = __webpack_require__(57);
 
 var _grid2 = _interopRequireDefault(_grid);
@@ -2621,6 +2625,7 @@ var MatTabs = exports.MatTabs = _mat_tabs2.default;
 var MatInput = exports.MatInput = _mat_input2.default;
 var MatModal = exports.MatModal = _mat_modal2.default;
 var MatPicker = exports.MatPicker = _mat_picker2.default;
+var MatMenu = exports.MatMenu = _mat_menu2.default;
 
 var GRID = exports.GRID = _grid2.default.GRID;
 var TIME = exports.TIME = _transition2.default.TIME;
@@ -4460,7 +4465,7 @@ var SCHEMA = {
   },
   '@actions': {
     label: '',
-    width: 40 * 8 + 'px', // Experimental
+    width: '0',
     component: _action_cell2.default,
     actions: _track2.default
   }
@@ -5611,30 +5616,28 @@ var getImageUrl = exports.getImageUrl = function getImageUrl(images, preferredId
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.TRACK_ACTION_TYPES = undefined;
+
+var _universal = __webpack_require__(688);
+
 var TRACK_ACTION_TYPES = exports.TRACK_ACTION_TYPES = {
-  PLAY_TRACK: '0',
-  ADD_TRACK_TO_QUEUE: '1',
-  ADD_TRACK_TO_PLAYLIST: '2'
+  PLAY_TRACK: _universal.UNIVERSAL_ACTION_TYPES.PLAY,
+  ADD_TRACK_TO_PLAYLIST: 'ADD_TRACK_TO_PLAYLIST',
+  ADD_TRACK_TO_QUEUE: 'ADD_TRACK_TO_QUEUE'
 };
 
 var ACTIONS = {};
 ACTIONS[TRACK_ACTION_TYPES.PLAY_TRACK] = {
-  buttonClassName: 'play-btn',
-  icon: 'play_arrow',
-  tooltipText: 'Play',
+  label: 'Play',
   actionName: 'play'
 };
-ACTIONS[TRACK_ACTION_TYPES.ADD_TRACK_TO_QUEUE] = {
-  buttonClassName: 'add-to-queue-btn',
-  icon: 'add',
-  tooltipText: 'Add to queue',
-  actionName: 'addToQueue'
-};
 ACTIONS[TRACK_ACTION_TYPES.ADD_TRACK_TO_PLAYLIST] = {
-  buttonClassName: 'add-to-playlist-btn',
-  icon: 'playlist_add',
-  tooltipText: 'Add to playlist',
+  label: 'Add to playlist',
   actionName: 'addToPlaylist'
+};
+ACTIONS[TRACK_ACTION_TYPES.ADD_TRACK_TO_QUEUE] = {
+  label: 'Add to queue',
+  actionName: 'addToQueue'
 };
 
 exports.default = ACTIONS;
@@ -5650,20 +5653,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _artist_link_chip = __webpack_require__(232);
-
-var _artist_link_chip2 = _interopRequireDefault(_artist_link_chip);
-
 var _track = __webpack_require__(70);
 
 var _track2 = _interopRequireDefault(_track);
+
+var _shared = __webpack_require__(689);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SCHEMA = {
   titlePath: 'name',
   subtitlePath: 'artist.name',
-  subtitleChipComponent: _artist_link_chip2.default,
+  subtitleLinkLocation: _shared.ARTIST_LINK_LOCATION,
   imagePath: 'image',
   actions: _track2.default
 };
@@ -11872,7 +11873,7 @@ var _image = __webpack_require__(69);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var IMAGE_IDX = 1;
+var IMAGE_IDX = 2;
 
 var ImageCell = function ImageCell(images) {
   var imageSrc = (0, _empty.isNotEmpty)(images) ? (0, _image.getImageUrl)(images, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
@@ -11885,7 +11886,20 @@ var ImageCell = function ImageCell(images) {
   return _react2.default.createElement(
     'div',
     { className: className },
-    _react2.default.createElement('img', { src: imageSrc })
+    _react2.default.createElement('img', { src: imageSrc }),
+    _react2.default.createElement(
+      'div',
+      { className: 'img-overlay' },
+      _react2.default.createElement(
+        'div',
+        { className: 'play-icon-wrap' },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons play-icon' },
+          'play_circle_outline'
+        )
+      )
+    )
   );
 };
 
@@ -20409,31 +20423,24 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _index = __webpack_require__(33);
+var _Button = __webpack_require__(92);
+
+var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ActionsCell = function ActionsCell(_, track, actions, schema) {
-  var $buttons = Object.keys(schema.actions).map(function (actionType) {
-    var action = schema.actions[actionType];
-    return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
-      icon: action.icon,
-      tooltipText: action.tooltipText,
-      key: actionType,
-      onClick: function onClick() {
-        if (typeof actions[action.actionName] === 'function') {
-          actions[action.actionName](track);
-        }
-      } });
-  });
-
   return _react2.default.createElement(
     'div',
     { className: 'actions-cell' },
     _react2.default.createElement(
-      'div',
-      { className: 'action-btns-container' },
-      $buttons
+      _Button2.default,
+      { className: 'more-btn', raised: true },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'more_horiz'
+      )
     )
   );
 };
@@ -20847,42 +20854,7 @@ var SCHEMA = {
 exports.default = SCHEMA;
 
 /***/ }),
-/* 232 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(33);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ArtistLinkChip = function ArtistLinkChip(_ref) {
-  var text = _ref.text,
-      className = _ref.className,
-      actions = _ref.actions;
-
-  className += ' artist-link-chip';
-  className.trim();
-
-  return _react2.default.createElement(_index.MatChip, { className: className,
-    text: text,
-    onClick: function onClick() {
-      actions.goToArtist(text);
-    } });
-};
-
-exports.default = ArtistLinkChip;
-
-/***/ }),
+/* 232 */,
 /* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20893,15 +20865,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _artist_link_chip = __webpack_require__(232);
-
-var _artist_link_chip2 = _interopRequireDefault(_artist_link_chip);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _shared = __webpack_require__(689);
 
 var SCHEMA = {
   titlePath: 'name',
-  titleChipComponent: _artist_link_chip2.default,
+  titleLinkLocation: _shared.ARTIST_LINK_LOCATION,
   subtitlePath: '@NA',
   imagePath: 'image',
   actions: {}
@@ -24379,7 +24347,7 @@ var store = (0, _redux.createStore)((0, _redux.combineReducers)({
 }), {}, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
 
 // Sync store with url query params
-// querySync(store, history);
+(0, _query_sync2.default)(store, _history2.default);
 
 document.addEventListener('DOMContentLoaded', function () {
   _reactDom2.default.render(_react2.default.createElement(
@@ -57530,7 +57498,7 @@ var NavBar = function (_React$Component) {
           { className: (0, _classnames2.default)('om-nav-bar', { scrolled: this.state.isScrolled }) },
           this.props.children
         ),
-        _react2.default.createElement('div', { className: 'om-nav-bar-placeholder' })
+        _react2.default.createElement('div', { className: (0, _classnames2.default)('om-nav-bar-placeholder', { hidden: this.state.isScrolled }) })
       );
     }
   }]);
@@ -59492,13 +59460,23 @@ var _reactDom = __webpack_require__(21);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _empty = __webpack_require__(20);
+var _classnames = __webpack_require__(8);
 
-var _image = __webpack_require__(69);
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _Button = __webpack_require__(92);
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _history = __webpack_require__(73);
+
+var _history2 = _interopRequireDefault(_history);
 
 var _nested_field = __webpack_require__(296);
 
-var _index = __webpack_require__(33);
+var _image = __webpack_require__(69);
+
+var _universal = __webpack_require__(688);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -59513,19 +59491,25 @@ var IMAGE_IDX = 3;
 var GalleryTile = function (_React$Component) {
   _inherits(GalleryTile, _React$Component);
 
-  function GalleryTile() {
+  function GalleryTile(props) {
     _classCallCheck(this, GalleryTile);
 
-    return _possibleConstructorReturn(this, (GalleryTile.__proto__ || Object.getPrototypeOf(GalleryTile)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (GalleryTile.__proto__ || Object.getPrototypeOf(GalleryTile)).call(this, props));
+
+    _this.state = { isMoreMenuOpen: false };
+    return _this;
   }
 
   _createClass(GalleryTile, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props,
           entity = _props.entity,
           schema = _props.schema,
           actions = _props.actions;
+      var isMoreMenuOpen = this.state.isMoreMenuOpen;
 
 
       var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
@@ -59533,42 +59517,134 @@ var GalleryTile = function (_React$Component) {
       var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
 
       var imageSrc = image ? (0, _image.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
-      var imageClassName = imageSrc === _image.EMPTY_IMG_SRC ? 'bordered' : '';
 
-      var TitleChipComponent = schema.titleChipComponent || _index.MatChip;
-      var $titleChip = title ? _react2.default.createElement(TitleChipComponent, { className: 'title', text: title, actions: actions, entity: entity }) : '';
-      var SubtitleChipComponent = schema.subtitleChipComponent || _index.MatChip;
-      var $subtitleChip = subtitle ? _react2.default.createElement(SubtitleChipComponent, { className: 'subtitle', text: subtitle, actions: actions, entity: entity }) : '';
+      var $title = '';
+      if (title) {
+        if (schema.titleLinkLocation) {
+          var linkLocation = schema.titleLinkLocation(title);
+          $title = _react2.default.createElement(
+            'span',
+            { className: 'title link',
+              onClick: function onClick() {
+                return _history2.default.pushLocation(linkLocation.pathname, linkLocation.search);
+              } },
+            title
+          );
+        } else {
+          $title = _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            title
+          );
+        }
+      }
 
-      var $buttons = Object.keys(schema.actions).map(function (actionType) {
-        var action = schema.actions[actionType];
-        return _react2.default.createElement(_index.MatButton, { className: action.buttonClassName,
-          icon: action.icon,
-          tooltipText: action.tooltipText,
-          key: actionType,
-          onClick: function onClick() {
-            if (typeof actions[action.actionName] === 'function') {
-              actions[action.actionName](entity);
-            }
-          } });
+      var $subtitle = '';
+      if (subtitle) {
+        if (schema.subtitleLinkLocation) {
+          var _linkLocation = schema.subtitleLinkLocation(subtitle);
+          $subtitle = _react2.default.createElement(
+            'span',
+            { className: 'subtitle link',
+              onClick: function onClick() {
+                return _history2.default.pushLocation(_linkLocation.pathname, _linkLocation.search);
+              } },
+            subtitle
+          );
+        } else {
+          $subtitle = _react2.default.createElement(
+            'span',
+            { className: 'subtitle' },
+            subtitle
+          );
+        }
+      }
+
+      var menuActions = Object.keys(schema.actions).filter(function (actionType) {
+        return actionType !== _universal.UNIVERSAL_ACTION_TYPES.PLAY;
       });
 
-      var actionsDrawerStyle = (0, _empty.isEmpty)($buttons) ? { height: 0 } : {};
+      var playAction = Object.keys(schema.actions).includes(_universal.UNIVERSAL_ACTION_TYPES.PLAY) ? actions[schema.actions[_universal.UNIVERSAL_ACTION_TYPES.PLAY].actionName].bind(null, entity) : null;
+
+      var $menuItems = menuActions.map(function (actionType) {
+        var action = schema.actions[actionType];
+        return _react2.default.createElement(
+          _Button2.default,
+          { className: 'menu-item',
+            key: action.label,
+            onClick: function onClick(e) {
+              return actions[action.actionName](entity);
+            } },
+          action.label
+        );
+      });
+
+      var $moreButton = menuActions.length > 0 ? _react2.default.createElement(
+        _Button2.default,
+        { className: 'more-btn', raised: true,
+          onClick: function onClick(e) {
+            e.stopPropagation();
+            _this2.setState({ isMoreMenuOpen: !isMoreMenuOpen }, function () {
+              $(_reactDom2.default.findDOMNode(_this2)).find('.more-menu button')[0].focus();
+            });
+          } },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'more_horiz'
+        )
+      ) : '';
+
+      var $playIconWrap = playAction ? _react2.default.createElement(
+        'div',
+        { className: 'play-icon-wrap' },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons play-icon' },
+          'play_circle_outline'
+        )
+      ) : '';
+
+      var $imageOverlay = $playIconWrap || $moreButton ? _react2.default.createElement(
+        'div',
+        { className: 'img-overlay',
+          onClick: function onClick() {
+            if (playAction) {
+              playAction();
+            }
+          },
+          onMouseLeave: function onMouseLeave() {
+            return _this2.setState({ isMoreMenuOpen: false });
+          } },
+        $playIconWrap,
+        $moreButton,
+        _react2.default.createElement(
+          'div',
+          { className: (0, _classnames2.default)('more-menu', { open: isMoreMenuOpen }),
+            onClick: function onClick(e) {
+              e.stopPropagation();
+              _this2.setState({ isMoreMenuOpen: true });
+            },
+            onBlur: function onBlur() {
+              return _this2.setState({ isMoreMenuOpen: false });
+            } },
+          $menuItems
+        )
+      ) : '';
+
+      var $divider = $subtitle ? _react2.default.createElement('div', { className: 'divider' }) : '';
 
       return _react2.default.createElement(
         'div',
         { className: 'tile' },
-        _react2.default.createElement('img', { src: imageSrc, className: imageClassName }),
+        _react2.default.createElement('img', { src: imageSrc, className: (0, _classnames2.default)({ bordered: imageSrc === _image.EMPTY_IMG_SRC }) }),
+        $imageOverlay,
         _react2.default.createElement(
           'div',
           { className: 'info' },
-          $titleChip,
-          $subtitleChip
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'actions-drawer', style: actionsDrawerStyle },
-          $buttons
+          $title,
+          $divider,
+          $subtitle
         )
       );
     }
@@ -60634,6 +60710,105 @@ var SCHEMA = Object.assign({}, _track2.default, {
 });
 
 exports.default = SCHEMA;
+
+/***/ }),
+/* 685 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Button = __webpack_require__(92);
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MatMenu = function (_React$Component) {
+  _inherits(MatMenu, _React$Component);
+
+  function MatMenu() {
+    _classCallCheck(this, MatMenu);
+
+    return _possibleConstructorReturn(this, (MatMenu.__proto__ || Object.getPrototypeOf(MatMenu)).apply(this, arguments));
+  }
+
+  _createClass(MatMenu, [{
+    key: 'render',
+    value: function render() {
+      var menuItems = this.props.menuItems;
+
+
+      var $menuItems = menuItems.map(function (item) {
+        var label = item.label || item;
+        return _react2.default.createElement(
+          _Button2.default,
+          { className: 'menu-item' },
+          label
+        );
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'mat-menu' },
+        $menuItems
+      );
+    }
+  }]);
+
+  return MatMenu;
+}(_react2.default.Component);
+
+exports.default = MatMenu;
+
+/***/ }),
+/* 686 */,
+/* 687 */,
+/* 688 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var UNIVERSAL_ACTION_TYPES = exports.UNIVERSAL_ACTION_TYPES = {
+  PLAY: 'PLAY'
+};
+
+/***/ }),
+/* 689 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var ARTIST_LINK_LOCATION = exports.ARTIST_LINK_LOCATION = function ARTIST_LINK_LOCATION(artistName) {
+	return {
+		pathname: '/search',
+		search: { q: artistName, tt: 0 }
+	};
+};
 
 /***/ })
 /******/ ]);

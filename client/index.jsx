@@ -33,7 +33,7 @@ const store = createStore(
 );
 
 // Sync store with url query params
-// querySync(store, history);
+querySync(store, history);
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(

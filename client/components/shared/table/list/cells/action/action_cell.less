@@ -2,63 +2,32 @@
 @om-list-action-btn-margin: @grid;
 
 .om-list {
-  .actions-cell{
-    position: relative;
+  .actions-cell {
+    height: 100%;
 
-    .action-btns-container{
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
 
-      .mat-btn {
-        margin-right: 0;
-        transition: margin-right @time @timing-fcn;
+    .more-btn {
+      margin-right: @grid * 2;
+      padding: @grid;
+      min-width: 0;
 
-        .inner-btn {
-          width: 0;
-          height: 0;
-          transition: width @time @timing-fcn, height @time @timing-fcn !important;
-        }
+      background-color: @color-secondary;
+      border-radius: 50%;
 
-        i {
-          transition: font-size @time @timing-fcn;
-          font-size: 0px;
-        }
+      transform: scale(0);
+
+      transition: transform @time @timing-fcn;
+
+      i {
+        color: @white;
+        .font-icon-lg();
       }
 
-      .play-btn {
-        .mat-icon-btn-raised-colorize(
-          @color: @white;
-          @colorHover: @grey-200;
-          @bgColor: @blue-600;
-          @bgColorHover: @blue);
-      }
-
-      .add-to-queue-btn {
-        .mat-icon-btn-raised-colorize(
-          @color: @white;
-          @colorHover: @grey-200;
-          @bgColor: @green-600;
-          @bgColorHover: @green);
-      }
-
-      .remove-from-queue-btn, .remove-from-history-btn, .remove-from-playlist-btn, .delete-playlist-btn {
-        .mat-icon-btn-raised-colorize(
-          @color: @white;
-          @colorHover: @grey-200;
-          @bgColor: @red-600;
-          @bgColorHover: @red);
-      }
-
-      .add-to-playlist-btn {
-        .mat-icon-btn-raised-colorize(
-          @color: @white;
-          @colorHover: @grey-200;
-          @bgColor: @orange-600;
-          @bgColorHover: @orange);
+      // Ripple
+      span:last-of-type span {
+        background-color: @white;
       }
     }
   }
@@ -66,22 +35,9 @@
 
 .om-list {
   .row:hover {
-    .actions-cell{
-      .action-btns-container {
-        .mat-btn {
-          margin-right: @grid;
-
-          .inner-btn {
-            width: @om-list-action-btn-size;
-            height: @om-list-action-btn-size;
-          }
-
-          i { .font-icon-lg(); }
-        }
-
-        .mat-btn:last-of-type {
-          margin-right: 0;
-        }
+    .actions-cell {
+      .more-btn {
+        transform: scale(1);
       }
     }
   }

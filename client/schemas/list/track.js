@@ -23,7 +23,7 @@ const SCHEMA = {
   },
   '@actions': {
     label: '',
-    width: `${40 * 8}px`, // Experimental
+    width: '0',
     component: ActionsCell,
     actions: ACTIONS,
   },

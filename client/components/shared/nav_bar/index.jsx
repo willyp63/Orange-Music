@@ -26,7 +26,7 @@ class NavBar extends React.Component {
         <div className={classNames('om-nav-bar', {scrolled: this.state.isScrolled})}>
           {this.props.children}
         </div>
-        <div className='om-nav-bar-placeholder'></div>
+        <div className={classNames('om-nav-bar-placeholder', {hidden: this.state.isScrolled})}></div>
       </div>
     );
   }

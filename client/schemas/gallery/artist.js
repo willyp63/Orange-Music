@@ -1,8 +1,8 @@
-import ArtistLinkChip from '../../components/shared/table/gallery/chips/artist_link_chip';
+import { ARTIST_LINK_LOCATION } from './shared';
 
 const SCHEMA = {
   titlePath: 'name',
-  titleChipComponent: ArtistLinkChip,
+  titleLinkLocation: ARTIST_LINK_LOCATION,
   subtitlePath: '@NA',
   imagePath: 'image',
   actions: {},
