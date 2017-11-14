@@ -10,7 +10,14 @@
 
       .tabs {
         .tab {
-          span { .font-subhead-1(); }
+          span {
+            .font-subhead-1();
+          }
+          
+          // Ripple
+          span:last-of-type span {
+            background-color: @color-secondary;
+          }
 
           &.active span { .font-subhead-2(); }
         }

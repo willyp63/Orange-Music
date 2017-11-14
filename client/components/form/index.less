@@ -6,7 +6,7 @@
   }
 
   .content {
-    padding: @grid * 4;
+    padding: (@grid * 8) (@grid * 16);
 
     display: flex;
     flex-direction: column;
@@ -30,10 +30,14 @@
       div:after {
         background-color: @color-secondary;
       }
+      
+      &.errors:not(:focus-within) div:after {
+        background-color: @red;
+      }
     }
 
     .submit-btn {
-      margin-top: @grid * 2;
+      margin-top: @grid * 4;
       margin-bottom: @grid * 2;
 
       color: @white;

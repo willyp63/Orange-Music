@@ -17,8 +17,10 @@
     padding: @grid;
 
     background-color: @color-primary;
+    
+    pointer-events: auto;
 
-    .z-depth(16);
+    .z-depth(8);
 
     .top-bar {
       display: flex;
@@ -48,6 +50,7 @@
     &.hidden {
       opacity: 0;
       bottom: @grid * -15;
+      pointer-events: none;
     }
   }
 }

@@ -24379,7 +24379,7 @@ var store = (0, _redux.createStore)((0, _redux.combineReducers)({
 }), {}, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
 
 // Sync store with url query params
-(0, _query_sync2.default)(store, _history2.default);
+// querySync(store, history);
 
 document.addEventListener('DOMContentLoaded', function () {
   _reactDom2.default.render(_react2.default.createElement(
@@ -41902,6 +41902,9 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(_nav_panel2.default, null),
+        _react2.default.createElement(_player2.default, null),
+        _react2.default.createElement(_form2.default, null),
         _react2.default.createElement('div', { className: 'om-app-bg' }),
         _react2.default.createElement(
           'div',
@@ -41911,10 +41914,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/queue', component: _queue2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/playlists', component: _playlists2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/playlists/tracks', component: _playlist_detail2.default })
-        ),
-        _react2.default.createElement(_nav_panel2.default, null),
-        _react2.default.createElement(_player2.default, null),
-        _react2.default.createElement(_form2.default, null)
+        )
       );
     }
   }]);
@@ -48935,6 +48935,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(29);
 
+var _classnames = __webpack_require__(8);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _material = __webpack_require__(33);
 
 var _Button = __webpack_require__(92);
@@ -48998,13 +49002,14 @@ var Form = function (_React$Component) {
 
       var $textFields = schema.fields.map(function (fieldSchema) {
         var field = fields[fieldSchema.name] || { errors: [] };
-        return _react2.default.createElement(_TextField2.default, { className: 'text-field',
+        var hasErrors = field.errors.length > 0;
+        return _react2.default.createElement(_TextField2.default, { className: (0, _classnames2.default)('text-field', { errors: hasErrors }),
           value: field.value,
           onChange: function onChange(e) {
             return setFieldValue(fieldSchema.name, e.target.value);
           },
           label: fieldSchema.label,
-          error: field.errors.length > 0,
+          error: hasErrors,
           helperText: field.errors[0] || ' ',
           key: fieldSchema.name });
       });
@@ -56859,7 +56864,7 @@ var TrackControls = function TrackControls(_ref) {
                onPlayPause = _ref.onPlayPause,
                onNext = _ref.onNext;
 
-           var playPauseButtonIcon = isPlaying ? 'pause_circle_outline' : 'play_circle_outline';
+           var playPauseButtonIcon = isPlaying ? 'pause' : 'play_arrow';
            return _react2.default.createElement(
                       'div',
                       { className: 'track-controls' },

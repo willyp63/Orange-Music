@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { MatModal } from '../material';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
@@ -26,12 +27,13 @@ class Form extends React.Component {
 
     const $textFields = schema.fields.map(fieldSchema => {
       const field = fields[fieldSchema.name] || {errors: []};
+      const hasErrors = field.errors.length > 0;
       return (
-        <TextField className='text-field'
+        <TextField className={classNames('text-field', {errors: hasErrors})}
                    value={field.value}
                    onChange={e => setFieldValue(fieldSchema.name, e.target.value)}
                    label={fieldSchema.label}
-                   error={field.errors.length > 0}
+                   error={hasErrors}
                    helperText={field.errors[0] || ' '}
                    key={fieldSchema.name} />
       );

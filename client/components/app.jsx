@@ -44,6 +44,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <NavPanel />
+        <Player />
+        <Form />
         <div className="om-app-bg"></div>
         <div className="om-app">
           <Route exact path="/" component={Home} />
@@ -51,10 +54,7 @@ class App extends React.Component {
           <Route exact path="/queue" component={Queue} />
           <Route exact path="/playlists" component={Playlists} />
           <Route exact path="/playlists/tracks" component={PlaylistDetail} />
-        </div>
-        <NavPanel />
-        <Player />
-        <Form />
+        </div>        
       </div>
     );
   }
