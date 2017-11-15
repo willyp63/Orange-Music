@@ -40,12 +40,12 @@
 
         .play-icon {
           color: @white;
-          font-size: 12vw;
+          font-size: 16vw;
 
           transform: scale(1);
           transition: transform (@time * 1.2) cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-          &:hover { transform: scale(1.2); }
+          &:hover { transform: scale(1.15); }
         }
       }
 
@@ -60,8 +60,8 @@
         background-color: @color-secondary;
         border-radius: 50%;
 
-        opacity: 0;
-
+        transform: scale(0);
+        transform-origin: bottom right;
         transition: transform @time @timing-fcn;
 
         i {
@@ -107,7 +107,7 @@
       &:hover {
         background-color: rgba(0, 0, 0, 0.45);
 
-        .play-icon-wrap, .more-btn {
+        .play-icon-wrap {
           opacity: 1;
         }
 

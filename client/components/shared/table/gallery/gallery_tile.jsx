@@ -71,7 +71,11 @@ class GalleryTile extends React.Component {
       return (
         <Button className='menu-item'
                 key={action.label}
-                onClick={(e) => actions[action.actionName](entity)}>
+                onClick={(e) => {
+                  e.stopPropagation();
+                  this.setState({isMoreMenuOpen: false});
+                  actions[action.actionName](entity);
+                }}>
           {action.label}
         </Button>
       );

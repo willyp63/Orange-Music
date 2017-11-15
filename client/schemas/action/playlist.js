@@ -1,12 +1,10 @@
 export const PLAYLIST_ACTION_TYPES = {
-  DELETE_PLAYLIST: '0',
+  DELETE_PLAYLIST: 'DELETE_PLAYLIST',
 };
 
 const ACTIONS = {};
 ACTIONS[PLAYLIST_ACTION_TYPES.DELETE_PLAYLIST] = {
-  buttonClassName: 'delete-playlist-btn',
-  icon: 'remove',
-  tooltipText: 'Delete playlist',
+  label: 'Delete playlist',
   actionName: 'deletePlaylist',
 };
 

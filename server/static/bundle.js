@@ -12287,14 +12287,12 @@ var _track2 = _interopRequireDefault(_track);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var QUEUE_ACTION_TYPES = exports.QUEUE_ACTION_TYPES = {
-  REMOVE_FROM_QUEUE: '3' // 3 prior actions
+  REMOVE_FROM_QUEUE: 'REMOVE_FROM_QUEUE'
 };
 
 var ACTIONS = _extends({}, _track2.default);
 ACTIONS[QUEUE_ACTION_TYPES.REMOVE_FROM_QUEUE] = {
-  buttonClassName: 'remove-from-queue-btn',
-  icon: 'remove',
-  tooltipText: 'Remove from queue',
+  label: 'Remove from queue',
   actionName: 'removeFromQueue'
 };
 
@@ -20996,14 +20994,12 @@ var _track2 = _interopRequireDefault(_track);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HISTORY_ACTION_TYPES = exports.HISTORY_ACTION_TYPES = {
-  REMOVE_TRACK_FROM_HISTORY: '3' // 3 prior actions
+  REMOVE_TRACK_FROM_HISTORY: 'REMOVE_TRACK_FROM_HISTORY'
 };
 
 var ACTIONS = Object.assign({}, _track2.default);
 ACTIONS[HISTORY_ACTION_TYPES.REMOVE_TRACK_FROM_HISTORY] = {
-  buttonClassName: 'remove-from-history-btn',
-  icon: 'remove',
-  tooltipText: 'Remove from history',
+  label: 'Remove from history',
   actionName: 'removeFromHistory'
 };
 
@@ -24218,14 +24214,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var PLAYLIST_ACTION_TYPES = exports.PLAYLIST_ACTION_TYPES = {
-  DELETE_PLAYLIST: '0'
+  DELETE_PLAYLIST: 'DELETE_PLAYLIST'
 };
 
 var ACTIONS = {};
 ACTIONS[PLAYLIST_ACTION_TYPES.DELETE_PLAYLIST] = {
-  buttonClassName: 'delete-playlist-btn',
-  icon: 'remove',
-  tooltipText: 'Delete playlist',
+  label: 'Delete playlist',
   actionName: 'deletePlaylist'
 };
 
@@ -24252,14 +24246,12 @@ var _track2 = _interopRequireDefault(_track);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PLAYLIST_DETAIL_ACTION_TYPES = exports.PLAYLIST_DETAIL_ACTION_TYPES = {
-  REMOVE_FROM_PLAYLIST: '3' // 3 prior actions
+  REMOVE_FROM_PLAYLIST: 'REMOVE_FROM_PLAYLIST'
 };
 
 var ACTIONS = _extends({}, _track2.default);
 ACTIONS[PLAYLIST_DETAIL_ACTION_TYPES.REMOVE_FROM_PLAYLIST] = {
-  buttonClassName: 'remove-from-playlist-btn',
-  icon: 'remove',
-  tooltipText: 'Remove from playlist',
+  label: 'Remove from playlist',
   actionName: 'removeTrackFromPlaylist'
 };
 
@@ -59573,7 +59565,9 @@ var GalleryTile = function (_React$Component) {
           { className: 'menu-item',
             key: action.label,
             onClick: function onClick(e) {
-              return actions[action.actionName](entity);
+              e.stopPropagation();
+              _this2.setState({ isMoreMenuOpen: false });
+              actions[action.actionName](entity);
             } },
           action.label
         );
@@ -60123,13 +60117,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _queue = __webpack_require__(142);
 
+var _queue2 = _interopRequireDefault(_queue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var ACTIONS = {};
-ACTIONS[_queue.QUEUE_ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = {
-  buttonClassName: 'remove-from-history-btn',
-  icon: 'remove',
-  tooltipText: 'Remove from queue',
-  actionName: 'removeFromQueue'
-};
+ACTIONS[_queue.QUEUE_ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE] = _queue2.default[_queue.QUEUE_ACTION_TYPES.REMOVE_TRACK_FROM_QUEUE];
 
 exports.default = ACTIONS;
 
@@ -60425,10 +60418,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _playlist_link_chip = __webpack_require__(680);
-
-var _playlist_link_chip2 = _interopRequireDefault(_playlist_link_chip);
-
 var _playlist = __webpack_require__(299);
 
 var _playlist2 = _interopRequireDefault(_playlist);
@@ -60437,7 +60426,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var SCHEMA = {
   titlePath: 'name',
-  titleChipComponent: _playlist_link_chip2.default,
   subtitlePath: '@NA',
   imagePath: 'image',
   actions: _playlist2.default
@@ -60446,43 +60434,7 @@ var SCHEMA = {
 exports.default = SCHEMA;
 
 /***/ }),
-/* 680 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _index = __webpack_require__(33);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PlaylistLinkChip = function PlaylistLinkChip(_ref) {
-  var text = _ref.text,
-      className = _ref.className,
-      actions = _ref.actions,
-      entity = _ref.entity;
-
-  className += ' playlist-link-chip';
-  className.trim();
-
-  return _react2.default.createElement(_index.MatChip, { className: className,
-    text: text,
-    onClick: function onClick() {
-      actions.goToPlaylist(entity.id);
-    } });
-};
-
-exports.default = PlaylistLinkChip;
-
-/***/ }),
+/* 680 */,
 /* 681 */
 /***/ (function(module, exports, __webpack_require__) {
 
