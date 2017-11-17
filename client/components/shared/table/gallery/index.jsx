@@ -1,5 +1,5 @@
 import React from 'react';
-import GalleryTile from './gallery_tile';
+import Tile from './tile';
 import ActionProvider from '../shared/action_provider';
 
 const NUM_COLUMNS = 3;
@@ -9,7 +9,7 @@ const Gallery = ({ entities, schema, actions }) => {
     <div className='gallery-item'
          key={entity.mbid || entity.id}
          style={{flex: `0 0 ${100 / NUM_COLUMNS}%`}}>
-      <GalleryTile entity={entity} schema={schema} actions={actions} />
+      <Tile entity={entity} schema={schema} actions={actions} />
     </div>
   ));
 

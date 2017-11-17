@@ -2,6 +2,7 @@ import ACTIONS from '../action/playlist';
 
 const SCHEMA = {
   titlePath: 'name',
+  titleLabel: 'Name',
   subtitlePath: '@NA',
   imagePath: 'image',
   actions: ACTIONS,

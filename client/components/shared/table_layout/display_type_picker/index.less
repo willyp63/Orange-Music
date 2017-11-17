@@ -5,6 +5,9 @@
     margin-bottom: @grid;
 
     button {
+      padding: @grid;
+      min-width: 0;
+
       color: @color-primary;
       border-radius: 999px;
 
@@ -13,6 +16,10 @@
       &:hover { background-color: @transparent; }
 
       i { .font-icon-lg(); }
+    }
+
+    button:last-of-type {
+      margin-left: @grid * 2;
     }
   }
 }

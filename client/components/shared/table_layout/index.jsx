@@ -5,9 +5,9 @@ import NavBar from '../nav_bar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import DisplayTypePicker from './display_type_picker';
 import { DISPLAY_TYPES } from '../../../schemas/display';
-import List from '../table/list/list';
-import ListHeader from '../table/list/list_header';
-import Gallery from '../table/gallery/gallery';
+import List from '../table/list';
+import ListHeader from '../table/list/header';
+import Gallery from '../table/gallery';
 import classNames from 'classnames';
 
 class TableLayout extends React.Component {

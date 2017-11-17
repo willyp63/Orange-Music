@@ -1,4 +1,3 @@
-import PLAYLISTS_LIST_SCHEMA from '../list/playlists';
 import PLAYLISTS_GALLERY_SCHEMA from '../gallery/playlists';
 
 export const PLAYLISTS_TABLE_TYPES = {
@@ -8,7 +7,7 @@ export const PLAYLISTS_TABLE_TYPES = {
 let SCHEMA = {};
 SCHEMA[PLAYLISTS_TABLE_TYPES.PLAYLISTS] = {
   label: '@NA',
-  listSchema: PLAYLISTS_LIST_SCHEMA,
+  listSchema: PLAYLISTS_GALLERY_SCHEMA,
   gallerySchema: PLAYLISTS_GALLERY_SCHEMA,
   endOfTable: true, /* All playlists are always loaded on component load */
 };

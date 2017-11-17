@@ -1,9 +1,9 @@
 import React from 'react';
-import history from '../../../../history';
+import history from '../../../../../history';
 import { connect } from 'react-redux';
-import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../store/modules/queue';
-import { showFormWithSchema, setFieldValue } from '../../../../store/modules/form';
-import { addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist } from '../../../../store/modules/playlists';
+import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../../store/modules/queue';
+import { showFormWithSchema, setFieldValue } from '../../../../../store/modules/form';
+import { addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist } from '../../../../../store/modules/playlists';
 
 const addToPlaylistFormSchema = {
   title: 'Add to Playlist',
@@ -42,7 +42,7 @@ class ActionProvider extends React.Component {
     const actions = {play, addToQueue, removeFromQueue, removeFromHistory,
       goToArtist, addToPlaylist, goToPlaylist, deletePlaylist, removeTrackFromPlaylist};
 
-    return (<div>{React.cloneElement(children, {actions})}</div>);
+    return React.cloneElement(children, {actions});
   }
 }
 

@@ -1,0 +1,16 @@
+@om-table-padding: 0 (@grid * 4);
+
+.om-list {
+  margin: @om-table-padding;
+  background-color: @white;
+
+  .z-depth(2);
+
+  .row {
+    border-bottom: 1px solid @grey-300;
+  }
+  
+  .row:last-of-type {
+    border-bottom: 0;
+  }
+}

@@ -1,0 +1,22 @@
+.om-list-header {
+	margin: @om-table-padding;
+  background-color: @white;
+
+  .row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.img-cell, .more-btn-cell {
+			min-width: @grid * 10;
+		}
+
+		.title-cell {
+			padding: (@grid / 2) @grid;
+		}
+
+		.title-cell, .subtitle-cell {
+			.font-subhead-2();
+		}
+	}
+}

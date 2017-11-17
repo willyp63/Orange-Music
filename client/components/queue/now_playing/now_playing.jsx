@@ -1,7 +1,7 @@
 import React from 'react';
 import { isNotEmpty } from '../../../util/empty';
-import List from '../../shared/table/list/list';
-import ListHeader from '../../shared/table/list/list_header';
+import List from '../../shared/table/list';
+import ListHeader from '../../shared/table/list/header';
 import LIST_SCHEMA from '../../../schemas/list/now_playing';
 
 const NowPlaying = ({ track }) => {
