@@ -23775,7 +23775,7 @@ var MoreButton = function (_React$Component) {
       var $menuItems = actionModels.map(function (actionModel) {
         return _react2.default.createElement(
           _Menu.MenuItem,
-          { key: actionModel.label, selected: false, onClick: function onClick() {
+          { key: actionModel.label, onClick: function onClick() {
               _this2.closeMenu();
               actionModel.action();
             } },
@@ -23954,6 +23954,10 @@ var _form = __webpack_require__(45);
 
 var _playlists = __webpack_require__(71);
 
+var _add_to_playlist = __webpack_require__(682);
+
+var _add_to_playlist2 = _interopRequireDefault(_add_to_playlist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23961,20 +23965,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var addToPlaylistFormSchema = {
-  title: 'Add to Playlist',
-  fields: [{
-    name: 'playlist',
-    type: 'picker',
-    formatter: function formatter(playlist) {
-      return playlist.name;
-    }
-  }, {
-    name: 'track',
-    isVisible: false
-  }]
-};
 
 var ActionProvider = function (_React$Component) {
   _inherits(ActionProvider, _React$Component);
@@ -23998,7 +23988,9 @@ var ActionProvider = function (_React$Component) {
           addTrackToPlaylist = _props.addTrackToPlaylist,
           setFieldValue = _props.setFieldValue,
           deletePlaylist = _props.deletePlaylist,
-          removeTrackFromPlaylist = _props.removeTrackFromPlaylist;
+          removeTrackFromPlaylist = _props.removeTrackFromPlaylist,
+          playlists = _props.playlists,
+          fetchPlaylists = _props.fetchPlaylists;
 
 
       var goToArtist = function goToArtist(artistName) {
@@ -24010,8 +24002,12 @@ var ActionProvider = function (_React$Component) {
       };
 
       var addToPlaylist = function addToPlaylist(track) {
-        showFormWithSchema(addToPlaylistFormSchema);
+        var schema = Object.assign({}, _add_to_playlist2.default);
+        schema.submitAction = addTrackToPlaylist;
+        showFormWithSchema(schema);
         setFieldValue('track', track);
+
+        fetchPlaylists();
       };
 
       var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
@@ -24056,6 +24052,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     setFieldValue: function setFieldValue(field, value) {
       return dispatch((0, _form.setFieldValue)(field, value));
+    },
+    fetchPlaylists: function fetchPlaylists() {
+      return dispatch((0, _playlists.fetchPlaylists)());
     }
   };
 };
@@ -48076,6 +48075,8 @@ var _TextField = __webpack_require__(276);
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
+var _Menu = __webpack_require__(678);
+
 var _form = __webpack_require__(45);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -48120,26 +48121,59 @@ var Form = function (_React$Component) {
           fields = _props.fields,
           setFieldValue = _props.setFieldValue,
           submitForm = _props.submitForm,
-          hideForm = _props.hideForm;
+          hideForm = _props.hideForm,
+          playlists = _props.playlists;
 
 
       if (!schema) {
         return _react2.default.createElement('noscript', null);
       }
 
-      var $textFields = schema.fields.map(function (fieldSchema) {
+      var $inputs = schema.fields.filter(function (fieldSchema) {
+        return fieldSchema.type !== 'hidden';
+      }).map(function (fieldSchema) {
         var field = fields[fieldSchema.name] || { errors: [] };
         var hasErrors = field.errors.length > 0;
-        return _react2.default.createElement(_TextField2.default, { className: (0, _classnames2.default)('text-field', { errors: hasErrors }),
-          value: field.value,
-          onChange: function onChange(e) {
-            return setFieldValue(fieldSchema.name, e.target.value);
-          },
-          label: fieldSchema.label,
-          error: hasErrors,
-          helperText: field.errors[0] || ' ',
-          key: fieldSchema.name });
+
+        switch (fieldSchema.type) {
+          case 'playlist-picker':
+            return _react2.default.createElement(
+              _Menu.MenuList,
+              { className: 'picker-field', key: fieldSchema.name },
+              playlists.map(function (playlist) {
+                return _react2.default.createElement(
+                  _Menu.MenuItem,
+                  { key: playlist.name, onClick: function onClick() {
+                      setFieldValue(fieldSchema.name, playlist);
+                      schema.submitAction();
+                    } },
+                  playlist.name
+                );
+              }),
+              _react2.default.createElement(
+                'span',
+                { className: 'field-errors' },
+                field.errors[0]
+              )
+            );
+          default:
+            return _react2.default.createElement(_TextField2.default, { className: (0, _classnames2.default)('text-field', { errors: hasErrors }),
+              value: field.value,
+              onChange: function onChange(e) {
+                return setFieldValue(fieldSchema.name, e.target.value);
+              },
+              label: fieldSchema.label,
+              error: hasErrors,
+              helperText: field.errors[0] || ' ',
+              key: fieldSchema.name });
+        }
       });
+
+      var $submitButton = schema.submitButtonText ? _react2.default.createElement(
+        _Button2.default,
+        { className: 'submit-btn', onClick: submitForm, raised: true },
+        schema.submitButtonText
+      ) : '';
 
       return _react2.default.createElement(
         _material.MatModal,
@@ -48156,12 +48190,8 @@ var Form = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'content' },
-          $textFields,
-          _react2.default.createElement(
-            _Button2.default,
-            { className: 'submit-btn', onClick: submitForm, raised: true },
-            schema.submitButtonText
-          )
+          $inputs,
+          $submitButton
         )
       );
     }
@@ -48174,7 +48204,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     schema: state.form.schema,
     fields: state.form.fields,
-    isOpen: state.form.isOpen
+    isOpen: state.form.isOpen,
+    playlists: state.playlists.playlists.playlists
   };
 };
 
@@ -59327,8 +59358,8 @@ var Row = function (_React$Component) {
 
 									var onImageClick = playActionModel ? playActionModel.action : function () {};
 
-									var titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title) : null;
-									var subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle) : null;
+									var titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title, entity) : null;
+									var subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle, entity) : null;
 
 									var titleStyle = { flexBasis: subtitle ? '50%' : '100%' };
 									var subtitleStyle = { flexBasis: subtitle ? '50%' : '0', padding: subtitle ? _material.GRID : 0 };
@@ -59505,8 +59536,8 @@ var GalleryTile = function (_React$Component) {
 
       var onImageClick = playActionModel ? playActionModel.action : function () {};
 
-      var titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title) : null;
-      var subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle) : null;
+      var titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title, entity) : null;
+      var subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle, entity) : null;
 
       var $divider = subtitle ? _react2.default.createElement('div', { className: 'divider' }) : '';
 
@@ -60051,6 +60082,10 @@ var _playlists = __webpack_require__(669);
 
 var _playlists2 = _interopRequireDefault(_playlists);
 
+var _create_playlist = __webpack_require__(681);
+
+var _create_playlist2 = _interopRequireDefault(_create_playlist);
+
 var _table_layout = __webpack_require__(77);
 
 var _table_layout2 = _interopRequireDefault(_table_layout);
@@ -60070,14 +60105,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var createPlaylistFormSchema = {
-  submitButtonText: 'Create Playlist!',
-  fields: [{
-    name: 'name',
-    label: 'Name'
-  }]
-};
 
 var Playlists = function (_React$Component) {
   _inherits(Playlists, _React$Component);
@@ -60126,7 +60153,7 @@ var Playlists = function (_React$Component) {
       );
 
       var onNewPlaylist = function onNewPlaylist() {
-        var schema = Object.assign({}, createPlaylistFormSchema);
+        var schema = Object.assign({}, _create_playlist2.default);
         schema.submitAction = createPlaylist;
         showFormWithSchema(schema);
       };
@@ -60233,6 +60260,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var SCHEMA = {
   titlePath: 'name',
   titleLabel: 'Name',
+  titleLinkLocation: function titleLinkLocation(_, playlist) {
+    return {
+      pathname: '/playlists/tracks',
+      search: { pi: playlist.id }
+    };
+  },
   subtitlePath: '@NA',
   imagePath: 'image',
   actions: _playlist2.default
@@ -60289,7 +60322,9 @@ var _playlist_detail = __webpack_require__(673);
 
 var _playlist_detail2 = _interopRequireDefault(_playlist_detail);
 
-var _material = __webpack_require__(36);
+var _Button = __webpack_require__(59);
+
+var _Button2 = _interopRequireDefault(_Button);
 
 var _table_layout = __webpack_require__(77);
 
@@ -60351,21 +60386,13 @@ var PlaylistDetail = function (_React$Component) {
             displayType: displayType,
             onDisplayTypeChange: setDisplayType },
           _react2.default.createElement(
-            'div',
-            { className: 'action-btns' },
-            _react2.default.createElement(_material.MatButton, { className: 'back-btn',
-              text: 'Back',
-              icon: 'arrow_back',
-              iconFirst: true,
+            _Button2.default,
+            { className: 'play-all-btn',
+              raised: true,
               onClick: function onClick() {
-                _history2.default.pushLocation('/playlists'); // TODO: pop location instead of another push.
-              } }),
-            _react2.default.createElement(_material.MatButton, { text: 'Play!',
-              className: 'play-playlist-btn',
-              onClick: function onClick() {
-                playList(trackEntities);
-              } }),
-            _react2.default.createElement('div', { className: 'back-btn-mock' })
+                return playList(trackEntities);
+              } },
+            'PLAY ALL'
           )
         )
       );
@@ -60779,6 +60806,49 @@ MenuItem.defaultProps = {
 
 exports.default = (0, _withStyles2.default)(styles, { name: 'MuiMenuItem' })(MenuItem);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 680 */,
+/* 681 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SCHEMA = {
+  submitButtonText: 'Create Playlist!',
+  fields: [{
+    name: 'name',
+    label: 'Name'
+  }]
+};
+
+exports.default = SCHEMA;
+
+/***/ }),
+/* 682 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SCHEMA = {
+  fields: [{
+    name: 'playlist',
+    type: 'playlist-picker'
+  }, {
+    name: 'track',
+    type: 'hidden'
+  }]
+};
+
+exports.default = SCHEMA;
 
 /***/ })
 /******/ ]);

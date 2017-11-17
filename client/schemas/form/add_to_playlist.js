@@ -1,13 +1,12 @@
 const SCHEMA = {
-  submitButtonText: 'Log In!',
   fields: [
     {
-      name: 'name',
-      label: 'Name',
+      name: 'playlist',
+      type: 'playlist-picker',
     },
     {
-      name: 'password',
-      label: 'Password',
+      name: 'track',
+      type: 'hidden',
     },
   ],
 };

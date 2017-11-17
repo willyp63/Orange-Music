@@ -2,20 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import TABLE_SCHEMA, { PLAYLISTS_TABLE_TYPES } from '../../schemas/table_layout/playlists';
+import CREATE_PLAYLIST_FORM_SCHEMA from '../../schemas/form/create_playlist';
 import TableLayout from '../shared/table_layout';
 import Button from 'material-ui/Button';
 import { setPlaylistsDisplayType, fetchPlaylists, createPlaylist } from '../../store/modules/playlists';
 import { showFormWithSchema } from '../../store/modules/form';
-
-const createPlaylistFormSchema = {
-  submitButtonText: 'Create Playlist!',
-  fields: [
-    {
-      name: 'name',
-      label: 'Name',
-    },
-  ],
-};
 
 class Playlists extends React.Component {
   constructor(props) {
@@ -43,7 +34,7 @@ class Playlists extends React.Component {
     );
 
     const onNewPlaylist = () => {
-      const schema = Object.assign({}, createPlaylistFormSchema);
+      const schema = Object.assign({}, CREATE_PLAYLIST_FORM_SCHEMA);
       schema.submitAction = createPlaylist;
       showFormWithSchema(schema);
     };

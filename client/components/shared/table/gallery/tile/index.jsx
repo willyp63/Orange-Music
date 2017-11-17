@@ -29,8 +29,8 @@ class GalleryTile extends React.Component {
 
     const onImageClick = playActionModel ? playActionModel.action : () => {};
 
-    const titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title) : null;
-    const subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle) : null;
+    const titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title, entity) : null;
+    const subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle, entity) : null;
 
     const $divider = subtitle ? (<div className='divider'></div>) : '';
 

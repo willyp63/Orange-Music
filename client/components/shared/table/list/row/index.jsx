@@ -30,8 +30,8 @@ class Row extends React.Component {
 
     const onImageClick = playActionModel ? playActionModel.action : () => {};
 
-    const titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title) : null;
-    const subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle) : null;
+    const titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title, entity) : null;
+    const subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle, entity) : null;
 
     const titleStyle = {flexBasis: subtitle ? '50%' : '100%'};
     const subtitleStyle = {flexBasis: subtitle ? '50%' : '0', padding: subtitle ? GRID : 0};

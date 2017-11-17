@@ -3,28 +3,15 @@ import history from '../../../../../history';
 import { connect } from 'react-redux';
 import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../../store/modules/queue';
 import { showFormWithSchema, setFieldValue } from '../../../../../store/modules/form';
-import { addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist } from '../../../../../store/modules/playlists';
+import { addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist, fetchPlaylists } from '../../../../../store/modules/playlists';
+import ADD_TO_PLAYLIST_FORM_SCHEMA from '../../../../../schemas/form/add_to_playlist';
 
-const addToPlaylistFormSchema = {
-  title: 'Add to Playlist',
-  fields: [
-    {
-      name: 'playlist',
-      type: 'picker',
-      formatter: (playlist) => playlist.name,
-    },
-    {
-      name: 'track',
-      isVisible: false,
-    },
-  ],
-};
 
 class ActionProvider extends React.Component {
   render() {
     const { play, addToQueue, removeFromQueue, removeFromHistory, children,
       showFormWithSchema, addTrackToPlaylist, setFieldValue, deletePlaylist,
-      removeTrackFromPlaylist } = this.props;
+      removeTrackFromPlaylist, playlists, fetchPlaylists } = this.props;
 
     const goToArtist = artistName => {
       history.pushLocation('/search', {q: artistName, tt: '0'});
@@ -35,8 +22,12 @@ class ActionProvider extends React.Component {
     };
 
     const addToPlaylist = track => {
-      showFormWithSchema(addToPlaylistFormSchema);
+      const schema = Object.assign({}, ADD_TO_PLAYLIST_FORM_SCHEMA);
+      schema.submitAction = addTrackToPlaylist;
+      showFormWithSchema(schema);
       setFieldValue('track', track);
+
+      fetchPlaylists();
     };
 
     const actions = {play, addToQueue, removeFromQueue, removeFromHistory,
@@ -61,6 +52,7 @@ const mapDispatchToProps = (dispatch) => {
     removeTrackFromPlaylist: (track) => dispatch(removeTrackFromPlaylist(track)),
     showFormWithSchema: (schema) => dispatch(showFormWithSchema(schema)),
     setFieldValue: (field, value) => dispatch(setFieldValue(field, value)),
+    fetchPlaylists: () => dispatch(fetchPlaylists()),
   };
 };
 

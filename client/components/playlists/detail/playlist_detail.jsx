@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import history from '../../../history';
 import TABLE_SCHEMA, { PLAYLIST_DETAIL_TABLE_TYPES } from '../../../schemas/table_layout/playlist_detail';
-import { MatButton } from '../../material';
+import Button from 'material-ui/Button';
 import TableLayoutComponent from '../../shared/table_layout';
 import { playList } from '../../../store/modules/queue';
 import { setPlaylistDetailDisplayType, fetchTracks } from '../../../store/modules/playlist_detail';
@@ -31,21 +31,11 @@ class PlaylistDetail extends React.Component {
                               tableType={PLAYLIST_DETAIL_TABLE_TYPES.TRACKS}
                               displayType={displayType}
                               onDisplayTypeChange={setDisplayType}>
-          <div className='action-btns'>
-            <MatButton className='back-btn'
-                       text='Back'
-                       icon='arrow_back'
-                       iconFirst={true}
-                       onClick={() => {
-                         history.pushLocation('/playlists'); // TODO: pop location instead of another push.
-                       }} />
-           <MatButton text='Play!'
-                      className='play-playlist-btn'
-                      onClick={() => {
-                        playList(trackEntities);
-                      }} />
-                    <div className='back-btn-mock'></div>
-                  </div>
+           <Button className='play-all-btn'
+                   raised={true}
+                   onClick={() => playList(trackEntities)}>
+            PLAY ALL
+          </Button>
         </TableLayoutComponent>
       </div>
     );

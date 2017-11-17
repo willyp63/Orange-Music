@@ -44,7 +44,7 @@ class MoreButton extends React.Component {
 
     const $menuItems = actionModels.map((actionModel) => {
       return (
-        <MenuItem key={actionModel.label} selected={false} onClick={() => {
+        <MenuItem key={actionModel.label} onClick={() => {
             this.closeMenu();
             actionModel.action();
           }}>

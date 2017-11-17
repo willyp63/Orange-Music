@@ -1,41 +1,12 @@
 .om-playlist-detail {
-  .action-btns {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .play-all-btn {
+    margin-left: @grid * 8;
+    
+    color: @white;
+    background-color: @color-secondary;
 
-    .back-btn {
-      margin-left: @grid * 4;
-
-      .mat-btn-colorize(
-        @color: @blue-600;
-        @colorHover: @blue);
-
-      .inner-btn {
-        .font-headline();
-
-        i {
-          .font-icon-lg();
-        }
-      }
-    }
-
-    .play-playlist-btn {
-      .mat-btn-raised-colorize(
-        @color: @white;
-        @colorHover: @white;
-        @bgColor: @blue-600;
-        @bgColorHover: @blue);
-
-      .inner-btn {
-        padding: @grid (@grid * 2);
-
-        .font-headline();
-      }
-    }
-
-    .back-btn-mock {
-      width: @grid * 20;
+    &:hover {
+      background-color: @color-secondary-darken;
     }
   }
 }

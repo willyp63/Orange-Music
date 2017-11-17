@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { MatModal } from '../material';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
+import { MenuList, MenuItem } from 'material-ui/Menu';
 import { setFieldValue, submitForm, hideForm } from '../../store/modules/form';
 
 class Form extends React.Component {
@@ -21,23 +22,53 @@ class Form extends React.Component {
   }
   render() {
     const { isOpen, schema, fields, setFieldValue, submitForm,
-      hideForm } = this.props;
+      hideForm, playlists } = this.props;
 
     if (!schema) { return <noscript />; }
 
-    const $textFields = schema.fields.map(fieldSchema => {
-      const field = fields[fieldSchema.name] || {errors: []};
-      const hasErrors = field.errors.length > 0;
-      return (
-        <TextField className={classNames('text-field', {errors: hasErrors})}
-                   value={field.value}
-                   onChange={e => setFieldValue(fieldSchema.name, e.target.value)}
-                   label={fieldSchema.label}
-                   error={hasErrors}
-                   helperText={field.errors[0] || ' '}
-                   key={fieldSchema.name} />
-      );
-    });
+    const $inputs = schema.fields
+      .filter(fieldSchema => fieldSchema.type !== 'hidden')
+      .map(fieldSchema => {
+        const field = fields[fieldSchema.name] || {errors: []};
+        const hasErrors = field.errors.length > 0;
+
+        switch(fieldSchema.type) {
+          case 'playlist-picker':
+            return (
+                <MenuList className='picker-field' key={fieldSchema.name}>
+                  {playlists.map(playlist => {
+                    return (
+                      <MenuItem key={playlist.name} onClick={() => {
+                        setFieldValue(fieldSchema.name, playlist);
+                        schema.submitAction();
+                      }}>
+                        {playlist.name}
+                      </MenuItem>
+                    );
+                  })}
+                  <span className='field-errors'>{field.errors[0]}</span>
+                </MenuList>
+              );
+          default:
+            return (
+              <TextField className={classNames('text-field', {errors: hasErrors})}
+                         value={field.value}
+                         onChange={e => setFieldValue(fieldSchema.name, e.target.value)}
+                         label={fieldSchema.label}
+                         error={hasErrors}
+                         helperText={field.errors[0] || ' '}
+                         key={fieldSchema.name} />
+            );
+        }
+        
+      });
+
+    const $submitButton = schema.submitButtonText
+      ? (
+        <Button className='submit-btn' onClick={submitForm} raised={true}>
+          {schema.submitButtonText}
+        </Button>
+      ) : '';
 
     return (
       <MatModal className='om-form' isOpen={isOpen}>
@@ -45,10 +76,8 @@ class Form extends React.Component {
           <i className='material-icons'>close</i>
         </Button>
         <div className='content'>
-          {$textFields}
-          <Button className='submit-btn' onClick={submitForm} raised={true}>
-            {schema.submitButtonText}
-          </Button>
+          {$inputs}
+          {$submitButton}
         </div>
       </MatModal>
     );
@@ -60,6 +89,7 @@ const mapStateToProps = (state, ownProps) => {
     schema: state.form.schema,
     fields: state.form.fields,
     isOpen: state.form.isOpen,
+    playlists: state.playlists.playlists.playlists,
   };
 };
 
