@@ -1,3 +1,5 @@
+@playable-img-hover-bg-color: rgba(0, 0, 0, 0.45);
+
 .playable-img {
   position: relative;
 
@@ -15,7 +17,6 @@
     width: 100%;
     padding-top: 100%; /* 1:1 ratio */
 
-    cursor: pointer;
     background-color: @transparent;
     transition: background-color @time ease-in-out;
 
@@ -35,8 +36,6 @@
       .play-icon {
         color: @white;
 
-        border-radius: 50%;
-
         transform: scale(1);
         transition: transform (@time * 1.2) cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
@@ -45,9 +44,18 @@
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.45);
-
-      .play-icon-wrap { opacity: 1; }
+      .playable-img-hover-style();
     }
   }
+}
+
+.playable-img-hover-state() {
+  .img-cell .playable-img .img-overlay {
+    .playable-img-hover-style();
+  }
+}
+
+.playable-img-hover-style() {
+  background-color: rgba(0, 0, 0, 0.45);
+  .play-icon-wrap { opacity: 1; }
 }

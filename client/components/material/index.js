@@ -8,6 +8,7 @@ import MatInput_1 from './components/mat_input/mat_input';
 import MatModal_1 from './components/mat_modal/mat_modal';
 import MatPicker_1 from './components/mat_picker/mat_picker';
 import MatMenu_1 from './components/mat_menu/mat_menu';
+import MatPopup_1 from './components/mat_popup/mat_popup';
 
 import Grid from './css/grid';
 import Transition from './css/transition';
@@ -23,6 +24,7 @@ export const MatInput = MatInput_1;
 export const MatModal = MatModal_1;
 export const MatPicker = MatPicker_1;
 export const MatMenu = MatMenu_1;
+export const MatPopup = MatPopup_1;
 
 export const GRID = Grid.GRID;
 export const TIME = Transition.TIME;

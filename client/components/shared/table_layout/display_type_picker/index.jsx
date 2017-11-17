@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'material-ui/Button';
-import { DISPLAY_TYPES } from '../../../../schemas/display';
+import { DISPLAY_TYPES } from '../../../../schemas/display_type';
 import classNames from 'classnames';
 
 const DisplayTypePicker = ({ displayType, onDisplayTypeChange }) => {

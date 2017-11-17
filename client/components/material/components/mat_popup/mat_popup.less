@@ -1,0 +1,14 @@
+.mat-popup {
+  position: fixed;
+  z-index: 1000;
+  transform: scale(0);
+  transition: transform @time @timing-fcn;
+
+  background-color: @white;
+
+  .z-depth(16);
+
+  &.open {
+    transform: scale(1);
+  }
+}

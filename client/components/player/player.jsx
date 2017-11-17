@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { isNotEmpty, isEmpty } from '../../util/empty';
 import { EMPTY_IMG_SRC, getImageUrl } from '../../util/image';
@@ -8,6 +9,7 @@ import TrackControls from './track_controls/track_controls';
 import VolumeControls from './volume_controls/volume_controls';
 import ProgressBar from './progress_bar/progress_bar';
 import AudioApi from './audio_api/audio_api';
+import { TIME } from '../material';
 
 const AUTO_PLAY = true;
 const IMAGE_IDX = 2;
@@ -24,6 +26,7 @@ class Player extends React.Component {
     this._onPrevButtonClick = this._onPrevButtonClick.bind(this);
     this._onNextButtonClick = this._onNextButtonClick.bind(this);
     this._onVolumeButtonClick = this._onVolumeButtonClick.bind(this);
+    this._updateAppLayout = this._updateAppLayout.bind(this);
 
     this.state = {
       isPlaying: false,
@@ -47,6 +50,12 @@ class Player extends React.Component {
   }
   componentWillUnmount() {
     this.audioApi.dispose();
+  }
+  componentDidMount() {
+    this._updateAppLayout();
+  }
+  componentDidUpdate() {
+    this._updateAppLayout();
   }
   _loadTrack() {
     this.setState({
@@ -100,6 +109,25 @@ class Player extends React.Component {
       ? this._setVolume(MAX_VOLUME)
       : this._setVolume(0);
   }
+  _updateAppLayout() {
+    const $this = $(ReactDOM.findDOMNode(this));
+    const $navPanel = $('.om-nav-panel');
+    const $routeBg = $('.om-app .route-bg');
+    const $route = $('.om-app .route');
+
+    if (this.hidden) {
+      $navPanel.css({marginBottom: 0});
+      $routeBg.css({marginBottom: 0});
+      $route.css({marginBottom: 0});
+      $this.css({marginBottom: $this.outerHeight() * -1});
+      setTimeout(() => $this.css({opacity: 0}), TIME);
+    } else {
+      $navPanel.css({marginBottom: $this.outerHeight()});
+      $routeBg.css({marginBottom: $this.outerHeight()});
+      $route.css({marginBottom: $this.outerHeight()});
+      $this.css({marginBottom: 0, opacity: 1});
+    }
+  }
   render() {
     const {  duration, audioSrc, imageSrc, artistName, trackName, track } =
       this.props;
@@ -108,35 +136,38 @@ class Player extends React.Component {
     const isDisabled = isEmpty(track) || isLoading;
 
     let className = 'om-player';
-    if (isEmpty(track)) { className += ' hidden'; }
+    this.hidden = isEmpty(track);
+    if (this.hidden) { className += ' hidden'; }
 
     return (
-      <div className='om-player-wrap'>
-        <div className={className}>
-          <div className="top-bar">
-            <TrackInfo trackName={trackName}
-                       artistName={artistName}
-                       imageSrc={imageSrc} />
+      <div className={className}>
+        <div className='bar-left'>
+          <TrackInfo trackName={trackName}
+                     artistName={artistName}
+                     imageSrc={imageSrc} />
+        </div>
+        <div className='bar-center'>
+          <div className='track-controls-wrap'>
             <TrackControls isPlaying={isPlaying}
                            isDisabled={isDisabled}
                            onPrev={this._onPrevButtonClick}
                            onPlayPause={this._onPlayPauseButtonClick}
                            onNext={this._onNextButtonClick} />
-            <VolumeControls volume={volume}
-                            maxVolume={MAX_VOLUME}
-                            onVolumeChange={this._setVolume}
-                            onVolumeButtonClick={this._onVolumeButtonClick} />
           </div>
-          <div className="bottom-bar">
-            <ProgressBar currentTime={currentTime}
-                         duration={duration}
-                         isDisabled={isDisabled}
-                         onCurrentTimeChange={this._setCurrentTime} />
-          </div>
-          <audio id={AUDIO_PLAYER_ID} autoPlay={AUTO_PLAY}>
-            <source src={audioSrc} />
-          </audio>
+          <ProgressBar currentTime={currentTime}
+                       duration={duration}
+                       isDisabled={isDisabled}
+                       onCurrentTimeChange={this._setCurrentTime} />
         </div>
+        <div className='bar-right'>
+          <VolumeControls volume={volume}
+                          maxVolume={MAX_VOLUME}
+                          onVolumeChange={this._setVolume}
+                          onVolumeButtonClick={this._onVolumeButtonClick} />
+        </div>
+        <audio id={AUDIO_PLAYER_ID} autoPlay={AUTO_PLAY}>
+          <source src={audioSrc} />
+        </audio>
       </div>
     )
   }

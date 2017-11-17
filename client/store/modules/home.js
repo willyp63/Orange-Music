@@ -1,6 +1,6 @@
 import lastFmApi from '../api/last_fm';
-import { HOME_TABLE_TYPES } from '../../schemas/table/home';
-import { DISPLAY_TYPES } from '../../schemas/display';
+import { HOME_TABLE_TYPES } from '../../schemas/table_layout/home';
+import { DISPLAY_TYPES } from '../../schemas/display_type';
 import { concat } from './shared';
 
 

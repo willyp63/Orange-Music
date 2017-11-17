@@ -1,5 +1,5 @@
 import omApi from '../api/orange_music';
-import { DISPLAY_TYPES } from '../../schemas/display';
+import { DISPLAY_TYPES } from '../../schemas/display_type';
 
 const SET_DISPLAY_TYPE = 'orange-music/playlist_detail/SET_DISPLAY_TYPE';
 

@@ -1,6 +1,6 @@
 import orangeMusicApi from '../api/orange_music';
-import { QUEUE_TABLE_TYPES } from '../../schemas/table/queue';
-import { DISPLAY_TYPES } from '../../schemas/display';
+import { QUEUE_TABLE_TYPES } from '../../schemas/table_layout/queue';
+import { DISPLAY_TYPES } from '../../schemas/display_type';
 import { concat, prepend } from './shared';
 
 

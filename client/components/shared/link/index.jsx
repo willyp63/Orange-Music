@@ -8,7 +8,10 @@ const Link = ({label, linkLocation, className}) => {
 	  : () => {};
 
 	return (
-    <span className={classNames(className, {'om-link': linkLocation})} onClick={onClick}>
+    <span className={classNames(className, {'om-link': linkLocation})} onClick={(e) => {
+    	e.stopPropagation();
+    	if (linkLocation) { history.pushLocation(linkLocation.pathname, linkLocation.search); }
+    }}>
       {label}
     </span>
 	);

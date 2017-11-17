@@ -2,18 +2,25 @@
 
 @color-secondary: @orange;
 @color-secondary-darken: @orange-600;
+@color-secondary-lighten: @orange-400;
 
 .om-app {
-  margin-left: @om-nav-panel-width;
-}
+	.route {
+	  margin-left: @om-nav-panel-width;
 
-.om-app-bg {
-  position: fixed;
-  left: @om-nav-panel-width;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -999;
-  
-  background: linear-gradient(0deg, @color-primary, @white 33.33%);
+	  transition: margin-bottom @time @timing-fcn;
+	}
+
+	.route-bg {
+	  position: fixed;
+	  left: @om-nav-panel-width;
+	  top: 0;
+	  right: 0;
+	  bottom: 0;
+	  z-index: -999;
+	  
+	  background: linear-gradient(0deg, @color-primary, @white 33.33%);
+
+	  transition: margin-bottom @time @timing-fcn;
+	}
 }

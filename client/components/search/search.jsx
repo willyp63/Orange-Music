@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import TABLE_SCHEMA, { SEARCH_TABLE_TYPES } from '../../schemas/table/search';
+import TABLE_SCHEMA, { SEARCH_TABLE_TYPES } from '../../schemas/table_layout/search';
 import TableLayoutComponent from '../shared/table_layout';
 import { measureText, FONT_TYPES, GRID } from '../material/index';
 import TextField from 'material-ui/TextField';

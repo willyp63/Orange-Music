@@ -2,7 +2,7 @@ import omApi from '../api/orange_music';
 import validateCreatePlaylistForm from '../../../shared/validators/create_playlist';
 import { setFieldErrors, clearForm, hideForm } from './form';
 import { refreshTracks } from './playlist_detail';
-import { DISPLAY_TYPES } from '../../schemas/display';
+import { DISPLAY_TYPES } from '../../schemas/display_type';
 
 const SET_DISPLAY_TYPE = 'orange-music/playlists/SET_DISPLAY_TYPE';
 

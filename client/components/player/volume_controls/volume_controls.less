@@ -1,10 +1,17 @@
 .om-player {
   .volume-controls {
+    display: flex;
+    justify-content: space-around;
+
     .controls-container {
+      flex-grow: 1;
+
       display: flex;
       align-items: center;
       padding-right: @grid * 6;
       padding-left: @grid * 4;
+
+      max-width: @grid * 30;
 
       .mat-btn {
         .mat-icon-btn-colorize(

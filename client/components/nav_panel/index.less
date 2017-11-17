@@ -5,14 +5,16 @@
   z-index: 200;
   top: 0;
   left: 0;
+  bottom: 0;
   width: @om-nav-panel-width;
-  height: 100%;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   background-color: @color-primary;
+
+  transition: margin-bottom @time @timing-fcn;
   
   .z-depth(8);
 

@@ -4,7 +4,7 @@ import CircularProgress from 'material-ui/Progress/CircularProgress';
 import NavBar from '../nav_bar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import DisplayTypePicker from './display_type_picker';
-import { DISPLAY_TYPES } from '../../../schemas/display';
+import { DISPLAY_TYPES } from '../../../schemas/display_type';
 import List from '../table/list';
 import ListHeader from '../table/list/header';
 import Gallery from '../table/gallery';
@@ -52,10 +52,10 @@ class TableLayout extends React.Component {
       $table = displayType === DISPLAY_TYPES.GALLERY
         ? (
           <Gallery entities={tableSchema.entities}
-                   schema={tableSchema.gallerySchema} />
+                   schema={tableSchema.tableSchema} />
         ) : (
           <List entities={tableSchema.entities}
-                schema={tableSchema.listSchema} />
+                schema={tableSchema.tableSchema} />
         );
     } else if (tableSchema.endOfTable) {
       // If there are zero entities and no more to fetch, render empty table component.
@@ -64,7 +64,7 @@ class TableLayout extends React.Component {
 
     // List requires header rendered separately in nav bar.
     let $listHeader = displayType === DISPLAY_TYPES.LIST
-      ? (<ListHeader schema={tableSchema.listSchema} />)
+      ? (<ListHeader schema={tableSchema.tableSchema} />)
       : '';
 
     // Conditional border to separate tabs from list header.

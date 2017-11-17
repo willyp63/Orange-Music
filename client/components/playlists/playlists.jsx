@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import TABLE_SCHEMA, { PLAYLISTS_TABLE_TYPES } from '../../schemas/table/playlists';
+import TABLE_SCHEMA, { PLAYLISTS_TABLE_TYPES } from '../../schemas/table_layout/playlists';
 import TableLayout from '../shared/table_layout';
 import Button from 'material-ui/Button';
 import { setPlaylistsDisplayType, fetchPlaylists, createPlaylist } from '../../store/modules/playlists';

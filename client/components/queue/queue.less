@@ -1,8 +1,7 @@
 .queue {
-  .empty-table-msg, .empty-now-playing-msg {
+  .empty-table-msg {
     display: flex;
     align-items: center;
-    height: 36px; // Constant height w/ or w/o icon.
 
     padding-top: @grid * 2;
     padding-left: @grid * 4;
@@ -10,11 +9,5 @@
 
     .font-title();
     font-weight: 300;
-
-    i {
-      color: @green;
-
-      .font-icon-lg();
-    }
   }
 }

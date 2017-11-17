@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce';
 import lastFmApi from '../api/last_fm';
-import { SEARCH_TABLE_TYPES } from '../../schemas/table/search';
-import { DISPLAY_TYPES } from '../../schemas/display';
+import { SEARCH_TABLE_TYPES } from '../../schemas/table_layout/search';
+import { DISPLAY_TYPES } from '../../schemas/display_type';
 import { concat } from './shared';
 
 const SET_TABLE_TYPE = 'orange-music/search/SET_TABLE_TYPE';

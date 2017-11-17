@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TABLE_SCHEMA, { HOME_TABLE_TYPES } from '../../schemas/table/home';
+import TABLE_SCHEMA, { HOME_TABLE_TYPES } from '../../schemas/table_layout/home';
 import TableLayoutComponent from '../shared/table_layout';
 import { fetchEntities, fetchMoreEntities, setHomeTableType, setHomeDisplayType } from '../../store/modules/home';
 

@@ -1,15 +1,11 @@
-import PLAYLISTS_GALLERY_SCHEMA from '../gallery/playlists';
+import ACTIONS from '../action/playlist';
 
-export const PLAYLISTS_TABLE_TYPES = {
-  PLAYLISTS: '0',
-};
-
-let SCHEMA = {};
-SCHEMA[PLAYLISTS_TABLE_TYPES.PLAYLISTS] = {
-  label: '@NA',
-  listSchema: PLAYLISTS_GALLERY_SCHEMA,
-  gallerySchema: PLAYLISTS_GALLERY_SCHEMA,
-  endOfTable: true, /* All playlists are always loaded on component load */
+const SCHEMA = {
+  titlePath: 'name',
+  titleLabel: 'Name',
+  subtitlePath: '@NA',
+  imagePath: 'image',
+  actions: ACTIONS,
 };
 
 export default SCHEMA;
