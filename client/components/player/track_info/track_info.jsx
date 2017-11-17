@@ -11,6 +11,7 @@ const TrackInfo = ({trackName, artistName, imageSrc}) => {
       {$img}
       <div className="info-text">
         <div className="track-name">{trackName}</div>
+        <div className="divider"></div>
         <div className="artist-name">{artistName}</div>
       </div>
     </div>

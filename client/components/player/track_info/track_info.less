@@ -4,16 +4,16 @@
     align-items: flex-end;
 
     img, .img-placeholder {
-      flex: 0 0 (@grid * 6.5);
-      height: @grid * 6.5;
+      flex: 0 0 (@grid * 7.5);
+      height: @grid * 7.5;
       margin-right: @grid;
-      margin-left: @grid / 2;
     }
 
     .img-placeholder { background-color: @white; }
 
     .info-text {
       flex: 1 1 0;
+      color: @white;
 
       .track-name {
         .font-subhead-2();
@@ -21,6 +21,13 @@
 
       .artist-name {
         .font-subhead-1();
+      }
+
+      .divider {
+        width: @grid * 4;
+        height: 1px;
+        background-color: rgba(255, 255, 255, .3);
+        margin: (@grid / 2) (@grid / 2);
       }
     }
   }
