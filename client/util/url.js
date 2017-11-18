@@ -1,4 +1,4 @@
-const isEmpty = require('lodash.isEmpty');
+const isEmpty = require('lodash.isempty');
 
 /// Returns [url]'s params.
 const getUrlParams = (url) => {
