@@ -1,7 +1,7 @@
 import React from 'react';
 import history from '../../../../../history';
 import { connect } from 'react-redux';
-import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../../store/modules/queue';
+import { play, addToQueue, removeFromQueue, removeFromHistory, playPlaylist } from '../../../../../store/modules/queue';
 import { signup, logInGuest } from '../../../../../store/modules/session';
 import { showFormWithSchema, setFieldValue } from '../../../../../store/modules/form';
 import { addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist, fetchPlaylists } from '../../../../../store/modules/playlists';
@@ -14,7 +14,7 @@ class ActionProvider extends React.Component {
     const { play, addToQueue, removeFromQueue, removeFromHistory, children,
       showFormWithSchema, addTrackToPlaylist, setFieldValue, deletePlaylist,
       removeTrackFromPlaylist, playlists, fetchPlaylists, user, signup,
-      logInGuest } = this.props;
+      logInGuest, playPlaylist } = this.props;
 
     const goToArtist = artistName => {
       history.pushLocation('/search', {q: artistName, tt: '0'});
@@ -34,8 +34,9 @@ class ActionProvider extends React.Component {
       }
     };
 
-    const actions = {play, addToQueue, removeFromQueue, removeFromHistory,
-      goToArtist, addToPlaylist, goToPlaylist, deletePlaylist, removeTrackFromPlaylist};
+    const actions = { play, addToQueue, removeFromQueue, removeFromHistory,
+      goToArtist, addToPlaylist, goToPlaylist, deletePlaylist, removeTrackFromPlaylist,
+      playPlaylist };
 
     return React.cloneElement(children, {actions});
   }
@@ -50,6 +51,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     play: (track) => { dispatch(play(track)); },
+    playPlaylist: (playlist) => { dispatch(playPlaylist(playlist)); },
     addToQueue: (track) => { dispatch(addToQueue(track)); },
     removeFromQueue: (track) => { dispatch(removeFromQueue(track)); },
     removeFromHistory: (track) => { dispatch(removeFromHistory(track)); },

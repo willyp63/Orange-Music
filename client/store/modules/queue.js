@@ -1,4 +1,4 @@
-import orangeMusicApi from '../api/orange_music';
+import omApi from '../api/orange_music';
 import { QUEUE_TABLE_TYPES } from '../../schemas/table_layout/queue';
 import { DISPLAY_TYPES } from '../../schemas/display_type';
 import { concat, prepend } from './shared';
@@ -139,6 +139,13 @@ export const playList = tracks => dispatch => {
   dispatch(fillQueue(tracks));
 };
 
+
+export const playPlaylist = playlist => dispatch => {
+  omApi.getPlaylistTracks({playlistId: playlist.id}).then((response) => {
+    dispatch(playList(response.tracks));
+  });
+};
+
 const fetchVideoForPlayingTrack = () => (dispatch, getState) => {
   const { queue } = getState().queue;
   if (queue.length > 0 && !queue[0].video) { dispatch(fetchVideo(queue[0])); }
@@ -156,7 +163,7 @@ export const popFromHistory = () => (dispatch, getState) => {
 };
 
 const fetchVideo = track => dispatch => {
-  orangeMusicApi.getVideo({
+  omApi.getVideo({
     query: track.name,
     artistQuery: track.artist.name
   }).then(video => {

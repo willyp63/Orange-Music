@@ -64,14 +64,13 @@ export const setPlaylistId = (playlistId) => ({type: SET_PLAYLIST_ID, playlistId
 
 export const fetchTracks = () => (dispatch, getState) => {
   const { session, playlistDetail } = getState();
-  const { token } = session;
   const { playlistId, tracks } = playlistDetail;
   const { isFetching, fetched } = tracks;
 
   if (playlistId === -1 || isFetching || fetched) { return; }
 
   dispatch({type: REQUEST_TRACKS});
-  omApi.getPlaylistTracks({token, playlistId}).then((response) => {
+  omApi.getPlaylistTracks({playlistId}).then((response) => {
     const tracks = response.tracks;
     dispatch(receiveTracks(tracks));
   });

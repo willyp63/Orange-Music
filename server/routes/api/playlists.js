@@ -1,17 +1,19 @@
 const router = require('express').Router();
 const db = require('../../db');
 const validateCreatePlaylist = require('../../../shared/validators/create_playlist');
+const Playlist = require('../../db/models/playlist');
+const Track = require('../../db/models/track');
+const PlaylistAdd = require('../../db/models/playlist_add');
+const User = require('../../db/models/user');
 
 
 /// Get top playlists.
 router.get('/top', async (req, res) => {
   try {
-    const userId = (await db.query(getUser('Guest'))).rows[0].id;
-    const playlists = (await db.query(getPlaylists(userId))).rows;
+    const playlists = (await db.query(Playlist.getAllStatic())).rows.map(formatPlaylistRow);
     res.json({success: true, playlists});
   } catch (e) {
-    console.log('!!! Problem getting top playlists !!!');
-    console.log(e);
+    console.error(e);
   }
 });
 
@@ -22,13 +24,11 @@ router.get('/top', async (req, res) => {
 /// }
 router.get('/tracks/:playlistId', async (req, res) => {
   const playlistId = req.params.playlistId;
-
   try {
-    const tracks = (await db.query(getTracks(playlistId))).rows.map(formatTrackRow);
+    const tracks = (await db.query(Track.getAllForPlaylist(playlistId))).rows.map(formatTrackRow);
     res.json({success: true, tracks});
   } catch (e) {
-    console.log('!!! Problem getting tracks on users playlist !!!');
-    console.log(e);
+    console.error(e);
   }
 });
 
@@ -48,11 +48,10 @@ router.get('/', async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const playlists = (await db.query(getPlaylists(userId))).rows;
+    const playlists = (await db.query(Playlist.getAllForUser(userId))).rows.map(formatPlaylistRow);
     res.json({success: true, playlists});
   } catch (e) {
-    console.log('!!! Problem getting users playlists !!!');
-    console.log(e);
+    console.error(e);
   }
 });
 
@@ -70,7 +69,7 @@ router.post('/create', async (req, res) => {
   if (!errors.valid) { return res.json({success: false, errors}); }
 
   try {
-    await db.query(insertPlaylist(userId, name));
+    await db.query(Playlist.insert(userId, name));
     res.json({success: true});
   } catch (e) {
     if (e.constraint === 'playlists_user_id_name_key') {
@@ -78,8 +77,7 @@ router.post('/create', async (req, res) => {
       const errors = {name: ['Name is already taken.']};
       res.json({success: false, errors});
     } else {
-      console.log('!!! Problem creating playlist !!!');
-      console.log(e);
+      console.error(e);
     }
   }
 });
@@ -95,19 +93,17 @@ router.post('/delete', async (req, res) => {
 
   // Delete Playlist Adds for Playlist
   try {
-    await db.query(removePlaylistAdds(userId, playlist.id));
+    await db.query(PlaylistAdd.removeAllForPlaylist(userId, playlist.id));
   } catch (e) {
-    console.log('!!! Problem removing playlist adds, while removing playlist !!!');
-    console.log(e);
+    console.error(e);
   }
 
   // Delete Playlist
   try {
-    await db.query(removePlaylist(userId, playlist.id));
+    await db.query(Playlist.remove(userId, playlist.id));
     res.json({success: true});
   } catch (err) {
-    console.log('!!! Problem while removing playlist !!!');
-    console.log(e);
+    console.error(e);
   }
 });
 
@@ -123,29 +119,27 @@ router.post('/addto', async (req, res) => {
 
   // Insert Track
   try {
-    await db.query(insertTrack(track.mbid, track.name, track.artistName, track.image));
+    await db.query(Track.insert(track.mbid, track.name, track.artistName, track.image));
   } catch (e) {
     if (e.constraint === 'tracks_name_artist_name_key') {
       // Database error indicates that track is already in table.
       //
       // Do nothing, this is fine.
     } else {
-      console.log('!!! Problem adding track to table, while adding track to playlist !!!');
-      console.log(e);
+      console.error(e);
     }
   }
 
   // Fetch Track
   try {
-    track = (await db.query(getTrack(track.name, track.artistName))).rows[0];
+    track = (await db.query(Track.get(track.name, track.artistName))).rows[0];
   } catch (err) {
-    console.log('!!! Problem fetching track, while adding track to playlist !!!');
-    console.log(e);
+    console.error(e);
   }
 
   // Add to Playlist
   try {
-    await db.query(insertPlaylistAdd(userId, playlist.id, track.id));
+    await db.query(PlaylistAdd.insert(userId, playlist.id, track.id));
     res.json({success: true});
   } catch (e) {
     if (e.constraint === 'playlist_adds_playlist_id_track_id_key') {
@@ -153,8 +147,7 @@ router.post('/addto', async (req, res) => {
       const errors = {playlist: ['Already contains track.']};
       res.json({success: false, errors});
     } else {
-      console.log('!!! Problem while adding track to playlist !!!');
-      console.log(e);
+      console.error(e);
     }
   }
 });
@@ -170,95 +163,14 @@ router.post('/removefrom', async (req, res) => {
   let { playlist, track } = req.body;
 
   try {
-    await db.query(removePlaylistAdd(userId, playlist.id, track.id));
+    await db.query(PlaylistAdd.remove(userId, playlist.id, track.id));
     res.json({success: true});
   } catch (err) {
-    console.log('!!! Problem while removing track from playlist !!!');
-    console.log(e);
+    console.error(e);
   }
 });
 
-
-const insertPlaylist = (userId, name) => ({
-  text: `
-    INSERT INTO playlists(user_id, name)
-    VALUES ($1, $2);
-  `,
-  values: [userId, name],
-});
-
-const removePlaylist = (userId, playlistId) => ({
-  text: `
-    DELETE FROM playlists
-    WHERE user_id = $1 AND id = $2;
-  `,
-  values: [userId, playlistId],
-});
-
-const insertTrack = (mbid, name, artistName, image) => ({
-  text: `
-    INSERT INTO tracks(mbid, name, artist_name, image)
-    VALUES ($1, $2, $3, $4);
-  `,
-  values: [mbid, name, artistName, image],
-});
-
-const insertPlaylistAdd = (userId, playlistId, trackId) => ({
-  text: `
-    INSERT INTO playlist_adds(user_id, playlist_id, track_id)
-    VALUES ($1, $2, $3);
-  `,
-  values: [userId, playlistId, trackId],
-});
-
-const removePlaylistAdd = (userId, playlistId, trackId) => ({
-  text: `
-    DELETE FROM playlist_adds
-    WHERE user_id = $1 AND playlist_id = $2 AND track_id = $3;
-  `,
-  values: [userId, playlistId, trackId],
-});
-
-const removePlaylistAdds = (userId, playlistId) => ({
-  text: `
-    DELETE FROM playlist_adds
-    WHERE user_id = $1 AND playlist_id = $2;
-  `,
-  values: [userId, playlistId],
-});
-
-const getPlaylists = (userId) => ({
-  text: `
-    SELECT * FROM playlists
-    WHERE user_id = $1;
-  `,
-  values: [userId],
-});
-
-const getTrack = (name, artistName) => ({
-  text: `
-    SELECT * FROM tracks
-    WHERE name = $1 AND artist_name = $2;
-  `,
-  values: [name, artistName],
-});
-
-const getTracks = (playlistId) => ({
-  text: `
-    SELECT tracks.* FROM playlist_adds
-    JOIN tracks ON playlist_adds.track_id = tracks.id
-    WHERE playlist_adds.playlist_id = $1;
-  `,
-  values: [playlistId],
-});
-
-const getUser = (name) => ({
-  text: `
-    SELECT * from users
-    WHERE name = $1;
-  `,
-  values: [name],
-});
+const makeStatic = (row) => Object.assign(row, {isStatic: true});
 
 const formatTrackRow = (row) => ({
   id: row.id,
@@ -268,6 +180,14 @@ const formatTrackRow = (row) => ({
     name: row.artist_name,
   },
   image: row.image,
+  isStatic: row.is_static,
+});
+
+const formatPlaylistRow = (row) => ({
+  id: row.id,
+  name: row.name,
+  images: row.images,
+  isStatic: row.is_static,
 });
 
 module.exports = router;

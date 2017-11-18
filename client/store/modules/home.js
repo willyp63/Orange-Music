@@ -19,7 +19,7 @@ const RECEIVE_TOP_ARTISTS = 'orange-music/home/RECEIVE_TOP_ARTISTS';
 
 
 const initialState = {
-  tableType: HOME_TABLE_TYPES.TOP_TRACKS,
+  tableType: HOME_TABLE_TYPES.TOP_PLAYLISTS,
   displayType: DISPLAY_TYPES.GALLERY,
   topPlaylists: {
     playlists: [],

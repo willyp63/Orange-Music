@@ -18,7 +18,9 @@ class Row extends React.Component {
 	  const subtitle = getNestedFieldValue(entity, schema.subtitlePath);
 	  const image = getNestedFieldValue(entity, schema.imagePath);
 
-    const imageSrc = image ? getImageUrl(image, IMAGE_IDX) : EMPTY_IMG_SRC;
+    const imageSrc = schema.isPlaylist
+      ? (image ? getImageUrl(image[0], IMAGE_IDX) : EMPTY_IMG_SRC)
+      : (image ? getImageUrl(image, IMAGE_IDX) : EMPTY_IMG_SRC);
 
 	  const playActionModel = getPlayActionModel({entity, schema, actions});
     const nonPlayActionModels = getNonPlayActionModels({entity, schema, actions});

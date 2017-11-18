@@ -3,8 +3,8 @@ const db = require('../../db');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = require('../../secrets/jwt');
 const validateSignUp = require('../../../shared/validators/sign_up');
-
-
+const User = require('../../db/models/user');
+ 
 /// Sign-up a new user.
 ///
 /// Insert user & send back auth token.
@@ -22,8 +22,8 @@ router.post('/signup', async (req, res) => {
 
   try {
     // Insert user, then fetch same user so we can get the user's id.
-    await db.query(insertUser(name, password));
-    const user = (await db.query(getUser(name))).rows[0];
+    await db.query(User.insert(name, password));
+    const user = (await db.query(User.get(name))).rows[0];
 
     // Send back token.
     res.json({success: true, token: getJWT(user)});
@@ -33,12 +33,10 @@ router.post('/signup', async (req, res) => {
       const errors = {name: ['Username is already taken.']};
       res.json({success: false, errors});
     } else {
-      console.log('!!! Problem Signing-up User !!!');
-      console.log(e);
+      console.error(e);
     }
   }
 });
-
 
 /// Log-in an existing user.
 ///
@@ -52,7 +50,7 @@ router.post('/login', async (req, res) => {
   const { name, password } = req.body;
   try {
     // Check credentials.
-    const user = (await db.query(getUser(name))).rows[0];
+    const user = (await db.query(User.get(name))).rows[0];
     if (!user || user.password !== password) {
       const errors = {password: ['Username/ password pair not found.']};
       return res.json({success: false, errors});
@@ -61,11 +59,9 @@ router.post('/login', async (req, res) => {
     // Send back token.
     res.json({success: true, token: getJWT(user)});
   } catch (e) {
-    console.log('!!! Problem Loggin-in User !!!');
-    console.log(e);
+    console.error(e);
   }
 });
-
 
 /// Returns {success: true} if the sender has valid auth token.
 ///
@@ -76,32 +72,14 @@ router.get('/verify', async (req, res) => {
   if (!req.user ) { return res.json({success: false}); }
   try {
     // Check that user still exists.
-    const user = (await db.query(getUser(req.user.name))).rows[0];
+    const user = (await db.query(User.get(req.user.name))).rows[0];
     if (!user ) { return res.json({success: false}); }
 
     // Send back user.
     res.json({success: true, user: getSafeUser(user)});
   } catch (e) {
-    console.log('!!! Problem Loggin-in User !!!');
-    console.log(e);
+    console.error(e);
   }
-});
-
-
-const insertUser = (name, password) => ({
-  text: `
-    INSERT INTO users(name, password)
-    VALUES ($1, $2);
-  `,
-  values: [name, password],
-});
-
-const getUser = (name) => ({
-  text: `
-    SELECT * from users
-    WHERE name = $1;
-  `,
-  values: [name],
 });
 
 const getJWT = user => {

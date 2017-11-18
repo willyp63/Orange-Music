@@ -8,8 +8,9 @@ const SCHEMA = {
 		search: {pi: playlist.id},
 	}),
   subtitlePath: '@NA',
-  imagePath: 'image',
+  imagePath: 'images',
   actions: ACTIONS,
+  isPlaylist: true,
 };
 
 export default SCHEMA;

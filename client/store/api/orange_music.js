@@ -24,8 +24,8 @@ module.exports.getPlaylists = ({token}) =>
 
 module.exports.topPlaylists = () => get('/playlists/top');
 
-module.exports.getPlaylistTracks = ({token, playlistId}) =>
-  get(`/playlists/tracks/${playlistId}`, {token});
+module.exports.getPlaylistTracks = ({playlistId}) =>
+  get(`/playlists/tracks/${playlistId}`);
 
 module.exports.createPlaylist = ({token, name}) =>
   post('/playlists/create', {token, name});

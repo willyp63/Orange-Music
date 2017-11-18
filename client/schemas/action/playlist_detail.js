@@ -8,6 +8,7 @@ const ACTIONS = {...TRACK_ACTIONS};
 ACTIONS[PLAYLIST_DETAIL_ACTION_TYPES.REMOVE_FROM_PLAYLIST] = {
   label: 'Remove from playlist',
   actionName: 'removeTrackFromPlaylist',
+  test: (track) => !track.isStatic,
 };
 
 export default ACTIONS;

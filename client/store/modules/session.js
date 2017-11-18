@@ -82,7 +82,7 @@ export const logInWithCredentials = (name, password) => dispatch => {
 };
 
 export const logInGuest = () => dispatch => {
-  dispatch(logInWithCredentials('Guest', 'ornery_for_oranges'));
+  dispatch(logInWithCredentials('Guest', 'abc123'));
 };
 
 /// Session

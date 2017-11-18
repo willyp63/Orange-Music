@@ -4508,7 +4508,7 @@ exports.default = SCHEMA;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.popFromHistory = exports.removeFromHistory = exports.playList = exports.play = exports.removeFromQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
+exports.popFromHistory = exports.removeFromHistory = exports.playPlaylist = exports.playList = exports.play = exports.removeFromQueue = exports.addToQueue = exports.setQueueDisplayType = exports.setQueueTableType = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -4681,6 +4681,14 @@ var playList = exports.playList = function playList(tracks) {
   return function (dispatch) {
     dispatch(clearQueue());
     dispatch(fillQueue(tracks));
+  };
+};
+
+var playPlaylist = exports.playPlaylist = function playPlaylist(playlist) {
+  return function (dispatch) {
+    _orange_music2.default.getPlaylistTracks({ playlistId: playlist.id }).then(function (response) {
+      dispatch(playList(response.tracks));
+    });
   };
 };
 
@@ -7575,9 +7583,8 @@ module.exports.topPlaylists = function () {
 };
 
 module.exports.getPlaylistTracks = function (_ref6) {
-  var token = _ref6.token,
-      playlistId = _ref6.playlistId;
-  return get('/playlists/tracks/' + playlistId, { token: token });
+  var playlistId = _ref6.playlistId;
+  return get('/playlists/tracks/' + playlistId);
 };
 
 module.exports.createPlaylist = function (_ref7) {
@@ -7746,7 +7753,7 @@ var logInWithCredentials = exports.logInWithCredentials = function logInWithCred
 
 var logInGuest = exports.logInGuest = function logInGuest() {
   return function (dispatch) {
-    dispatch(logInWithCredentials('Guest', 'ornery_for_oranges'));
+    dispatch(logInWithCredentials('Guest', 'abc123'));
   };
 };
 
@@ -7883,7 +7890,6 @@ var fetchTracks = exports.fetchTracks = function fetchTracks() {
         session = _getState.session,
         playlistDetail = _getState.playlistDetail;
 
-    var token = session.token;
     var playlistId = playlistDetail.playlistId,
         tracks = playlistDetail.tracks;
     var isFetching = tracks.isFetching,
@@ -7895,7 +7901,7 @@ var fetchTracks = exports.fetchTracks = function fetchTracks() {
     }
 
     dispatch({ type: REQUEST_TRACKS });
-    _orange_music2.default.getPlaylistTracks({ token: token, playlistId: playlistId }).then(function (response) {
+    _orange_music2.default.getPlaylistTracks({ playlistId: playlistId }).then(function (response) {
       var tracks = response.tracks;
       dispatch(receiveTracks(tracks));
     });
@@ -11839,7 +11845,7 @@ var FETCH_TOP_ARTISTS = 'orange-music/home/FETCH_TOP_ARTISTS';
 var RECEIVE_TOP_ARTISTS = 'orange-music/home/RECEIVE_TOP_ARTISTS';
 
 var initialState = {
-  tableType: _home.HOME_TABLE_TYPES.TOP_TRACKS,
+  tableType: _home.HOME_TABLE_TYPES.TOP_PLAYLISTS,
   displayType: _display_type.DISPLAY_TYPES.GALLERY,
   topPlaylists: {
     playlists: [],
@@ -20312,12 +20318,16 @@ var _playlists2 = _interopRequireDefault(_playlists);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HOME_TABLE_TYPES = exports.HOME_TABLE_TYPES = {
-  TOP_TRACKS: '0',
-  TOP_ARTISTS: '1',
-  TOP_PLAYLISTS: '2'
+  TOP_PLAYLISTS: '0',
+  TOP_TRACKS: '1',
+  TOP_ARTISTS: '2'
 };
 
 var SCHEMA = {};
+SCHEMA[HOME_TABLE_TYPES.TOP_PLAYLISTS] = {
+  label: 'Featured Playlists',
+  tableSchema: _playlists2.default
+};
 SCHEMA[HOME_TABLE_TYPES.TOP_TRACKS] = {
   label: 'Top Tracks',
   tableSchema: _track2.default
@@ -20325,10 +20335,6 @@ SCHEMA[HOME_TABLE_TYPES.TOP_TRACKS] = {
 SCHEMA[HOME_TABLE_TYPES.TOP_ARTISTS] = {
   label: 'Top Artists',
   tableSchema: _artist2.default
-};
-SCHEMA[HOME_TABLE_TYPES.TOP_PLAYLISTS] = {
-  label: 'Top Playlists',
-  tableSchema: _playlists2.default
 };
 
 exports.default = SCHEMA;
@@ -25031,6 +25037,8 @@ var getNonPlayActionModels = exports.getNonPlayActionModels = function getNonPla
 		return actionType !== _universal.UNIVERSAL_ACTION_TYPES.PLAY;
 	}).map(function (actionType) {
 		return schema.actions[actionType];
+	}).filter(function (actionModel) {
+		return !actionModel.test || actionModel.test(entity);
 	}).map(function (actionModel) {
 		var action = actions[actionModel.actionName].bind(null, entity);
 		return bindAction(actionModel, action);
@@ -25115,7 +25123,8 @@ var ActionProvider = function (_React$Component) {
           fetchPlaylists = _props.fetchPlaylists,
           user = _props.user,
           signup = _props.signup,
-          logInGuest = _props.logInGuest;
+          logInGuest = _props.logInGuest,
+          playPlaylist = _props.playPlaylist;
 
 
       var goToArtist = function goToArtist(artistName) {
@@ -25137,7 +25146,8 @@ var ActionProvider = function (_React$Component) {
       };
 
       var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
-        goToArtist: goToArtist, addToPlaylist: addToPlaylist, goToPlaylist: goToPlaylist, deletePlaylist: deletePlaylist, removeTrackFromPlaylist: removeTrackFromPlaylist };
+        goToArtist: goToArtist, addToPlaylist: addToPlaylist, goToPlaylist: goToPlaylist, deletePlaylist: deletePlaylist, removeTrackFromPlaylist: removeTrackFromPlaylist,
+        playPlaylist: playPlaylist };
 
       return _react2.default.cloneElement(children, { actions: actions });
     }
@@ -25156,6 +25166,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     play: function play(track) {
       dispatch((0, _queue.play)(track));
+    },
+    playPlaylist: function playPlaylist(playlist) {
+      dispatch((0, _queue.playPlaylist)(playlist));
     },
     addToQueue: function addToQueue(track) {
       dispatch((0, _queue.addToQueue)(track));
@@ -59778,7 +59791,7 @@ exports.default = DisplayTypePicker;
 
 
 Object.defineProperty(exports, "__esModule", {
-			value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -59822,71 +59835,71 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var IMAGE_IDX = 2;
 
 var Row = function (_React$Component) {
-			_inherits(Row, _React$Component);
+	_inherits(Row, _React$Component);
 
-			function Row() {
-						_classCallCheck(this, Row);
+	function Row() {
+		_classCallCheck(this, Row);
 
-						return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).apply(this, arguments));
-			}
+		return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).apply(this, arguments));
+	}
 
-			_createClass(Row, [{
-						key: 'render',
-						value: function render() {
-									var _props = this.props,
-									    entity = _props.entity,
-									    schema = _props.schema,
-									    actions = _props.actions;
+	_createClass(Row, [{
+		key: 'render',
+		value: function render() {
+			var _props = this.props,
+			    entity = _props.entity,
+			    schema = _props.schema,
+			    actions = _props.actions;
 
 
-									var title = (0, _nested_field.getNestedFieldValue)(entity, schema.titlePath);
-									var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
-									var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
+			var title = (0, _nested_field.getNestedFieldValue)(entity, schema.titlePath);
+			var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
+			var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
 
-									var imageSrc = image ? (0, _image.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
+			var imageSrc = schema.isPlaylist ? image ? (0, _image.getImageUrl)(image[0], IMAGE_IDX) : _image.EMPTY_IMG_SRC : image ? (0, _image.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
 
-									var playActionModel = (0, _action.getPlayActionModel)({ entity: entity, schema: schema, actions: actions });
-									var nonPlayActionModels = (0, _action.getNonPlayActionModels)({ entity: entity, schema: schema, actions: actions });
+			var playActionModel = (0, _action.getPlayActionModel)({ entity: entity, schema: schema, actions: actions });
+			var nonPlayActionModels = (0, _action.getNonPlayActionModels)({ entity: entity, schema: schema, actions: actions });
 
-									var hasMoreButton = nonPlayActionModels.length !== 0;
-									var $moreButton = hasMoreButton ? _react2.default.createElement(_more_button2.default, { actionModels: nonPlayActionModels }) : '';
+			var hasMoreButton = nonPlayActionModels.length !== 0;
+			var $moreButton = hasMoreButton ? _react2.default.createElement(_more_button2.default, { actionModels: nonPlayActionModels }) : '';
 
-									var onImageClick = playActionModel ? playActionModel.action : function () {};
+			var onImageClick = playActionModel ? playActionModel.action : function () {};
 
-									var titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title, entity) : null;
-									var subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle, entity) : null;
+			var titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title, entity) : null;
+			var subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle, entity) : null;
 
-									var titleStyle = { flexBasis: subtitle ? '50%' : '100%' };
-									var subtitleStyle = { flexBasis: subtitle ? '50%' : '0', padding: subtitle ? _material.GRID : 0 };
+			var titleStyle = { flexBasis: subtitle ? '50%' : '100%' };
+			var subtitleStyle = { flexBasis: subtitle ? '50%' : '0', padding: subtitle ? _material.GRID : 0 };
 
-									return _react2.default.createElement(
-												'div',
-												{ className: (0, _classnames2.default)('row', { 'no-play-icon': !playActionModel, 'no-more-btn': !hasMoreButton }) },
-												_react2.default.createElement(
-															'div',
-															{ className: 'img-cell' },
-															_react2.default.createElement(_playable_image2.default, { imageSrc: imageSrc, onClick: onImageClick })
-												),
-												_react2.default.createElement(
-															'div',
-															{ className: 'title-cell', style: titleStyle },
-															_react2.default.createElement(_link2.default, { className: 'title', label: title, linkLocation: titleLinkLocation })
-												),
-												_react2.default.createElement(
-															'div',
-															{ className: 'subtitle-cell', style: subtitleStyle },
-															_react2.default.createElement(_link2.default, { className: 'subtitle', label: subtitle, linkLocation: subtitleLinkLocation })
-												),
-												_react2.default.createElement(
-															'div',
-															{ className: 'more-btn-cell' },
-															$moreButton
-												)
-									);
-						}
-			}]);
+			return _react2.default.createElement(
+				'div',
+				{ className: (0, _classnames2.default)('row', { 'no-play-icon': !playActionModel, 'no-more-btn': !hasMoreButton }) },
+				_react2.default.createElement(
+					'div',
+					{ className: 'img-cell' },
+					_react2.default.createElement(_playable_image2.default, { imageSrc: imageSrc, onClick: onImageClick })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'title-cell', style: titleStyle },
+					_react2.default.createElement(_link2.default, { className: 'title', label: title, linkLocation: titleLinkLocation })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'subtitle-cell', style: subtitleStyle },
+					_react2.default.createElement(_link2.default, { className: 'subtitle', label: subtitle, linkLocation: subtitleLinkLocation })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'more-btn-cell' },
+					$moreButton
+				)
+			);
+		}
+	}]);
 
-			return Row;
+	return Row;
 }(_react2.default.Component);
 
 exports.default = Row;
@@ -60007,6 +60020,10 @@ var _playable_image = __webpack_require__(298);
 
 var _playable_image2 = _interopRequireDefault(_playable_image);
 
+var _playlist = __webpack_require__(684);
+
+var _playlist2 = _interopRequireDefault(_playlist);
+
 var _link = __webpack_require__(299);
 
 var _link2 = _interopRequireDefault(_link);
@@ -60020,6 +60037,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var IMAGE_IDX = 3;
+var IMAGE_IDX_PLAYLIST = 2;
 
 var GalleryTile = function (_React$Component) {
   _inherits(GalleryTile, _React$Component);
@@ -60043,8 +60061,6 @@ var GalleryTile = function (_React$Component) {
       var subtitle = (0, _nested_field.getNestedFieldValue)(entity, schema.subtitlePath);
       var image = (0, _nested_field.getNestedFieldValue)(entity, schema.imagePath);
 
-      var imageSrc = image ? (0, _image.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
-
       var playActionModel = (0, _action.getPlayActionModel)({ entity: entity, schema: schema, actions: actions });
       var nonPlayActionModels = (0, _action.getNonPlayActionModels)({ entity: entity, schema: schema, actions: actions });
 
@@ -60052,6 +60068,25 @@ var GalleryTile = function (_React$Component) {
       var $moreButton = hasMoreButton ? _react2.default.createElement(_more_button2.default, { actionModels: nonPlayActionModels }) : '';
 
       var onImageClick = playActionModel ? playActionModel.action : function () {};
+
+      var $image = void 0;
+      if (schema.isPlaylist) {
+        var imageSrcs = image ? image.map(function (i) {
+          return (0, _image.getImageUrl)(i, IMAGE_IDX_PLAYLIST);
+        }) : [];
+        $image = _react2.default.createElement(
+          _playlist2.default,
+          { imageSrcs: imageSrcs, onClick: onImageClick },
+          $moreButton
+        );
+      } else {
+        var imageSrc = image ? (0, _image.getImageUrl)(image, IMAGE_IDX) : _image.EMPTY_IMG_SRC;
+        $image = _react2.default.createElement(
+          _playable_image2.default,
+          { imageSrc: imageSrc, onClick: onImageClick },
+          $moreButton
+        );
+      }
 
       var titleLinkLocation = schema.titleLinkLocation ? schema.titleLinkLocation(title, entity) : null;
       var subtitleLinkLocation = schema.subtitleLinkLocation ? schema.subtitleLinkLocation(subtitle, entity) : null;
@@ -60061,11 +60096,7 @@ var GalleryTile = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)('tile', { 'no-play-icon': !playActionModel, 'no-more-btn': !hasMoreButton }) },
-        _react2.default.createElement(
-          _playable_image2.default,
-          { imageSrc: imageSrc, onClick: onImageClick },
-          $moreButton
-        ),
+        $image,
         _react2.default.createElement(
           'div',
           { className: 'info' },
@@ -60738,8 +60769,9 @@ var SCHEMA = {
     };
   },
   subtitlePath: '@NA',
-  imagePath: 'image',
-  actions: _playlist2.default
+  imagePath: 'images',
+  actions: _playlist2.default,
+  isPlaylist: true
 };
 
 exports.default = SCHEMA;
@@ -60754,14 +60786,26 @@ exports.default = SCHEMA;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.PLAYLIST_ACTION_TYPES = undefined;
+
+var _universal = __webpack_require__(224);
+
 var PLAYLIST_ACTION_TYPES = exports.PLAYLIST_ACTION_TYPES = {
+  PLAY_PLAYLIST: _universal.UNIVERSAL_ACTION_TYPES.PLAY,
   DELETE_PLAYLIST: 'DELETE_PLAYLIST'
 };
 
 var ACTIONS = {};
+ACTIONS[PLAYLIST_ACTION_TYPES.PLAY_PLAYLIST] = {
+  label: 'Play',
+  actionName: 'playPlaylist'
+};
 ACTIONS[PLAYLIST_ACTION_TYPES.DELETE_PLAYLIST] = {
   label: 'Delete playlist',
-  actionName: 'deletePlaylist'
+  actionName: 'deletePlaylist',
+  test: function test(playlist) {
+    return !playlist.isStatic;
+  }
 };
 
 exports.default = ACTIONS;
@@ -61000,7 +61044,10 @@ var PLAYLIST_DETAIL_ACTION_TYPES = exports.PLAYLIST_DETAIL_ACTION_TYPES = {
 var ACTIONS = _extends({}, _track2.default);
 ACTIONS[PLAYLIST_DETAIL_ACTION_TYPES.REMOVE_FROM_PLAYLIST] = {
   label: 'Remove from playlist',
-  actionName: 'removeTrackFromPlaylist'
+  actionName: 'removeTrackFromPlaylist',
+  test: function test(track) {
+    return !track.isStatic;
+  }
 };
 
 exports.default = ACTIONS;
@@ -61593,6 +61640,68 @@ function stubFalse() {
 module.exports = isEmpty;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35), __webpack_require__(208)(module)))
+
+/***/ }),
+/* 684 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(5);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _image = __webpack_require__(57);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PlaylistImage = function PlaylistImage(_ref) {
+	var imageSrcs = _ref.imageSrcs,
+	    children = _ref.children,
+	    onMouseLeave = _ref.onMouseLeave,
+	    onClick = _ref.onClick;
+
+	while (imageSrcs.length < 4) {
+		imageSrcs.push(_image.EMPTY_IMG_SRC);
+	};
+
+	var $images = imageSrcs.slice(0, 4).map(function (i) {
+		return i || _image.EMPTY_IMG_SRC;
+	}).map(function (i, idx) {
+		return _react2.default.createElement('img', { src: i, key: i + idx, className: (0, _classnames2.default)({ bordered: i === _image.EMPTY_IMG_SRC }) });
+	});
+
+	return _react2.default.createElement(
+		'div',
+		{ className: 'playable-img playlist-img' },
+		$images,
+		_react2.default.createElement(
+			'div',
+			{ className: 'img-overlay', onMouseLeave: onMouseLeave, onClick: onClick },
+			_react2.default.createElement(
+				'div',
+				{ className: 'play-icon-wrap' },
+				_react2.default.createElement(
+					'i',
+					{ className: 'material-icons play-icon' },
+					'play_circle_outline'
+				)
+			),
+			children
+		)
+	);
+};
+
+exports.default = PlaylistImage;
 
 /***/ })
 /******/ ]);
