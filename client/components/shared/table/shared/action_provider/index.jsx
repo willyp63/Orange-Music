@@ -2,16 +2,19 @@ import React from 'react';
 import history from '../../../../../history';
 import { connect } from 'react-redux';
 import { play, addToQueue, removeFromQueue, removeFromHistory } from '../../../../../store/modules/queue';
+import { signup, logInGuest } from '../../../../../store/modules/session';
 import { showFormWithSchema, setFieldValue } from '../../../../../store/modules/form';
 import { addTrackToPlaylist, deletePlaylist, removeTrackFromPlaylist, fetchPlaylists } from '../../../../../store/modules/playlists';
 import ADD_TO_PLAYLIST_FORM_SCHEMA from '../../../../../schemas/form/add_to_playlist';
+import SIGN_UP_FROM_SCHEMA from '../../../../../schemas/form/sign_up';
 
 
 class ActionProvider extends React.Component {
   render() {
     const { play, addToQueue, removeFromQueue, removeFromHistory, children,
       showFormWithSchema, addTrackToPlaylist, setFieldValue, deletePlaylist,
-      removeTrackFromPlaylist, playlists, fetchPlaylists } = this.props;
+      removeTrackFromPlaylist, playlists, fetchPlaylists, user, signup,
+      logInGuest } = this.props;
 
     const goToArtist = artistName => {
       history.pushLocation('/search', {q: artistName, tt: '0'});
@@ -22,12 +25,13 @@ class ActionProvider extends React.Component {
     };
 
     const addToPlaylist = track => {
-      const schema = Object.assign({}, ADD_TO_PLAYLIST_FORM_SCHEMA);
-      schema.submitAction = addTrackToPlaylist;
-      showFormWithSchema(schema);
-      setFieldValue('track', track);
-
-      fetchPlaylists();
+      if (!user) {
+        showFormWithSchema(Object.assign({}, SIGN_UP_FROM_SCHEMA, {submitAction: signup, altAction: logInGuest}));
+      } else {
+        showFormWithSchema(Object.assign({}, ADD_TO_PLAYLIST_FORM_SCHEMA, {submitAction: addTrackToPlaylist}));
+        setFieldValue('track', track);
+        fetchPlaylists();
+      }
     };
 
     const actions = {play, addToQueue, removeFromQueue, removeFromHistory,
@@ -38,7 +42,9 @@ class ActionProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {};
+  return {
+    user: state.session.user,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -53,6 +59,8 @@ const mapDispatchToProps = (dispatch) => {
     showFormWithSchema: (schema) => dispatch(showFormWithSchema(schema)),
     setFieldValue: (field, value) => dispatch(setFieldValue(field, value)),
     fetchPlaylists: () => dispatch(fetchPlaylists()),
+    signup: () => dispatch(signup()),
+    logInGuest: () => dispatch(logInGuest()),
   };
 };
 

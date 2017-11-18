@@ -12089,7 +12089,7 @@ var fetchMoreEntities = exports.fetchMoreEntities = function fetchMoreEntities()
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.endSession = exports.startSession = exports.startSessionFromLocalStorage = exports.logIn = exports.signUp = undefined;
+exports.endSession = exports.startSession = exports.startSessionFromLocalStorage = exports.logInGuest = exports.logIn = exports.signUp = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -12189,6 +12189,14 @@ var logIn = exports.logIn = function logIn() {
         }
       });
     }
+  };
+};
+
+var logInGuest = exports.logInGuest = function logInGuest() {
+  return function (dispatch) {
+    dispatch((0, _form.setFieldValue)('name', 'Guest'));
+    dispatch((0, _form.setFieldValue)('password', 'ornery_for_oranges'));
+    dispatch(logIn());
   };
 };
 
@@ -20121,23 +20129,18 @@ var formatEntitiesFromApi = function formatEntitiesFromApi(entities) {
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getUrlWithUpdatedParams = exports.getUrlParams = undefined;
-
-var _empty = __webpack_require__(35);
+var isEmpty = __webpack_require__(682);
 
 /// Returns [url]'s params.
-var getUrlParams = exports.getUrlParams = function getUrlParams(url) {
+var getUrlParams = function getUrlParams(url) {
   var matches = url.match(/\?(.+)$/);
-  if ((0, _empty.isEmpty)(matches)) return {};
+  if (isEmpty(matches)) return {};
   var paramsStr = matches[1];
   var paramStrings = paramsStr.split('&');
   var params = {};
   paramStrings.forEach(function (paramStr) {
     matches = paramStr.match(/(.+)=(.+)/);
-    if ((0, _empty.isNotEmpty)(matches) && (0, _empty.isNotEmpty)(matches[1]) && (0, _empty.isNotEmpty)(matches[2])) {
+    if (!isEmpty(matches) && !isEmpty(matches[1]) && !isEmpty(matches[2])) {
       params[matches[1]] = matches[2];
     }
   });
@@ -20146,19 +20149,24 @@ var getUrlParams = exports.getUrlParams = function getUrlParams(url) {
 
 /// Updates [url]'s params by merging them with [params], and returns the
 /// resulting URL.
-var getUrlWithUpdatedParams = exports.getUrlWithUpdatedParams = function getUrlWithUpdatedParams(url, params) {
+var getUrlWithUpdatedParams = function getUrlWithUpdatedParams(url, params) {
   var baseUrlMatches = url.match(/^(.+?)(?:\?|$)/);
-  var baseUrl = (0, _empty.isNotEmpty)(baseUrlMatches) ? baseUrlMatches[1] : '';
+  var baseUrl = !isEmpty(baseUrlMatches) ? baseUrlMatches[1] : '';
   var updatedParams = getUrlParams(url);
   Object.keys(params).forEach(function (key) {
     updatedParams[key] = encodeURIComponent(params[key]);
   });
   var paramsStr = Object.keys(updatedParams).filter(function (key) {
-    return (0, _empty.isNotEmpty)(key) && (0, _empty.isNotEmpty)(updatedParams[key]);
+    return !isEmpty(key) && !isEmpty(updatedParams[key]);
   }).map(function (key) {
     return key + '=' + updatedParams[key];
   }).join('&');
-  return (0, _empty.isNotEmpty)(paramsStr) ? baseUrl + '?' + paramsStr : baseUrl;
+  return !isEmpty(paramsStr) ? baseUrl + '?' + paramsStr : baseUrl;
+};
+
+module.exports = {
+  getUrlParams: getUrlParams,
+  getUrlWithUpdatedParams: getUrlWithUpdatedParams
 };
 
 /***/ }),
@@ -20323,7 +20331,7 @@ var QUEUE_TABLE_TYPES = exports.QUEUE_TABLE_TYPES = {
 
 var SCHEMA = {};
 SCHEMA[QUEUE_TABLE_TYPES.QUEUE] = {
-  label: 'Up Next',
+  label: 'Queue',
   tableSchema: _queue2.default,
   endOfTable: true /* Entire queue is always loaded on component load */
 };
@@ -24933,6 +24941,8 @@ var _reactRedux = __webpack_require__(28);
 
 var _queue = __webpack_require__(59);
 
+var _session = __webpack_require__(138);
+
 var _form = __webpack_require__(46);
 
 var _playlists = __webpack_require__(72);
@@ -24940,6 +24950,10 @@ var _playlists = __webpack_require__(72);
 var _add_to_playlist = __webpack_require__(665);
 
 var _add_to_playlist2 = _interopRequireDefault(_add_to_playlist);
+
+var _sign_up = __webpack_require__(464);
+
+var _sign_up2 = _interopRequireDefault(_sign_up);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24973,7 +24987,10 @@ var ActionProvider = function (_React$Component) {
           deletePlaylist = _props.deletePlaylist,
           removeTrackFromPlaylist = _props.removeTrackFromPlaylist,
           playlists = _props.playlists,
-          fetchPlaylists = _props.fetchPlaylists;
+          fetchPlaylists = _props.fetchPlaylists,
+          user = _props.user,
+          signup = _props.signup,
+          logInGuest = _props.logInGuest;
 
 
       var goToArtist = function goToArtist(artistName) {
@@ -24985,12 +25002,13 @@ var ActionProvider = function (_React$Component) {
       };
 
       var addToPlaylist = function addToPlaylist(track) {
-        var schema = Object.assign({}, _add_to_playlist2.default);
-        schema.submitAction = addTrackToPlaylist;
-        showFormWithSchema(schema);
-        setFieldValue('track', track);
-
-        fetchPlaylists();
+        if (!user) {
+          showFormWithSchema(Object.assign({}, _sign_up2.default, { submitAction: signup, altAction: logInGuest }));
+        } else {
+          showFormWithSchema(Object.assign({}, _add_to_playlist2.default, { submitAction: addTrackToPlaylist }));
+          setFieldValue('track', track);
+          fetchPlaylists();
+        }
       };
 
       var actions = { play: play, addToQueue: addToQueue, removeFromQueue: removeFromQueue, removeFromHistory: removeFromHistory,
@@ -25004,7 +25022,9 @@ var ActionProvider = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {};
+  return {
+    user: state.session.user
+  };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -25038,6 +25058,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchPlaylists: function fetchPlaylists() {
       return dispatch((0, _playlists.fetchPlaylists)());
+    },
+    signup: function signup() {
+      return dispatch((0, _session.signup)());
+    },
+    logInGuest: function logInGuest() {
+      return dispatch((0, _session.logInGuest)());
     }
   };
 };
@@ -41006,22 +41032,26 @@ exports['default'] = thunk;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 /// Consts used for creating fake ids.
-var FAKE_ID_PREFIX = exports.FAKE_ID_PREFIX = 'FAKE_ID_';
-var FAKE_ID_LENGTH = exports.FAKE_ID_LENGTH = 16;
-var FAKE_ID_POSSIBLE_CHARS = exports.FAKE_ID_POSSIBLE_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+var FAKE_ID_PREFIX = 'FAKE_ID_';
+var FAKE_ID_LENGTH = 16;
+var FAKE_ID_POSSIBLE_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
 
 /// Returns a rendomly generated fake id of the form 'FAKE_ID_123abc....'.
-var makeFakeId = exports.makeFakeId = function makeFakeId() {
+var makeFakeId = function makeFakeId() {
   var id = '';
   for (var i = 0; i < FAKE_ID_LENGTH; i++) {
     var j = Math.floor(Math.random() * FAKE_ID_POSSIBLE_CHARS.length);
     id += FAKE_ID_POSSIBLE_CHARS[j];
   }
   return FAKE_ID_PREFIX + id;
+};
+
+module.exports = {
+  FAKE_ID_PREFIX: FAKE_ID_PREFIX,
+  FAKE_ID_LENGTH: FAKE_ID_LENGTH,
+  FAKE_ID_POSSIBLE_CHARS: FAKE_ID_POSSIBLE_CHARS,
+  makeFakeId: makeFakeId
 };
 
 /***/ }),
@@ -41031,10 +41061,9 @@ var makeFakeId = exports.makeFakeId = function makeFakeId() {
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var LAST_FM_API_KEY = exports.LAST_FM_API_KEY = 'b384efbd0a1358eec2c055df63a186c0';
+var LAST_FM_API_KEY = 'b384efbd0a1358eec2c055df63a186c0';
+
+module.exports = { LAST_FM_API_KEY: LAST_FM_API_KEY };
 
 /***/ }),
 /* 454 */
@@ -41926,13 +41955,19 @@ var _history2 = _interopRequireDefault(_history);
 
 var _session = __webpack_require__(138);
 
+var _sign_up = __webpack_require__(464);
+
+var _sign_up2 = _interopRequireDefault(_sign_up);
+
+var _form = __webpack_require__(46);
+
 var _nav_panel = __webpack_require__(462);
 
 var _nav_panel2 = _interopRequireDefault(_nav_panel);
 
-var _form = __webpack_require__(577);
+var _form2 = __webpack_require__(577);
 
-var _form2 = _interopRequireDefault(_form);
+var _form3 = _interopRequireDefault(_form2);
 
 var _player = __webpack_require__(638);
 
@@ -42000,9 +42035,19 @@ var App = function (_React$Component) {
   }, {
     key: '_willMountProtectedRoute',
     value: function _willMountProtectedRoute(newProps, pathname) {
-      if (!newProps.isLoggingIn && !newProps.user) {
+      var isLoggingIn = newProps.isLoggingIn,
+          user = newProps.user,
+          showFormWithSchema = newProps.showFormWithSchema,
+          signup = newProps.signup;
+
+
+      if (!isLoggingIn && !user) {
+        // Push safe path.
         var newPathname = this.lastPathname !== pathname ? this.lastPathname || '/' : '/';
         _history2.default.pushLocation(newPathname);
+
+        // Show sign-up form.
+        showFormWithSchema(Object.assign({}, _sign_up2.default, { submitAction: signup, altAction: _session.logInGuest }));
       }
     }
   }, {
@@ -42013,7 +42058,7 @@ var App = function (_React$Component) {
         { className: 'om-app' },
         _react2.default.createElement(_nav_panel2.default, null),
         _react2.default.createElement(_player2.default, null),
-        _react2.default.createElement(_form2.default, null),
+        _react2.default.createElement(_form3.default, null),
         _react2.default.createElement('div', { className: 'route-bg' }),
         _react2.default.createElement(
           'div',
@@ -42042,6 +42087,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     startSessionFromLocalStorage: function startSessionFromLocalStorage() {
       dispatch((0, _session.startSessionFromLocalStorage)());
+    },
+    showFormWithSchema: function showFormWithSchema(schema) {
+      dispatch((0, _form.showFormWithSchema)(schema));
+    },
+    signUp: function signUp() {
+      dispatch((0, _session.signUp)());
+    },
+    logInGuest: function logInGuest() {
+      dispatch((0, _session.logInGuest)());
     }
   };
 };
@@ -42196,11 +42250,12 @@ var SessionButtons = function (_React$PureComponent) {
           signUp = _props.signUp,
           logIn = _props.logIn,
           endSession = _props.endSession,
-          showFormWithSchema = _props.showFormWithSchema;
+          showFormWithSchema = _props.showFormWithSchema,
+          logInGuest = _props.logInGuest;
 
 
       var onSignUp = function onSignUp() {
-        return showFormWithSchema(_extends({}, _sign_up2.default, { submitAction: signUp }));
+        return showFormWithSchema(_extends({}, _sign_up2.default, { submitAction: signUp, altAction: logInGuest }));
       };
       var onLogIn = function onLogIn() {
         return showFormWithSchema(_extends({}, _log_in2.default, { submitAction: logIn }));
@@ -42256,6 +42311,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     signUp: function signUp() {
       return dispatch((0, _session.signUp)());
     },
+    logInGuest: function logInGuest() {
+      return dispatch((0, _session.logInGuest)());
+    },
     logIn: function logIn() {
       return dispatch((0, _session.logIn)());
     },
@@ -42288,14 +42346,17 @@ var _sign_up2 = _interopRequireDefault(_sign_up);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SCHEMA = {
-  submitButtonText: 'Sign Up!',
+  submitButtonText: 'Create!',
+  altButtonText: 'Use Guest Account!',
+  title: 'Create an Account',
   validator: _sign_up2.default,
   fields: [{
     name: 'name',
     label: 'Name'
   }, {
     name: 'password',
-    label: 'Password'
+    label: 'Password',
+    isPassword: true
   }]
 };
 
@@ -42312,13 +42373,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SCHEMA = {
-  submitButtonText: 'Log In!',
+  submitButtonText: 'Go!',
+  title: 'Log In',
   fields: [{
     name: 'name',
     label: 'Name'
   }, {
     name: 'password',
-    label: 'Password'
+    label: 'Password',
+    isPassword: true
   }]
 };
 
@@ -49147,6 +49210,7 @@ var Form = function (_React$Component) {
               },
               label: fieldSchema.label,
               error: hasErrors,
+              inputProps: { type: fieldSchema.isPassword ? 'password' : 'text' },
               helperText: field.errors[0] || ' ',
               key: fieldSchema.name });
         }
@@ -49156,6 +49220,18 @@ var Form = function (_React$Component) {
         _Button2.default,
         { className: 'submit-btn', onClick: submitForm, raised: true },
         schema.submitButtonText
+      ) : '';
+
+      var $altButton = schema.altButtonText ? _react2.default.createElement(
+        _Button2.default,
+        { className: 'alt-btn', onClick: schema.altAction, raised: true },
+        schema.altButtonText
+      ) : '';
+
+      var $buttonDivider = $altButton ? _react2.default.createElement(
+        'div',
+        { className: 'divider' },
+        'OR'
       ) : '';
 
       return _react2.default.createElement(
@@ -49172,9 +49248,20 @@ var Form = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
+          { className: 'title' },
+          schema.title
+        ),
+        _react2.default.createElement(
+          'div',
           { className: 'content' },
           $inputs,
-          $submitButton
+          _react2.default.createElement(
+            'div',
+            { className: 'buttons' },
+            $submitButton,
+            $buttonDivider,
+            $altButton
+          )
         )
       );
     }
@@ -60214,14 +60301,14 @@ var Queue = function (_React$Component) {
       schema[_queue.QUEUE_TABLE_TYPES.QUEUE].emptyTable = _react2.default.createElement(
         'div',
         { className: 'empty-table-msg' },
-        'Your queue is empty.'
+        'Schedule tracks to play by adding them to your queue.'
       );
 
       schema[_queue.QUEUE_TABLE_TYPES.HISTORY].entities = history;
       schema[_queue.QUEUE_TABLE_TYPES.HISTORY].emptyTable = _react2.default.createElement(
         'div',
         { className: 'empty-table-msg' },
-        'You haven\'t listened to any tracks yet.'
+        'Once you finish listening to a track, it will appear here.'
       );
 
       return _react2.default.createElement(
@@ -60234,7 +60321,7 @@ var Queue = function (_React$Component) {
             onTableTypeChange: setTableType,
             displayType: displayType,
             onDisplayTypeChange: setDisplayType },
-          _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] })
+          this.props.queue.length > 0 ? _react2.default.createElement(_now_playing2.default, { track: this.props.queue[0] }) : ''
         )
       );
     }
@@ -60849,6 +60936,595 @@ ACTIONS[PLAYLIST_DETAIL_ACTION_TYPES.REMOVE_FROM_PLAYLIST] = {
 };
 
 exports.default = ACTIONS;
+
+/***/ }),
+/* 682 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global, module) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+    nativeKeys = overArg(Object.keys, Object);
+
+/* Built-in method references that are verified to be native. */
+var DataView = getNative(root, 'DataView'),
+    Map = getNative(root, 'Map'),
+    Promise = getNative(root, 'Promise'),
+    Set = getNative(root, 'Set'),
+    WeakMap = getNative(root, 'WeakMap');
+
+/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
+var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/**
+ * The base implementation of `getTag`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  return objectToString.call(value);
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11,
+// for data views in Edge < 14, and promises in Node.js.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = objectToString.call(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : undefined;
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to process.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+/**
+ * Checks if `value` is an empty object, collection, map, or set.
+ *
+ * Objects are considered empty if they have no own enumerable string keyed
+ * properties.
+ *
+ * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+ * jQuery-like collections are considered empty if they have a `length` of `0`.
+ * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (isArrayLike(value) &&
+      (isArray(value) || typeof value == 'string' ||
+        typeof value.splice == 'function' || isBuffer(value) || isArguments(value))) {
+    return !value.length;
+  }
+  var tag = getTag(value);
+  if (tag == mapTag || tag == setTag) {
+    return !value.size;
+  }
+  if (nonEnumShadows || isPrototype(value)) {
+    return !nativeKeys(value).length;
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = isEmpty;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38), __webpack_require__(417)(module)))
 
 /***/ })
 /******/ ]);

@@ -5,8 +5,19 @@
     right: 0;
   }
 
+  .title {
+    position: absolute;
+    top: @grid * 3;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    .font-headline();
+  }
+
   .content {
-    padding: (@grid * 6) (@grid * 12);
+    padding: (@grid * 4) (@grid * 8);
+    padding-top: @grid * 8;
 
     display: flex;
     flex-direction: column;
@@ -19,12 +30,12 @@
       label {
         color: @grey;
 
-        .font-title();
+        .font-subhead-1();
         font-weight: 300;
       }
 
       input {
-        .font-title();
+        .font-subhead-1();
       }
 
       div:after {
@@ -51,15 +62,34 @@
       .font-body-1();
     }
 
-    .submit-btn {
+    .buttons {
       margin-top: @grid * 4;
       margin-bottom: @grid * 2;
 
-      color: @white;
-      background-color: @color-secondary;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-      &:hover {
-        background-color: @color-secondary-darken;
+      .submit-btn {
+        color: @white;
+        background-color: @color-secondary;
+
+        &:hover {
+          background-color: @color-secondary-darken;
+        }
+      }
+
+      .alt-btn {
+        color: @white;
+        background-color: @color-primary;
+
+        &:hover {
+          background-color: @color-primary-darken;
+        }
+      }
+
+      .divider {
+        margin: 0 (@grid * 2);
       }
     }
   }

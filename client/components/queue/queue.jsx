@@ -15,14 +15,14 @@ class Queue extends React.Component {
     schema[QUEUE_TABLE_TYPES.QUEUE].entities = queue.slice(1);
     schema[QUEUE_TABLE_TYPES.QUEUE].emptyTable = (
       <div className='empty-table-msg'>
-        Your queue is empty.
+        Schedule tracks to play by adding them to your queue.
       </div>
     );
 
     schema[QUEUE_TABLE_TYPES.HISTORY].entities = history;
     schema[QUEUE_TABLE_TYPES.HISTORY].emptyTable = (
       <div className='empty-table-msg'>
-        You haven't listened to any tracks yet.
+        Once you finish listening to a track, it will appear here.
       </div>
     );
 
@@ -33,7 +33,7 @@ class Queue extends React.Component {
                      onTableTypeChange={setTableType}
                      displayType={displayType}
                      onDisplayTypeChange={setDisplayType}>
-          <NowPlaying track={this.props.queue[0]} />
+          {this.props.queue.length > 0 ? <NowPlaying track={this.props.queue[0]} /> : ''}
         </TableLayout>
       </div>
     );

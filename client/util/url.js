@@ -1,7 +1,7 @@
-import { isEmpty, isNotEmpty } from './empty'
+const isEmpty = require('lodash.isEmpty');
 
 /// Returns [url]'s params.
-export const getUrlParams = (url) => {
+const getUrlParams = (url) => {
   let matches = url.match(/\?(.+)$/)
   if (isEmpty(matches)) return {}
   const paramsStr =  matches[1]
@@ -9,9 +9,9 @@ export const getUrlParams = (url) => {
   const params = {}
   paramStrings.forEach((paramStr) => {
     matches = paramStr.match(/(.+)=(.+)/)
-    if (isNotEmpty(matches) &&
-        isNotEmpty(matches[1]) &&
-        isNotEmpty(matches[2])) {
+    if (!isEmpty(matches) &&
+        !isEmpty(matches[1]) &&
+        !isEmpty(matches[2])) {
       params[matches[1]] = matches[2]
     }
   })
@@ -20,16 +20,21 @@ export const getUrlParams = (url) => {
 
 /// Updates [url]'s params by merging them with [params], and returns the
 /// resulting URL.
-export const getUrlWithUpdatedParams = (url, params) => {
+const getUrlWithUpdatedParams = (url, params) => {
   const baseUrlMatches = url.match(/^(.+?)(?:\?|$)/);
-  const baseUrl = isNotEmpty(baseUrlMatches) ? baseUrlMatches[1] : '';
+  const baseUrl = !isEmpty(baseUrlMatches) ? baseUrlMatches[1] : '';
   const updatedParams = getUrlParams(url);
   Object.keys(params).forEach((key) => {
     updatedParams[key] = encodeURIComponent(params[key]);
   });
   const paramsStr = Object.keys(updatedParams)
-      .filter((key) => isNotEmpty(key) && isNotEmpty(updatedParams[key]))
+      .filter((key) => !isEmpty(key) && !isEmpty(updatedParams[key]))
       .map((key) => key + '=' + updatedParams[key])
       .join('&');
-  return isNotEmpty(paramsStr) ? (baseUrl + '?' + paramsStr) : baseUrl;
+  return !isEmpty(paramsStr) ? (baseUrl + '?' + paramsStr) : baseUrl;
 }
+
+module.exports = {
+  getUrlParams,
+  getUrlWithUpdatedParams,
+};

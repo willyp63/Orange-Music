@@ -1,6 +1,6 @@
 import omApi from '../api/orange_music';
 import validateSignUpForm from '../../../shared/validators/sign_up';
-import { setFieldErrors, clearForm, hideForm } from './form';
+import { setFieldErrors, clearForm, hideForm, setFieldValue } from './form';
 import { clearPlaylists } from './playlists';
 
 const REQUEST_LOG_IN = 'orange-music/session/REQUEST_LOG_IN';
@@ -75,6 +75,12 @@ export const logIn = () => (dispatch, getState) => {
       }
     });
   }
+};
+
+export const logInGuest = () => dispatch => {
+  dispatch(setFieldValue('name', 'Guest'));
+  dispatch(setFieldValue('password', 'ornery_for_oranges'));
+  dispatch(logIn());
 };
 
 /// Session

@@ -8,7 +8,7 @@ export const QUEUE_TABLE_TYPES = {
 
 let SCHEMA = {};
 SCHEMA[QUEUE_TABLE_TYPES.QUEUE] = {
-  label: 'Up Next',
+  label: 'Queue',
   tableSchema: QUEUE_TABLE_SCHEMA,
   endOfTable: true, /* Entire queue is always loaded on component load */
 };

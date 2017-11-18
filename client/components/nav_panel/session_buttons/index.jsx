@@ -4,16 +4,17 @@ import SIGN_UP_FROM_SCHEMA from '../../../schemas/form/sign_up';
 import LOG_IN_FROM_SCHEMA from '../../../schemas/form/log_in';
 import ACCOUNT_FROM_SCHEMA from '../../../schemas/form/account';
 import { showFormWithSchema } from '../../../store/modules/form';
-import { signUp, logIn, endSession } from '../../../store/modules/session';
+import { signUp, logIn, endSession, logInGuest } from '../../../store/modules/session';
 import Button from 'material-ui/Button';
 import classNames from 'classnames';
 
 class SessionButtons extends React.PureComponent {
   render() {
-    const { user, signUp, logIn, endSession, showFormWithSchema } = this.props;
+    const { user, signUp, logIn, endSession, showFormWithSchema,
+      logInGuest } = this.props;
 
     const onSignUp = () =>
-      showFormWithSchema({...SIGN_UP_FROM_SCHEMA, submitAction: signUp});
+      showFormWithSchema({...SIGN_UP_FROM_SCHEMA, submitAction: signUp, altAction: logInGuest});
     const onLogIn = () =>
       showFormWithSchema({...LOG_IN_FROM_SCHEMA, submitAction: logIn});
     const onAccount = () =>
@@ -52,6 +53,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signUp: () => dispatch(signUp()),
+    logInGuest: () => dispatch(logInGuest()),
     logIn: () => dispatch(logIn()),
     endSession: () => dispatch(endSession()),
     showFormWithSchema: (schema) => dispatch(showFormWithSchema(schema)),

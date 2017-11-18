@@ -56,6 +56,7 @@ class Form extends React.Component {
                          onChange={e => setFieldValue(fieldSchema.name, e.target.value)}
                          label={fieldSchema.label}
                          error={hasErrors}
+                         inputProps={{type: fieldSchema.isPassword ? 'password' : 'text'}}
                          helperText={field.errors[0] || ' '}
                          key={fieldSchema.name} />
             );
@@ -70,14 +71,30 @@ class Form extends React.Component {
         </Button>
       ) : '';
 
+    const $altButton = schema.altButtonText
+      ? (
+        <Button className='alt-btn' onClick={schema.altAction} raised={true}>
+          {schema.altButtonText}
+        </Button>
+      ) : '';
+
+    const $buttonDivider = $altButton ? (<div className='divider'>OR</div>) : '';
+
     return (
       <MatModal className='om-form' isOpen={isOpen}>
         <Button className='close-btn' onClick={hideForm}>
           <i className='material-icons'>close</i>
         </Button>
+        <div className='title'>
+          {schema.title}
+        </div>
         <div className='content'>
           {$inputs}
-          {$submitButton}
+          <div className='buttons'>
+            {$submitButton}
+            {$buttonDivider}
+            {$altButton}
+          </div>
         </div>
       </MatModal>
     );

@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import history from '../history';
-import { startSessionFromLocalStorage } from '../store/modules/session';
+import { startSessionFromLocalStorage, signUp, logInGuest } from '../store/modules/session';
+import SIGN_UP_FROM_SCHEMA from '../schemas/form/sign_up';
+import { showFormWithSchema } from '../store/modules/form';
 
 import NavPanel from './nav_panel';
 import Form from './form';
@@ -34,11 +36,17 @@ class App extends React.Component {
     this.lastPathname = pathname;
   }
   _willMountProtectedRoute(newProps, pathname) {
-    if (!newProps.isLoggingIn && !newProps.user) {
+    const { isLoggingIn, user, showFormWithSchema, signup } = newProps;
+
+    if (!isLoggingIn && !user) {
+      // Push safe path.
       const newPathname = this.lastPathname !== pathname
         ? (this.lastPathname || '/')
         : '/';
       history.pushLocation(newPathname);
+
+      // Show sign-up form.
+      showFormWithSchema(Object.assign({}, SIGN_UP_FROM_SCHEMA, {submitAction: signup, altAction: logInGuest}));
     }
   }
   render() {
@@ -70,6 +78,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     startSessionFromLocalStorage: () => { dispatch(startSessionFromLocalStorage()); },
+    showFormWithSchema: (schema) => { dispatch(showFormWithSchema(schema)); },
+    signUp: () => { dispatch(signUp()); },
+    logInGuest: () => { dispatch(logInGuest()); },
   };
 };
 

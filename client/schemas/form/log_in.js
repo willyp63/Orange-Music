@@ -1,5 +1,6 @@
 const SCHEMA = {
-  submitButtonText: 'Log In!',
+  submitButtonText: 'Go!',
+  title: 'Log In',
   fields: [
     {
       name: 'name',
@@ -8,6 +9,7 @@ const SCHEMA = {
     {
       name: 'password',
       label: 'Password',
+      isPassword: true,
     },
   ],
 };

@@ -1,7 +1,9 @@
 import validator from '../../../shared/validators/sign_up';
 
 const SCHEMA = {
-  submitButtonText: 'Sign Up!',
+  submitButtonText: 'Create!',
+  altButtonText: 'Use Guest Account!',
+  title: 'Create an Account',
   validator,
   fields: [
     {
@@ -11,6 +13,7 @@ const SCHEMA = {
     {
       name: 'password',
       label: 'Password',
+      isPassword: true,
     },
   ],
 };
