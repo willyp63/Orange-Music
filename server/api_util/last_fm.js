@@ -1,4 +1,4 @@
-const isEmpty = require('lodash.isEmpty');
+const isEmpty = require('lodash.isempty');
 const { getUrlWithUpdatedParams } = require('../../client/util/url');
 const { makeFakeId } = require('../../client/util/id');
 const { LAST_FM_API_KEY } = require('../../client/secrets/api_keys');
