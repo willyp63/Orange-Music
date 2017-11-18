@@ -2,6 +2,7 @@ const Express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const initDB = require('./db/init');
+const populateDB = require('./db/populate');
 const api = require('./routes/api');
 
 const app = Express();
@@ -33,7 +34,11 @@ app.get('/*', (_, res) => res.end('Nothing to see here ...'));
 /// Start-up Script.
 (async () => {
   await initDB();
+
   app.listen(port, () => {
     console.log(`\n\nServing @ http://localhost:${port}/`)
   });
+  
+  await populateDB();
+  console.log('\nFinished Populating Database!\n');
 })();

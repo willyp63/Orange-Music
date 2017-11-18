@@ -1,4 +1,4 @@
-const db = require('../../index.js');
+const db = require('../index.js');
 const createAdminUser = require('./create_admin_user');
 const createGuestUser = require('./create_guest_user');
 

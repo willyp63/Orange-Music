@@ -1,4 +1,4 @@
-const User = require('../../models/user');
+const User = require('../models/user');
 
 const GUEST_USER_NAME = 'Guest';
 const GUEST_PASSWORD = 'abc123';

@@ -1,8 +1,8 @@
-const lastFmApi = require('../../../api_util/last_fm');
-const User = require('../../models/user');
-const Playlist = require('../../models/playlist');
-const Track = require('../../models/track');
-const PlaylistAdd = require('../../models/playlist_add');
+const lastFmApi = require('../../api_util/last_fm');
+const User = require('../models/user');
+const Playlist = require('../models/playlist');
+const Track = require('../models/track');
+const PlaylistAdd = require('../models/playlist_add');
 const STATIC_PLAYLISTS = require('./static_playlists');
 
 const ADMIN_USER_NAME = 'Admin';
