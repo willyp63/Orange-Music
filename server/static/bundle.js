@@ -7631,7 +7631,7 @@ var get = function get(query, queryParams) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.endSession = exports.startSession = exports.startSessionFromLocalStorage = exports.logInGuest = exports.logIn = exports.signUp = undefined;
+exports.endSession = exports.startSession = exports.startSessionFromLocalStorage = exports.logInGuest = exports.logInWithCredentials = exports.logIn = exports.signUp = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -7720,25 +7720,29 @@ var logIn = exports.logIn = function logIn() {
         isValid = _getState$form2.isValid;
 
     if (isValid) {
-      var formData = { name: fields.name.value, password: fields.password.value };
-      _orange_music2.default.logIn(formData).then(function (response) {
-        if (response.errors) {
-          dispatch((0, _form.setFieldErrors)('name', response.errors.name || []));
-          dispatch((0, _form.setFieldErrors)('password', response.errors.password || []));
-        } else {
-          dispatch(startSession(formData /* user */, response.token));
-          dispatch((0, _form.hideForm)());
-        }
-      });
+      dispatch(logInWithCredentials(fields.name.value, fields.password.value));
     }
+  };
+};
+
+var logInWithCredentials = exports.logInWithCredentials = function logInWithCredentials(name, password) {
+  return function (dispatch) {
+    var formData = { name: name, password: password };
+    _orange_music2.default.logIn(formData).then(function (response) {
+      if (response.errors) {
+        dispatch((0, _form.setFieldErrors)('name', response.errors.name || []));
+        dispatch((0, _form.setFieldErrors)('password', response.errors.password || []));
+      } else {
+        dispatch(startSession(formData /* user */, response.token));
+        dispatch((0, _form.hideForm)());
+      }
+    });
   };
 };
 
 var logInGuest = exports.logInGuest = function logInGuest() {
   return function (dispatch) {
-    dispatch((0, _form.setFieldValue)('name', 'Guest'));
-    dispatch((0, _form.setFieldValue)('password', 'ornery_for_oranges'));
-    dispatch(logIn());
+    dispatch(logInWithCredentials('Guest', 'ornery_for_oranges'));
   };
 };
 

@@ -64,23 +64,25 @@ export const signUp = () => (dispatch, getState) => {
 export const logIn = () => (dispatch, getState) => {
   const { fields, isValid } = getState().form;
   if (isValid) {
-    const formData = {name: fields.name.value, password: fields.password.value};
-    omApi.logIn(formData).then(response => {
-      if (response.errors) {
-        dispatch(setFieldErrors('name', response.errors.name || []));
-        dispatch(setFieldErrors('password', response.errors.password || []));
-      } else {
-        dispatch(startSession(formData /* user */, response.token));
-        dispatch(hideForm());
-      }
-    });
+    dispatch(logInWithCredentials(fields.name.value, fields.password.value));
   }
 };
 
+export const logInWithCredentials = (name, password) => dispatch => {
+  const formData = {name, password};
+  omApi.logIn(formData).then(response => {
+    if (response.errors) {
+      dispatch(setFieldErrors('name', response.errors.name || []));
+      dispatch(setFieldErrors('password', response.errors.password || []));
+    } else {
+      dispatch(startSession(formData /* user */, response.token));
+      dispatch(hideForm());
+    }
+  });
+};
+
 export const logInGuest = () => dispatch => {
-  dispatch(setFieldValue('name', 'Guest'));
-  dispatch(setFieldValue('password', 'ornery_for_oranges'));
-  dispatch(logIn());
+  dispatch(logInWithCredentials('Guest', 'ornery_for_oranges'));
 };
 
 /// Session
