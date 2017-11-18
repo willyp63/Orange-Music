@@ -11,9 +11,12 @@ class Home extends React.Component {
   }
   render() {
     const { topTracks, topArtists, tableType, displayType, setTableType,
-      setDisplayType, fetchMoreEntities } = this.props;
+      setDisplayType, fetchMoreEntities, topPlaylists } = this.props;
 
     const schema = Object.assign({}, TABLE_SCHEMA);
+
+    schema[HOME_TABLE_TYPES.TOP_PLAYLISTS].entities = topPlaylists.playlists;
+    schema[HOME_TABLE_TYPES.TOP_PLAYLISTS].isFetching = topPlaylists.isFetching;
 
     schema[HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks.tracks;
     schema[HOME_TABLE_TYPES.TOP_TRACKS].isFetching = topTracks.isFetching;
@@ -39,6 +42,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     tableType: state.home.tableType,
     displayType: state.home.displayType,
+    topPlaylists: state.home.topPlaylists,
     topTracks: state.home.topTracks,
     topArtists: state.home.topArtists,
   };

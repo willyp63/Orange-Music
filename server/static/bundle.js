@@ -7570,6 +7570,10 @@ module.exports.getPlaylists = function (_ref5) {
   return get('/playlists', { token: token });
 };
 
+module.exports.topPlaylists = function () {
+  return get('/playlists/top');
+};
+
 module.exports.getPlaylistTracks = function (_ref6) {
   var token = _ref6.token,
       playlistId = _ref6.playlistId;
@@ -7616,7 +7620,7 @@ var post = function post(query, queryParams) {
 
 var get = function get(query, queryParams) {
   return new Promise(function (resolve, reject) {
-    var url = (0, _url.getUrlWithUpdatedParams)('' + API_BASE_URL + query, queryParams);
+    var url = (0, _url.getUrlWithUpdatedParams)('' + API_BASE_URL + query, queryParams || {});
     $.get(url, resolve).fail(reject);
   });
 };
@@ -7886,7 +7890,7 @@ var fetchTracks = exports.fetchTracks = function fetchTracks() {
         fetched = tracks.fetched;
 
 
-    if (!token || playlistId === -1 || isFetching || fetched) {
+    if (playlistId === -1 || isFetching || fetched) {
       return;
     }
 
@@ -11810,6 +11814,10 @@ var _last_fm = __webpack_require__(221);
 
 var _last_fm2 = _interopRequireDefault(_last_fm);
 
+var _orange_music = __webpack_require__(89);
+
+var _orange_music2 = _interopRequireDefault(_orange_music);
+
 var _home = __webpack_require__(223);
 
 var _display_type = __webpack_require__(46);
@@ -11821,6 +11829,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var SET_TABLE_TYPE = 'orange-music/home/SET_TABLE_TYPE';
 var SET_DISPLAY_TYPE = 'orange-music/home/SET_DISPLAY_TYPE';
 
+var FETCH_TOP_PLAYLISTS = 'orange-music/home/FETCH_TOP_PLAYLISTS';
+var RECEIVE_TOP_PLAYLISTS = 'orange-music/home/RECEIVE_TOP_PLAYLISTS';
+
 var FETCH_TOP_TRACKS = 'orange-music/home/FETCH_TOP_TRACKS';
 var RECEIVE_TOP_TRACKS = 'orange-music/home/RECEIVE_TOP_TRACKS';
 
@@ -11830,6 +11841,11 @@ var RECEIVE_TOP_ARTISTS = 'orange-music/home/RECEIVE_TOP_ARTISTS';
 var initialState = {
   tableType: _home.HOME_TABLE_TYPES.TOP_TRACKS,
   displayType: _display_type.DISPLAY_TYPES.GALLERY,
+  topPlaylists: {
+    playlists: [],
+    isFetching: false,
+    fetched: false
+  },
   topTracks: {
     tracks: [],
     isFetching: false
@@ -11852,6 +11868,21 @@ function reducer() {
     case SET_DISPLAY_TYPE:
       return _extends({}, state, {
         displayType: action.displayType
+      });
+    case FETCH_TOP_PLAYLISTS:
+      return _extends({}, state, {
+        topPlaylists: _extends({}, state.topPlaylists, {
+          isFetching: true,
+          fetched: false
+        })
+      });
+    case RECEIVE_TOP_PLAYLISTS:
+      return _extends({}, state, {
+        topPlaylists: _extends({}, state.topPlaylists, {
+          playlists: action.playlists,
+          isFetching: false,
+          fetched: true
+        })
       });
     case FETCH_TOP_TRACKS:
       return _extends({}, state, {
@@ -11894,6 +11925,23 @@ var setHomeTableType = exports.setHomeTableType = function setHomeTableType(tabl
   };
 };
 
+var fetchTopPlaylists = function fetchTopPlaylists() {
+  return function (dispatch, getState) {
+    var topPlaylists = getState().home.topPlaylists;
+
+    if (topPlaylists.isFetching || topPlaylists.fetched) {
+      return;
+    }
+
+    dispatch({ type: FETCH_TOP_PLAYLISTS });
+    _orange_music2.default.topPlaylists().then(function (_ref) {
+      var playlists = _ref.playlists;
+
+      dispatch({ type: RECEIVE_TOP_PLAYLISTS, playlists: playlists });
+    });
+  };
+};
+
 var fetchTopTracks = function fetchTopTracks() {
   var startIdx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   return function (dispatch, getState) {
@@ -11904,8 +11952,8 @@ var fetchTopTracks = function fetchTopTracks() {
     }
 
     dispatch({ type: FETCH_TOP_TRACKS });
-    _last_fm2.default.topTracks({ startIdx: startIdx }).then(function (_ref) {
-      var tracks = _ref.tracks;
+    _last_fm2.default.topTracks({ startIdx: startIdx }).then(function (_ref2) {
+      var tracks = _ref2.tracks;
 
       dispatch({ type: RECEIVE_TOP_TRACKS, tracks: tracks });
     });
@@ -11922,8 +11970,8 @@ var fetchTopArtists = function fetchTopArtists() {
     }
 
     dispatch({ type: FETCH_TOP_ARTISTS });
-    _last_fm2.default.topArtists({ startIdx: startIdx }).then(function (_ref2) {
-      var artists = _ref2.artists;
+    _last_fm2.default.topArtists({ startIdx: startIdx }).then(function (_ref3) {
+      var artists = _ref3.artists;
 
       dispatch({ type: RECEIVE_TOP_ARTISTS, artists: artists });
     });
@@ -11945,6 +11993,8 @@ var fetchEntities = exports.fetchEntities = function fetchEntities() {
       if (topArtists.artists.length === 0) {
         dispatch(fetchTopArtists());
       }
+    } else if (tableType === _home.HOME_TABLE_TYPES.TOP_PLAYLISTS) {
+      dispatch(fetchTopPlaylists());
     }
   };
 };
@@ -20255,11 +20305,16 @@ var _artist = __webpack_require__(226);
 
 var _artist2 = _interopRequireDefault(_artist);
 
+var _playlists = __webpack_require__(676);
+
+var _playlists2 = _interopRequireDefault(_playlists);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HOME_TABLE_TYPES = exports.HOME_TABLE_TYPES = {
   TOP_TRACKS: '0',
-  TOP_ARTISTS: '1'
+  TOP_ARTISTS: '1',
+  TOP_PLAYLISTS: '2'
 };
 
 var SCHEMA = {};
@@ -20270,6 +20325,10 @@ SCHEMA[HOME_TABLE_TYPES.TOP_TRACKS] = {
 SCHEMA[HOME_TABLE_TYPES.TOP_ARTISTS] = {
   label: 'Top Artists',
   tableSchema: _artist2.default
+};
+SCHEMA[HOME_TABLE_TYPES.TOP_PLAYLISTS] = {
+  label: 'Top Playlists',
+  tableSchema: _playlists2.default
 };
 
 exports.default = SCHEMA;
@@ -42065,7 +42124,6 @@ var App = function (_React$Component) {
       var pathname = _history2.default.location.pathname;
       switch (pathname) {
         case '/playlists':
-        case '/playlists/tracks':
           this._willMountProtectedRoute(newProps, pathname);
           break;
       }
@@ -57497,10 +57555,14 @@ var Home = function (_React$Component) {
           displayType = _props.displayType,
           setTableType = _props.setTableType,
           setDisplayType = _props.setDisplayType,
-          fetchMoreEntities = _props.fetchMoreEntities;
+          fetchMoreEntities = _props.fetchMoreEntities,
+          topPlaylists = _props.topPlaylists;
 
 
       var schema = Object.assign({}, _home2.default);
+
+      schema[_home.HOME_TABLE_TYPES.TOP_PLAYLISTS].entities = topPlaylists.playlists;
+      schema[_home.HOME_TABLE_TYPES.TOP_PLAYLISTS].isFetching = topPlaylists.isFetching;
 
       schema[_home.HOME_TABLE_TYPES.TOP_TRACKS].entities = topTracks.tracks;
       schema[_home.HOME_TABLE_TYPES.TOP_TRACKS].isFetching = topTracks.isFetching;
@@ -57528,6 +57590,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     tableType: state.home.tableType,
     displayType: state.home.displayType,
+    topPlaylists: state.home.topPlaylists,
     topTracks: state.home.topTracks,
     topArtists: state.home.topArtists
   };

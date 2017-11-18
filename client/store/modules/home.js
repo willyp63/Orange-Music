@@ -1,4 +1,5 @@
 import lastFmApi from '../api/last_fm';
+import omApi from '../api/orange_music';
 import { HOME_TABLE_TYPES } from '../../schemas/table_layout/home';
 import { DISPLAY_TYPES } from '../../schemas/display_type';
 import { concat } from './shared';
@@ -6,6 +7,9 @@ import { concat } from './shared';
 
 const SET_TABLE_TYPE = 'orange-music/home/SET_TABLE_TYPE';
 const SET_DISPLAY_TYPE = 'orange-music/home/SET_DISPLAY_TYPE';
+
+const FETCH_TOP_PLAYLISTS = 'orange-music/home/FETCH_TOP_PLAYLISTS';
+const RECEIVE_TOP_PLAYLISTS = 'orange-music/home/RECEIVE_TOP_PLAYLISTS';
 
 const FETCH_TOP_TRACKS = 'orange-music/home/FETCH_TOP_TRACKS';
 const RECEIVE_TOP_TRACKS = 'orange-music/home/RECEIVE_TOP_TRACKS';
@@ -17,6 +21,11 @@ const RECEIVE_TOP_ARTISTS = 'orange-music/home/RECEIVE_TOP_ARTISTS';
 const initialState = {
   tableType: HOME_TABLE_TYPES.TOP_TRACKS,
   displayType: DISPLAY_TYPES.GALLERY,
+  topPlaylists: {
+    playlists: [],
+    isFetching: false,
+    fetched: false,
+  },
   topTracks: {
     tracks: [],
     isFetching: false,
@@ -38,6 +47,25 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         displayType: action.displayType,
+      };
+    case FETCH_TOP_PLAYLISTS:
+      return {
+        ...state,
+        topPlaylists: {
+          ...state.topPlaylists,
+          isFetching: true,
+          fetched: false,
+        },
+      };
+    case RECEIVE_TOP_PLAYLISTS:
+      return {
+        ...state,
+        topPlaylists: {
+          ...state.topPlaylists,
+          playlists: action.playlists,
+          isFetching: false,
+          fetched: true,
+        },
       };
     case FETCH_TOP_TRACKS:
       return {
@@ -85,6 +113,16 @@ export const setHomeTableType = tableType => (dispatch, getState) => {
   dispatch(fetchEntities());
 };
 
+const fetchTopPlaylists = () => (dispatch, getState) => {
+  const { topPlaylists } = getState().home;
+  if (topPlaylists.isFetching || topPlaylists.fetched) { return; }
+
+  dispatch({type: FETCH_TOP_PLAYLISTS});
+  omApi.topPlaylists().then(({playlists}) => {
+    dispatch({type: RECEIVE_TOP_PLAYLISTS, playlists});
+  });
+};
+
 const fetchTopTracks = (startIdx = 0) => (dispatch, getState) => {
   const { topTracks } = getState().home;
   if (topTracks.isFetching) { return; }
@@ -111,6 +149,8 @@ export const fetchEntities = () => (dispatch, getState) => {
     if (topTracks.tracks.length === 0) { dispatch(fetchTopTracks()); }
   } else if (tableType === HOME_TABLE_TYPES.TOP_ARTISTS) {
     if (topArtists.artists.length === 0) { dispatch(fetchTopArtists()); }
+  } else if (tableType === HOME_TABLE_TYPES.TOP_PLAYLISTS) {
+    dispatch(fetchTopPlaylists());
   }
 };
 

@@ -22,6 +22,8 @@ module.exports.verify = ({token}) =>
 module.exports.getPlaylists = ({token}) =>
   get('/playlists', {token});
 
+module.exports.topPlaylists = () => get('/playlists/top');
+
 module.exports.getPlaylistTracks = ({token, playlistId}) =>
   get(`/playlists/tracks/${playlistId}`, {token});
 
@@ -52,7 +54,7 @@ const post = (query, queryParams) => {
 
 const get = (query, queryParams) => {
   return new Promise((resolve, reject) => {
-    const url = getUrlWithUpdatedParams(`${API_BASE_URL}${query}`, queryParams);
+    const url = getUrlWithUpdatedParams(`${API_BASE_URL}${query}`, queryParams || {});
     $.get(url, resolve).fail(reject);
   });
 };

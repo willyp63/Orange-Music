@@ -29,7 +29,6 @@ class App extends React.Component {
     const pathname = history.location.pathname;
     switch (pathname) {
       case '/playlists':
-      case '/playlists/tracks':
         this._willMountProtectedRoute(newProps, pathname);
         break;
     }

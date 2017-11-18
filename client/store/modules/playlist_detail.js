@@ -68,7 +68,7 @@ export const fetchTracks = () => (dispatch, getState) => {
   const { playlistId, tracks } = playlistDetail;
   const { isFetching, fetched } = tracks;
 
-  if (!token || playlistId === -1 || isFetching || fetched) { return; }
+  if (playlistId === -1 || isFetching || fetched) { return; }
 
   dispatch({type: REQUEST_TRACKS});
   omApi.getPlaylistTracks({token, playlistId}).then((response) => {

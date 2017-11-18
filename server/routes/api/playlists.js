@@ -3,6 +3,35 @@ const db = require('../../db');
 const validateCreatePlaylist = require('../../../shared/validators/create_playlist');
 
 
+/// Get top playlists.
+router.get('/top', async (req, res) => {
+  try {
+    const userId = (await db.query(getUser('Guest'))).rows[0].id;
+    const playlists = (await db.query(getPlaylists(userId))).rows;
+    res.json({success: true, playlists});
+  } catch (e) {
+    console.log('!!! Problem getting top playlists !!!');
+    console.log(e);
+  }
+});
+
+/// Get the tracks on a user's playlist
+///
+/// Params: {
+///   playlistId: Playlist's id,
+/// }
+router.get('/tracks/:playlistId', async (req, res) => {
+  const playlistId = req.params.playlistId;
+
+  try {
+    const tracks = (await db.query(getTracks(playlistId))).rows.map(formatTrackRow);
+    res.json({success: true, tracks});
+  } catch (e) {
+    console.log('!!! Problem getting tracks on users playlist !!!');
+    console.log(e);
+  }
+});
+
 // Require auth.
 router.use((req, res, next) => {
   if (!req.user) {
@@ -23,24 +52,6 @@ router.get('/', async (req, res) => {
     res.json({success: true, playlists});
   } catch (e) {
     console.log('!!! Problem getting users playlists !!!');
-    console.log(e);
-  }
-});
-
-/// Get the tracks on a user's playlist
-///
-/// Params: {
-///   playlistId: Playlist's id,
-/// }
-router.get('/tracks/:playlistId', async (req, res) => {
-  const userId = req.user.id;
-  const playlistId = req.params.playlistId;
-
-  try {
-    const tracks = (await db.query(getTracks(userId, playlistId))).rows.map(formatTrackRow);
-    res.json({success: true, tracks});
-  } catch (e) {
-    console.log('!!! Problem getting tracks on users playlist !!!');
     console.log(e);
   }
 });
@@ -232,13 +243,21 @@ const getTrack = (name, artistName) => ({
   values: [name, artistName],
 });
 
-const getTracks = (userId, playlistId) => ({
+const getTracks = (playlistId) => ({
   text: `
     SELECT tracks.* FROM playlist_adds
     JOIN tracks ON playlist_adds.track_id = tracks.id
-    WHERE playlist_adds.user_id = $1 AND playlist_adds.playlist_id = $2;
+    WHERE playlist_adds.playlist_id = $1;
   `,
-  values: [userId, playlistId],
+  values: [playlistId],
+});
+
+const getUser = (name) => ({
+  text: `
+    SELECT * from users
+    WHERE name = $1;
+  `,
+  values: [name],
 });
 
 const formatTrackRow = (row) => ({
