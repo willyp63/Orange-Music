@@ -1,7 +1,22 @@
+@gallery-margin: 3vw;
+
 .om-gallery {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
 
-  padding: @grid (@grid * 3);
+  padding: 0 @gallery-margin;
+
+  .gallery-item {
+  	flex: 0 0 25%;
+  	.tile { margin: (@gallery-margin / 2); }
+
+  	@media (max-width: 1400px) {
+	    flex: 0 0 33.33%;
+	  }
+
+	  @media (max-width: 1000px) {
+	    flex: 0 0 50%;
+	  }
+  }
 }

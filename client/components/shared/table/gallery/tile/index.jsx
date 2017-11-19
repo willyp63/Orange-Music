@@ -8,7 +8,7 @@ import PlayableImage from '../../shared/playable_image';
 import PlaylistImage from '../../shared/playable_image/playlist';
 import Link from '../../../link';
 
-const IMAGE_IDX = 3;
+const IMAGE_IDX = 2;
 const IMAGE_IDX_PLAYLIST = 2;
 
 class GalleryTile extends React.Component {
