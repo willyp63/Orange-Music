@@ -42,16 +42,12 @@
   .spinner-container {
     display: flex;
     justify-content: space-around;
-    padding: (@grid * 2) 0;
     
     .spinner {
+      margin: (@grid * 2) 0;
       color: @color-secondary;
       width: @grid * 15 !important;
       height: @grid * 15 !important;
     }
-  }
-
-  .player-spacer {
-    height: @grid * 20; // Extra room so player does not block table
   }
 }

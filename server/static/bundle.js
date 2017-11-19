@@ -6338,8 +6338,7 @@ var TableLayout = function (_React$Component) {
           'div',
           { className: 'spinner-container' },
           $spinner
-        ),
-        _react2.default.createElement('div', { className: 'player-spacer' })
+        )
       );
     }
   }]);

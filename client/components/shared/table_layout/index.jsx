@@ -95,7 +95,6 @@ class TableLayout extends React.Component {
         <div className="spinner-container">
           {$spinner}
         </div>
-        <div className='player-spacer'></div>
       </div>
     );
   }

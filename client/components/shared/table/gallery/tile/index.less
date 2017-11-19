@@ -24,7 +24,17 @@
   .playable-img {
     cursor: pointer;
 
-    .play-icon { font-size: 16vw; }
+    .play-icon {
+      font-size: 10vw;
+
+      @media (max-width: 1500px) {
+        font-size: 14vw;
+      }
+
+      @media (max-width: 1050px) {
+        font-size: 20vw;
+      }
+    }
 
     .img-overlay:hover {
       .more-btn-hover-state();
